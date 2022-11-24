@@ -69,6 +69,6 @@ In the short example below, we open an existing workflow file, run it, and displ
 
 Messages Resources
 ##################
-- `Messages User Guide - Apple Support <https://support.apple.com/guide/messages/welcome/mac`_
+- `Messages User Guide - Apple Support <https://support.apple.com/guide/messages/welcome/mac>`_
 
 For all classes, methods, and inherited members of the Messages module, see the :ref:`Messages Module Reference`.

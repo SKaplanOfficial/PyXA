@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XAProtocols Module &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="XAErrors Module" href="xaerrors.html" />
+    <link rel="prev" title="XATypes Module" href="xatypes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyxa.html">PyXA Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xabase.html">XABase Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xabasescriptable.html">XABaseScriptable Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xatypes.html">XATypes Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XAProtocols Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XACanOpenPath"><code class="docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath"><code class="docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAClipboardCodable"><code class="docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XACloseable"><code class="docutils literal notranslate"><span class="pre">XACloseable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XADeletable"><code class="docutils literal notranslate"><span class="pre">XADeletable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAImageLike"><code class="docutils literal notranslate"><span class="pre">XAImageLike</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAPathLike"><code class="docutils literal notranslate"><span class="pre">XAPathLike</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAPrintable"><code class="docutils literal notranslate"><span class="pre">XAPrintable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAProtocol"><code class="docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XASelectable"><code class="docutils literal notranslate"><span class="pre">XASelectable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XAProtocols.XAShowable"><code class="docutils literal notranslate"><span class="pre">XAShowable</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xaerrors.html">XAErrors Module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">XAProtocols Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/xaprotocols.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.XAProtocols">
+<span id="xaprotocols-module"></span><h1>XAProtocols Module<a class="headerlink" href="#module-PyXA.XAProtocols" title="Permalink to this heading"></a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a>()</p></td>
+<td><p>A protocol for classes that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a>()</p></td>
+<td><p>A protocol for classes that can print a file at a given path (either in its default application or in an application whose PyXA object extends this class).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be copied to the clipboard.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACloseable</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XADeletable" title="PyXA.XAProtocols.XADeletable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADeletable</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be deleted via a <code class="xref py py-func docutils literal notranslate"><span class="pre">delete()</span></code> method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAImageLike" title="PyXA.XAProtocols.XAImageLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImageLike</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be treated the same as <a class="reference internal" href="xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAPathLike" title="PyXA.XAProtocols.XAPathLike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathLike</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be treated the same as <a class="reference internal" href="xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAPrintable" title="PyXA.XAProtocols.XAPrintable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPrintable</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be printed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAProtocol</span></code></a>()</p></td>
+<td><p>A meta-class for protocols that other classes can adhere to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASelectable</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be selected via a <code class="xref py py-func docutils literal notranslate"><span class="pre">select()</span></code> method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAShowable" title="PyXA.XAProtocols.XAShowable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShowable</span></code></a>()</p></td>
+<td><p>A protocol for classes that can be shown via a <code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code> method.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACanOpenPath">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XACanOpenPath</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACanOpenPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACanOpenPath" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.8: </span>Moved from XABase into XAProtocols</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACanOpenPath.open" title="PyXA.XAProtocols.XACanOpenPath.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>(target)</p></td>
+<td><p>Opens the file/website at the given filepath/URL.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACanOpenPath.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACanOpenPath.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACanOpenPath.open" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the file/website at the given filepath/URL.</p>
+<p>Child classes of XACanOpenPath should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> (<em>str</em>) – The path to a file or the URL to a website to open.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the opened document or element, or None if no document/element was created or it cannot be found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACanPrintPath">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XACanPrintPath</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACanPrintPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACanPrintPath" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can print a file at a given path (either in its default application or in an application whose PyXA object extends this class).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.8: </span>Moved from XABase into XAProtocols</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath.print" title="PyXA.XAProtocols.XACanPrintPath.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>(target)</p></td>
+<td><p>Prints the file/website at the given filepath/URL.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACanPrintPath.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath"><span class="pre">XACanPrintPath</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACanPrintPath.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACanPrintPath.print" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the file/website at the given filepath/URL.</p>
+<p>Child classes of XACanPrintPath should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> (<em>str</em>) – The path to a file or the URL to a website to print.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath">XACanPrintPath</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAClipboardCodable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAClipboardCodable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAClipboardCodable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAClipboardCodable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be copied to the clipboard.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAClipboardCodable.get_clipboard_representation" title="PyXA.XAProtocols.XAClipboardCodable.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAClipboardCodable.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAClipboardCodable.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAClipboardCodable.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the object.</p>
+<p>This method should be overriden where reasonable in child classes of XAClipboardCodable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The clipboard-codable form of the content</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACloseable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XACloseable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACloseable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACloseable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XACloseable.close" title="PyXA.XAProtocols.XACloseable.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>([save, location])</p></td>
+<td><p>Closes the object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XACloseable.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">XACloseable.SaveOption</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XACloseable.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XACloseable.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes the object.</p>
+<p>Child classes of XACloseable should override this method as necessary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XADeletable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XADeletable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XADeletable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XADeletable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be deleted via a <a class="reference internal" href="#PyXA.XAProtocols.XADeletable.delete" title="PyXA.XAProtocols.XADeletable.delete"><code class="xref py py-func docutils literal notranslate"><span class="pre">delete()</span></code></a> method.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.8: </span>Moved from XABase into XAProtocols</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XADeletable.delete" title="PyXA.XAProtocols.XADeletable.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Deletes the object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XADeletable.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XADeletable.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XADeletable.delete" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes the object.</p>
+<p>Child classes of XADeletable should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XAProtocols.XAShowable" title="PyXA.XAProtocols.XAShowable">XAShowable</a></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAImageLike">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAImageLike</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAImageLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAImageLike" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be treated the same as <a class="reference internal" href="xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAImageLike.get_image_representation" title="PyXA.XAProtocols.XAImageLike.get_image_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_image_representation</span></code></a>()</p></td>
+<td><p>Gets a representation of the object that can be used to initialize an <a class="reference internal" href="xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAImageLike.get_image_representation">
+<span class="sig-name descname"><span class="pre">get_image_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAImageLike.get_image_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAImageLike.get_image_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a representation of the object that can be used to initialize an <a class="reference internal" href="xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object.</p>
+<p>This method must be overriden in child classes of XAImageLike.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The XAImage-compatible form of the object, or None if no such form exists</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAPathLike">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAPathLike</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAPathLike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAPathLike" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be treated the same as <a class="reference internal" href="xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAPathLike.get_path_representation" title="PyXA.XAProtocols.XAPathLike.get_path_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_path_representation</span></code></a>()</p></td>
+<td><p>Gets a representation of the object that can be used to initialize an <a class="reference internal" href="xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAPathLike.get_path_representation">
+<span class="sig-name descname"><span class="pre">get_path_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAPathLike.get_path_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAPathLike.get_path_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a representation of the object that can be used to initialize an <a class="reference internal" href="xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> object.</p>
+<p>This method must be overriden in child classes of XAPathLike.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The XAPath-compatible form of the object, or None if no such form exists</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAPrintable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAPrintable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAPrintable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAPrintable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be printed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAPrintable.print" title="PyXA.XAProtocols.XAPrintable.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>([print_properties, show_dialog])</p></td>
+<td><p>Prints the object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAPrintable.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XAProtocols.XAPrintable" title="PyXA.XAProtocols.XAPrintable"><span class="pre">XAPrintable</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAPrintable.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAPrintable.print" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the object.</p>
+<p>Child classes of XAPrintable should override this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_dialog</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the print dialog, defaults to True</p></li>
+<li><p><strong>print_properties</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Properties to set for printing, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath">XACanPrintPath</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAProtocol">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAProtocol</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAProtocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAProtocol" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A meta-class for protocols that other classes can adhere to.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XASelectable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XASelectable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XASelectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XASelectable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be selected via a <a class="reference internal" href="#PyXA.XAProtocols.XASelectable.select" title="PyXA.XAProtocols.XASelectable.select"><code class="xref py py-func docutils literal notranslate"><span class="pre">select()</span></code></a> method.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.8: </span>Moved from XABase into XAProtocols</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XASelectable.select" title="PyXA.XAProtocols.XASelectable.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a>()</p></td>
+<td><p>Selects the object This may open a new window, depending on which kind of object and application it acts on.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XASelectable.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable"><span class="pre">XASelectable</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XASelectable.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XASelectable.select" title="Permalink to this definition"></a></dt>
+<dd><p>Selects the object This may open a new window, depending on which kind of object and application it acts on.</p>
+<p>Child classes of XASelectable should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable">XASelectable</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAShowable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XAProtocols.</span></span><span class="sig-name descname"><span class="pre">XAShowable</span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAShowable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAShowable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XAProtocols.XAProtocol" title="PyXA.XAProtocols.XAProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></p>
+<p>A protocol for classes that can be shown via a <a class="reference internal" href="#PyXA.XAProtocols.XAShowable.show" title="PyXA.XAProtocols.XAShowable.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a> method.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.8: </span>Moved from XABase into XAProtocols</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XAProtocols.XAShowable.show" title="PyXA.XAProtocols.XAShowable.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XAProtocols.XAShowable.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XAProtocols.XAShowable" title="PyXA.XAProtocols.XAShowable"><span class="pre">XAShowable</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XAProtocols.html#XAShowable.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XAProtocols.XAShowable.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the object.</p>
+<p>Child classes of XAShowable should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the PyXA object that called this method.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XAProtocols.XAShowable" title="PyXA.XAProtocols.XAShowable">XAShowable</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xatypes.html" class="btn btn-neutral float-left" title="XATypes Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xaerrors.html" class="btn btn-neutral float-right" title="XAErrors Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

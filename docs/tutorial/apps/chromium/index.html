@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chromium Module Overview &mdash; PyXA 0.1.0 documentation</title>
+  <title>Chromium Module Overview &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -84,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
-          <li><a href="../index.html">Application Module Overviews</a> &raquo;</li>
-      <li>Chromium Module Overview</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Chromium Module Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/tutorial/apps/chromium/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,45 +99,45 @@
              
   <section id="chromium-module-overview">
 <h1>Chromium Module Overview<a class="headerlink" href="#chromium-module-overview" title="Permalink to this heading"></a></h1>
-<div class="contents local topic" id="table-of-contents">
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#windows-and-tabs" id="id5">Windows and Tabs</a></p></li>
-<li><p><a class="reference internal" href="#bookmarks" id="id6">Bookmarks</a></p>
+<li><p><a class="reference internal" href="#windows-and-tabs" id="id1">Windows and Tabs</a></p></li>
+<li><p><a class="reference internal" href="#bookmarks" id="id2">Bookmarks</a></p>
 <ul>
-<li><p><a class="reference internal" href="#chromium-tutorials" id="id7">Chromium Tutorials</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id8">Examples</a></p></li>
+<li><p><a class="reference internal" href="#chromium-tutorials" id="id3">Chromium Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#chromium-examples" id="id4">Chromium Examples</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#example-1-opening-and-saving-a-webpage" id="id9">Example 1 - Opening and saving a webpage</a></p></li>
-<li><p><a class="reference internal" href="#example-2-making-new-windows-and-tabs" id="id10">Example 2 - Making new windows and tabs</a></p>
+<li><p><a class="reference internal" href="#example-1-opening-and-saving-a-webpage" id="id5">Example 1 - Opening and saving a webpage</a></p></li>
+<li><p><a class="reference internal" href="#example-2-making-new-windows-and-tabs" id="id6">Example 2 - Making new windows and tabs</a></p>
 <ul>
-<li><p><a class="reference internal" href="#chromium-resources" id="id11">Chromium Resources</a></p></li>
+<li><p><a class="reference internal" href="#chromium-resources" id="id7">Chromium Resources</a></p></li>
 </ul>
 </li>
 </ul>
-</div>
+</nav>
 <p>PyXA has full support for Chromium and Chromium derivatives such as Google Chrome, Opera, Brave, Vivaldi, and Microsoft Edge. Some additional convenience methods, such as <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.new_tab" title="PyXA.apps.Chromium.XAChromiumApplication.new_tab"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.new_tab()</span></code></a>, are provided to simplify common scripting tasks.</p>
 <section id="windows-and-tabs">
-<h2><a class="toc-backref" href="#id5">Windows and Tabs</a><a class="headerlink" href="#windows-and-tabs" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Windows and Tabs</a><a class="headerlink" href="#windows-and-tabs" title="Permalink to this heading"></a></h2>
 <p>PyXA allows full control over Chromium windows and tabs, as well as full access to their properties. Opening a webpage in Chromium (or any Chromium derivative) is accomplished by calling <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.open" title="PyXA.apps.Chromium.XAChromiumApplication.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.open()</span></code></a> and providing a URL as an argument. The URL can be either a string or an <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAURL</span></code></a> object. The URL must be a full URL—that is, it must follow the structure of “scheme://host/relativeURI”.</p>
 <p>New windows can be created using the <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.new_window" title="PyXA.apps.Chromium.XAChromiumApplication.new_window"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.new_window()</span></code></a> method, and a URL can be passed as an argument to open a window at the specified URL. Similarly, new tabs can be created using <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.new_tab" title="PyXA.apps.Chromium.XAChromiumApplication.new_tab"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.new_tab()</span></code></a>, and again a URL can be specified. <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.make" title="PyXA.apps.Chromium.XAChromiumApplication.make"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.make()</span></code></a> can be used to manually create a new window or tab object without adding it to the UI until <code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBWindowList.push()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumTabList.push()</span></code> is called, allowing you to split the construction of an element across portions of your script. This ability is likely most useful when the window’s or tab’s properties are influenced by the result of multiple logical operations.</p>
 </section>
 <section id="bookmarks">
-<h2><a class="toc-backref" href="#id6">Bookmarks</a><a class="headerlink" href="#bookmarks" title="Permalink to this heading"></a></h2>
-<p>Using PyXA, you can obtain a list of bookmarks in Chromium, bookmark folders, and their associated data. To get a list of bookmark folders, use <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders" title="PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders()</span></code></a>. Use <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items()</span></code></a> to list the individual bookmarks contained in a folder. <a href="#id1"><span class="problematic" id="id2">:attribute:`PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar`</span></a> and <a href="#id3"><span class="problematic" id="id4">:attribute:`PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks`</span></a> can be used to access bookmarks on the bookmarks bar and in all other folders, respectively.</p>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Bookmarks</a><a class="headerlink" href="#bookmarks" title="Permalink to this heading"></a></h2>
+<p>Using PyXA, you can obtain a list of bookmarks in Chromium, bookmark folders, and their associated data. To get a list of bookmark folders, use <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders" title="PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders()</span></code></a>. Use <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items()</span></code></a> to list the individual bookmarks contained in a folder. <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar" title="PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar</span></code></a> and <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks" title="PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks</span></code></a> can be used to access bookmarks on the bookmarks bar and in all other folders, respectively.</p>
 <p>It is not currently possible to create bookmark folders or bookmark items via PyXA (or AppleScript) as that functionality is not made available by the Chromium developers. Despite this lack of support, bookmark and bookmark folder creation via UI scripting is planned for a future release.</p>
 <section id="chromium-tutorials">
-<h3><a class="toc-backref" href="#id7">Chromium Tutorials</a><a class="headerlink" href="#chromium-tutorials" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Chromium Tutorials</a><a class="headerlink" href="#chromium-tutorials" title="Permalink to this heading"></a></h3>
 <p>There are currently no tutorials for the Chromium module.</p>
 </section>
-<section id="examples">
-<h3><a class="toc-backref" href="#id8">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h3>
+<section id="chromium-examples">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Chromium Examples</a><a class="headerlink" href="#chromium-examples" title="Permalink to this heading"></a></h3>
 <p>The examples below provide an overview of the capabilities of the Chromium module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#chromium-tutorials"><span class="std std-ref">Chromium Tutorials</span></a>).</p>
 </section>
 </section>
 <section id="example-1-opening-and-saving-a-webpage">
-<h2><a class="toc-backref" href="#id9">Example 1 - Opening and saving a webpage</a><a class="headerlink" href="#example-1-opening-and-saving-a-webpage" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Example 1 - Opening and saving a webpage</a><a class="headerlink" href="#example-1-opening-and-saving-a-webpage" title="Permalink to this heading"></a></h2>
 <p>The example below activates Chromium.app, opens Apple’s website in a new tab, waits for the tab to finish loading, then saves the site’s resources (e.g. HTML, CSS, JavaScript, and images) to a location on the disk. Note the use of a full URL, beginning with “http”, as well as a full file path, beginning with “/”. Both a full URL and full file path are necessary in order for this example to operate successfully.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
@@ -158,7 +158,7 @@
 </div>
 </section>
 <section id="example-2-making-new-windows-and-tabs">
-<h2><a class="toc-backref" href="#id10">Example 2 - Making new windows and tabs</a><a class="headerlink" href="#example-2-making-new-windows-and-tabs" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Example 2 - Making new windows and tabs</a><a class="headerlink" href="#example-2-making-new-windows-and-tabs" title="Permalink to this heading"></a></h2>
 <p>This example shows how to manually create new windows and tabs in Chromium. The general logic for this is to create a new object of the specified type, then push that object onto the relevant list. Alternatively, you can use the <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.new_window" title="PyXA.apps.Chromium.XAChromiumApplication.new_window"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.new_window()</span></code></a> and <a class="reference internal" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumApplication.new_tab" title="PyXA.apps.Chromium.XAChromiumApplication.new_tab"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Chromium.XAChromiumApplication.new_tab()</span></code></a> methods.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="linenos"> 2</span>
@@ -181,7 +181,7 @@
 </pre></div>
 </div>
 <section id="chromium-resources">
-<h3><a class="toc-backref" href="#id11">Chromium Resources</a><a class="headerlink" href="#chromium-resources" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Chromium Resources</a><a class="headerlink" href="#chromium-resources" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.chromium.org/chromium-os/quick-start-guide/">Chromium Quick Start Guide</a></p></li>
 </ul>

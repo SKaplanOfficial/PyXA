@@ -7,15 +7,15 @@ Calendar Module Overview
 
 PyXA supports nearly all AppleScript/JXA commands for the Calendar application while adding some additional quality-of-life methods that AppleScript is missing. Alarms are not currently supported, but they will be by the time of PyXA's full release. New methods, such as :func:`PyXA.apps.Calendar.XACalendarEvent.add_attachment`, attempt to follow the style of JXA and make use of Apple's `EventKit Framework <https://developer.apple.com/documentation/eventkit>`_.
 
-Tutorials
-#########
+Calendar Tutorials
+##################
 There are two (planned) tutorials for working with the Calendar application:
 
 - Create a Daily Event Summary Script
 - How To: Add a Zoom link to all events with a given tag
 
-Examples
-########
+Calendar Examples
+#################
 The examples below provide an overview of the capabilities of the Calendar module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Tutorials`).
 
 Example 1 - Listing Calendars and Events
@@ -130,8 +130,8 @@ Example 5 - Displaying Events in Calendar.app
    app.view_calendar_at(date(2022, 6, 5))
    app.view_calendar_at(event.end_date)
 
-Resources
-#########
+Calendar Resources
+##################
 - `Calendar User Guide - Apple Support <https://support.apple.com/guide/calendar/welcome/mac>`_
 
 For all classes, methods, and inherited members of the Calendar module, see the :ref:`Calendar Module Reference`.

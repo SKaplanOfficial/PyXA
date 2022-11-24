@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bike Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Bike Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Bike Module Reference</a><ul>
@@ -73,6 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -91,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Bike Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Bike Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/bike.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -111,10 +111,6 @@
 <p>Control Bike using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication" title="PyXA.apps.Bike.XABikeApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XABikeApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with Bike.app.</p></td>
@@ -145,17 +141,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Bike.</span></span><span class="sig-name descname"><span class="pre">XABikeApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
 <p>A class for managing and interacting with Bike.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.FileFormat" title="PyXA.apps.Bike.XABikeApplication.FileFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileFormat</span></code></a>(value[, names, module, qualname, ...])</p></td>
 <td><p></p></td>
@@ -164,37 +156,29 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.background_color" title="PyXA.apps.Bike.XABikeApplication.background_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">background_color</span></code></a></p></td>
-<td><p>Bike background color preference</p></td>
+<td><p>Bike background color preference.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.font_size" title="PyXA.apps.Bike.XABikeApplication.font_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_size</span></code></a></p></td>
-<td><p>Bike font size preference</p></td>
+<td><p>Bike font size preference.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.foreground_color" title="PyXA.apps.Bike.XABikeApplication.foreground_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">foreground_color</span></code></a></p></td>
-<td><p>Bike foreground color preference</p></td>
+<td><p>Bike foreground color preference.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.frontmost" title="PyXA.apps.Bike.XABikeApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether Bike is the frontmost application</p></td>
+<td><p>Whether Bike is the frontmost application.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.name" title="PyXA.apps.Bike.XABikeApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
+<td><p>The name of the application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.version" title="PyXA.apps.Bike.XABikeApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version of Bike.app</p></td>
+<td><p>The version of Bike.app.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.documents" title="PyXA.apps.Bike.XABikeApplication.documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">documents</span></code></a>([filter])</p></td>
 <td><p>Returns a list of documents, as PyXA-wrapped objects, matching the given filter.</p></td>
@@ -210,10 +194,6 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.FileFormat.BIKE" title="PyXA.apps.Bike.XABikeApplication.FileFormat.BIKE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BIKE</span></code></a></p></td>
 <td><p></p></td>
@@ -246,7 +226,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.background_color">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">background_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.background_color" title="Permalink to this definition"></a></dt>
-<dd><p>Bike background color preference</p>
+<dd><p>Bike background color preference.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -254,16 +234,16 @@
 <span class="sig-name descname"><span class="pre">documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocumentList" title="PyXA.apps.Bike.XABikeDocumentList"><span class="pre">XABikeDocumentList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeApplication.documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.documents" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of documents, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned documents will have, or None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The list of documents</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocumentList" title="PyXA.apps.Bike.XABikeDocumentList">XABikeDocumentList</a></p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -280,19 +260,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.font_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">font_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.font_size" title="Permalink to this definition"></a></dt>
-<dd><p>Bike font size preference</p>
+<dd><p>Bike font size preference.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.foreground_color">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">foreground_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.foreground_color" title="Permalink to this definition"></a></dt>
-<dd><p>Bike foreground color preference</p>
+<dd><p>Bike foreground color preference.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether Bike is the frontmost application</p>
+<dd><p>Whether Bike is the frontmost application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -301,19 +281,19 @@
 <dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
 <li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA wrapped form of the object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Add new rows to the current document</p>
 </dd>
 </dl>
@@ -338,13 +318,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
+<dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeApplication.version">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version of Bike.app</p>
+<dd><p>The version of Bike.app.</p>
 </dd></dl>
 
 </dd></dl>
@@ -359,38 +339,34 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute.container_row" title="PyXA.apps.Bike.XABikeAttribute.container_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container_row</span></code></a></p></td>
-<td><p>The row that contains this attribute</p></td>
+<td><p>The row that contains this attribute.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute.name" title="PyXA.apps.Bike.XABikeAttribute.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the attribute</p></td>
+<td><p>The name of the attribute.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute.value" title="PyXA.apps.Bike.XABikeAttribute.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
-<td><p>The value of the attribute</p></td>
+<td><p>The value of the attribute.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeAttribute.container_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttribute.container_row" title="Permalink to this definition"></a></dt>
-<dd><p>The row that contains this attribute</p>
+<dd><p>The row that contains this attribute.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeAttribute.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttribute.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the attribute</p>
+<dd><p>The name of the attribute.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeAttribute.value">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttribute.value" title="Permalink to this definition"></a></dt>
-<dd><p>The value of the attribute</p>
+<dd><p>The value of the attribute.</p>
 </dd></dl>
 
 </dd></dl>
@@ -406,10 +382,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttributeList.by_container_row" title="PyXA.apps.Bike.XABikeAttributeList.by_container_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_container_row</span></code></a>(container_row)</p></td>
 <td><p>Retrieves the first attribute whose container row matches the given row, if one exists.</p></td>
@@ -436,10 +408,10 @@
 <span class="sig-name descname"><span class="pre">by_container_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute"><span class="pre">XABikeAttribute</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.by_container_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.by_container_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first attribute whose container row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired attribute, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute">XABikeAttribute</a>, None]</p>
 </dd>
 </dl>
@@ -453,10 +425,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute"><span class="pre">XABikeAttribute</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the attribute whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired attribute, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute">XABikeAttribute</a>, None]</p>
 </dd>
 </dl>
@@ -470,10 +442,10 @@
 <span class="sig-name descname"><span class="pre">by_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute"><span class="pre">XABikeAttribute</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.by_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.by_value" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first attribute whose value matches the given value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired attribute, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeAttribute" title="PyXA.apps.Bike.XABikeAttribute">XABikeAttribute</a>, None]</p>
 </dd>
 </dl>
@@ -487,10 +459,10 @@
 <span class="sig-name descname"><span class="pre">container_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.container_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.container_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the container row of each attribute in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of attribute container rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -504,10 +476,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each attribute in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of attribute names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -521,10 +493,10 @@
 <span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeAttributeList.value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeAttributeList.value" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the value of each attribute in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of attribute values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -538,62 +510,54 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Bike.</span></span><span class="sig-name descname"><span class="pre">XABikeDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a></p>
 <p>A document of Bike.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.entire_contents" title="PyXA.apps.Bike.XABikeDocument.entire_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entire_contents</span></code></a></p></td>
-<td><p>All rows in the document</p></td>
+<td><p>All rows in the document.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.file" title="PyXA.apps.Bike.XABikeDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
-<td><p>The location of the document on disk, if it has one</p></td>
+<td><p>The location of the document on disk, if it has one.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.focused_row" title="PyXA.apps.Bike.XABikeDocument.focused_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">focused_row</span></code></a></p></td>
-<td><p>The currently focused row</p></td>
+<td><p>The currently focused row.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.hoisted_row" title="PyXA.apps.Bike.XABikeDocument.hoisted_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hoisted_row</span></code></a></p></td>
-<td><p>The currently hoisted row</p></td>
+<td><p>The currently hoisted row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.id" title="PyXA.apps.Bike.XABikeDocument.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique and persistent identifier for the document</p></td>
+<td><p>The unique and persistent identifier for the document.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.modified" title="PyXA.apps.Bike.XABikeDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
-<td><p>Whether the document has been modified since it was last saved</p></td>
+<td><p>Whether the document has been modified since it was last saved.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.name" title="PyXA.apps.Bike.XABikeDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the document</p></td>
+<td><p>The name of the document.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.root_row" title="PyXA.apps.Bike.XABikeDocument.root_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">root_row</span></code></a></p></td>
-<td><p>The top 'root' row of the document, not visible in the outline editor</p></td>
+<td><p>The top 'root' row of the document, not visible in the outline editor.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.selected_text" title="PyXA.apps.Bike.XABikeDocument.selected_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected_text</span></code></a></p></td>
-<td><p>The currently selected text</p></td>
+<td><p>The currently selected text.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.selection_row" title="PyXA.apps.Bike.XABikeDocument.selection_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selection_row</span></code></a></p></td>
-<td><p>The row intersecting the selected text head</p></td>
+<td><p>The row intersecting the selected text head.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.selection_rows" title="PyXA.apps.Bike.XABikeDocument.selection_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selection_rows</span></code></a></p></td>
-<td><p>All rows intersecting the selected text</p></td>
+<td><p>All rows intersecting the selected text.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.url" title="PyXA.apps.Bike.XABikeDocument.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The Bike URL link for the document</p></td>
+<td><p>The Bike URL link for the document.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument.rows" title="PyXA.apps.Bike.XABikeDocument.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rows</span></code></a>([filter])</p></td>
 <td><p>Returns a list of rows, as PyXA-wrapped objects, matching the given filter.</p></td>
@@ -606,49 +570,49 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.entire_contents">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">entire_contents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.entire_contents" title="Permalink to this definition"></a></dt>
-<dd><p>All rows in the document</p>
+<dd><p>All rows in the document.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.file">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.file" title="Permalink to this definition"></a></dt>
-<dd><p>The location of the document on disk, if it has one</p>
+<dd><p>The location of the document on disk, if it has one.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.focused_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">focused_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.focused_row" title="Permalink to this definition"></a></dt>
-<dd><p>The currently focused row</p>
+<dd><p>The currently focused row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.hoisted_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hoisted_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.hoisted_row" title="Permalink to this definition"></a></dt>
-<dd><p>The currently hoisted row</p>
+<dd><p>The currently hoisted row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique and persistent identifier for the document</p>
+<dd><p>The unique and persistent identifier for the document.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.modified">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.modified" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the document has been modified since it was last saved</p>
+<dd><p>Whether the document has been modified since it was last saved.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the document</p>
+<dd><p>The name of the document.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.root_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.root_row" title="Permalink to this definition"></a></dt>
-<dd><p>The top ‘root’ row of the document, not visible in the outline editor</p>
+<dd><p>The top ‘root’ row of the document, not visible in the outline editor.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -656,16 +620,16 @@
 <span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocument.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.rows" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of rows, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned rows will have, or None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The list of rows</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -685,13 +649,13 @@
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.FileFormat" title="PyXA.apps.Bike.XABikeApplication.FileFormat"><span class="pre">FileFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">FileFormat.BIKE</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocument.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.save" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the document to the specified location, or at its existing location.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The location to save the document in, defaults to None</p></li>
 <li><p><strong>format</strong> (<a class="reference internal" href="#PyXA.apps.Bike.XABikeApplication.FileFormat" title="PyXA.apps.Bike.XABikeApplication.FileFormat"><em>XABikeApplication.FileFormat</em></a><em>, </em><em>optional</em>) – The format to save the document as, defaults to XABikeApplication.FileFormat.BIKE</p></li>
 </ul>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -708,25 +672,25 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.selected_text">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.selected_text" title="Permalink to this definition"></a></dt>
-<dd><p>The currently selected text</p>
+<dd><p>The currently selected text.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.selection_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selection_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.selection_row" title="Permalink to this definition"></a></dt>
-<dd><p>The row intersecting the selected text head</p>
+<dd><p>The row intersecting the selected text head.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.selection_rows">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selection_rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.selection_rows" title="Permalink to this definition"></a></dt>
-<dd><p>All rows intersecting the selected text</p>
+<dd><p>All rows intersecting the selected text.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocument.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocument.url" title="Permalink to this definition"></a></dt>
-<dd><p>The Bike URL link for the document</p>
+<dd><p>The Bike URL link for the document.</p>
 </dd></dl>
 
 </dd></dl>
@@ -734,7 +698,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeDocumentList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Bike.</span></span><span class="sig-name descname"><span class="pre">XABikeDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around lists of Bike documents that employs fast enumeration techniques.</p>
 <p>All properties of documents can be called as methods on the wrapped list, returning a list containing each document’s value for the property.</p>
 <div class="versionadded">
@@ -742,10 +706,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocumentList.by_entire_contents" title="PyXA.apps.Bike.XABikeDocumentList.by_entire_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_entire_contents</span></code></a>(entire_contents)</p></td>
 <td><p>Retrieves the document whose entire contents matches the given list of rows, if one exists.</p></td>
@@ -829,10 +789,10 @@
 <span class="sig-name descname"><span class="pre">by_entire_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entire_contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">PyXA.apps.Bike.XABikeRow</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_entire_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_entire_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose entire contents matches the given list of rows, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -846,10 +806,10 @@
 <span class="sig-name descname"><span class="pre">by_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_file" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose file path matches the given path, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -863,10 +823,10 @@
 <span class="sig-name descname"><span class="pre">by_focused_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focused_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_focused_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_focused_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose focused row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -880,10 +840,10 @@
 <span class="sig-name descname"><span class="pre">by_hoisted_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hoisted_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_hoisted_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_hoisted_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose hoisted row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -897,10 +857,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -914,10 +874,10 @@
 <span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_modified" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first document whose modified status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -931,10 +891,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -948,10 +908,10 @@
 <span class="sig-name descname"><span class="pre">by_root_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_root_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_root_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose root row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -965,10 +925,10 @@
 <span class="sig-name descname"><span class="pre">by_selected_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_selected_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_selected_text" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose selected text matches the given text, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -982,10 +942,10 @@
 <span class="sig-name descname"><span class="pre">by_selection_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_selection_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_selection_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose selection row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -999,10 +959,10 @@
 <span class="sig-name descname"><span class="pre">by_selection_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">PyXA.apps.Bike.XABikeRow</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_selection_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_selection_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose selection rows match the given list of rows, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1016,10 +976,10 @@
 <span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.by_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1033,7 +993,7 @@
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">XACloseable.SaveOption</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.close" title="Permalink to this definition"></a></dt>
 <dd><p>Closes every document in the list. Leaves the last document open if it is the only document open in the application.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>save</strong> (<em>XACloseable.SaveOption</em><em>, </em><em>optional</em>) – Whether to save the documents before closing, defaults to YES</p>
 </dd>
 </dl>
@@ -1047,10 +1007,10 @@
 <span class="sig-name descname"><span class="pre">entireContents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.entireContents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.entireContents" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the entire contents of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>XABikeRowLists</p>
 </dd>
 </dl>
@@ -1064,10 +1024,10 @@
 <span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.file" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the file path of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document file paths</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath">XABase.XAPath</a>]</p>
 </dd>
 </dl>
@@ -1081,10 +1041,10 @@
 <span class="sig-name descname"><span class="pre">focused_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.focused_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.focused_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the focused row of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document focused rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1098,10 +1058,10 @@
 <span class="sig-name descname"><span class="pre">hoisted_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.hoisted_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.hoisted_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the hoisted row of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document hoisted rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1115,10 +1075,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1132,10 +1092,10 @@
 <span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.modified" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the modified status of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document modified status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1149,10 +1109,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1166,10 +1126,10 @@
 <span class="sig-name descname"><span class="pre">root_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.root_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.root_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the root row of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document root rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1183,10 +1143,10 @@
 <span class="sig-name descname"><span class="pre">selected_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.selected_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.selected_text" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the selected text of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document selected texts</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1200,10 +1160,10 @@
 <span class="sig-name descname"><span class="pre">selection_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.selection_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.selection_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the selection row of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document selection rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1217,10 +1177,10 @@
 <span class="sig-name descname"><span class="pre">selection_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.selection_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.selection_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the selection rows of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document selection rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1234,10 +1194,10 @@
 <span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeDocumentList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeDocumentList.url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the URL of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document urls</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -1251,17 +1211,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Bike.</span></span><span class="sig-name descname"><span class="pre">XABikeRow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XADeletable" title="PyXA.XAProtocols.XADeletable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code></a></p>
 <p>A row in an outline.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.attributes" title="PyXA.apps.Bike.XABikeRow.attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attributes</span></code></a>([filter])</p></td>
 <td><p>Returns a list of attributes, as PyXA-wrapped objects, matching the given filter.</p></td>
@@ -1282,55 +1238,51 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.collapsed" title="PyXA.apps.Bike.XABikeRow.collapsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapsed</span></code></a></p></td>
-<td><p>True if this row is collapsed in the window</p></td>
+<td><p>True if this row is collapsed in the window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.container" title="PyXA.apps.Bike.XABikeRow.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a></p></td>
-<td><p>Container of the row</p></td>
+<td><p>The container of the row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.container_document" title="PyXA.apps.Bike.XABikeRow.container_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container_document</span></code></a></p></td>
-<td><p>The document that contains this row</p></td>
+<td><p>The document that contains this row.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.container_row" title="PyXA.apps.Bike.XABikeRow.container_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container_row</span></code></a></p></td>
-<td><p>The row that directly contains this row</p></td>
+<td><p>The row that directly contains this row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.contains_rows" title="PyXA.apps.Bike.XABikeRow.contains_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_rows</span></code></a></p></td>
-<td><p>True if the row contains other rows</p></td>
+<td><p>True if the row contains other rows.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.entire_contents" title="PyXA.apps.Bike.XABikeRow.entire_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entire_contents</span></code></a></p></td>
-<td><p>The list of all rows contained by this row</p></td>
+<td><p>The list of all rows contained by this row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.expanded" title="PyXA.apps.Bike.XABikeRow.expanded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expanded</span></code></a></p></td>
-<td><p>True if this row is expanded in the window</p></td>
+<td><p>True if this row is expanded in the window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.id" title="PyXA.apps.Bike.XABikeRow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique and persistent identifier for the row</p></td>
+<td><p>The unique and persistent identifier for the row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.level" title="PyXA.apps.Bike.XABikeRow.level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">level</span></code></a></p></td>
-<td><p>The indentation level for the row in the outline</p></td>
+<td><p>The indentation level for the row in the outline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.name" title="PyXA.apps.Bike.XABikeRow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The plain text content of the row</p></td>
+<td><p>The plain text content of the row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.next_sibling_row" title="PyXA.apps.Bike.XABikeRow.next_sibling_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next_sibling_row</span></code></a></p></td>
-<td><p>The next row with the same container as this row</p></td>
+<td><p>The next row with the same container as this row.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.prev_sibling_row" title="PyXA.apps.Bike.XABikeRow.prev_sibling_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prev_sibling_row</span></code></a></p></td>
-<td><p>The previous row with the same container row as this row</p></td>
+<td><p>The previous row with the same container row as this row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.selected" title="PyXA.apps.Bike.XABikeRow.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
-<td><p>True if this row is selected in the window</p></td>
+<td><p>True if this row is selected in the window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.url" title="PyXA.apps.Bike.XABikeRow.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The Bike URL for the row combining the document ID with the item ID</p></td>
+<td><p>The Bike URL for the row combining the document ID with the item ID.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow.visible" title="PyXA.apps.Bike.XABikeRow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>True if this row is visible in the window (may require scrolling)</p></td>
+<td><p>True if this row is visible in the window (may require scrolling).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1339,13 +1291,13 @@
 <span class="sig-name descname"><span class="pre">attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttributeList" title="PyXA.apps.Bike.XABikeAttributeList"><span class="pre">XABikeAttributeList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow.attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.attributes" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of attributes, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned attributes will have, or None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The list of attributes</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeAttributeList" title="PyXA.apps.Bike.XABikeAttributeList">XABikeAttributeList</a></p>
 </dd>
 </dl>
@@ -1359,7 +1311,7 @@
 <span class="sig-name descname"><span class="pre">collapse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow.collapse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.collapse" title="Permalink to this definition"></a></dt>
 <dd><p>Collapses the row and optionally all rows it contains.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>recursive</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to also collapse all rows contained by this row, defaults to False</p>
 </dd>
 </dl>
@@ -1371,37 +1323,37 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.collapsed">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collapsed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.collapsed" title="Permalink to this definition"></a></dt>
-<dd><p>True if this row is collapsed in the window</p>
+<dd><p>True if this row is collapsed in the window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.container">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.container" title="Permalink to this definition"></a></dt>
-<dd><p>Container of the row</p>
+<dd><p>The container of the row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.container_document">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container_document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.container_document" title="Permalink to this definition"></a></dt>
-<dd><p>The document that contains this row</p>
+<dd><p>The document that contains this row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.container_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.container_row" title="Permalink to this definition"></a></dt>
-<dd><p>The row that directly contains this row</p>
+<dd><p>The row that directly contains this row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.contains_rows">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contains_rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.contains_rows" title="Permalink to this definition"></a></dt>
-<dd><p>True if the row contains other rows</p>
+<dd><p>True if the row contains other rows.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.entire_contents">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">entire_contents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.entire_contents" title="Permalink to this definition"></a></dt>
-<dd><p>The list of all rows contained by this row</p>
+<dd><p>The list of all rows contained by this row.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1409,7 +1361,7 @@
 <span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow.expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.expand" title="Permalink to this definition"></a></dt>
 <dd><p>Expanded the row and optionally all rows it contains.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>recursive</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to also expand all rows contained by this row, defaults to False</p>
 </dd>
 </dl>
@@ -1421,19 +1373,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.expanded">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">expanded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.expanded" title="Permalink to this definition"></a></dt>
-<dd><p>True if this row is expanded in the window</p>
+<dd><p>True if this row is expanded in the window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique and persistent identifier for the row</p>
+<dd><p>The unique and persistent identifier for the row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.level">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.level" title="Permalink to this definition"></a></dt>
-<dd><p>The indentation level for the row in the outline</p>
+<dd><p>The indentation level for the row in the outline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1441,10 +1393,10 @@
 <span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.move_to" title="Permalink to this definition"></a></dt>
 <dd><p>Makes the row a child of the specified row.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>location</strong> (<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><em>XABikeRow</em></a>) – The row to move this row to.</p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -1463,19 +1415,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The plain text content of the row</p>
+<dd><p>The plain text content of the row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.next_sibling_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_sibling_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">type</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.next_sibling_row" title="Permalink to this definition"></a></dt>
-<dd><p>The next row with the same container as this row</p>
+<dd><p>The next row with the same container as this row.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.prev_sibling_row">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prev_sibling_row</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.prev_sibling_row" title="Permalink to this definition"></a></dt>
-<dd><p>The previous row with the same container row as this row</p>
+<dd><p>The previous row with the same container row as this row.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1483,16 +1435,16 @@
 <span class="sig-name descname"><span class="pre">rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRow.rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.rows" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of rows, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned rows will have, or None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The list of rows</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -1511,19 +1463,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.selected">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.selected" title="Permalink to this definition"></a></dt>
-<dd><p>True if this row is selected in the window</p>
+<dd><p>True if this row is selected in the window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.url" title="Permalink to this definition"></a></dt>
-<dd><p>The Bike URL for the row combining the document ID with the item ID</p>
+<dd><p>The Bike URL for the row combining the document ID with the item ID.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeRow.visible">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeRow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>True if this row is visible in the window (may require scrolling)</p>
+<dd><p>True if this row is visible in the window (may require scrolling).</p>
 </dd></dl>
 
 </dd></dl>
@@ -1539,10 +1491,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList.by_collapsed" title="PyXA.apps.Bike.XABikeRowList.by_collapsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_collapsed</span></code></a>(collapsed)</p></td>
 <td><p>Retrieves the first row whose collapsed status matches the given boolean value, if one exists.</p></td>
@@ -1644,10 +1592,10 @@
 <span class="sig-name descname"><span class="pre">by_collapsed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collapsed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_collapsed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_collapsed" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose collapsed status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1661,10 +1609,10 @@
 <span class="sig-name descname"><span class="pre">by_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_container" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose container matches the given container, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1678,10 +1626,10 @@
 <span class="sig-name descname"><span class="pre">by_container_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_document</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_container_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_container_document" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose container document matches the given document, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1695,10 +1643,10 @@
 <span class="sig-name descname"><span class="pre">by_container_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_container_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_container_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose container row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1712,10 +1660,10 @@
 <span class="sig-name descname"><span class="pre">by_contains_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contains_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_contains_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_contains_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose contains rows status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1729,10 +1677,10 @@
 <span class="sig-name descname"><span class="pre">by_entire_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entire_contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">PyXA.apps.Bike.XABikeRow</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_entire_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_entire_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose entire contents matches the given list of rows, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1746,10 +1694,10 @@
 <span class="sig-name descname"><span class="pre">by_expanded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_expanded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_expanded" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose expanded status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1763,10 +1711,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1780,10 +1728,10 @@
 <span class="sig-name descname"><span class="pre">by_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_level" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose level matches the given level, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1797,10 +1745,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1814,10 +1762,10 @@
 <span class="sig-name descname"><span class="pre">by_next_sibling_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_sibling_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_next_sibling_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_next_sibling_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose next sibling row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1831,10 +1779,10 @@
 <span class="sig-name descname"><span class="pre">by_prev_sibling_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prev_sibling_row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_prev_sibling_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_prev_sibling_row" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose previous sibling row matches the given row, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1848,10 +1796,10 @@
 <span class="sig-name descname"><span class="pre">by_selected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_selected" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose selected status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1865,10 +1813,10 @@
 <span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the row whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1882,10 +1830,10 @@
 <span class="sig-name descname"><span class="pre">by_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">XABikeRow</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.by_visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.by_visible" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first row whose visible status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired row, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow">XABikeRow</a>, None]</p>
 </dd>
 </dl>
@@ -1899,7 +1847,7 @@
 <span class="sig-name descname"><span class="pre">collapse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.collapse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.collapse" title="Permalink to this definition"></a></dt>
 <dd><p>Collapses all rows in the list, optionally collapsing all of the children as well.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>all</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to collapse all child rows, defaults to False</p>
 </dd>
 </dl>
@@ -1913,10 +1861,10 @@
 <span class="sig-name descname"><span class="pre">collapsed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.collapsed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.collapsed" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the collapsed status of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row collapsed status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1930,10 +1878,10 @@
 <span class="sig-name descname"><span class="pre">container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">PyXA.apps.Bike.XABikeDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeRow" title="PyXA.apps.Bike.XABikeRow"><span class="pre">PyXA.apps.Bike.XABikeRow</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.container" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the container of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row containers</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[<a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument">XABikeDocument</a>, ‘XABikeRow’]]</p>
 </dd>
 </dl>
@@ -1947,10 +1895,10 @@
 <span class="sig-name descname"><span class="pre">container_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.container_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.container_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the container row of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row container rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1964,10 +1912,10 @@
 <span class="sig-name descname"><span class="pre">contains_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.contains_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.contains_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the contains rows status of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row contains rows status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1981,10 +1929,10 @@
 <span class="sig-name descname"><span class="pre">entire_contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.entire_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.entire_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the all contained rows of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of contained rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -1998,7 +1946,7 @@
 <span class="sig-name descname"><span class="pre">expand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.expand" title="Permalink to this definition"></a></dt>
 <dd><p>Expands all rows in the list, optionally expanding all of the children as well.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>all</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to expand all child rows, defaults to False</p>
 </dd>
 </dl>
@@ -2012,10 +1960,10 @@
 <span class="sig-name descname"><span class="pre">expanded</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.expanded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.expanded" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the expanded status of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row expanded status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -2029,10 +1977,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2046,10 +1994,10 @@
 <span class="sig-name descname"><span class="pre">level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.level" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the level of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row levels</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -2063,10 +2011,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2080,10 +2028,10 @@
 <span class="sig-name descname"><span class="pre">next_sibling_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.next_sibling_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.next_sibling_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the next sibling row of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row next sibling rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -2097,10 +2045,10 @@
 <span class="sig-name descname"><span class="pre">prev_sibling_row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList"><span class="pre">XABikeRowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.prev_sibling_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.prev_sibling_row" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the previous sibling row of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row previous sibling rows</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeRowList" title="PyXA.apps.Bike.XABikeRowList">XABikeRowList</a></p>
 </dd>
 </dl>
@@ -2114,10 +2062,10 @@
 <span class="sig-name descname"><span class="pre">selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.selected" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the selected status of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row selected status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -2131,10 +2079,10 @@
 <span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the URL of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -2148,10 +2096,10 @@
 <span class="sig-name descname"><span class="pre">visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Bike.html#XABikeRowList.visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Bike.XABikeRowList.visible" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the visible status of each row in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of row visible status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -2172,119 +2120,16 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.bounds" title="PyXA.apps.Bike.XABikeWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.closeable" title="PyXA.apps.Bike.XABikeWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.document" title="PyXA.apps.Bike.XABikeWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
-<td><p>The document whose contents are currently displayed in the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.id" title="PyXA.apps.Bike.XABikeWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier of the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.index" title="PyXA.apps.Bike.XABikeWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window, ordered front to back</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.miniaturizable" title="PyXA.apps.Bike.XABikeWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window has a minimize button</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.miniaturized" title="PyXA.apps.Bike.XABikeWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.name" title="PyXA.apps.Bike.XABikeWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The title of the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.resizable" title="PyXA.apps.Bike.XABikeWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.visible" title="PyXA.apps.Bike.XABikeWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.zoomable" title="PyXA.apps.Bike.XABikeWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window has a zoom button</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Bike.XABikeWindow.zoomed" title="PyXA.apps.Bike.XABikeWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
+<td><p>The document whose contents are currently displayed in the window.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.document">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Bike.XABikeDocument" title="PyXA.apps.Bike.XABikeDocument"><span class="pre">XABikeDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.document" title="Permalink to this definition"></a></dt>
-<dd><p>The document whose contents are currently displayed in the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window, ordered front to back</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a minimize button</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a zoom button</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Bike.XABikeWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Bike.XABikeWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
+<dd><p>The document whose contents are currently displayed in the window.</p>
 </dd></dl>
 
 </dd></dl>

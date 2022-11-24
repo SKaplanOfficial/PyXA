@@ -1,7 +1,5 @@
-import AppKit
 import PyXA
 import time
-import os
 import unittest
 
 class TestTextEdit(unittest.TestCase):
@@ -28,21 +26,20 @@ class TestTextEdit(unittest.TestCase):
     def test_textedit_make_documents(self):
         new_doc = self.app.make("document", {"text": "This is a test!"})
         doc1 = self.app.documents().push(new_doc)
-
         doc2 = self.app.new_document("Example.txt", "Hello, world!")
 
         self.assertIsInstance(doc1, PyXA.apps.TextEdit.XATextEditDocument)
         self.assertIsInstance(doc2, PyXA.apps.TextEdit.XATextEditDocument)
         self.assertIsInstance(doc1.text, PyXA.XABase.XAText)
         self.assertIsInstance(doc2.text, PyXA.XABase.XAText)
-        self.assertEqual(str(doc1.text), "Hello, world!")
-        self.assertEqual(str(doc2.text), "This is a test!")
+        self.assertEqual(str(doc1.text), "This is a test!")
+        self.assertEqual(str(doc2.text), "Hello, world!")
 
         doc1.append("1 2 3")
         doc2.prepend("a b c")
 
-        self.assertEqual(str(doc1.text), "Hello, world!1 2 3")
-        self.assertEqual(str(doc2.text), "a b cThis is a test!")
+        self.assertEqual(str(doc1.text), "This is a test!1 2 3")
+        self.assertEqual(str(doc2.text), "a b cHello, world!")
 
     def test_textedit_window_methods(self):
         self.app.front_window.miniaturized = True

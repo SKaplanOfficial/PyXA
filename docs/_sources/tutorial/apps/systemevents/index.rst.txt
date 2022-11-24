@@ -64,6 +64,6 @@ This example uses PyXA to sort files on the desktop into appropriate category fo
 
 System Events Resources
 #######################
-- `System Events - AppleScript: The Definitive Guide <https://www.oreilly.com/library/view/applescript-the-definitive/0596102119/ch23s02s03.html`_
+- `System Events - AppleScript: The Definitive Guide <https://www.oreilly.com/library/view/applescript-the-definitive/0596102119/ch23s02s03.html>`_
 
 For all classes, methods, and inherited members of the System Events module, see the :ref:`System Events Module Reference`.

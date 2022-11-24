@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Numbers Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Numbers Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
@@ -94,6 +93,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -112,9 +112,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Numbers Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Numbers Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/numbers.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -132,10 +132,6 @@
 <p>Control the macOS Notes application using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANote</span></code></a>(properties)</p></td>
 <td><p>A class for interacting with notes in the Notes application.</p></td>
@@ -178,7 +174,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAShowable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAShowable" title="PyXA.XAProtocols.XAShowable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAShowable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XADeletable" title="PyXA.XAProtocols.XADeletable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code></a></p>
 <p>A class for interacting with notes in the Notes application.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -192,10 +188,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.attachments" title="PyXA.apps.Notes.XANote.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a>([filter])</p></td>
 <td><p>Returns a list of attachments, as PyXA objects, matching the given filter.</p></td>
@@ -216,37 +208,33 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.body" title="PyXA.apps.Notes.XANote.body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">body</span></code></a></p></td>
-<td><p>The HTML content of the note</p></td>
+<td><p>The HTML content of the note.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.container" title="PyXA.apps.Notes.XANote.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a></p></td>
-<td><p>The folder that the note is in</p></td>
+<td><p>The folder that the note is in.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.creation_date" title="PyXA.apps.Notes.XANote.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
-<td><p>The date and time the note was created</p></td>
+<td><p>The date and time the note was created.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.id" title="PyXA.apps.Notes.XANote.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the note</p></td>
+<td><p>The unique identifier for the note.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.modification_date" title="PyXA.apps.Notes.XANote.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a></p></td>
-<td><p>The date and time the note was last modified</p></td>
+<td><p>The date and time the note was last modified.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.name" title="PyXA.apps.Notes.XANote.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the note (generally the first line of the body)</p></td>
+<td><p>The name of the note (generally the first line of the body).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.password_protected" title="PyXA.apps.Notes.XANote.password_protected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">password_protected</span></code></a></p></td>
-<td><p>Whether the note is password protected</p></td>
+<td><p>Whether the note is password protected.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.plaintext" title="PyXA.apps.Notes.XANote.plaintext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plaintext</span></code></a></p></td>
-<td><p>The plaintext content of the note</p></td>
+<td><p>The plaintext content of the note.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.shared" title="PyXA.apps.Notes.XANote.shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared</span></code></a></p></td>
-<td><p>Whether the note is shared</p></td>
+<td><p>Whether the note is shared.</p></td>
 </tr>
 </tbody>
 </table>
@@ -255,16 +243,16 @@
 <span class="sig-name descname"><span class="pre">attachments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesAttachmentList" title="PyXA.apps.Notes.XANotesAttachmentList"><span class="pre">XANotesAttachmentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.attachments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.attachments" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of attachments, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter attachments by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of attachments</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAttachmentList" title="PyXA.apps.Notes.XANotesAttachmentList">XANotesAttachmentList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>List all attachments of a note</p>
 </dd>
 </dl>
@@ -276,7 +264,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Save the attachments of a note to the Downloads folder</p>
 </dd>
 </dl>
@@ -297,19 +285,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.body">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">body</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.body" title="Permalink to this definition"></a></dt>
-<dd><p>The HTML content of the note</p>
+<dd><p>The HTML content of the note.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.container">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.container" title="Permalink to this definition"></a></dt>
-<dd><p>The folder that the note is in</p>
+<dd><p>The folder that the note is in.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.creation_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.creation_date" title="Permalink to this definition"></a></dt>
-<dd><p>The date and time the note was created</p>
+<dd><p>The date and time the note was created.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -318,10 +306,10 @@
 <dd><p>Gets a clipboard-codable representation of the note.</p>
 <p>When the clipboard content is set to a note, the plaintext representation of the note is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The plaintext representation of the note</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -333,13 +321,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the note</p>
+<dd><p>The unique identifier for the note.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.modification_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.modification_date" title="Permalink to this definition"></a></dt>
-<dd><p>The date and time the note was last modified</p>
+<dd><p>The date and time the note was last modified.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -347,13 +335,13 @@
 <span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.move_to" title="Permalink to this definition"></a></dt>
 <dd><p>Moves the note to the specified folder.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>folder</strong> (<a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><em>XANotesFolder</em></a>) – The folder to move the note to</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the note object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
 </dd>
 </dl>
@@ -365,25 +353,25 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the note (generally the first line of the body)</p>
+<dd><p>The name of the note (generally the first line of the body).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.password_protected">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">password_protected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.password_protected" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the note is password protected</p>
+<dd><p>Whether the note is password protected.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.plaintext">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plaintext</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.plaintext" title="Permalink to this definition"></a></dt>
-<dd><p>The plaintext content of the note</p>
+<dd><p>The plaintext content of the note.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.shared">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANote.shared" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the note is shared</p>
+<dd><p>Whether the note is shared.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -391,10 +379,10 @@
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.show" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the note in the main Notes window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to the note object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
 </dd>
 </dl>
@@ -408,10 +396,10 @@
 <span class="sig-name descname"><span class="pre">show_separately</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.show_separately"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.show_separately" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the note in a separate window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to the note object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
 </dd>
 </dl>
@@ -425,7 +413,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANoteAttachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteAttachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for interacting with attachments in the Notes application.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.0.3: </span>Added <a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.show" title="PyXA.apps.Notes.XANoteAttachment.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a> and <a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.show_separately" title="PyXA.apps.Notes.XANoteAttachment.show_separately"><code class="xref py py-func docutils literal notranslate"><span class="pre">show_separately()</span></code></a></p>
@@ -435,43 +423,35 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.container" title="PyXA.apps.Notes.XANoteAttachment.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a></p></td>
-<td><p>The note containing the attachment</p></td>
+<td><p>The note containing the attachment.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.content_identifier" title="PyXA.apps.Notes.XANoteAttachment.content_identifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">content_identifier</span></code></a></p></td>
-<td><p>The content ID of the attachment in the note's HTML</p></td>
+<td><p>The content ID of the attachment in the note's HTML.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.creation_date" title="PyXA.apps.Notes.XANoteAttachment.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
-<td><p>The date the attachment was created</p></td>
+<td><p>The date the attachment was created.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.id" title="PyXA.apps.Notes.XANoteAttachment.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the attachment</p></td>
+<td><p>The unique identifier for the attachment.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.modification_date" title="PyXA.apps.Notes.XANoteAttachment.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a></p></td>
-<td><p>The date the attachment was last modified</p></td>
+<td><p>The date the attachment was last modified.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.name" title="PyXA.apps.Notes.XANoteAttachment.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the attachment</p></td>
+<td><p>The name of the attachment.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.shared" title="PyXA.apps.Notes.XANoteAttachment.shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared</span></code></a></p></td>
-<td><p>Whether the attachment is shared</p></td>
+<td><p>Whether the attachment is shared.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.url" title="PyXA.apps.Notes.XANoteAttachment.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The URL that the attachment represents, if any</p></td>
+<td><p>The URL that the attachment represents, if any.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment.delete" title="PyXA.apps.Notes.XANoteAttachment.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
 <td><p>Permanently deletes the attachment.</p></td>
@@ -493,19 +473,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.container">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">XANote</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.container" title="Permalink to this definition"></a></dt>
-<dd><p>The note containing the attachment</p>
+<dd><p>The note containing the attachment.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.content_identifier">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content_identifier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.content_identifier" title="Permalink to this definition"></a></dt>
-<dd><p>The content ID of the attachment in the note’s HTML</p>
+<dd><p>The content ID of the attachment in the note’s HTML.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.creation_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.creation_date" title="Permalink to this definition"></a></dt>
-<dd><p>The date the attachment was created</p>
+<dd><p>The date the attachment was created.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -523,10 +503,10 @@
 <dd><p>Gets a clipboard-codable representation of the attachment.</p>
 <p>When the clipboard content is set to an attachment, the URL of the attachment (if one exists) and the attachment’s name are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The URL and name of the attachment, or just the name of the attachment</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[AppKit.NSURL, str]]</p>
 </dd>
 </dl>
@@ -538,19 +518,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the attachment</p>
+<dd><p>The unique identifier for the attachment.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.modification_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.modification_date" title="Permalink to this definition"></a></dt>
-<dd><p>The date the attachment was last modified</p>
+<dd><p>The date the attachment was last modified.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the attachment</p>
+<dd><p>The name of the attachment.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -558,13 +538,13 @@
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteAttachment.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.save" title="Permalink to this definition"></a></dt>
 <dd><p>Saves the attachment to the specified directory.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> (<em>str</em>) – The directory to store the saved attachment in</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the attachment object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment">XANoteAttachment</a></p>
 </dd>
 </dl>
@@ -576,7 +556,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.shared">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.shared" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the attachment is shared</p>
+<dd><p>Whether the attachment is shared.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -584,10 +564,10 @@
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteAttachment.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.show" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the attachment in the main Notes window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to the attachment object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment">XANoteAttachment</a></p>
 </dd>
 </dl>
@@ -601,10 +581,10 @@
 <span class="sig-name descname"><span class="pre">show_separately</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteAttachment.show_separately"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.show_separately" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the attachment in a separate window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to the attachment object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment">XANoteAttachment</a></p>
 </dd>
 </dl>
@@ -616,7 +596,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment.url" title="Permalink to this definition"></a></dt>
-<dd><p>The URL that the attachment represents, if any</p>
+<dd><p>The URL that the attachment represents, if any.</p>
 </dd></dl>
 
 </dd></dl>
@@ -624,17 +604,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANoteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of notes.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteList.attachments" title="PyXA.apps.Notes.XANoteList.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a>()</p></td>
 <td><p></p></td>
@@ -772,10 +748,10 @@
 <dd><p>Gets a clipboard-codable representation of each note in the list.</p>
 <p>When the clipboard content is set to a list of notes, the plaintext of each note is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of note plaintext representations</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -819,7 +795,7 @@
 <span class="sig-name descname"><span class="pre">show_separately</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList"><span class="pre">XANoteList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteList.show_separately"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteList.show_separately" title="Permalink to this definition"></a></dt>
 <dd><p>Shows each note in the list in a separate window.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Show the currently selected notes in separate windows</p>
 </dd>
 </dl>
@@ -838,7 +814,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for interacting with accounts in the Notes application.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.0.3: </span>Added <a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.show" title="PyXA.apps.Notes.XANotesAccount.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a></p>
@@ -848,31 +824,23 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.default_folder" title="PyXA.apps.Notes.XANotesAccount.default_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_folder</span></code></a></p></td>
-<td><p>The default folder for creating new notes</p></td>
+<td><p>The default folder for creating new notes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.id" title="PyXA.apps.Notes.XANotesAccount.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier of the account</p></td>
+<td><p>The unique identifier of the account.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.name" title="PyXA.apps.Notes.XANotesAccount.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the account</p></td>
+<td><p>The name of the account.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.upgraded" title="PyXA.apps.Notes.XANotesAccount.upgraded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upgraded</span></code></a></p></td>
-<td><p>Whether the account is upgraded</p></td>
+<td><p>Whether the account is upgraded.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.folders" title="PyXA.apps.Notes.XANotesAccount.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>([filter])</p></td>
 <td><p>Returns a list of folders, as PyXA objects, matching the given filter.</p></td>
@@ -891,7 +859,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.default_folder">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_folder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.default_folder" title="Permalink to this definition"></a></dt>
-<dd><p>The default folder for creating new notes</p>
+<dd><p>The default folder for creating new notes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -899,16 +867,16 @@
 <span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolderList" title="PyXA.apps.Notes.XANotesFolderList"><span class="pre">XANotesFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.folders" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of folders, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter folders by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of folders</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolderList" title="PyXA.apps.Notes.XANotesFolderList">XANotesFolderList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>List all folders belonging to an account</p>
 </dd>
 </dl>
@@ -933,10 +901,10 @@
 <dd><p>Gets a clipboard-codable representation of the account.</p>
 <p>When the clipboard content is set to an account, the account’s name are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The name of the account</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -948,13 +916,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier of the account</p>
+<dd><p>The unique identifier of the account.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the account</p>
+<dd><p>The name of the account.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -962,16 +930,16 @@
 <span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList"><span class="pre">XANoteList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.notes" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter notes by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of notes</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList">XANoteList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>List all notes belonging to an account</p>
 </dd>
 </dl>
@@ -995,10 +963,10 @@
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><span class="pre">XANotesAccount</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.show" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the first folder belonging to the account.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to the account object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount">XANotesAccount</a></p>
 </dd>
 </dl>
@@ -1010,7 +978,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.upgraded">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upgraded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.upgraded" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the account is upgraded</p>
+<dd><p>Whether the account is upgraded.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1018,17 +986,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccountList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesAccountList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccountList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccountList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of accounts.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccountList.by_default_folder" title="PyXA.apps.Notes.XANotesAccountList.by_default_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_default_folder</span></code></a>(default_folder)</p></td>
 <td><p></p></td>
@@ -1101,10 +1065,10 @@
 <dd><p>Gets a clipboard-codable representation of each account in the list.</p>
 <p>When the clipboard content is set to a list of accounts, the name of each account is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of account names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1138,7 +1102,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a></p>
 <p>A class for interacting with Notes.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1152,10 +1116,6 @@
 </div>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.FileFormat" title="PyXA.apps.Notes.XANotesApplication.FileFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileFormat</span></code></a>(value[, names, module, qualname, ...])</p></td>
 <td><p></p></td>
@@ -1164,10 +1124,6 @@
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.accounts" title="PyXA.apps.Notes.XANotesApplication.accounts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accounts</span></code></a>([filter])</p></td>
 <td><p>Returns a list of Notes accounts, as PyXA objects, matching the given filter.</p></td>
@@ -1200,25 +1156,21 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.default_account" title="PyXA.apps.Notes.XANotesApplication.default_account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_account</span></code></a></p></td>
-<td><p>The account that new notes are created in by default</p></td>
+<td><p>The account that new notes are created in by default.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.frontmost" title="PyXA.apps.Notes.XANotesApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether Notes is the active application</p></td>
+<td><p>Whether Notes is the active application.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.name" title="PyXA.apps.Notes.XANotesApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
+<td><p>The name of the application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.selection" title="PyXA.apps.Notes.XANotesApplication.selection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selection</span></code></a></p></td>
-<td><p>A list of currently selected notes</p></td>
+<td><p>A list of currently selected notes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.version" title="PyXA.apps.Notes.XANotesApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version number of Notes.app</p></td>
+<td><p>The version number of Notes.app.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1228,10 +1180,6 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.FileFormat.NATIVE" title="PyXA.apps.Notes.XANotesApplication.FileFormat.NATIVE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NATIVE</span></code></a></p></td>
 <td><p>The native Notes format</p></td>
@@ -1267,7 +1215,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.default_account">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><span class="pre">XANotesAccount</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.default_account" title="Permalink to this definition"></a></dt>
-<dd><p>The account that new notes are created in by default</p>
+<dd><p>The account that new notes are created in by default.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1284,7 +1232,7 @@
 <span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolderList" title="PyXA.apps.Notes.XANotesFolderList"><span class="pre">XANotesFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.folders" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of Notes folders, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Retrieve the name of each folder</p>
 </dd>
 </dl>
@@ -1305,7 +1253,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether Notes is the active application</p>
+<dd><p>Whether Notes is the active application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1314,19 +1262,19 @@
 <dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
 <li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA wrapped form of the object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Make a new folder and add a new note to that folder</p>
 </dd>
 </dl>
@@ -1346,7 +1294,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
+<dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1354,16 +1302,16 @@
 <span class="sig-name descname"><span class="pre">new_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">Folder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><span class="pre">XANotesAccount</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.new_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.new_folder" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new Notes folder with the given name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the folder, defaults to “New Folder”</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the newly created folder.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -1388,20 +1336,20 @@
 <dd><p>Creates a new note with the given name and body text in the given folder.
 If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the note, defaults to “New Note”</p></li>
 <li><p><strong>body</strong> (<em>str</em><em>, </em><em>optional</em>) – The initial body text of the note, defaults to “”</p></li>
 <li><p><strong>folder</strong> (<a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><em>XANotesFolder</em></a><em>, </em><em>optional</em>) – The folder to create the new note in, defaults to None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the newly created note.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
 </dd>
-<dt class="field-even">Example</dt>
+<dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -1425,16 +1373,16 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList"><span class="pre">XANoteList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.notes" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter notes by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of notes</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList">XANoteList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Retrieve the name of each note</p>
 </dd>
 </dl>
@@ -1445,7 +1393,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Retrieve notes by using a filter</p>
 </dd>
 </dl>
@@ -1456,7 +1404,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 3</dt>
+<dt class="field-odd">Example 3<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Iterate over each note</p>
 </dd>
 </dl>
@@ -1484,13 +1432,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dd><p>Opens the file/website at the given filepath/URL.</p>
 <p>Child classes of XACanOpenPath should redefine this method as necessary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>target</strong> (<em>str</em>) – The path to a file or the URL to a website to open.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the opened document or element, or None if no document/element was created or it cannot be found</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Any</p>
 </dd>
 </dl>
@@ -1502,13 +1450,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.selection">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList"><span class="pre">XANoteList</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.selection" title="Permalink to this definition"></a></dt>
-<dd><p>A list of currently selected notes</p>
+<dd><p>A list of currently selected notes.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.version">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version number of Notes.app</p>
+<dd><p>The version number of Notes.app.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1516,17 +1464,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAttachmentList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesAttachmentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAttachmentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAttachmentList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of attachments.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAttachmentList.by_container" title="PyXA.apps.Notes.XANotesAttachmentList.by_container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_container</span></code></a>(container)</p></td>
 <td><p></p></td>
@@ -1656,16 +1600,16 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesAttachmentList" title="PyXA.apps.Notes.XANotesAttachmentList"><span class="pre">XANotesAttachmentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAttachmentList.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAttachmentList.save" title="Permalink to this definition"></a></dt>
 <dd><p>Saves all attachments in the list in the specified directory.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> (<em>str</em>) – The directory to store the saved attachments in</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the attachment list object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAttachmentList" title="PyXA.apps.Notes.XANotesAttachmentList">XANotesAttachmentList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Save the attachments in currently selected notes to the downloads folder</p>
 </dd>
 </dl>
@@ -1694,35 +1638,27 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for interacting with documents in Notes.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocument.file" title="PyXA.apps.Notes.XANotesDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
-<td><p>The location of the document on the disk, if one exists</p></td>
+<td><p>The location of the document on the disk, if one exists.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocument.modified" title="PyXA.apps.Notes.XANotesDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
-<td><p>Whether the document has been modified since the last save</p></td>
+<td><p>Whether the document has been modified since the last save.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocument.name" title="PyXA.apps.Notes.XANotesDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the document</p></td>
+<td><p>The name of the document.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocument.get_clipboard_representation" title="PyXA.apps.Notes.XANotesDocument.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the document.</p></td>
@@ -1732,7 +1668,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesDocument.file">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesDocument.file" title="Permalink to this definition"></a></dt>
-<dd><p>The location of the document on the disk, if one exists</p>
+<dd><p>The location of the document on the disk, if one exists.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1741,10 +1677,10 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dd><p>Gets a clipboard-codable representation of the document.</p>
 <p>When the clipboard content is set to a document, the document’s name is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The name of the document</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -1756,13 +1692,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesDocument.modified">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesDocument.modified" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the document has been modified since the last save</p>
+<dd><p>Whether the document has been modified since the last save.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesDocument.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesDocument.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the document</p>
+<dd><p>The name of the document.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1770,17 +1706,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesDocumentList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesDocumentList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of documents.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocumentList.by_file" title="PyXA.apps.Notes.XANotesDocumentList.by_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file</span></code></a>(file)</p></td>
 <td><p></p></td>
@@ -1831,10 +1763,10 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dd><p>Gets a clipboard-codable representation of each document in the list.</p>
 <p>When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1858,7 +1790,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for interacting with Notes folders and their contents.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1872,31 +1804,23 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.container" title="PyXA.apps.Notes.XANotesFolder.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a></p></td>
-<td><p>The account the folder belongs to</p></td>
+<td><p>The account the folder belongs to.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.id" title="PyXA.apps.Notes.XANotesFolder.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the folder</p></td>
+<td><p>The unique identifier for the folder.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.name" title="PyXA.apps.Notes.XANotesFolder.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the folder</p></td>
+<td><p>The name of the folder.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.shared" title="PyXA.apps.Notes.XANotesFolder.shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared</span></code></a></p></td>
-<td><p>Whether the folder is shared</p></td>
+<td><p>Whether the folder is shared.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.delete" title="PyXA.apps.Notes.XANotesFolder.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
 <td><p>Permanently deletes the folder.</p></td>
@@ -1915,7 +1839,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.container">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><span class="pre">XANotesAccount</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.container" title="Permalink to this definition"></a></dt>
-<dd><p>The account the folder belongs to</p>
+<dd><p>The account the folder belongs to.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1933,10 +1857,10 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dd><p>Gets a clipboard-codable representation of the folder.</p>
 <p>When the clipboard content is set to a notes folder, the name of the folder is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The name of the notes folder</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -1948,13 +1872,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the folder</p>
+<dd><p>The unique identifier for the folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the folder</p>
+<dd><p>The name of the folder.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1962,13 +1886,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList"><span class="pre">XANoteList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.notes" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter notes by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of notes</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteList" title="PyXA.apps.Notes.XANoteList">XANoteList</a></p>
 </dd>
 </dl>
@@ -1983,7 +1907,7 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.shared">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.shared" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the folder is shared</p>
+<dd><p>Whether the folder is shared.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2000,17 +1924,13 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolderList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesFolderList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolderList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolderList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of Notes folders.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolderList.by_container" title="PyXA.apps.Notes.XANotesFolderList.by_container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_container</span></code></a>(container)</p></td>
 <td><p></p></td>
@@ -2083,10 +2003,10 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dd><p>Gets a clipboard-codable representation of each folder in the list.</p>
 <p>When the clipboard content is set to a list of folders, the name of each folder is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of folder names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2127,119 +2047,16 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.bounds" title="PyXA.apps.Notes.XANotesWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.closeable" title="PyXA.apps.Notes.XANotesWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.document" title="PyXA.apps.Notes.XANotesWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
-<td><p>The active document</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.id" title="PyXA.apps.Notes.XANotesWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.index" title="PyXA.apps.Notes.XANotesWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in front-to-back ordering</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.miniaturizable" title="PyXA.apps.Notes.XANotesWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.miniaturized" title="PyXA.apps.Notes.XANotesWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.name" title="PyXA.apps.Notes.XANotesWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The full title of the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.resizable" title="PyXA.apps.Notes.XANotesWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.visible" title="PyXA.apps.Notes.XANotesWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.zoomable" title="PyXA.apps.Notes.XANotesWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow.zoomed" title="PyXA.apps.Notes.XANotesWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
+<td><p>The active document.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.document">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Notes.XANotesDocument" title="PyXA.apps.Notes.XANotesDocument"><span class="pre">XANotesDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.document" title="Permalink to this definition"></a></dt>
-<dd><p>The active document</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in front-to-back ordering</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The full title of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
+<dd><p>The active document.</p>
 </dd></dl>
 
 </dd></dl>

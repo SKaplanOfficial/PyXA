@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working With Lists &mdash; PyXA 0.1.0 documentation</title>
+  <title>Working With Lists &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -86,9 +86,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorial</a> &raquo;</li>
-      <li>Working With Lists</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Working With Lists</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorial/lists.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -105,9 +105,9 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
-<span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
-<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
@@ -123,7 +123,7 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">photos</span> <span class="o">=</span> <span class="n">photos_app</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span>
@@ -142,7 +142,7 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">photos</span> <span class="o">=</span> <span class="n">photos_app</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span>
@@ -165,7 +165,7 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">notes</span> <span class="o">=</span> <span class="n">notes_app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
@@ -187,7 +187,7 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;artist&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;Adele&quot;</span><span class="p">)</span>
@@ -229,7 +229,7 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
 
 <span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
@@ -252,7 +252,7 @@
 <h2>Bulk Actions<a class="headerlink" href="#bulk-actions" title="Permalink to this heading"></a></h2>
 <p>In addition to improving the efficiency of automation workflows aiming to get values from numerous scriptable objects, <cite>~PyXA.XABase.XAList</cite> objects are a quick and convenient way to execute actions on many objects at a time. The available actions vary by object type. The script below uses this strategy to implement a rudimentary dark mode for Safari by setting the background of all tabs to black and their body text to white.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
 <span class="n">tabs</span> <span class="o">=</span> <span class="n">safari_app</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span>
 <span class="n">tabs</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="s2">&quot;document.body.style.backgroundColor = &#39;black&#39;; document.body.style.textColor = &#39;white&#39;;&quot;</span><span class="p">)</span>
 </pre></div>
@@ -262,7 +262,7 @@
 <h2>Adding New Elements<a class="headerlink" href="#adding-new-elements" title="Permalink to this heading"></a></h2>
 <p>The <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAList.push" title="PyXA.XABase.XAList.push"><code class="xref py py-func docutils literal notranslate"><span class="pre">push()</span></code></a> method allows you to add new elements to a scriptable object list, thereby creating a scriptable object. This can be used to create new notes, new tabs, new playlists, and so on.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
 <span class="n">new_doc</span> <span class="o">=</span> <span class="n">safari_app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.google.com&quot;</span><span class="p">})</span>
 <span class="n">safari_app</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
 </pre></div>

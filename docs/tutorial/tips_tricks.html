@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tips and Tricks &mdash; PyXA 0.1.0 documentation</title>
+  <title>Tips and Tricks &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -80,9 +80,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorial</a> &raquo;</li>
-      <li>Tips and Tricks</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Tips and Tricks</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorial/tips_tricks.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -95,7 +95,7 @@
   <section id="tips-and-tricks">
 <h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permalink to this heading"></a></h1>
 <ol class="arabic simple">
-<li><p>Know when and when not to chain commands. You might be tempted to use a batch operation such as <cite>PyXA.application(“Notes”).notes().plaintext()</cite> to obtain the text of each note, but then you will _only_ have the unicode text, not references to the note objects. If you’re going to need the note objects, you should store a reference to the list of notes in a separate variable, then run batch operations via that reference. On the other hand, you should make use of PyXA’s command chaining where reasonable to improve the overall clarity of your code and maintain its syntactic similarity to JXA.</p></li>
+<li><p>Know when and when not to chain commands. You might be tempted to use a batch operation such as <cite>PyXA.Application(“Notes”).notes().plaintext()</cite> to obtain the text of each note, but then you will _only_ have the unicode text, not references to the note objects. If you’re going to need the note objects, you should store a reference to the list of notes in a separate variable, then run batch operations via that reference. On the other hand, you should make use of PyXA’s command chaining where reasonable to improve the overall clarity of your code and maintain its syntactic similarity to JXA.</p></li>
 <li><p>Use <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> and its child classes whenever dealing with lists of PyXA objects. Bulk methods on <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> objects are often significantly faster (sometimes over 56x faster) than using non-bulk methods and regular iteration over a list.</p></li>
 </ol>
 </section>

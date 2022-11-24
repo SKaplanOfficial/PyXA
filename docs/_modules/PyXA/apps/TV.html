@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.TV &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.apps.TV &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.apps.TV</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.TV</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -137,10 +137,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sort_director</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The string used for this track when sorting by director</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">sort_director</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The string used for this track when sorting by director.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortDirector</span><span class="p">()</span>
 
     <span class="nd">@sort_director</span><span class="o">.</span><span class="n">setter</span>
@@ -152,8 +153,6 @@
 
 <div class="viewcode-block" id="XATVWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVWindow</span><span class="p">(</span><span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A windows of TV.app.</span>
-
-<span class="sd">    .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XAUtils Module &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="XAWeb Module" href="xaweb.html" />
+    <link rel="prev" title="XASpeech Module" href="xaspeech.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="xalearn.html">XALearn Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaspeech.html">XASpeech Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XAUtils Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.additions.XAUtils.SDEFParser"><code class="docutils literal notranslate"><span class="pre">SDEFParser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar"><code class="docutils literal notranslate"><span class="pre">XAMenuBar</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu"><code class="docutils literal notranslate"><span class="pre">XAMenuBarMenu</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem"><code class="docutils literal notranslate"><span class="pre">XAMenuBarMenuItem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xaweb.html">XAWeb Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">XAUtils Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/additions/xautils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.additions.XAUtils">
+<span id="xautils-module"></span><h1>XAUtils Module<a class="headerlink" href="#module-PyXA.additions.XAUtils" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+<p>A collection of classes for interacting with macOS features in various ways.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.SDEFParser" title="PyXA.additions.XAUtils.SDEFParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SDEFParser</span></code></a>(sdef_file)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar" title="PyXA.additions.XAUtils.XAMenuBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMenuBar</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMenuBarMenu</span></code></a>(title[, image, tooltip, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMenuBarMenuItem</span></code></a>(title[, action, args, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.SDEFParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.additions.XAUtils.</span></span><span class="sig-name descname"><span class="pre">SDEFParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sdef_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#SDEFParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.SDEFParser" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.SDEFParser.export" title="PyXA.additions.XAUtils.SDEFParser.export"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code></a>(output_file)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.SDEFParser.parse" title="PyXA.additions.XAUtils.SDEFParser.parse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.SDEFParser.file" title="PyXA.additions.XAUtils.SDEFParser.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
+<td><p>The full path to the SDEF file to parse</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.SDEFParser.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#SDEFParser.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.SDEFParser.export" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.SDEFParser.file">
+<span class="sig-name descname"><span class="pre">file</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.SDEFParser.file" title="Permalink to this definition"></a></dt>
+<dd><p>The full path to the SDEF file to parse</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.SDEFParser.parse">
+<span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#SDEFParser.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.SDEFParser.parse" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.additions.XAUtils.</span></span><span class="sig-name descname"><span class="pre">XAMenuBar</span></span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.add_item" title="PyXA.additions.XAUtils.XAMenuBar.add_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_item</span></code></a>(menu, item_name[, action, image, ...])</p></td>
+<td><p>Adds an item to a menu, creating the menu if necessary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.add_menu" title="PyXA.additions.XAUtils.XAMenuBar.add_menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_menu</span></code></a>(title[, image, tool_tip, ...])</p></td>
+<td><p>Adds a new menu to be displayed in the system menu bar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.display" title="PyXA.additions.XAUtils.XAMenuBar.display"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display</span></code></a>()</p></td>
+<td><p>Displays the custom menus on the menu bar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.new_menu" title="PyXA.additions.XAUtils.XAMenuBar.new_menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_menu</span></code></a>([title, image, tooltip, ...])</p></td>
+<td><p>Adds a new menu to be displayed in the system menu bar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.remove_menu" title="PyXA.additions.XAUtils.XAMenuBar.remove_menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_menu</span></code></a>(id)</p></td>
+<td><p>Removes a menu from the status bar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.set_image" title="PyXA.additions.XAUtils.XAMenuBar.set_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_image</span></code></a>(item_name, image[, img_width, ...])</p></td>
+<td><p>Sets the image displayed for a menu or menu item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.set_text" title="PyXA.additions.XAUtils.XAMenuBar.set_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_text</span></code></a>(item_name, text)</p></td>
+<td><p>Sets the text displayed for a menu or menu item.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.menus" title="PyXA.additions.XAUtils.XAMenuBar.menus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menus</span></code></a></p></td>
+<td><p>The menus to be displayed in the status bar, keyed by ID</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.add_item">
+<span class="sig-name descname"><span class="pre">add_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.add_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.add_item" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an item to a menu, creating the menu if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>menu</strong> (<em>str</em>) – The name of the menu to add an item to, or the name of the menu to create</p></li>
+<li><p><strong>item_name</strong> (<em>str</em>) – The name of the item</p></li>
+<li><p><strong>action</strong> (<em>Callable</em><em>[</em><em>[</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The method to associate with the item (the method called when the item is clicked)</p></li>
+<li><p><strong>image</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XABase.XAImage</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The image for the item, defaults to None</p></li>
+<li><p><strong>img_width</strong> (<em>int</em><em>, </em><em>optional</em>) – The width of image, in pixels, defaults to 30</p></li>
+<li><p><strong>img_height</strong> (<em>int</em><em>, </em><em>optional</em>) – The height of the image, in pixels, defaults to 30</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_menu</span><span class="p">(</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">,</span> <span class="n">item_name</span><span class="o">=</span><span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 1&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">,</span> <span class="n">item_name</span><span class="o">=</span><span class="s2">&quot;Item 2&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 2&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="s2">&quot;Menu 2&quot;</span><span class="p">,</span> <span class="n">item_name</span><span class="o">=</span><span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 1&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Downloads/example.jpg&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="s2">&quot;Menu 2&quot;</span><span class="p">,</span> <span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 1&quot;</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">img_width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.1.1: </span>Use <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.new_item" title="PyXA.additions.XAUtils.XAMenuBarMenu.new_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">XAMenuBarMenu.new_item()</span></code></a> instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.add_menu">
+<span class="sig-name descname"><span class="pre">add_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_tip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.add_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.add_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a new menu to be displayed in the system menu bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – The name of the menu</p></li>
+<li><p><strong>image</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XABase.XAImage</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The image to display for the menu, defaults to None</p></li>
+<li><p><strong>tool_tip</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The tooltip to display on hovering over the menu, defaults to None</p></li>
+<li><p><strong>img_width</strong> (<em>int</em><em>, </em><em>optional</em>) – The width of the image, in pixels, defaults to 30</p></li>
+<li><p><strong>img_height</strong> (<em>int</em><em>, </em><em>optional</em>) – The height of the image, in pixels, defaults to 30</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Blackness.jpg&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_menu</span><span class="p">(</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">img_width</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">img_height</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.1.1: </span>Use <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBar.new_menu" title="PyXA.additions.XAUtils.XAMenuBar.new_menu"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_menu()</span></code></a> instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.display" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the custom menus on the menu bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="s2">&quot;🔥&quot;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Fire&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="s2">&quot;💧&quot;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Water&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.menus">
+<span class="sig-name descname"><span class="pre">menus</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.menus" title="Permalink to this definition"></a></dt>
+<dd><p>The menus to be displayed in the status bar, keyed by ID</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.new_menu">
+<span class="sig-name descname"><span class="pre">new_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(30,</span> <span class="pre">30)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu"><span class="pre">XAMenuBarMenu</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu"><span class="pre">XAMenuBarMenu</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.new_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.new_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a new menu to be displayed in the system menu bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The title text of the menu, defaults to None</p></li>
+<li><p><strong>image</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XABase.XAImage</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The image to display for the menu, defaults to None</p></li>
+<li><p><strong>tooltip</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The tooltip to display on hovering over the menu, defaults to None</p></li>
+<li><p><strong>image_dimensions</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The width and height of the image, in pixels, defaults to (30, 30)</p></li>
+<li><p><strong>action</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu"><em>XAMenuBarMenu</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The method, if any, to associate with the menu (the method called when the menu is opened), defaults to None</p></li>
+<li><p><strong>id</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – A unique identifier for the menu, or None to use the title, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created menu object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu">XAMenuBarMenu</a></p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">emojis</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;😀&quot;</span><span class="p">,</span> <span class="s2">&quot;😍&quot;</span><span class="p">,</span> <span class="s2">&quot;🙂&quot;</span><span class="p">,</span> <span class="s2">&quot;😎&quot;</span><span class="p">,</span> <span class="s2">&quot;🤩&quot;</span><span class="p">,</span> <span class="s2">&quot;🤯&quot;</span><span class="p">,</span> <span class="s2">&quot;😭&quot;</span><span class="p">,</span> <span class="s2">&quot;😱&quot;</span><span class="p">,</span> <span class="s2">&quot;😴&quot;</span><span class="p">,</span> <span class="s2">&quot;🤒&quot;</span><span class="p">,</span> <span class="s2">&quot;😈&quot;</span><span class="p">,</span> <span class="s2">&quot;🤠&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">emoji_bar</span> <span class="o">=</span> <span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">update_display</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">new_emoji</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">emojis</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">emoji_bar</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">new_emoji</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">update_display</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.remove_menu">
+<span class="sig-name descname"><span class="pre">remove_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.remove_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.remove_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Removes a menu from the status bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The ID of the menu to remove</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.set_image">
+<span class="sig-name descname"><span class="pre">set_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.set_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.set_image" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the image displayed for a menu or menu item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_name</strong> (<em>str</em>) – The name of the item to update</p></li>
+<li><p><strong>image</strong> (<a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XAImage</em></a>) – The image to display</p></li>
+<li><p><strong>img_width</strong> (<em>int</em><em>, </em><em>optional</em>) – The width of the image, in pixels, defaults to 30</p></li>
+<li><p><strong>img_height</strong> (<em>int</em><em>, </em><em>optional</em>) – The height of the image, in pixels, defaults to 30</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set Image on State Change</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">current_state</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># On</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_on</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Documents/on.jpg&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_off</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Documents/off.jpg&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">add_menu</span><span class="p">(</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img_on</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">update_state</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">global</span> <span class="n">current_state</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="n">current_state</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="c1"># ... (Actions for turning off)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">menu_bar</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Turn off&quot;</span><span class="p">,</span> <span class="s2">&quot;Turn on&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">menu_bar</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">img_off</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">current_state</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="c1"># ... (Actions for turning on)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">menu_bar</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Turn off&quot;</span><span class="p">,</span> <span class="s2">&quot;Turn off&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">menu_bar</span><span class="o">.</span><span class="n">set_image</span><span class="p">(</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">img_on</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">current_state</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>menu_bar.add_item(“Status”, “Turn off”, update_state)
+menu_bar.display()</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.1.1: </span>Set the <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.image" title="PyXA.additions.XAUtils.XAMenuBarMenu.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">XAMenuBarMenu.image</span></code></a> and <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.image" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">XAMenuBarMenuItem.image</span></code></a> attributes directly instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBar.set_text">
+<span class="sig-name descname"><span class="pre">set_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBar.set_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBar.set_text" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the text displayed for a menu or menu item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_name</strong> (<em>str</em>) – The name of the item to update</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – The new text to display</p></li>
+</ul>
+</dd>
+</dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.1.1: </span>Set the <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.title" title="PyXA.additions.XAUtils.XAMenuBarMenu.title"><code class="xref py py-attr docutils literal notranslate"><span class="pre">XAMenuBarMenu.title</span></code></a> and <a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.title" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.title"><code class="xref py py-attr docutils literal notranslate"><span class="pre">XAMenuBarMenuItem.title</span></code></a> attributes directly instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.additions.XAUtils.</span></span><span class="sig-name descname"><span class="pre">XAMenuBarMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tooltip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(30,</span> <span class="pre">30)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="PyXA.additions.XAUtils.XAMenuBarMenu"><span class="pre">XAMenuBarMenu</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.action" title="PyXA.additions.XAUtils.XAMenuBarMenu.action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">action</span></code></a></p></td>
+<td><p>The method to call when the menu is opened</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.id" title="PyXA.additions.XAUtils.XAMenuBarMenu.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier for the menu</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.image" title="PyXA.additions.XAUtils.XAMenuBarMenu.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a></p></td>
+<td><p>The image associated with the menu.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.image_dimensions" title="PyXA.additions.XAUtils.XAMenuBarMenu.image_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_dimensions</span></code></a></p></td>
+<td><p>The width and height of the menu's image, in pixels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.items" title="PyXA.additions.XAUtils.XAMenuBarMenu.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a></p></td>
+<td><p>The menu items, keyed by their IDs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.title" title="PyXA.additions.XAUtils.XAMenuBarMenu.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The title text of the menu.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.tooltip" title="PyXA.additions.XAUtils.XAMenuBarMenu.tooltip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tooltip</span></code></a></p></td>
+<td><p>The tooltip that appears when hovering over the menu.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.add_separator" title="PyXA.additions.XAUtils.XAMenuBarMenu.add_separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_separator</span></code></a>([id])</p></td>
+<td><p>Adds a separator to the menu at the current insertion point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.new_item" title="PyXA.additions.XAUtils.XAMenuBarMenu.new_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_item</span></code></a>([title, action, args, image, ...])</p></td>
+<td><p>Creates a new menu item and adds it to this menu at the current insertion point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenu.remove_item" title="PyXA.additions.XAUtils.XAMenuBarMenu.remove_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_item</span></code></a>(id)</p></td>
+<td><p>Removes an item from this menu.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.action">
+<span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.action" title="Permalink to this definition"></a></dt>
+<dd><p>The method to call when the menu is opened</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.add_separator">
+<span class="sig-name descname"><span class="pre">add_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><span class="pre">XAMenuBarMenuItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenu.add_separator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.add_separator" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a separator to the menu at the current insertion point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – A unique identifier for the separator, defaults to None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created separator menu item object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem">XAMenuBarMenuItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.id" title="Permalink to this definition"></a></dt>
+<dd><p>The unique identifier for the menu</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.image">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.image" title="Permalink to this definition"></a></dt>
+<dd><p>The image associated with the menu.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.image_dimensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image_dimensions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.image_dimensions" title="Permalink to this definition"></a></dt>
+<dd><p>The width and height of the menu’s image, in pixels.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.items">
+<span class="sig-name descname"><span class="pre">items</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.items" title="Permalink to this definition"></a></dt>
+<dd><p>The menu items, keyed by their IDs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.new_item">
+<span class="sig-name descname"><span class="pre">new_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(20,</span> <span class="pre">20)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><span class="pre">XAMenuBarMenuItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenu.new_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.new_item" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new menu item and adds it to this menu at the current insertion point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The title text of the item, defaults to None</p></li>
+<li><p><strong>action</strong> (<em>Union</em><em>[</em><em>Callable</em><em>[</em><em>[</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The method to call when the item is clicked, defaults to None</p></li>
+<li><p><strong>args</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The arguments to pass to the action method upon execution, defaults to None</p></li>
+<li><p><strong>image</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XABase.XAImage</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The image for the item, defaults to None</p></li>
+<li><p><strong>image_dimensions</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The width and height of the image, in pixels, defaults to (20, 20)</p></li>
+<li><p><strong>id</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – A unique identifier for the item, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created menu item object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem">XAMenuBarMenuItem</a></p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img1</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="o">.</span><span class="n">red</span><span class="p">()</span><span class="o">.</span><span class="n">make_swatch</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img2</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;https://avatars.githubusercontent.com/u/7865925?v=4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img3</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">symbol</span><span class="p">(</span><span class="s2">&quot;flame.circle&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 1&quot;</span><span class="p">),</span> <span class="p">[],</span> <span class="n">img1</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;Item 2&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 2&quot;</span><span class="p">),</span> <span class="p">[],</span> <span class="n">img2</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span> <span class="o">=</span> <span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="s2">&quot;Menu 2&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;Item 1&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Action 3&quot;</span><span class="p">),</span> <span class="n">image</span><span class="o">=</span><span class="n">img3</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.remove_item">
+<span class="sig-name descname"><span class="pre">remove_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenu.remove_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.remove_item" title="Permalink to this definition"></a></dt>
+<dd><p>Removes an item from this menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The ID of the item to remove</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.title" title="Permalink to this definition"></a></dt>
+<dd><p>The title text of the menu.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenu.tooltip">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tooltip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenu.tooltip" title="Permalink to this definition"></a></dt>
+<dd><p>The tooltip that appears when hovering over the menu.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.additions.XAUtils.</span></span><span class="sig-name descname"><span class="pre">XAMenuBarMenuItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><span class="pre">XAMenuBarMenuItem</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(20,</span> <span class="pre">20)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenuItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.action" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">action</span></code></a></p></td>
+<td><p>The method to call when this menu item is clicked</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.args" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">args</span></code></a></p></td>
+<td><p>The arguments to pass to the action method upon execution</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.enabled" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a></p></td>
+<td><p>Whether the menu item is enabled (vs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.id" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the item</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.image" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a></p></td>
+<td><p>The image associated with the menu item.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.image_dimensions" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.image_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_dimensions</span></code></a></p></td>
+<td><p>The width and height of the menu item's image, in pixels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.indent" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.indent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">indent</span></code></a></p></td>
+<td><p>The level of indentation of the menu item, from 0 to 15.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.title" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The title text of the menu item.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.new_subitem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.new_subitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_subitem</span></code></a>([title, action, args, image, ...])</p></td>
+<td><p>Creates a new menu item and places it in a submenu of this item.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.remove_subitem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem.remove_subitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_subitem</span></code></a>(id)</p></td>
+<td><p>Removes a subitem from this item's submenu.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.action">
+<span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.action" title="Permalink to this definition"></a></dt>
+<dd><p>The method to call when this menu item is clicked</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.args" title="Permalink to this definition"></a></dt>
+<dd><p>The arguments to pass to the action method upon execution</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.enabled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.enabled" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the menu item is enabled (vs. appearing grayed out).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.id" title="Permalink to this definition"></a></dt>
+<dd><p>The unique identifier of the item</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.image">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.image" title="Permalink to this definition"></a></dt>
+<dd><p>The image associated with the menu item.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.image_dimensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image_dimensions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.image_dimensions" title="Permalink to this definition"></a></dt>
+<dd><p>The width and height of the menu item’s image, in pixels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.indent">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.indent" title="Permalink to this definition"></a></dt>
+<dd><p>The level of indentation of the menu item, from 0 to 15.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.new_subitem">
+<span class="sig-name descname"><span class="pre">new_subitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><span class="pre">XAMenuBarMenuItem</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_dimensions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(20,</span> <span class="pre">20)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><span class="pre">XAMenuBarMenuItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenuItem.new_subitem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.new_subitem" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new menu item and places it in a submenu of this item.</p>
+<p>This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The title text of the item, defaults to None</p></li>
+<li><p><strong>action</strong> (<em>Union</em><em>[</em><em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem"><em>XAMenuBarMenuItem</em></a><em>, </em><em>Any</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The method called when the item is clicked, defaults to None</p></li>
+<li><p><strong>args</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The arguments to pass to the action method upon execution, defaults to None</p></li>
+<li><p><strong>image</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XABase.XAImage</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The image for the item, defaults to None</p></li>
+<li><p><strong>image_dimensions</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The width and height of the image, in pixels, defaults to (20, 20)</p></li>
+<li><p><strong>id</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – A unique identifier for the item, or None to use the title, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created menu item</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem" title="PyXA.additions.XAUtils.XAMenuBarMenuItem">XAMenuBarMenuItem</a></p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">menu_bar</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="s2">&quot;Menu 1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i1</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;Item 1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i2</span> <span class="o">=</span> <span class="n">i1</span><span class="o">.</span><span class="n">new_subitem</span><span class="p">(</span><span class="s2">&quot;Item 1.1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i3</span> <span class="o">=</span> <span class="n">i2</span><span class="o">.</span><span class="n">new_subitem</span><span class="p">(</span><span class="s2">&quot;Item 1.1.1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i4</span> <span class="o">=</span> <span class="n">i3</span><span class="o">.</span><span class="n">new_subitem</span><span class="p">(</span><span class="s2">&quot;Item 1.1.1.1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">menu_bar</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.remove_subitem">
+<span class="sig-name descname"><span class="pre">remove_subitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XAUtils.html#XAMenuBarMenuItem.remove_subitem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.remove_subitem" title="Permalink to this definition"></a></dt>
+<dd><p>Removes a subitem from this item’s submenu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – The ID of the subitem to remove</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.additions.XAUtils.XAMenuBarMenuItem.title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.additions.XAUtils.XAMenuBarMenuItem.title" title="Permalink to this definition"></a></dt>
+<dd><p>The title text of the menu item.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xaspeech.html" class="btn btn-neutral float-left" title="XASpeech Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xaweb.html" class="btn btn-neutral float-right" title="XAWeb Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

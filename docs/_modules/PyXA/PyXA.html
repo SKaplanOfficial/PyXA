@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.PyXA &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.PyXA &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.PyXA</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.PyXA</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -84,12 +84,20 @@
 
 <span class="kn">from</span> <span class="nn">.XAErrors</span> <span class="kn">import</span> <span class="n">ApplicationNotFoundError</span>
 
-<span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1.0&quot;</span> <span class="c1">#: The installed version of PyXA</span>
+<span class="n">supported_applications</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">application_classes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;A list of names of supported scriptable applications</span>
 
-<span class="n">supported_applications</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">application_classes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="c1">#: A list of names of supported scriptable applications</span>
+<span class="sd">.. deprecated:: 0.1.1</span>
+
+<span class="sd">   Use :attr:`XABase.supported_applications` instead.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="XAApplicationList"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList">[docs]</a><span class="k">class</span> <span class="nc">XAApplicationList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of applications.</span>
+
+<span class="sd">    .. deprecated:: 0.1.1</span>
+<span class="sd">    </span>
+<span class="sd">       Use :class:`XABase.XAApplicationList` instead.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -294,6 +302,11 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">localized_name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 <div class="viewcode-block" id="Application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.Application">[docs]</a><span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. deprecated:: 0.1.1</span>
+<span class="sd">    </span>
+<span class="sd">       Use :class:`XABase.Application` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_shared_app</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_workspace</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">app_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#: A list containing the path to each application</span>
@@ -426,6 +439,10 @@
 
 <span class="sd">    This class contains methods that specialize to XAWindow and XASBWindow methods as necessary.</span>
 
+<span class="sd">    .. deprecated:: 0.1.1</span>
+<span class="sd">    </span>
+<span class="sd">       Use :class:`XABase.XACombinedWindowList` instead.</span>
+
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -482,6 +499,10 @@
 <span class="sd">    &gt;&gt;&gt; apps = PyXA.running_applications()</span>
 <span class="sd">    &gt;&gt;&gt; print(apps.localized_name())</span>
 <span class="sd">    [&#39;GitHub Desktop&#39;, &#39;Safari&#39;, &#39;Code&#39;, &#39;Terminal&#39;, &#39;Notes&#39;, &#39;Messages&#39;, &#39;TV&#39;]</span>
+
+<span class="sd">    .. deprecated:: 0.1.1</span>
+<span class="sd">    </span>
+<span class="sd">       Use :func:`XABase.running_applications` instead.</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -503,6 +524,10 @@
 
 <span class="sd">    :return: A PyXA application object referencing the current application.</span>
 <span class="sd">    :rtype: XAApplication</span>
+
+<span class="sd">    .. deprecated:: 0.1.1</span>
+<span class="sd">    </span>
+<span class="sd">       Use :func:`XABase.current_application` instead.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>

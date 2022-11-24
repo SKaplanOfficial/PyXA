@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculator Module Overview &mdash; PyXA 0.1.0 documentation</title>
+  <title>Calculator Module Overview &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -84,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
-          <li><a href="../index.html">Application Module Overviews</a> &raquo;</li>
-      <li>Calculator Module Overview</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Calculator Module Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/tutorial/apps/calculator/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,18 +99,18 @@
              
   <section id="calculator-module-overview">
 <h1>Calculator Module Overview<a class="headerlink" href="#calculator-module-overview" title="Permalink to this heading"></a></h1>
-<div class="contents local topic" id="table-of-contents">
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials" id="id1">Tutorials</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id2">Examples</a></p>
+<li><p><a class="reference internal" href="#calculator-tutorials" id="id1">Calculator Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#calculator-examples" id="id2">Calculator Examples</a></p>
 <ul>
 <li><p><a class="reference internal" href="#example-1-performing-operations-in-calculator-app" id="id3">Example 1 - Performing Operations in Calculator.app</a></p></li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="#calculator-resources" id="id4">Calculator Resources</a></p></li>
 </ul>
-</div>
+</nav>
 <p>PyXA enables limited scripting functionalities in Calculator.app, despite no official scripting support for it. Currently, the calculator’s scripting functionalities are entirely supported by UI scripting, however additional features are planned for future development work.</p>
 <p>Using <code class="xref py py-func docutils literal notranslate"><span class="pre">XACalculatorApplication.input()</span></code>, you can command the Calculator to execute a sequence of button clicks. The sequence must be a continuous string (no spaces). The valid characters are numbers <cite>0-9</cite>, <cite>+</cite>, <cite>-</cite>, <cite>*</cite>, <cite>/</cite>, <cite>%</cite>, <cite>~</cite>, <cite>=</cite>, and <cite>c</cite>. Their meanings are as follows:</p>
 <blockquote>
@@ -122,16 +122,16 @@
 <li><p><cite>c</cite> denotes the clear button.</p></li>
 </ul>
 </div></blockquote>
-<section id="tutorials">
-<h2><a class="toc-backref" href="#id1">Tutorials</a><a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h2>
+<section id="calculator-tutorials">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Calculator Tutorials</a><a class="headerlink" href="#calculator-tutorials" title="Permalink to this heading"></a></h2>
 <p>There are currently no tutorials for working with the Calculator application.</p>
 </section>
-<section id="examples">
-<h2><a class="toc-backref" href="#id2">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<section id="calculator-examples">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Calculator Examples</a><a class="headerlink" href="#calculator-examples" title="Permalink to this heading"></a></h2>
 <p>The examples below provide an overview of the capabilities of the Calculator module. They do not provide any output.
-.. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="../calendar/index.html#tutorials"><span class="std std-ref">Tutorials</span></a>).</p>
+.. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<span class="xref std std-ref">Tutorials</span>).</p>
 <section id="example-1-performing-operations-in-calculator-app">
-<h3><a class="toc-backref" href="#id3">Example 1 - Performing Operations in Calculator.app</a><a class="headerlink" href="#example-1-performing-operations-in-calculator-app" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Example 1 - Performing Operations in Calculator.app</a><a class="headerlink" href="#example-1-performing-operations-in-calculator-app" title="Permalink to this heading"></a></h3>
 <p>This example uses <code class="xref py py-func docutils literal notranslate"><span class="pre">XACalculatorApplication.input()</span></code> to calculate the result of an expression, then retrieves the result using <code class="xref py py-func docutils literal notranslate"><span class="pre">XACalculatorApplication.current_value()</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="linenos">2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calculator&quot;</span><span class="p">)</span>
@@ -143,7 +143,7 @@
 </section>
 </section>
 <section id="calculator-resources">
-<h2><a class="toc-backref" href="#id4">Calculator Resources</a><a class="headerlink" href="#calculator-resources" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Calculator Resources</a><a class="headerlink" href="#calculator-resources" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://support.apple.com/guide/calculator/welcome/mac">Calculator User Guide - Apple Support</a></p></li>
 </ul>

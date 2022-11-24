@@ -12,8 +12,8 @@ Safari Tutorials
 ##################
 There are currently no tutorials for the Safari module.
 
-Examples
-########
+Safari Examples
+###############
 The examples below provide an overview of the capabilities of the Safari module. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Safari Tutorials`).
 
 Example 1 - Using Safari Methods and Attributes

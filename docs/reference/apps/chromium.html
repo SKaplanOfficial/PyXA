@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chromium Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Chromium Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
@@ -73,6 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -91,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Chromium Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Chromium Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/chromium.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -111,10 +111,6 @@
 <p>Control Chromium using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication" title="PyXA.apps.Chromium.XAChromiumApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAChromiumApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with Chromium.app.</p></td>
@@ -145,7 +141,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
 <p>A class for managing and interacting with Chromium.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -156,10 +152,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders" title="PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmark_folders</span></code></a>([filter])</p></td>
 <td><p>Returns a list of bookmark folders, as PyXA objects, matching the given filter.</p></td>
@@ -180,25 +172,21 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar" title="PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmarks_bar</span></code></a></p></td>
-<td><p>The bookmarks bar bookmark folder</p></td>
+<td><p>The bookmarks bar bookmark folder.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.frontmost" title="PyXA.apps.Chromium.XAChromiumApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether Chromium is the active application</p></td>
+<td><p>Whether Chromium is the active application.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.name" title="PyXA.apps.Chromium.XAChromiumApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
+<td><p>The name of the application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks" title="PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">other_bookmarks</span></code></a></p></td>
-<td><p>The other bookmarks bookmark folder</p></td>
+<td><p>The other bookmarks bookmark folder.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication.version" title="PyXA.apps.Chromium.XAChromiumApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version of Chromium</p></td>
+<td><p>The version of Chromium.app.</p></td>
 </tr>
 </tbody>
 </table>
@@ -207,13 +195,13 @@
 <span class="sig-name descname"><span class="pre">bookmark_folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList" title="PyXA.apps.Chromium.XAChromiumBookmarkFolderList"><span class="pre">XAChromiumBookmarkFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumApplication.bookmark_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of bookmark folders, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter folders by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of bookmark folders</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList" title="PyXA.apps.Chromium.XAChromiumBookmarkFolderList">XAChromiumBookmarkFolderList</a></p>
 </dd>
 </dl>
@@ -225,13 +213,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bookmarks_bar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder"><span class="pre">XAChromiumBookmarkFolder</span></a></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar" title="Permalink to this definition"></a></dt>
-<dd><p>The bookmarks bar bookmark folder</p>
+<dd><p>The bookmarks bar bookmark folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether Chromium is the active application</p>
+<dd><p>Whether Chromium is the active application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -240,16 +228,16 @@
 <dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
 <li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA wrapped form of the object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
 </dd>
 </dl>
@@ -265,7 +253,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
+<dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -273,13 +261,13 @@
 <span class="sig-name descname"><span class="pre">new_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumApplication.new_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.new_tab" title="Permalink to this definition"></a></dt>
 <dd><p>Opens a new tab at the specified URL.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>url</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><em>XABase.XAURL</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The URL to open in a new tab, or None to open the tab at the homepage, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The newly created tab object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a></p>
 </dd>
 </dl>
@@ -297,13 +285,13 @@
 <span class="sig-name descname"><span class="pre">new_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow"><span class="pre">XAChromiumWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumApplication.new_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.new_window" title="Permalink to this definition"></a></dt>
 <dd><p>Opens a new window at the specified URL.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>url</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><em>XABase.XAURL</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The URL to open in a new window, or None to open the window at the homepage, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The newly created window object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow">XAChromiumWindow</a></p>
 </dd>
 </dl>
@@ -321,16 +309,16 @@
 <span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://google.com'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication" title="PyXA.apps.Chromium.XAChromiumApplication"><span class="pre">XAChromiumApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumApplication.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.open" title="Permalink to this definition"></a></dt>
 <dd><p>Opens a URL in a new tab.</p>
 <dl class="field-list">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>url</strong> (<em>str</em><em>, </em><em>optional</em>) – _description_, defaults to “<a class="reference external" href="http://google.com">http://google.com</a>”</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the Chromium application object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumApplication" title="PyXA.apps.Chromium.XAChromiumApplication">XAChromiumApplication</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Open a local or external URL</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Chromium&quot;</span><span class="p">)</span>
@@ -349,13 +337,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">other_bookmarks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder"><span class="pre">XAChromiumBookmarkFolder</span></a></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks" title="Permalink to this definition"></a></dt>
-<dd><p>The other bookmarks bookmark folder</p>
+<dd><p>The other bookmarks bookmark folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumApplication.version">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version of Chromium</p>
+<dd><p>The version of Chromium.app.</p>
 </dd></dl>
 
 </dd></dl>
@@ -363,7 +351,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkFolder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumBookmarkFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with bookmark folders in Chromium.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -374,10 +362,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_folders" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmark_folders</span></code></a>([filter])</p></td>
 <td><p>Returns a list of bookmark folders, as PyXA objects, matching the given filter.</p></td>
@@ -395,19 +379,15 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.id" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the bookmark folder</p></td>
+<td><p>The unique identifier for the bookmark folder.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.index" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the bookmark folder with respect to its parent folder</p></td>
+<td><p>The index of the bookmark folder with respect to its parent folder.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.title" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p>The name of the bookmark folder</p></td>
+<td><p>The name of the bookmark folder.</p></td>
 </tr>
 </tbody>
 </table>
@@ -416,13 +396,13 @@
 <span class="sig-name descname"><span class="pre">bookmark_folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList" title="PyXA.apps.Chromium.XAChromiumBookmarkFolderList"><span class="pre">XAChromiumBookmarkFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolder.bookmark_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_folders" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of bookmark folders, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter folders by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of bookmark folders</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList" title="PyXA.apps.Chromium.XAChromiumBookmarkFolderList">XAChromiumBookmarkFolderList</a></p>
 </dd>
 </dl>
@@ -436,13 +416,13 @@
 <span class="sig-name descname"><span class="pre">bookmark_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList" title="PyXA.apps.Chromium.XAChromiumBookmarkItemList"><span class="pre">XAChromiumBookmarkItemList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolder.bookmark_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of bookmark items, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter items by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of bookmark items</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList" title="PyXA.apps.Chromium.XAChromiumBookmarkItemList">XAChromiumBookmarkItemList</a></p>
 </dd>
 </dl>
@@ -466,10 +446,10 @@
 <dd><p>Gets a clipboard-codable representation of the bookmark folder.</p>
 <p>When the clipboard content is set to a bookmark folder, the folders’s title is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The bookmark folders’s title</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -481,19 +461,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkFolder.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the bookmark folder</p>
+<dd><p>The unique identifier for the bookmark folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkFolder.index">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the bookmark folder with respect to its parent folder</p>
+<dd><p>The index of the bookmark folder with respect to its parent folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkFolder.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder.title" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the bookmark folder</p>
+<dd><p>The name of the bookmark folder.</p>
 </dd></dl>
 
 </dd></dl>
@@ -501,7 +481,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkFolderList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumBookmarkFolderList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of bookmark folders.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -512,10 +492,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.by_id" title="PyXA.apps.Chromium.XAChromiumBookmarkFolderList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
 <td><p>Retrieves the bookmark folder whose ID matches the given ID, if one exists.</p></td>
@@ -545,10 +521,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder"><span class="pre">XAChromiumBookmarkFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the bookmark folder whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark folder, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder">XAChromiumBookmarkFolder</a>, None]</p>
 </dd>
 </dl>
@@ -562,10 +538,10 @@
 <span class="sig-name descname"><span class="pre">by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder"><span class="pre">XAChromiumBookmarkFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.by_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.by_index" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the bookmark folder whose index matches the given index, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark folder, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder">XAChromiumBookmarkFolder</a>, None]</p>
 </dd>
 </dl>
@@ -579,10 +555,10 @@
 <span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder"><span class="pre">XAChromiumBookmarkFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.by_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first bookmark folder whose title matches the given title, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark folder, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolder" title="PyXA.apps.Chromium.XAChromiumBookmarkFolder">XAChromiumBookmarkFolder</a>, None]</p>
 </dd>
 </dl>
@@ -597,10 +573,10 @@
 <dd><p>Gets a clipboard-codable representation of each bookmark folder in the list.</p>
 <p>When the clipboard content is set to a list of bookmark folders, each folder’s title is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of each bookmark folder’s title</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -614,10 +590,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each bookmark folder in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of bookmark folder IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -631,10 +607,10 @@
 <span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.index" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the index of each bookmark folder in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of indexes</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -648,10 +624,10 @@
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkFolderList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the title of each bookmark folder in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of bookmark folder titles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -665,7 +641,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumBookmarkItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with bookmarks in Chromium.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -676,10 +652,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.delete" title="PyXA.apps.Chromium.XAChromiumBookmarkItem.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
 <td><p>Permanently deletes the bookmark.</p></td>
@@ -691,22 +663,18 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.id" title="PyXA.apps.Chromium.XAChromiumBookmarkItem.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the bookmark item</p></td>
+<td><p>The unique identifier for the bookmark item.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.index" title="PyXA.apps.Chromium.XAChromiumBookmarkItem.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the item with respect to its parent folder</p></td>
+<td><p>The index of the item with respect to its parent folder.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.title" title="PyXA.apps.Chromium.XAChromiumBookmarkItem.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p>The title of the bookmark item</p></td>
+<td><p>The title of the bookmark item.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.url" title="PyXA.apps.Chromium.XAChromiumBookmarkItem.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The URL of the bookmark</p></td>
+<td><p>The URL of the bookmark.</p></td>
 </tr>
 </tbody>
 </table>
@@ -725,10 +693,10 @@
 <dd><p>Gets a clipboard-codable representation of the bookmark item.</p>
 <p>When the clipboard content is set to a bookmark item, the item’s title and URL are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The bookmark items’s title and URL</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[str, AppKit.NSURL]]</p>
 </dd>
 </dl>
@@ -740,25 +708,25 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItem.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the bookmark item</p>
+<dd><p>The unique identifier for the bookmark item.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItem.index">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the item with respect to its parent folder</p>
+<dd><p>The index of the item with respect to its parent folder.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItem.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.title" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the bookmark item</p>
+<dd><p>The title of the bookmark item.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItem.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem.url" title="Permalink to this definition"></a></dt>
-<dd><p>The URL of the bookmark</p>
+<dd><p>The URL of the bookmark.</p>
 </dd></dl>
 
 </dd></dl>
@@ -766,7 +734,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumBookmarkItemList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumBookmarkItemList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of bookmark items.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -777,10 +745,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_id" title="PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
 <td><p>Retrieves the bookmark item whose ID matches the given ID, if one exists.</p></td>
@@ -816,10 +780,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem"><span class="pre">XAChromiumBookmarkItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the bookmark item whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem">XAChromiumBookmarkItem</a>, None]</p>
 </dd>
 </dl>
@@ -833,10 +797,10 @@
 <span class="sig-name descname"><span class="pre">by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem"><span class="pre">XAChromiumBookmarkItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.by_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_index" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the bookmark item whose index matches the given index, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem">XAChromiumBookmarkItem</a>, None]</p>
 </dd>
 </dl>
@@ -850,10 +814,10 @@
 <span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem"><span class="pre">XAChromiumBookmarkItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first bookmark item whose title matches the given title, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem">XAChromiumBookmarkItem</a>, None]</p>
 </dd>
 </dl>
@@ -867,10 +831,10 @@
 <span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem"><span class="pre">XAChromiumBookmarkItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.by_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first bookmark item whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired bookmark item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumBookmarkItem" title="PyXA.apps.Chromium.XAChromiumBookmarkItem">XAChromiumBookmarkItem</a>, None]</p>
 </dd>
 </dl>
@@ -885,10 +849,10 @@
 <dd><p>Gets a clipboard-codable representation of each bookmark item in the list.</p>
 <p>When the clipboard content is set to a list of bookmark items, each item’s title and URL are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of each bookmark items’s title and URL</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[str, AppKit.NSURL]]</p>
 </dd>
 </dl>
@@ -902,10 +866,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of bookmark item IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -919,10 +883,10 @@
 <span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.index" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the index of each item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of indexes</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -936,10 +900,10 @@
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the title of each item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of bookmark item titles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -953,10 +917,10 @@
 <span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumBookmarkItemList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumBookmarkItemList.url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the url of each item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of bookmark item URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -970,7 +934,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with Chromium tabs.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -981,10 +945,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab.close" title="PyXA.apps.Chromium.XAChromiumTab.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
 <td><p>Closes the tab.</p></td>
@@ -1044,22 +1004,18 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab.id" title="PyXA.apps.Chromium.XAChromiumTab.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The unique identifier for the tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab.loading" title="PyXA.apps.Chromium.XAChromiumTab.loading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loading</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Is the tab currently loading?</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab.title" title="PyXA.apps.Chromium.XAChromiumTab.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The title of the tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab.url" title="PyXA.apps.Chromium.XAChromiumTab.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The URL visible to the user.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1095,16 +1051,16 @@
 <span class="sig-name descname"><span class="pre">duplicate_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow"><span class="pre">XAChromiumWindow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow"><span class="pre">XAChromiumWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTab.duplicate_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.duplicate_to" title="Permalink to this definition"></a></dt>
 <dd><p>Duplicates the tab in the specified window. The tab will then exist in two locations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="safari.html#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><em>XASafariWindow</em></a>) – The window to duplicate the tab in.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the tab object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="safari.html#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab">XASafariTab</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Duplicate the current tab in the second window</p>
 </dd>
 </dl>
@@ -1139,10 +1095,10 @@
 <dd><p>Gets a clipboard-codable representation of the tab.</p>
 <p>When the clipboard content is set to a Chromium tab, the tab’s title and URL are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The tab’s title and URL</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[str, AppKit.NSURL]]</p>
 </dd>
 </dl>
@@ -1172,28 +1128,30 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.id" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The unique identifier for the tab.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.loading">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loading</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.loading" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Is the tab currently loading?</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.move_to">
 <span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow"><span class="pre">XAChromiumWindow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow" title="PyXA.apps.Chromium.XAChromiumWindow"><span class="pre">XAChromiumWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTab.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.move_to" title="Permalink to this definition"></a></dt>
 <dd><p>Moves the tab to the specified window. After, the tab will exist in only one location.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="safari.html#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><em>XASafariWindow</em></a>) – The window to move the tab to.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the tab object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="safari.html#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric">XASafariGeneric</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Move the current tab to the second window</p>
 </dd>
 </dl>
@@ -1275,7 +1233,8 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.title" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The title of the tab.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.undo">
@@ -1289,7 +1248,8 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTab.url" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The URL visible to the user.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTab.view_source">
@@ -1305,7 +1265,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumTabList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Chromium.</span></span><span class="sig-name descname"><span class="pre">XAChromiumTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of tabs.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1316,10 +1276,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTabList.by_id" title="PyXA.apps.Chromium.XAChromiumTabList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
 <td><p>Retrieves the tab whose ID matches the given ID, if one exists.</p></td>
@@ -1355,10 +1311,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired tab, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a>, None]</p>
 </dd>
 </dl>
@@ -1372,10 +1328,10 @@
 <span class="sig-name descname"><span class="pre">by_loading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loading</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.by_loading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.by_loading" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first tab whose loading state matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired tab, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a>, None]</p>
 </dd>
 </dl>
@@ -1389,10 +1345,10 @@
 <span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.by_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first tab whose title matches the given title, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired tab, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a>, None]</p>
 </dd>
 </dl>
@@ -1406,10 +1362,10 @@
 <span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.by_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first tab whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired tab, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a>, None]</p>
 </dd>
 </dl>
@@ -1424,10 +1380,10 @@
 <dd><p>Gets a clipboard-codable representation of each tab in the list.</p>
 <p>When the clipboard content is set to a list of Chromium tabs, each tab’s URL is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of tab URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[str, AppKit.NSURL]]</p>
 </dd>
 </dl>
@@ -1441,10 +1397,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each tab in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of tab IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -1458,10 +1414,10 @@
 <span class="sig-name descname"><span class="pre">loading</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.loading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.loading" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the loading state of each tab in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of loading states; a list of booleans.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1475,10 +1431,10 @@
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the title of each tab in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of tab titles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1492,10 +1448,10 @@
 <span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumTabList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumTabList.url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the URL of each tab in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of tab URLS</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -1520,64 +1476,29 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.active_tab" title="PyXA.apps.Chromium.XAChromiumWindow.active_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_tab</span></code></a></p></td>
-<td><p>The currently selected tab</p></td>
+<td><p>The currently selected tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.active_tab_index" title="PyXA.apps.Chromium.XAChromiumWindow.active_tab_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_tab_index</span></code></a></p></td>
-<td><p>The index of the active tab</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.bounds" title="PyXA.apps.Chromium.XAChromiumWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.closeable" title="PyXA.apps.Chromium.XAChromiumWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
+<td><p>The index of the active tab.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.given_name" title="PyXA.apps.Chromium.XAChromiumWindow.given_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">given_name</span></code></a></p></td>
-<td><p>The given name of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.id" title="PyXA.apps.Chromium.XAChromiumWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.index" title="PyXA.apps.Chromium.XAChromiumWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in the front-to-back ordering</p></td>
+<td><p>The given name of the window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.minimizable" title="PyXA.apps.Chromium.XAChromiumWindow.minimizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized</p></td>
+<td><p>Whether the window can be minimized.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.minimized" title="PyXA.apps.Chromium.XAChromiumWindow.minimized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
+<td><p>Whether the window is currently minimized.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.mode" title="PyXA.apps.Chromium.XAChromiumWindow.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
-<td><p>The mode of the window, either &quot;normal&quot; or &quot;incognito&quot;</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.name" title="PyXA.apps.Chromium.XAChromiumWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The full title of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.resizable" title="PyXA.apps.Chromium.XAChromiumWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.visible" title="PyXA.apps.Chromium.XAChromiumWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.zoomable" title="PyXA.apps.Chromium.XAChromiumWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.zoomed" title="PyXA.apps.Chromium.XAChromiumWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
+<td><p>The mode of the window, either 'normal' or 'incognito'.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumWindow.new_tab" title="PyXA.apps.Chromium.XAChromiumWindow.new_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_tab</span></code></a>([url])</p></td>
 <td><p>Opens a new tab at the specified URL.</p></td>
@@ -1590,67 +1511,37 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.active_tab">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.active_tab" title="Permalink to this definition"></a></dt>
-<dd><p>The currently selected tab</p>
+<dd><p>The currently selected tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.active_tab_index">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_tab_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.active_tab_index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the active tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
+<dd><p>The index of the active tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.given_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">given_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.given_name" title="Permalink to this definition"></a></dt>
-<dd><p>The given name of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in the front-to-back ordering</p>
+<dd><p>The given name of the window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.minimizable">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minimizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.minimizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized</p>
+<dd><p>Whether the window can be minimized.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.minimized">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minimized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.minimized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
+<dd><p>Whether the window is currently minimized.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.mode">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.mode" title="Permalink to this definition"></a></dt>
-<dd><p>The mode of the window, either “normal” or “incognito”</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The full title of the window</p>
+<dd><p>The mode of the window, either ‘normal’ or ‘incognito’.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1658,13 +1549,13 @@
 <span class="sig-name descname"><span class="pre">new_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab"><span class="pre">XAChromiumTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumWindow.new_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.new_tab" title="Permalink to this definition"></a></dt>
 <dd><p>Opens a new tab at the specified URL.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>url</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><em>XABase.XAURL</em></a><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The URL to open in a new tab, or None to open the tab at the homepage, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The newly created tab object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTab" title="PyXA.apps.Chromium.XAChromiumTab">XAChromiumTab</a></p>
 </dd>
 </dl>
@@ -1673,48 +1564,24 @@
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.tabs">
 <span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTabList" title="PyXA.apps.Chromium.XAChromiumTabList"><span class="pre">XAChromiumTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Chromium.html#XAChromiumWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.tabs" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of tabs, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter tabs by, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A PyXA list object wrapping a list of tabs</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Chromium.XAChromiumTabList" title="PyXA.apps.Chromium.XAChromiumTabList">XAChromiumTabList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Chromium.XAChromiumWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Chromium.XAChromiumWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
 </dd></dl>
 
 </dd></dl>

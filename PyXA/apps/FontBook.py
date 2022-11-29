@@ -27,12 +27,6 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         return self.xa_scel.name()
 
     @property
-    def frontmost(self) -> bool:
-        """Whether Font Book is the active application.
-        """
-        return self.xa_scel.frontmost()
-
-    @property
     def version(self) -> str:
         """The version of the Font Book application.
         """
@@ -203,13 +197,13 @@ class XAFontBookDocumentList(XABase.XAList):
         super().__init__(properties, XAFontBookDocument, filter)
 
     def path(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+        return list(self.xa_elem.arrayByApplyingSelector_("path") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_path(self, path: str) -> 'XAFontBookDocument':
         return self.by_property("path", path)
@@ -270,25 +264,25 @@ class XAFontBookFontFamilyList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAFontBookFontFamily, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def display_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName") or [])
 
     def displayed_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def duplicated(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("duplicated"))
+        return list(self.xa_elem.arrayByApplyingSelector_("duplicated") or [])
 
     def files(self) -> list[list[XABase.XAPath]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("files")
+        ls = self.xa_elem.arrayByApplyingSelector_("files") or []
         return [XABase.XAURL(x) for x in [y for y in ls]]
 
     def by_properties(self, properties: dict) -> 'XAFontBookFontFamily':
@@ -427,52 +421,52 @@ class XAFontBookTypefaceList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAFontBookTypeface, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def display_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName") or [])
 
     def displayed_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def font_family(self) -> XAFontBookFontFamilyList:
-        ls = self.xa_elem.arrayByApplyingSelector_("fontFamily")
+        ls = self.xa_elem.arrayByApplyingSelector_("fontFamily") or []
         return self._new_element(ls, XAFontBookFontFamilyList)
 
     def family_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("familyName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("familyName") or [])
 
     def style_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("styleName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("styleName") or [])
 
     def post_script_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("postScriptName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("postScriptName") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def duplicated(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("duplicated"))
+        return list(self.xa_elem.arrayByApplyingSelector_("duplicated") or [])
 
     def font_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontType") or [])
 
     def copyright(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("copyright"))
+        return list(self.xa_elem.arrayByApplyingSelector_("copyright") or [])
 
     def font_container(self) -> 'XAFontBookFontContainerList':
-        ls = self.xa_elem.arrayByApplyingSelector_("fontContainer")
+        ls = self.xa_elem.arrayByApplyingSelector_("fontContainer") or []
         return self._new_element(ls, XAFontBookFontContainerList)
 
     def files(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("files")
-        return [XABase.XAPath(x) for x in ls]
+        ls = self.xa_elem.arrayByApplyingSelector_("files") or []
+        return [XABase.XAPath(x) for y in ls for x in y]
 
     def by_properties(self, properties: dict) -> 'XAFontBookTypeface':
         return self.by_property("properties", properties)
@@ -670,24 +664,24 @@ class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAFontBookFontContainer, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+        return list(self.xa_elem.arrayByApplyingSelector_("path") or [])
 
     def files(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("files")
-        return [XABase.XAPath(x) for x in ls]
+        ls = self.xa_elem.arrayByApplyingSelector_("files") or []
+        return [XABase.XAPath(x) for y in ls for x in y]
 
     def domain(self) -> 'XAFontBookFontDomainList':
-        ls = self.xa_elem.arrayByApplyingSelector_("domain")
+        ls = self.xa_elem.arrayByApplyingSelector_("domain") or []
         return self._new_element(ls, XAFontBookFontDomainList)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def by_properties(self, properties: dict) -> 'XAFontBookFontContainer':
         return self.by_property("properties", properties)
@@ -821,19 +815,19 @@ class XAFontBookFontCollectionList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def display_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName") or [])
 
     def displayed_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def by_properties(self, properties: dict) -> 'XAFontBookFontCollection':
         return self.by_property("properties", properties)

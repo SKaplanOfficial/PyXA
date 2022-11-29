@@ -137,17 +137,17 @@ class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAPreviewDocument, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def modified(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def by_properties(self, properties: dict) -> Union['XAPreviewDocument', None]:
         return self.by_property("properties", properties)

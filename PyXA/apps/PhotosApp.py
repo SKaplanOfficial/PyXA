@@ -403,33 +403,33 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return element
 
     def properties(self) -> list[dict]:
-        return list(self.xa_scel.arrayByApplyingSelector_("properties"))
+        return list(self.xa_scel.arrayByApplyingSelector_("properties") or [])
 
     def keywords(self) -> list[list[str]]:
-        ls = self.xa_scel.arrayByApplyingSelector_("keywords")
+        ls = self.xa_scel.arrayByApplyingSelector_("keywords") or []
         return [keyword for keywordlist in ls for keyword in keywordlist]
 
     def duration(self) -> list[float]:
         return [x.duration() for x in self.xa_elem]
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def file_path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("mainFileURL")
+        ls = self.xa_elem.arrayByApplyingSelector_("mainFileURL") or []
         return [XABase.XAPath(x) for x in ls]
 
     def object_description(self) -> list[str]:
-        return list(self.xa_scel.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_scel.arrayByApplyingSelector_("objectDescription") or [])
 
     def favorite(self) -> list[bool]:
         return [x.isFavorite() for x in self.xa_elem]
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def is_burst(self) -> list[bool]:
         return [x.representsBurst() for x in self.xa_elem]
@@ -444,7 +444,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return [x.isPhoto() for x in self.xa_elem]
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("localIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("localIdentifier") or [])
 
     def height(self) -> list[int]:
         return [x.pixelHeight() for x in self.xa_elem]
@@ -453,10 +453,10 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return [x.pixelWidth() for x in self.xa_elem]
 
     def filename(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("filename"))
+        return list(self.xa_elem.arrayByApplyingSelector_("filename") or [])
 
     def altitude(self) -> list[float]:
-        locations = self.xa_elem.arrayByApplyingSelector_("location")
+        locations = self.xa_elem.arrayByApplyingSelector_("location") or []
         return [x.altitude() for x in locations]
 
     def size(self) -> list[tuple[float, float]]:
@@ -466,7 +466,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return [x[0][AppKit.NSFileSize] for x in attributes if x is not None and x[0] is not None]
 
     def location(self) -> list[list[Union[float, None]]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
+        ls = self.xa_elem.arrayByApplyingSelector_("location") or []
         return [XABase.XALocation(
             latitude = x.coordinate()[0],
             longitude = x.coordinate()[1],
@@ -794,16 +794,16 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def parent(self) -> 'XAPhotosFolderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("parent")
+        ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAPhotosFolderList)
 
     def by_properties(self, properties: dict) -> Union['XAPhotosContainer', None]:

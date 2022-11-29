@@ -369,13 +369,13 @@ class XAMessagesDocumentList(XABase.XAList):
         super().__init__(properties, XAMessagesDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+        return list(self.xa_elem.arrayByApplyingSelector_("file") or [])
 
     def by_name(self, name: str) -> Union['XAMessagesDocument', None]:
         return self.by_property("name", name)
@@ -432,13 +432,13 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesChat, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def account(self) -> 'XAMessagesAccountList':
-        ls = self.xa_elem.arrayByApplyingSelector_("account")
+        ls = self.xa_elem.arrayByApplyingSelector_("account") or []
         return self._new_element(ls, XAMessagesAccountList)
 
     def participants(self) -> list['XAMessagesParticipantList']:
@@ -573,17 +573,17 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesFileTransfer, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def file_path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("filePath")
+        ls = self.xa_elem.arrayByApplyingSelector_("filePath") or []
         return [XABase.XAPath(x) for x in ls]
 
     def direction(self) -> list[XAMessagesApplication.MessageDirection]:
-        ls = self.xa_elem.arrayByApplyingSelector_("direction")
+        ls = self.xa_elem.arrayByApplyingSelector_("direction") or []
         return [XAMessagesApplication.MessageDirection(XABase.OSType(x.stringValue())) for x in ls]
 
     def account(self) -> 'XAMessagesAccountList':
@@ -595,20 +595,20 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         return self._new_element(ls, XAMessagesParticipantList)
 
     def file_size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileSize") or [])
 
     def file_progress(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileProgress"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileProgress") or [])
 
     def transfer_status(self) -> list[XAMessagesApplication.TransferStatus]:
-        ls = list(self.xa_elem.arrayByApplyingSelector_("transferStatus"))
+        ls = list(self.xa_elem.arrayByApplyingSelector_("transferStatus") or [])
         try:
             return [XAMessagesApplication.TransferStatus(x) for x in ls]
         except ValueError:
             return [XAMessagesApplication.TransferStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def started(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("started"))
+        return list(self.xa_elem.arrayByApplyingSelector_("started") or [])
 
     def by_id(self, id: str) -> 'XAMessagesFileTransfer':
         return self.by_property("id", id)
@@ -773,26 +773,26 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesParticipant, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def account(self) -> 'XAMessagesAccountList':
-        ls = self.xa_elem.arrayByApplyingSelector_("account")
+        ls = self.xa_elem.arrayByApplyingSelector_("account") or []
         return self._new_element(ls, XAMessagesAccountList)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def handle(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("handle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("handle") or [])
 
     def first_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("firstName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("firstName") or [])
 
     def last_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("lastName") or [])
 
     def full_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fullName") or [])
 
     def by_id(self, id: str) -> Union['XAMessagesParticipant', None]:
         return self.by_property("id", id)
@@ -926,16 +926,16 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesAccount, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.get().arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.get().arrayByApplyingSelector_("objectDescription") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def connection_status(self) -> list[XAMessagesApplication.ConnectionStatus]:
-        ls = self.xa_elem.arrayByApplyingSelector_("connectionStatus")
+        ls = self.xa_elem.arrayByApplyingSelector_("connectionStatus") or []
         return [XAMessagesApplication.ConnectionStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def service_type(self) -> list[XAMessagesApplication.ServiceType]:

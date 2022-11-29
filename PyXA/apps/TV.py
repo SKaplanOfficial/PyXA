@@ -37,7 +37,7 @@ class XATVTrackList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def sort_director(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortDirector"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortDirector") or [])
 
     def by_sort_director(self, sort_director: str) -> Union['XATVTrack', None]:
         return self.by_property("sortDirector", sort_director)

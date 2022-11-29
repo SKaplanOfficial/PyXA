@@ -376,15 +376,15 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def alternate_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("alternateColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("alternateColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def background_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def canredo(self) -> list[bool]:
@@ -397,7 +397,7 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("childrenAreSections") or [])
 
     def column_title_style(self) -> 'XAOmniOutlinerStyleList':
-        ls = self.xa_elem.arrayByApplyingSelector_("columnTitleStyle")
+        ls = self.xa_elem.arrayByApplyingSelector_("columnTitleStyle") or []
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
     def editable(self) -> list[bool]:
@@ -410,18 +410,18 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("hasSubtopics") or [])
 
     def horizontal_grid_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("horizontalGridColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("horizontalGridColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def note_column(self) -> 'XAOmniOutlinerColumnList':
-        ls = self.xa_elem.arrayByApplyingSelector_("noteColumn")
+        ls = self.xa_elem.arrayByApplyingSelector_("noteColumn") or []
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
     def note_display(self) -> list[XAOmniOutlinerApplication.DisplayType]:
-        ls = self.xa_elem.arrayByApplyingSelector_("noteDisplay")
+        ls = self.xa_elem.arrayByApplyingSelector_("noteDisplay") or []
         return [XAOmniOutlinerApplication.DisplayType(XABase.OSType(x.stringValue())) for x in ls]
 
     def save_identifier(self) -> list[str]:
@@ -434,7 +434,7 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("sortingPostponed") or [])
 
     def status_sort_order(self) -> list[XAOmniOutlinerApplication.SortOrder]:
-        ls = self.xa_elem.arrayByApplyingSelector_("statusSortOrder")
+        ls = self.xa_elem.arrayByApplyingSelector_("statusSortOrder") or []
         return [XAOmniOutlinerApplication.SortOrder(XABase.OSType(x.stringValue())) for x in ls]
 
     def status_visible(self) -> list[bool]:
@@ -444,21 +444,21 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("storeCompressed") or [])
 
     def style(self) -> 'XAOmniOutlinerStyleList':
-        ls = self.xa_elem.arrayByApplyingSelector_("style")
+        ls = self.xa_elem.arrayByApplyingSelector_("style") or []
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
     def title(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def topic_column(self) -> 'XAOmniOutlinerColumnList':
-        ls = self.xa_elem.arrayByApplyingSelector_("topicColumn")
+        ls = self.xa_elem.arrayByApplyingSelector_("topicColumn") or []
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
     def undo_enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("undoEnabled") or [])
 
     def verticalGridColor(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("verticalGridColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("verticalGridColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def visible(self) -> list[bool]:

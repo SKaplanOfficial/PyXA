@@ -203,11 +203,11 @@ class XANumbersDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         return pyxa_dicts
 
     def document_template(self) -> 'XANumbersTemplateList':
-        ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate")
+        ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate") or []
         return self._new_element(ls, XANumbersTemplateList)
 
     def active_sheet(self) -> 'XANumbersSheetList':
-        ls = self.xa_elem.arrayByApplyingSelector_("activeSheet")
+        ls = self.xa_elem.arrayByApplyingSelector_("activeSheet") or []
         return self._new_element(ls, XANumbersSheetList)
 
     def by_properties(self, properties: dict) -> Union['XANumbersDocument', None]:
@@ -357,7 +357,7 @@ class XANumbersTemplateList(XABase.XAList):
         super().__init__(properties, XANumbersTemplate, filter)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
@@ -367,10 +367,10 @@ class XANumbersTemplateList(XABase.XAList):
         return pyxa_dicts
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_properties(self, properties: dict) -> Union['XANumbersTemplate', None]:
         raw_dict = {}
@@ -456,7 +456,7 @@ class XANumbersSheetList(XANumbersContainerList):
         super().__init__(properties, filter, XANumbersSheet)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
@@ -465,7 +465,7 @@ class XANumbersSheetList(XANumbersContainerList):
         return pyxa_dicts
 
     def body_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> Union['XANumbersSheet', None]:

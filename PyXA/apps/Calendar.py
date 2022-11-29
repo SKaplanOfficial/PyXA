@@ -357,16 +357,16 @@ class XACalendarDocumentList(XABase.XAList):
         super().__init__(properties, XACalendarDocument, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
         
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XACalendarDocument', None]:
@@ -430,26 +430,26 @@ class XACalendarCalendarList(XABase.XAList):
         super().__init__(properties, XACalendarCalendar, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def color(self) -> list[str]:
-        ls = self.xa_elem.arrayByApplyingSelector_("color")
+        ls = self.xa_elem.arrayByApplyingSelector_("color") or []
         return [XABase.XAColor(x) for x in ls]
 
     def calendar_identifier(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("calendarIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("calendarIdentifier") or [])
 
     def writable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("writable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("writable") or [])
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("description"))
+        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
 
     def events(self) -> 'XACalendarEventList':
-        ls = self.xa_elem.arrayByApplyingSelector_("events")
+        ls = self.xa_elem.arrayByApplyingSelector_("events") or []
         return self._new_element(ls, XACalendarEventList)
 
     def by_properties(self, properties: dict) -> Union['XACalendarCalendar', None]:
@@ -767,16 +767,16 @@ class XACalendarAttendeeList(XABase.XAList):
         super().__init__(properties, XACalendarEvent, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def display_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName") or [])
 
     def email(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("email"))
+        return list(self.xa_elem.arrayByApplyingSelector_("email") or [])
 
     def participation_status(self) -> list[XACalendarApplication.ParticipationStatus]:
-        ls = self.xa_elem.arrayByApplyingSelector_("participationStatus")
+        ls = self.xa_elem.arrayByApplyingSelector_("participationStatus") or []
         return [XACalendarApplication.ParticipationStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XACalendarAttendee', None]:
@@ -840,47 +840,47 @@ class XACalendarEventList(XABase.XAList):
         super().__init__(properties, XACalendarEvent, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("description"))
+        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
 
     def start_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("startDate") or [])
 
     def end_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("endDate") or [])
 
     def allday_event(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("alldayEvent"))
+        return list(self.xa_elem.arrayByApplyingSelector_("alldayEvent") or [])
 
     def recurrence(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("recurrence"))
+        return list(self.xa_elem.arrayByApplyingSelector_("recurrence") or [])
 
     def sequence(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sequence"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sequence") or [])
 
     def stamp_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("stampDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("stampDate") or [])
 
     def excluded_dates(self) -> list[list[datetime]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("excludedDates"))
+        return list(self.xa_elem.arrayByApplyingSelector_("excludedDates") or [])
 
     def status(self) -> list[XACalendarApplication.EventStatus]:
-        ls = self.xa_elem.arrayByApplyingSelector_("status")
+        ls = self.xa_elem.arrayByApplyingSelector_("status") or []
         return [XACalendarApplication.EventStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def summary(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("summary"))
+        return list(self.xa_elem.arrayByApplyingSelector_("summary") or [])
 
     def location(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("location"))
+        return list(self.xa_elem.arrayByApplyingSelector_("location") or [])
 
     def uid(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("uid"))
+        return list(self.xa_elem.arrayByApplyingSelector_("uid") or [])
 
     def url(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
 
     def by_properties(self, properties: dict) -> Union['XACalendarEvent', None]:
         return self.by_property("properties", properties)
@@ -1219,21 +1219,21 @@ class XACalendarAttachmentList(XABase.XAList):
         super().__init__(properties, XACalendarAttachment, filter)
 
     def type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("type"))
+        return list(self.xa_elem.arrayByApplyingSelector_("type") or [])
 
     def file_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("filename"))
+        return list(self.xa_elem.arrayByApplyingSelector_("filename") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def uuid(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("uuid"))
+        return list(self.xa_elem.arrayByApplyingSelector_("uuid") or [])
 
     def by_type(self, type: str) -> Union['XACalendarAttachment', None]:
         return self.by_property("type", type)

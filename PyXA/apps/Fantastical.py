@@ -161,13 +161,13 @@ class XAFantasticalDocumentList(XABase.XAList):
         super().__init__(properties, XAFantasticalDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> 'XAFantasticalDocument':
@@ -285,10 +285,10 @@ class XAFantasticalCalendarList(XABase.XAList):
         super().__init__(properties, XAFantasticalCalendar, filter)
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def by_title(self, title: str) -> 'XAFantasticalCalendar':
         return self.by_property("title", title)
@@ -342,32 +342,32 @@ class XAFantasticalCalendarItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def start_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("startDate") or [])
 
     def end_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("endDate") or [])
 
     def notes(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("notes"))
+        return list(self.xa_elem.arrayByApplyingSelector_("notes") or [])
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def show_url(self) -> list[XABase.XAURL]:
-        return list(self.xa_elem.arrayByApplyingSelector_("showURL"))
+        return list(self.xa_elem.arrayByApplyingSelector_("showURL") or [])
 
     def is_recurring(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("isRecurring"))
+        return list(self.xa_elem.arrayByApplyingSelector_("isRecurring") or [])
 
     def is_all_day(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("isAllDay"))
+        return list(self.xa_elem.arrayByApplyingSelector_("isAllDay") or [])
 
     def by_id(self, id: str) -> 'XAFantasticalCalendarItem':
         return self.by_property("id", id)

@@ -113,10 +113,10 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAShortcutFolder, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_id(self, id: str) -> Union['XAShortcutFolder', None]:
         return self.by_property("id", id)
@@ -125,7 +125,7 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
         return self.by_property("name", name)
 
     def shortcuts(self, filter: dict = None) -> list['XAShortcutList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("shortcuts")
+        ls = self.xa_elem.arrayByApplyingSelector_("shortcuts") or []
         return [self._new_element(x, XAShortcutList, filter) for x in ls.get()]
 
     def get_clipboard_representation(self) -> list[str]:
@@ -227,31 +227,31 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAShortcut, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def subtitle(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("subtitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("subtitle") or [])
 
     def folder(self) -> XAShortcutFolderList:
-        ls = self.xa_elem.arrayByApplyingSelector_("id")
+        ls = self.xa_elem.arrayByApplyingSelector_("id") or []
         return self._new_element(ls, XAShortcutFolderList)
 
     def color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("color")
+        ls = self.xa_elem.arrayByApplyingSelector_("color") or []
         return [XABase.XAColor(x) for x in ls]
 
     def icon(self) -> XABase.XAImageList:
-        ls = self.xa_elem.arrayByApplyingSelector_("icon")
+        ls = self.xa_elem.arrayByApplyingSelector_("icon") or []
         return [XABase.XAImage(x) for x in ls]
 
     def accepts_input(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("acceptsInput"))
+        return list(self.xa_elem.arrayByApplyingSelector_("acceptsInput") or [])
 
     def action_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("actionCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("actionCount") or [])
 
     def by_id(self, id: str) -> Union['XAShortcut', None]:
         return self.by_property("id", id)

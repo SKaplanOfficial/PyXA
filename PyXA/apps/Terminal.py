@@ -183,37 +183,37 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XATerminalTab, filter)
 
     def number_of_rows(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
+        return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows") or [])
 
     def number_of_columns(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
+        return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns") or [])
 
     def contents(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("contents"))
+        return list(self.xa_elem.arrayByApplyingSelector_("contents") or [])
 
     def history(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("history"))
+        return list(self.xa_elem.arrayByApplyingSelector_("history") or [])
 
     def busy(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("busy"))
+        return list(self.xa_elem.arrayByApplyingSelector_("busy") or [])
 
     def processes(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("processes"))
+        return list(self.xa_elem.arrayByApplyingSelector_("processes") or [])
 
     def selected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def title_displays_custom_title(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle") or [])
 
     def custom_title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("customTitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("customTitle") or [])
 
     def tty(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("tty"))
+        return list(self.xa_elem.arrayByApplyingSelector_("tty") or [])
 
     def current_settings(self) -> 'XATerminalSettingsSetList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentSettings")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentSettings") or []
         return self._new_element(ls, XATerminalSettingsSetList)
 
     def by_number_of_rows(self, number_of_rows: int) -> Union['XATerminalTab', None]:
@@ -397,62 +397,62 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XATerminalSettingsSet, filter)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def number_of_rows(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
+        return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows") or [])
 
     def number_of_columns(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
+        return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns") or [])
 
     def cursor_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("cursorColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("cursorColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def background_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def normal_text_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("normalTextColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("normalTextColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def bold_text_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("boldTextColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("boldTextColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def font_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontName") or [])
 
     def font_size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontSize") or [])
 
     def font_antialiasing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontAntialiasing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontAntialiasing") or [])
 
     def clean_commands(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("cleanCommands"))
+        return list(self.xa_elem.arrayByApplyingSelector_("cleanCommands") or [])
 
     def title_displays_device_name(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysDeviceName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysDeviceName") or [])
 
     def title_displays_shell_path(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysShellPath"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysShellPath") or [])
 
     def title_displays_window_size(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysWindowSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysWindowSize") or [])
 
     def title_displays_settings_name(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysSettingsName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysSettingsName") or [])
 
     def title_displays_custom_title(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle") or [])
 
     def custom_title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("customTitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("customTitle") or [])
 
     def by_id(self, id: int) -> Union['XATerminalSettingsSet', None]:
         return self.by_property("id", id)

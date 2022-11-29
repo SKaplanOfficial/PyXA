@@ -880,13 +880,13 @@ class XASystemEventsDocumentList(XABase.XAList):
         super().__init__(properties, XASystemEventsDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> 'XABase.XAFileList':
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return self._new_element(ls, XABase.XAFileList)
 
     def by_name(self, name: str) -> Union['XASystemEventsDocument', None]:
@@ -1560,17 +1560,17 @@ class XASystemEventsUserList(XABase.XAList):
         super().__init__(properties, XASystemEventsUser, filter)
 
     def full_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fullName") or [])
 
     def home_directory(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("homeDirectory")
+        ls = self.xa_elem.arrayByApplyingSelector_("homeDirectory") or []
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def picture_path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("picturePath")
+        ls = self.xa_elem.arrayByApplyingSelector_("picturePath") or []
         return [XABase.XAPath(x) for x in ls]
 
     def by_full_name(self, full_name: str) -> Union['XASystemEventsUser', None]:
@@ -1850,37 +1850,37 @@ class XASystemEventsDesktopList(XABase.XAList):
         super().__init__(properties, XASystemEventsUser, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def change_interval(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("changeInterval"))
+        return list(self.xa_elem.arrayByApplyingSelector_("changeInterval") or [])
 
     def display_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName") or [])
 
     def picture(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("picture")
+        ls = self.xa_elem.arrayByApplyingSelector_("picture") or []
         return [XABase.XAPath(x) for x in ls]
 
     def picture_rotation(self) -> list[XASystemEventsApplication.PictureRotation]:
-        ls = self.xa_elem.arrayByApplyingSelector_("pictureRotation")
+        ls = self.xa_elem.arrayByApplyingSelector_("pictureRotation") or []
         return [XASystemEventsApplication.PictureRotation(x) for x in ls]
 
     def pictures_folder(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("picturesFolder")
+        ls = self.xa_elem.arrayByApplyingSelector_("picturesFolder") or []
         return [XABase.XAPath(x) for x in ls]
 
     def random_folder(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("randomOrder"))
+        return list(self.xa_elem.arrayByApplyingSelector_("randomOrder") or [])
 
     def translucent_menu_bar(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("translucentMenuBar"))
+        return list(self.xa_elem.arrayByApplyingSelector_("translucentMenuBar") or [])
 
     def dynamic_style(self) -> list[XASystemEventsApplication.DynamicStyle]:
-        ls = self.xa_elem.arrayByApplyingSelector_("dynamicStyle")
+        ls = self.xa_elem.arrayByApplyingSelector_("dynamicStyle") or []
         return [XASystemEventsApplication.DynamicStyle(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XASystemEventsDesktop', None]:
@@ -2169,16 +2169,16 @@ class XASystemEventsLoginItemList(XABase.XAList):
         super().__init__(properties, XASystemEventsLoginItem, filter)
 
     def hidden(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("contents"))
+        return list(self.xa_elem.arrayByApplyingSelector_("contents") or [])
 
     def kind(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
         
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsLoginItem', None]:
@@ -5217,7 +5217,7 @@ class XASystemEventsPropertyListFileList(XABase.XAList):
         super().__init__(properties, XASystemEventsPropertyListFile, filter)
 
     def contents(self) -> 'XASystemEventsPropertyListItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("contents")
+        ls = self.xa_elem.arrayByApplyingSelector_("contents") or []
         return self._new_element(ls, XASystemEventsPropertyListItemList)
 
     def by_content(self, contents: 'XASystemEventsPropertyListItemList') -> Union['XASystemEventsPropertyListFile', None]:
@@ -5259,17 +5259,17 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
 
     def kind(self) -> list[str]:
         # TODO
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def text(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("text"))
+        return list(self.xa_elem.arrayByApplyingSelector_("text") or [])
 
     def value(self) -> list[Union[int, bool, datetime, 'XASystemEventsList', dict, str, bytes]]:
         # TODO: SPECIALIZE TYPE
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_kind(self, kind: str) -> Union['XASystemEventsPropertyListItem', None]:
         # TODO
@@ -6456,16 +6456,16 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingSuite, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def hidden(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("hidden"))
+        return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingSuite', None]:
         return self.by_property("name", name)

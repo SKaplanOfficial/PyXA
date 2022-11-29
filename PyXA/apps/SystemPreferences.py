@@ -124,13 +124,13 @@ class XAPreferencePaneList(XABase.XAList):
         super().__init__(properties, XAPreferencePane, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def localized_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("localizedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("localizedName") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_id(self, id: str) -> 'XAPreferencePane':
         return self.by_property("id", id)
@@ -251,7 +251,7 @@ class XAPreferenceAnchorList(XABase.XAList):
         super().__init__(properties, XAPreferenceAnchor, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_name(self, name: str) -> 'XAPreferenceAnchor':
         return self.by_property("name", name)

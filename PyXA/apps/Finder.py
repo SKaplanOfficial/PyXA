@@ -755,89 +755,89 @@ class XAFinderItemList(XABase.XAList):
         super().__init__(properties, object_class, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def displayed_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def name_extension(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
+        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension") or [])
 
     def extension_hidden(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("extensionHidden"))
+        return list(self.xa_elem.arrayByApplyingSelector_("extensionHidden") or [])
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def position(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+        return list(self.xa_elem.arrayByApplyingSelector_("position") or [])
 
     def desktop_position(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("desktopPosition"))
+        return list(self.xa_elem.arrayByApplyingSelector_("desktopPosition") or [])
 
     def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bounds") or [])
 
     def label_index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("labelIndex"))
+        return list(self.xa_elem.arrayByApplyingSelector_("labelIndex") or [])
 
     def locked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("locked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("locked") or [])
 
     def kind(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("description"))
+        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
 
     def comment(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("comment"))
+        return list(self.xa_elem.arrayByApplyingSelector_("comment") or [])
 
     def size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def physical_size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize") or [])
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def url(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAPath(x[7:]) for x in ls]
 
     def owner(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("owner"))
+        return list(self.xa_elem.arrayByApplyingSelector_("owner") or [])
 
     def group(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("group"))
+        return list(self.xa_elem.arrayByApplyingSelector_("group") or [])
 
     def owner_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ownerPrivileges"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ownerPrivileges") or [])
 
     def group_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
-        return list(self.xa_elem.arrayByApplyingSelector_("groupPrivileges"))
+        return list(self.xa_elem.arrayByApplyingSelector_("groupPrivileges") or [])
 
     def everyone_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
-        return list(self.xa_elem.arrayByApplyingSelector_("everyonePrivileges"))
+        return list(self.xa_elem.arrayByApplyingSelector_("everyonePrivileges") or [])
 
     def container(self) -> 'XAFinderContainerList':
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XAFinderContainerList)
 
     def disk(self) -> 'XAFinderDiskList':
-        ls = self.xa_elem.arrayByApplyingSelector_("disk")
+        ls = self.xa_elem.arrayByApplyingSelector_("disk") or []
         return self._new_element(ls, XAFinderDiskList)
 
     def icon(self) -> XABase.XAImageList:
-        ls = self.xa_elem.arrayByApplyingSelector_("icon")
+        ls = self.xa_elem.arrayByApplyingSelector_("icon") or []
         return self._new_element(ls, XABase.XAImageList)
 
     def information_window(self) -> 'XAFinderInformationWindowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("informationWindow")
+        ls = self.xa_elem.arrayByApplyingSelector_("informationWindow") or []
         return self._new_element(ls, XAFinderInformationWindowList)
 
     def by_name(self, name: str) -> Union['XAFinderItem', None]:
@@ -1297,41 +1297,42 @@ class XAFinderContainerList(XAFinderItemList):
         super().__init__(properties, filter, object_class)
 
     def entire_contents(self) -> list[XAFinderItemList]:
-        ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
+        ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
+        return self._new_element(ls, XAFinderItemList)
 
     def container_window(self) -> list['XAFinderFinderWindow']:
-        ls = self.xa_elem.arrayByApplyingSelector_("containerWindow")
+        ls = self.xa_elem.arrayByApplyingSelector_("containerWindow") or []
         return self._new_element(ls, XAFinderFinderWindowList)
 
     def items(self) -> XAFinderItemList:
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("items"), XAFinderItemList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("items") or [], XAFinderItemList)
 
     def containers(self) -> 'XAFinderContainerList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers"), XAFinderContainerList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers") or [], XAFinderContainerList)
 
     def folders(self) -> 'XAFinderFolderList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders"), XAFinderFolderList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders") or [], XAFinderFolderList)
 
     def files(self) -> 'XAFinderFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("files"), XAFinderFileList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("files") or [], XAFinderFileList)
 
     def alias_files(self) -> 'XAFinderAliasFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles"), XAFinderAliasFileList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles") or [], XAFinderAliasFileList)
 
     def application_files(self) -> 'XAFinderApplicationFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles"), XAFinderApplicationFileList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles") or [], XAFinderApplicationFileList)
 
     def document_files(self) -> 'XAFinderDocumentFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles"), XAFinderDocumentFileList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles") or [], XAFinderDocumentFileList)
 
     def internet_location_files(self) -> 'XAFinderInternetLocationFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles"), XAFinderInternetLocationFileList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles") or [], XAFinderInternetLocationFileList)
 
     def clippings(self) -> 'XAFinderClippingList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings"), XAFinderClippingList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings") or [], XAFinderClippingList)
 
     def packages(self) -> 'XAFinderPackageList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages"), XAFinderPackageList)
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages") or [], XAFinderPackageList)
 
     def by_entire_contents(self, entire_contents: XAFinderItemList) -> Union['XAFinderContainer', None]:
         return self.by_property("entireContents", entire_contents.xa_elem)
@@ -1447,31 +1448,31 @@ class XAFinderDiskList(XAFinderContainerList):
         super().__init__(properties, filter, XAFinderDisk)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def capacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("capacity") or [])
 
     def free_space(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
+        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace") or [])
 
     def ejectable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ejectable") or [])
 
     def local_volume(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("localVolume") or [])
 
     def startup(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("startup"))
+        return list(self.xa_elem.arrayByApplyingSelector_("startup") or [])
 
     def format(self) -> list[XAFinderApplication.ItemFormat]:
-        return list(self.xa_elem.arrayByApplyingSelector_("format"))
+        return list(self.xa_elem.arrayByApplyingSelector_("format") or [])
 
     def journaling_enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("journalingEnabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("journalingEnabled") or [])
 
     def ignore_privileges(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges") or [])
 
     def by_id(self, id: int) -> Union['XAFinderDisk', None]:
         return self.by_property("id", id)
@@ -1633,19 +1634,19 @@ class XAFinderFileList(XAFinderItemList):
         super().__init__(properties, filter, obj_class)
 
     def file_type(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
 
     def creator_type(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
 
     def stationery(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
+        return list(self.xa_elem.arrayByApplyingSelector_("stationery") or [])
 
     def product_version(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
+        return list(self.xa_elem.arrayByApplyingSelector_("productVersion") or [])
 
     def version(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def by_file_type(self, file_type: int) -> Union['XAFinderFile', None]:
         return self.by_property("fileType", file_type)
@@ -1726,7 +1727,7 @@ class XAFinderAliasFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderAliasFile)
 
     def original_item(self) -> list[XAFinderItem]:
-        return list(self.xa_elem.arrayByApplyingSelector_("originalItem"))
+        return list(self.xa_elem.arrayByApplyingSelector_("originalItem") or [])
 
     def by_original_item(self, original_item: XAFinderItem) -> Union['XAFinderAliasFile', None]:
         return self.by_property("originalItem", original_item)
@@ -1764,10 +1765,10 @@ class XAFinderApplicationFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderApplicationFile)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def has_scripting_terminology(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("hasScriptingTerminology"))
+        return list(self.xa_elem.arrayByApplyingSelector_("hasScriptingTerminology") or [])
 
     def by_id(self, id: str) -> Union['XAFinderApplicationFile', None]:
         return self.by_property("id", id)
@@ -1830,7 +1831,7 @@ class XAFinderInternetLocationFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderInternetLocationFile)
 
     def location(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("location"))
+        return list(self.xa_elem.arrayByApplyingSelector_("location") or [])
 
     def by_location(self, location: str) -> Union['XAFinderInternetLocationFile', None]:
         return self.by_property("location", location)
@@ -1907,23 +1908,23 @@ class XAFinderWindowList(XABaseScriptable.XASBWindowList):
         super().__init__(properties, filter, obj_class)
 
     def position(self) -> list[XAPoint]:
-        ls = self.xa_elem.arrayByApplyingSelector_("position")
+        ls = self.xa_elem.arrayByApplyingSelector_("position") or []
         return [XAPoint(value) for value in ls]
 
     def titled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titled") or [])
 
     def floating(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("floating"))
+        return list(self.xa_elem.arrayByApplyingSelector_("floating") or [])
 
     def modal(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modal"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modal") or [])
 
     def collapsed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("collapsed") or [])
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def by_position(self, position: tuple[int, int]) -> Union['XAFinderWindow', None]:
         return self.by_property("position", position)
@@ -2030,32 +2031,32 @@ class XAFinderFinderWindowList(XAFinderWindowList):
         super().__init__(properties, filter, XAFinderFinderWindow)
 
     def current_view(self) -> list[XAFinderApplication.ViewSetting]:
-        return list(self.xa_elem.arrayByApplyingSelector_("currentView"))
+        return list(self.xa_elem.arrayByApplyingSelector_("currentView") or [])
 
     def toolbar_visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("toolbarVisible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("toolbarVisible") or [])
 
     def statusbar_visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("statusbarVisible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("statusbarVisible") or [])
 
     def pathbar_visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("pathbarVisible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("pathbarVisible") or [])
 
     def sidebar_width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sidebarWidth"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sidebarWidth") or [])
 
     def target(self) -> XAFinderContainerList:
-        ls = self.xa_elem.arrayByApplyingSelector_("target")
+        ls = self.xa_elem.arrayByApplyingSelector_("target") or []
         return self._new_element(ls, XAFinderContainerList)
 
     def icon_view_options(self) -> list['XAFinderIconViewOptions']:
-        return list(self.xa_elem.arrayByApplyingSelector_("iconViewOptions"))
+        return list(self.xa_elem.arrayByApplyingSelector_("iconViewOptions") or [])
 
     def list_view_options(self) -> list['XAFinderListViewOptions']:
-        return list(self.xa_elem.arrayByApplyingSelector_("listViewOptions"))
+        return list(self.xa_elem.arrayByApplyingSelector_("listViewOptions") or [])
 
     def column_view_options(self) -> list['XAFinderColumnViewOptions']:
-        return list(self.xa_elem.arrayByApplyingSelector_("columnViewOptions"))
+        return list(self.xa_elem.arrayByApplyingSelector_("columnViewOptions") or [])
 
     def by_current_view(self, current_view: XAFinderApplication.ViewSetting) -> Union['XAFinderFinderWindow', None]:
         return self.by_property("currentView", current_view)
@@ -2361,11 +2362,11 @@ class XAFinderInformationWindowList(XAFinderWindowList):
         super().__init__(properties, filter, XAFinderInformationWindow)
 
     def item(self) -> XAFinderItemList:
-        ls = self.xa_elem.arrayByApplyingSelector_("item")
+        ls = self.xa_elem.arrayByApplyingSelector_("item") or []
         return self._new_element(ls, XAFinderItemList)
 
     def current_panel(self) -> list[XAFinderApplication.Panel]:
-        return list(self.xa_elem.arrayByApplyingSelector_("currentPanel"))
+        return list(self.xa_elem.arrayByApplyingSelector_("currentPanel") or [])
 
     def by_item(self, item: XAFinderItem) -> Union['XAFinderInformationWindow', None]:
         return self.by_property("item", item)
@@ -2645,25 +2646,25 @@ class XAFinderColumnList(XABase.XAList):
         super().__init__(properties, XAFinderColumn, filter)
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def sort_direction(self) -> list[XAFinderApplication.SortDirection]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortDirection"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortDirection") or [])
 
     def width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
     def minimum_width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("minimum_width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("minimum_width") or [])
 
     def maximum_width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("maximum_width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("maximum_width") or [])
 
     def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def by_index(self, index: int) -> Union['XAFinderColumn', None]:
         return self.by_property("index", index)

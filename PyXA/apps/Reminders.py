@@ -279,16 +279,16 @@ class XARemindersDocumentList(XABase.XAList):
         super().__init__(properties, XARemindersDocument, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XARemindersDocument', None]:
@@ -383,13 +383,13 @@ class XARemindersAccountList(XABase.XAList):
         super().__init__(properties, XARemindersAccount, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_properties(self, properties: dict) -> Union['XARemindersAccount', None]:
         return self.by_property("properties", properties)
@@ -451,26 +451,26 @@ class XARemindersListList(XABase.XAList):
         super().__init__(properties, XARemindersList, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def container(self) -> XARemindersAccountList:
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XARemindersAccountList)
 
     def color(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("color"))
+        return list(self.xa_elem.arrayByApplyingSelector_("color") or [])
 
     def emblem(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("emblem"))
+        return list(self.xa_elem.arrayByApplyingSelector_("emblem") or [])
 
     def reminders(self) -> 'XARemindersReminderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("reminders")
+        ls = self.xa_elem.arrayByApplyingSelector_("reminders") or []
         return self._new_element(ls, XARemindersReminderList)
 
     def by_properties(self, properties: dict) -> Union['XARemindersListList', None]:
@@ -610,47 +610,47 @@ class XARemindersReminderList(XABase.XAList):
         super().__init__(properties, XARemindersReminder, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def container(self) -> XARemindersListList:
-        ls = self.xa_elem.arrayByApplyingSelector_("creationDate")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XARemindersListList)
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def body(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("body"))
+        return list(self.xa_elem.arrayByApplyingSelector_("body") or [])
 
     def completed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("completed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("completed") or [])
 
     def completion_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("completionDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("completionDate") or [])
 
     def due_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("dueDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("dueDate") or [])
 
     def allday_due_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("alldayDueDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("alldayDueDate") or [])
 
     def remind_me_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("remindMeDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("remindMeDate") or [])
 
     def priority(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("priority"))
+        return list(self.xa_elem.arrayByApplyingSelector_("priority") or [])
 
     def flagged(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("flagged"))
+        return list(self.xa_elem.arrayByApplyingSelector_("flagged") or [])
 
     def alarms(self) -> list['XARemindersAlarmList']:
         return [x.alarms() for x in self]
@@ -1085,16 +1085,16 @@ class XARemindersAlarmList(XABase.XAList):
         super().__init__(properties, XARemindersAlarm, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sharedUID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sharedUID") or [])
 
     def snoozed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("isSnoozed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("isSnoozed") or [])
 
     def date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("absoluteDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("absoluteDate") or [])
 
     def proximity_direction(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("proximityString"))
+        return list(self.xa_elem.arrayByApplyingSelector_("proximityString") or [])
 
     def location(self) -> list[XABase.XALocation]:
         return [x.location for x in self]

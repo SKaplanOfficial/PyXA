@@ -220,13 +220,13 @@ class XAAutomatorDocumentList(XABase.XAList):
         super().__init__(properties, XAAutomatorDocument, filter)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def by_id(self, id: int) -> Union['XAAutomatorDocument', None]:
         return self.by_property("id", id)
@@ -295,72 +295,72 @@ class XAAutomatorActionList(XABase.XAList):
         super().__init__(properties, XAAutomatorAction, filter)
 
     def bundle_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bundleId"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bundleId") or [])
 
     def category(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("category"))
+        return list(self.xa_elem.arrayByApplyingSelector_("category") or [])
 
     def comment(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("comment"))
+        return list(self.xa_elem.arrayByApplyingSelector_("comment") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def execution_error_message(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or [])
 
     def execution_error_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber") or [])
 
     def execution_result(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionResult"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionResult") or [])
 
     def icon_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("iconName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("iconName") or [])
 
     def ignores_input(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ignoresInput"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ignoresInput") or [])
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def input_types(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("inputTypes"))
+        return list(self.xa_elem.arrayByApplyingSelector_("inputTypes") or [])
 
     def keywords(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("keywords"))
+        return list(self.xa_elem.arrayByApplyingSelector_("keywords") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def output_types(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("outputTypes"))
+        return list(self.xa_elem.arrayByApplyingSelector_("outputTypes") or [])
 
     def parent_workflow(self) -> 'XAAutomatorWorkflowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("parentWorkflow")
+        ls = self.xa_elem.arrayByApplyingSelector_("parentWorkflow") or []
         return self._new_element(ls, XAAutomatorWorkflowList)
 
     def path(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+        return list(self.xa_elem.arrayByApplyingSelector_("path") or [])
 
     def show_action_when_run(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("showActionWhenRun"))
+        return list(self.xa_elem.arrayByApplyingSelector_("showActionWhenRun") or [])
 
     def target_application(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("targetApplication"))
+        return list(self.xa_elem.arrayByApplyingSelector_("targetApplication") or [])
 
     def version(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def warning_action(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("warningAction"))
+        return list(self.xa_elem.arrayByApplyingSelector_("warningAction") or [])
 
     def warning_level(self) -> list[XAAutomatorApplication.WarningLevel]:
-        ls = self.xa_elem.arrayByApplyingSelector_("warningLevel")
+        ls = self.xa_elem.arrayByApplyingSelector_("warningLevel") or []
         return [XAAutomatorApplication.WarningLevel(x) for x in ls]
 
     def warning_message(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("warningMessage"))
+        return list(self.xa_elem.arrayByApplyingSelector_("warningMessage") or [])
 
     def by_bundle_id(self, bundle_id: str) -> Union['XAAutomatorAction', None]:
         return self.by_property("bundleId", bundle_id)
@@ -640,16 +640,16 @@ class XAAutomatorRequiredResourceList(XABase.XAList):
         super().__init__(properties, XAAutomatorRequiredResource, filter)
 
     def kind(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def resource(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("resource"))
+        return list(self.xa_elem.arrayByApplyingSelector_("resource") or [])
 
     def version(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def by_kind(self, kind: str) -> Union['XAAutomatorRequiredResource', None]:
         return self.by_property("kind", kind)
@@ -717,13 +717,13 @@ class XAAutomatorSettingList(XABase.XAList):
         super().__init__(properties, XAAutomatorSetting, filter)
 
     def default_value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultValue") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_default_value(self, default_value: Any) -> Union['XAAutomatorSetting', None]:
         if isinstance(default_value, XABase.XAObject):
@@ -790,13 +790,13 @@ class XAAutomatorVariableList(XABase.XAList):
         super().__init__(properties, XAAutomatorVariable, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def settable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("settable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("settable") or [])
 
     def value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_name(self, name: str) -> Union['XAAutomatorVariable', None]:
         return self.by_property("name", name)
@@ -865,23 +865,23 @@ class XAAutomatorWorkflowList(XABase.XAList):
         super().__init__(properties, XAAutomatorWorkflow, filter)
 
     def current_action(self) -> XAAutomatorActionList:
-        ls = self.xa_elem.arrayByApplyingSelector_("currentAction")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentAction") or []
         return self._new_element(ls, XAAutomatorActionList)
 
     def execution_error_message(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or [])
 
     def execution_error_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber") or [])
 
     def execution_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionId"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionId") or [])
 
     def execution_result(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionResult"))
+        return list(self.xa_elem.arrayByApplyingSelector_("executionResult") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_current_action(self, current_action: XAAutomatorAction) -> Union['XAAutomatorWorkflow', None]:
         return self.by_property("currentAction", current_action.xa_elem)

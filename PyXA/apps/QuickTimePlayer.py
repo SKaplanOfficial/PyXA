@@ -244,59 +244,59 @@ class XAQuickTimeDocumentList(XABase.XAList):
         super().__init__(properties, XAQuickTimeDocument, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def audio_volume(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("audioVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("audioVolume") or [])
 
     def current_time(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("currentTime"))
+        return list(self.xa_elem.arrayByApplyingSelector_("currentTime") or [])
 
     def data_rate(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("dataRate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("dataRate") or [])
 
     def data_size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("dataSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("dataSize") or [])
 
     def duration(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("duration"))
+        return list(self.xa_elem.arrayByApplyingSelector_("duration") or [])
 
     def looping(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("looping"))
+        return list(self.xa_elem.arrayByApplyingSelector_("looping") or [])
 
     def muted(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("muted"))
+        return list(self.xa_elem.arrayByApplyingSelector_("muted") or [])
 
     def natural_dimensions(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("naturalDimensions"))
+        return list(self.xa_elem.arrayByApplyingSelector_("naturalDimensions") or [])
 
     def playing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("playing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("playing") or [])
 
     def rate(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rate") or [])
 
     def presenting(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("presenting"))
+        return list(self.xa_elem.arrayByApplyingSelector_("presenting") or [])
 
     def current_microphone(self) -> 'XAQuickTimeAudioRecordingDeviceList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentMicrophone")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentMicrophone") or []
         return self._new_element(ls, XAQuickTimeAudioRecordingDeviceList)
 
     def current_camera(self) -> 'XAQuickTimeVideoRecordingDeviceList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentCamera")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentCamera") or []
         return self._new_element(ls, XAQuickTimeVideoRecordingDeviceList)
 
     def current_audio_compression(self) -> 'XAQuickTimeAudioCompressionPresetList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentAudioCompression")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentAudioCompression") or []
         return self._new_element(ls, XAQuickTimeAudioCompressionPresetList)
 
     def current_movie_compression(self) -> 'XAQuickTimeMovieCompressionPresetList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentMovieCompression")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentMovieCompression") or []
         return self._new_element(ls, XAQuickTimeMovieCompressionPresetList)
 
     def current_screen_compression(self) -> 'XAQuickTimeScreenCompressionPresetList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentScreenCompression")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentScreenCompression") or []
         return self._new_element(ls, XAQuickTimeScreenCompressionPresetList)
 
     def by_properties(self, properties: dict) -> 'XAQuickTimeDocument':
@@ -556,13 +556,13 @@ class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
         super().__init__(properties, XAQuickTimeAudioRecordingDevice, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
 class XAQuickTimeAudioRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with microphones in QuickTime.app.
@@ -606,13 +606,13 @@ class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
         super().__init__(properties, XAQuickTimeVideoRecordingDevice, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
 class XAQuickTimeVideoRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with cameras in QuickTime.app.
@@ -656,13 +656,13 @@ class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
         super().__init__(properties, XAQuickTimeAudioCompressionPreset, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
 class XAQuickTimeAudioCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with audio compression presets in QuickTime.app.
@@ -706,13 +706,13 @@ class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
         super().__init__(properties, XAQuickTimeMovieCompressionPreset, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
 class XAQuickTimeMovieCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with movie compression presets in QuickTime.app.
@@ -756,13 +756,13 @@ class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
         super().__init__(properties, XAQuickTimeScreenCompressionPreset, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("ID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
 class XAQuickTimeScreenCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with screen compression presets in QuickTime.app.

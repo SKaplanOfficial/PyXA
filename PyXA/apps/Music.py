@@ -302,32 +302,32 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicAirPlayDevice)
 
     def active(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("active"))
+        return list(self.xa_elem.arrayByApplyingSelector_("active") or [])
 
     def available(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("available"))
+        return list(self.xa_elem.arrayByApplyingSelector_("available") or [])
 
     def kind(self) -> list[XAMusicApplication.DeviceKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("kind")
+        ls = self.xa_elem.arrayByApplyingSelector_("kind") or []
         return [XAMusicApplication.DeviceKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def network_address(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("networkAddress"))
+        return list(self.xa_elem.arrayByApplyingSelector_("networkAddress") or [])
 
     def protected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("protected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("protected") or [])
 
     def selected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def supports_audio(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("supportsAudio"))
+        return list(self.xa_elem.arrayByApplyingSelector_("supportsAudio") or [])
 
     def supports_audio(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("supportsVideo"))
+        return list(self.xa_elem.arrayByApplyingSelector_("supportsVideo") or [])
 
     def sound_volume(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("soundVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("soundVolume") or [])
 
     def by_active(self, active: bool) -> Union['XAMusicAirPlayDevice', None]:
         return self.by_property("active", active)
@@ -441,7 +441,7 @@ class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicEncoder)
 
     def format(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("format"))
+        return list(self.xa_elem.arrayByApplyingSelector_("format") or [])
 
     def by_format(self, format: str) -> Union['XAMusicEncoder', None]:
         return self.by_property("format", format)
@@ -474,43 +474,43 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicEQPreset)
 
     def band1(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band1"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band1") or [])
 
     def band2(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band2"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band2") or [])
 
     def band3(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band3"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band3") or [])
 
     def band4(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band4"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band4") or [])
 
     def band5(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band5"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band5") or [])
 
     def band6(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band6"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band6") or [])
 
     def band7(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band7"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band7") or [])
 
     def band8(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band8"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band8") or [])
 
     def band9(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band9"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band9") or [])
 
     def band10(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("band10"))
+        return list(self.xa_elem.arrayByApplyingSelector_("band10") or [])
 
     def modifiable(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modifiable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modifiable") or [])
 
     def preamp(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("preamp"))
+        return list(self.xa_elem.arrayByApplyingSelector_("preamp") or [])
 
     def update_tracks(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("updateTracks"))
+        return list(self.xa_elem.arrayByApplyingSelector_("updateTracks") or [])
 
     def by_band1(self, band1: float) -> Union['XAMusicEQPreset', None]:
         return self.by_property("band1", band1)
@@ -701,10 +701,10 @@ class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
         super().__init__(properties, filter, obj_class)
 
     def disliked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("disliked") or [])
 
     def loved(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("loved"))
+        return list(self.xa_elem.arrayByApplyingSelector_("loved") or [])
 
     def by_disliked(self, disliked: bool) -> Union['XAMusicPlaylist', None]:
         return self.by_property("disliked", disliked)
@@ -796,25 +796,25 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
         super().__init__(properties, filter, XAMusicAudioCDPlaylist)
 
     def artist(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("artist"))
+        return list(self.xa_elem.arrayByApplyingSelector_("artist") or [])
 
     def compilation(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("compilation") or [])
 
     def composer(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("composer"))
+        return list(self.xa_elem.arrayByApplyingSelector_("composer") or [])
 
     def disc_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("discCount") or [])
 
     def disc_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("discNumber") or [])
 
     def genre(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("genre"))
+        return list(self.xa_elem.arrayByApplyingSelector_("genre") or [])
 
     def year(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("year"))
+        return list(self.xa_elem.arrayByApplyingSelector_("year") or [])
 
     def by_artist(self, artist: str) -> Union['XAMusicAudioCDPlaylist', None]:
         return self.by_property("artist", artist)
@@ -1080,68 +1080,68 @@ class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
         super().__init__(properties, filter, obj_class)
 
     def album_artist(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("albumArtist"))
+        return list(self.xa_elem.arrayByApplyingSelector_("albumArtist") or [])
 
     def album_disliked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("albumDisliked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("albumDisliked") or [])
 
     def album_loved(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("albumLoved"))
+        return list(self.xa_elem.arrayByApplyingSelector_("albumLoved") or [])
 
     def artist(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("artist"))
+        return list(self.xa_elem.arrayByApplyingSelector_("artist") or [])
 
     def bpm(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bpm"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bpm") or [])
 
     def cloud_status(self) -> list[XAMusicApplication.iCloudStatus]:
-        ls = self.xa_elem.arrayByApplyingSelector_("cloudStatus")
+        ls = self.xa_elem.arrayByApplyingSelector_("cloudStatus") or []
         return [XAMusicApplication.iCloudStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def compilation(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("compilation") or [])
 
     def composer(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("composer"))
+        return list(self.xa_elem.arrayByApplyingSelector_("composer") or [])
 
     def disliked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("disliked") or [])
 
     def eq(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("EQ"))
+        return list(self.xa_elem.arrayByApplyingSelector_("EQ") or [])
 
     def gapless(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("gapless"))
+        return list(self.xa_elem.arrayByApplyingSelector_("gapless") or [])
 
     def loved(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("loved"))
+        return list(self.xa_elem.arrayByApplyingSelector_("loved") or [])
 
     def lyrics(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("lyrics"))
+        return list(self.xa_elem.arrayByApplyingSelector_("lyrics") or [])
 
     def movement(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("movement"))
+        return list(self.xa_elem.arrayByApplyingSelector_("movement") or [])
 
     def movement_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("movementCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("movementCount") or [])
 
     def movement_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("movementNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("movementNumber") or [])
 
     def shufflable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("shufflable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shufflable") or [])
 
     def sort_artist(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortArtist"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortArtist") or [])
 
     def sort_album_artist(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortAlbumArtist"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortAlbumArtist") or [])
 
     def sort_composer(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortComposer"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortComposer") or [])
 
     def work(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("work"))
+        return list(self.xa_elem.arrayByApplyingSelector_("work") or [])
 
     def by_album_artist(self, album_artist: str) -> Union['XAMusicTrack', None]:
         return self.by_property("albumArtist", album_artist)
@@ -1450,7 +1450,7 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
         super().__init__(properties, filter, XAMusicAudioCDTrack)
 
     def location(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
+        ls = self.xa_elem.arrayByApplyingSelector_("location") or []
         return [XABase.XAURL(x) for x in ls]
 
     def by_location(self, location: XABase.XAURL) -> Union['XAMusicAudioCDTrack', None]:
@@ -1487,7 +1487,7 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
         super().__init__(properties, filter, XAMusicUserPlaylist)
 
     def genius(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("genius"))
+        return list(self.xa_elem.arrayByApplyingSelector_("genius") or [])
 
     def by_genius(self, genius: bool) -> Union['XAMusicUserPlaylist', None]:
         return self.by_property("genius", genius)

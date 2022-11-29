@@ -24,7 +24,7 @@ class XAScriptEditorItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def by_properties(self, properties: dict) -> 'XAScriptEditorItem':
         return self.by_property("properties", properties)
@@ -126,35 +126,35 @@ class XAScriptEditorDocumentList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorDocument)
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def contents(self) -> 'XAScriptEditorTextList':
-        ls = self.xa_elem.arrayByApplyingSelector_("contents")
+        ls = self.xa_elem.arrayByApplyingSelector_("contents") or []
         return self._new_element(ls, XAScriptEditorTextList)
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def event_log(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("eventLog"))
+        return list(self.xa_elem.arrayByApplyingSelector_("eventLog") or [])
 
     def language(self) -> 'XAScriptEditorLanguageList':
-        ls = self.xa_elem.arrayByApplyingSelector_("language")
+        ls = self.xa_elem.arrayByApplyingSelector_("language") or []
         return self._new_element(ls, XAScriptEditorLanguageList)
 
     def selection(self) -> 'XAScriptEditorSelectionObjectList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
+        ls = self.xa_elem.arrayByApplyingSelector_("selection") or []
         return self._new_element(ls, XAScriptEditorSelectionObjectList)
     
     def text(self) -> 'XAScriptEditorTextList':
-        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        ls = self.xa_elem.arrayByApplyingSelector_("text") or []
         return self._new_element(ls, XAScriptEditorTextList)
 
     def by_modified(self, modified: bool) -> 'XAScriptEditorDocument':
@@ -419,7 +419,7 @@ class XAScriptEditorInsertionPointList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorInsertionPoint)
 
     def contents(self) -> XAScriptEditorItemList:
-        ls = self.xa_elem.arrayByApplyingSelector_("contents")
+        ls = self.xa_elem.arrayByApplyingSelector_("contents") or []
         return self._new_element(ls, XAScriptEditorItemList)
 
     def by_contents(self, contents: XAScriptEditorItem) -> 'XAScriptEditorInsertionPoint':
@@ -463,14 +463,14 @@ class XAScriptEditorTextList(XABase.XATextList):
         super().__init__(properties, filter, XAScriptEditorText)
 
     def color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("color")
+        ls = self.xa_elem.arrayByApplyingSelector_("color") or []
         return [XABase.XAColor(x) for x in ls]
 
     def font(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("font"))
+        return list(self.xa_elem.arrayByApplyingSelector_("font") or [])
 
     def size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def by_color(self, color: XABase.XAColor) -> 'XAScriptEditorText':
         return self.by_property("color", color.xa_elem)
@@ -536,19 +536,19 @@ class XAScriptEditorLanguageList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorLanguage)
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def supports_compiling(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("supportsCompiling"))
+        return list(self.xa_elem.arrayByApplyingSelector_("supportsCompiling") or [])
 
     def supports_recording(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("supportsRecording"))
+        return list(self.xa_elem.arrayByApplyingSelector_("supportsRecording") or [])
 
     def by_object_description(self, object_description: str) -> 'XAScriptEditorLanguage':
         return self.by_property("objectDescription", object_description)
@@ -623,10 +623,10 @@ class XAScriptEditorSelectionObjectList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorSelectionObject)
 
     def character_range(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("characterRange"))
+        return list(self.xa_elem.arrayByApplyingSelector_("characterRange") or [])
 
     def contents(self) -> XAScriptEditorItemList:
-        ls = self.xa_elem.arrayByApplyingSelector_("contents")
+        ls = self.xa_elem.arrayByApplyingSelector_("contents") or []
         return self._new_element(ls, XAScriptEditorItemList)
 
     def by_character_range(self, character_range: tuple[int, int]) -> 'XAScriptEditorSelectionObject':

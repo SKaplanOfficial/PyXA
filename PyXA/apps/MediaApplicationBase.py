@@ -450,23 +450,23 @@ class XAMediaItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def container(self) -> list[XABase.XAObject]:
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XABase.XAList)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def persistent_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("persistentID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("persistentID") or [])
     
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def by_container(self, container: XABase.XAObject) -> Union['XAMediaItem', None]:
         return self.by_property("container", container.xa_elem)
@@ -601,23 +601,23 @@ class XAMediaArtworkList(XAMediaItemList):
         super().__init__(properties, filter, XAMediaArtwork)
 
     def data(self) -> list[XABase.XAImage]:
-        ls = self.xa_elem.arrayByApplyingSelector_("data")
+        ls = self.xa_elem.arrayByApplyingSelector_("data") or []
         return [XABase.XAImage(x) for x in ls]
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def downloaded(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaded"))
+        return list(self.xa_elem.arrayByApplyingSelector_("downloaded") or [])
 
     def format(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("format"))
+        return list(self.xa_elem.arrayByApplyingSelector_("format") or [])
 
     def kind(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def raw_data(self) -> list[bytes]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rawData"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rawData") or [])
 
     def by_data(self, data: XABase.XAImage) -> Union['XAMediaArtwork', None]:
         return self.by_property("data", data.xa_elem)
@@ -713,30 +713,30 @@ class XAMediaPlaylistList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def duration(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("duration"))
+        return list(self.xa_elem.arrayByApplyingSelector_("duration") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def parent(self) -> 'XAMediaPlaylistList':
-        ls = self.xa_elem.arrayByApplyingSelector_("parent")
+        ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAMediaPlaylistList)
 
     def size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def special_kind(self) -> list[XAMediaApplication.PlaylistKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("specialKind")
+        ls = self.xa_elem.arrayByApplyingSelector_("specialKind") or []
         return [XAMediaApplication.PlaylistKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def time(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("time"))
+        return list(self.xa_elem.arrayByApplyingSelector_("time") or [])
 
     def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def by_object_description(self, object_description: str) -> Union['XAMediaPlaylist', None]:
         return self.by_property("objectDescription", object_description)
@@ -961,13 +961,13 @@ class XAMediaSourceList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def capacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("capacity") or [])
 
     def free_space(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
+        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace") or [])
 
     def kind(self) -> list[XAMediaApplication.SourceKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("kind")
+        ls = self.xa_elem.arrayByApplyingSelector_("kind") or []
         return [XAMediaApplication.SourceKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_capacity(self, capacity: int) -> Union['XAMediaSource', None]:
@@ -1058,154 +1058,154 @@ class XAMediaTrackList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def album(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("album"))
+        return list(self.xa_elem.arrayByApplyingSelector_("album") or [])
 
     def album_rating(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("albumRating"))
+        return list(self.xa_elem.arrayByApplyingSelector_("albumRating") or [])
 
     def album_rating_kind(self) -> list[XAMediaApplication.RatingKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("albumRatingKind")
+        ls = self.xa_elem.arrayByApplyingSelector_("albumRatingKind") or []
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def bit_rate(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bitRate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bitRate") or [])
 
     def bookmark(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bookmark"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bookmark") or [])
 
     def bookmarkable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bookmarkable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bookmarkable") or [])
 
     def category(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("category"))
+        return list(self.xa_elem.arrayByApplyingSelector_("category") or [])
 
     def comment(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("comment"))
+        return list(self.xa_elem.arrayByApplyingSelector_("comment") or [])
 
     def database_id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("databaseID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("databaseID") or [])
 
     def date_added(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("dateAdded"))
+        return list(self.xa_elem.arrayByApplyingSelector_("dateAdded") or [])
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def disc_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("discCount") or [])
 
     def disc_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("discNumber") or [])
 
     def downloader_apple_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaderAppleID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("downloaderAppleID") or [])
 
     def downloader_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaderName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("downloaderName") or [])
 
     def duration(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("duration"))
+        return list(self.xa_elem.arrayByApplyingSelector_("duration") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def episode_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("episodeID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("episodeID") or [])
 
     def episode_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("episodeNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("episodeNumber") or [])
 
     def finish(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("finish"))
+        return list(self.xa_elem.arrayByApplyingSelector_("finish") or [])
 
     def genre(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("genre"))
+        return list(self.xa_elem.arrayByApplyingSelector_("genre") or [])
 
     def grouping(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("grouping"))
+        return list(self.xa_elem.arrayByApplyingSelector_("grouping") or [])
 
     def kind(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def long_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("longDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("longDescription") or [])
 
     def media_kind(self) -> list[XAMediaApplication.MediaKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("mediaKind")
+        ls = self.xa_elem.arrayByApplyingSelector_("mediaKind") or []
         return [XAMediaApplication.MediaKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def played_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("playedCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("playedCount") or [])
 
     def played_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("playedDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("playedDate") or [])
 
     def purchaser_apple_id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("purchaserAppleID"))
+        return list(self.xa_elem.arrayByApplyingSelector_("purchaserAppleID") or [])
 
     def purchaser_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("purchaserName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("purchaserName") or [])
 
     def rating(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rating"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rating") or [])
 
     def rating_kind(self) -> list[XAMediaApplication.RatingKind]:
-        ls = self.xa_elem.arrayByApplyingSelector_("ratingKind")
+        ls = self.xa_elem.arrayByApplyingSelector_("ratingKind") or []
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def release_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("releaseDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("releaseDate") or [])
 
     def sample_rate(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sampleRate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sampleRate") or [])
 
     def season_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("seasonNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("seasonNumber") or [])
 
     def skipped_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("skippedCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("skippedCount") or [])
 
     def skipped_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("skippedDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("skippedDate") or [])
 
     def show(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("show"))
+        return list(self.xa_elem.arrayByApplyingSelector_("show") or [])
 
     def sort_album(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortAlbum"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortAlbum") or [])
 
     def sort_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortName") or [])
 
     def sort_show(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("sortShow"))
+        return list(self.xa_elem.arrayByApplyingSelector_("sortShow") or [])
 
     def size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def start(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("start"))
+        return list(self.xa_elem.arrayByApplyingSelector_("start") or [])
 
     def time(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("time"))
+        return list(self.xa_elem.arrayByApplyingSelector_("time") or [])
 
     def track_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("trackCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("trackCount") or [])
 
     def track_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("trackNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("trackNumber") or [])
 
     def unplayed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("unplayed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("unplayed") or [])
 
     def volume_adjustment(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("volumeAdjustment"))
+        return list(self.xa_elem.arrayByApplyingSelector_("volumeAdjustment") or [])
 
     def year(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("year"))
+        return list(self.xa_elem.arrayByApplyingSelector_("year") or [])
 
     def by_album(self, album: str) -> Union['XAMediaTrack', None]:
         return self.by_property("album", album)
@@ -1854,7 +1854,7 @@ class XAMediaFileTrackList(XAMediaTrackList):
         super().__init__(properties, filter, XAMediaFileTrack)
 
     def location(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
+        ls = self.xa_elem.arrayByApplyingSelector_("location") or []
         return [XABase.XAURL(x) for x in ls]
 
     def by_location(self, location: XABase.XAURL) -> Union['XAMediaFileTrack', None]:
@@ -1915,7 +1915,7 @@ class XAMediaURLTrackList(XAMediaTrackList):
         super().__init__(properties, filter, XAMediaURLTrack)
 
     def address(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("address"))
+        return list(self.xa_elem.arrayByApplyingSelector_("address") or [])
 
     def by_address(self, address: str) -> Union['XAMediaURLTrack', None]:
         return self.by_property("address", address)
@@ -1954,10 +1954,10 @@ class XAMediaUserPlaylistList(XAMediaPlaylistList):
         super().__init__(properties, filter, XAMediaUserPlaylist)
 
     def shared(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("shared"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shared") or [])
 
     def smart(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("smart"))
+        return list(self.xa_elem.arrayByApplyingSelector_("smart") or [])
 
     def by_shared(self, shared: bool) -> Union['XAMediaUserPlaylist', None]:
         return self.by_property("shared", shared)
@@ -2062,34 +2062,34 @@ class XAMediaWindowList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bounds") or [])
 
     def closeable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("closeable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("closeable") or [])
 
     def collapseable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("collapseable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("collapseable") or [])
 
     def collapsed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("collapsed") or [])
 
     def full_screen(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fullScreen"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fullScreen") or [])
 
     def position(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+        return list(self.xa_elem.arrayByApplyingSelector_("position") or [])
 
     def resizable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("resizable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("resizable") or [])
 
     def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def zoomable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomable") or [])
 
     def zoomed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomed") or [])
 
     def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> Union['XAMediaWindow', None]:
         # TODO
@@ -2191,11 +2191,11 @@ class XAMediaBrowserWindowList(XAMediaWindowList):
         super().__init__(properties, filter, XAMediaBrowserWindow)
 
     def selection(self) -> XAMediaTrackList:
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
+        ls = self.xa_elem.arrayByApplyingSelector_("selection") or []
         return self._new_element(ls, XAMediaTrackList)
 
     def view(self) -> XAMediaPlaylistList:
-        ls = self.xa_elem.arrayByApplyingSelector_("view")
+        ls = self.xa_elem.arrayByApplyingSelector_("view") or []
         return self._new_element(ls, XAMediaPlaylistList)
 
     def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:
@@ -2237,11 +2237,11 @@ class XAMediaPlaylistWindowList(XAMediaWindowList):
         super().__init__(properties, filter, XAMediaPlaylistWindow)
 
     def selection(self) -> XAMediaTrackList:
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
+        ls = self.xa_elem.arrayByApplyingSelector_("selection") or []
         return self._new_element(ls, XAMediaTrackList)
 
     def view(self) -> XAMediaPlaylistList:
-        ls = self.xa_elem.arrayByApplyingSelector_("view")
+        ls = self.xa_elem.arrayByApplyingSelector_("view") or []
         return self._new_element(ls, XAMediaPlaylistList)
 
     def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:

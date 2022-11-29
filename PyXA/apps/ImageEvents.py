@@ -632,14 +632,14 @@ class XAImageEventsDisplayList(XABase.XAList):
         super().__init__(properties, XAImageEventsDisplay, filter)
 
     def display_number(self) -> list['int']:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayNumber") or [])
 
     def display_profile(self) -> 'XAImageEventsProfileList':
-        ls = self.xa_elem.arrayByApplyingSelector_("displayProfile")
+        ls = self.xa_elem.arrayByApplyingSelector_("displayProfile") or []
         return self._new_element(ls, XAImageEventsProfileList)
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_display_number(self, display_number: int) -> 'XAImageEventsDisplay':
         return self.by_property("displayNumber", display_number)
@@ -703,7 +703,7 @@ class XAImageEventsImageList(XABase.XAImageList):
 
     def properties(self) -> list[Dict]:
         pyxa_dicts = []
-        ls = self.xa_elem.arrayByApplyingSelector_("properties")
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
         for raw_dict in ls:
             pyxa_dict = {
                 "color_space": XAImageEventsApplication.ColorSpace(XABase.OSType(raw_dict["colorSpace"].stringValue())),
@@ -752,30 +752,30 @@ class XAImageEventsImageList(XABase.XAImageList):
         return [x.color_space for x in self]
 
     def dimensions(self) -> list[list[int]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("dimensions")
+        ls = self.xa_elem.arrayByApplyingSelector_("dimensions") or []
         return [tuple(x) for x in ls]
 
     def embedded_profile(self) -> 'XAImageEventsProfileList':
-        ls = self.xa_elem.arrayByApplyingSelector_("embeddedProfile")
+        ls = self.xa_elem.arrayByApplyingSelector_("embeddedProfile") or []
         return self._new_element(ls, XAImageEventsProfileList)
 
     def file_type(self) -> list['XAImageEventsApplication.FileType']:
-        ls = self.xa_elem.arrayByApplyingSelector_("fileType")
+        ls = self.xa_elem.arrayByApplyingSelector_("fileType") or []
         return [XAImageEventsApplication.FileType(XABase.OSType(x.get().stringValue())) for x in ls]
 
     def image_file(self) -> 'XABase.XAFileList':
-        ls = self.xa_elem.arrayByApplyingSelector_("imageFile")
+        ls = self.xa_elem.arrayByApplyingSelector_("imageFile") or []
         return self._new_element(ls, XABase.XAFileList)
 
     def location(self) -> list['XABase.XADiskItem']:
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
+        ls = self.xa_elem.arrayByApplyingSelector_("location") or []
         return self._new_element(ls, XABase.XADiskItemList)
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def resolution(self) -> list['float']:
-        ls = self.xa_elem.arrayByApplyingSelector_("resolution")
+        ls = self.xa_elem.arrayByApplyingSelector_("resolution") or []
         return [tuple(x) for x in ls]
 
     def by_bit_depth(self, bit_depth) -> 'XAImageEventsApplication.BitDepth':
@@ -1070,13 +1070,13 @@ class XAImageEventsMetadataTagList(XABase.XAList):
         super().__init__(properties, XAImageEventsMetadataTag, filter)
 
     def description(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("description"))
+        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def value(self) -> list[Union[bool, int, float, str, 'XAImageEventsProfile', any]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("value")
+        ls = self.xa_elem.arrayByApplyingSelector_("value") or []
         for index, value in enumerate(ls):
             if isinstance(value, ScriptingBridge.SBObject):
                 ls[index] = self._new_element(value, XAImageEventsProfile)
@@ -1148,55 +1148,55 @@ class XAImageEventsProfileList(XABase.XAList):
         super().__init__(properties, XAImageEventsProfile, filter)
 
     def color_space(self) -> list['XAImageEventsApplication.ColorSpace']:
-        ls = self.xa_elem.arrayByApplyingSelector_("colorSpace")
+        ls = self.xa_elem.arrayByApplyingSelector_("colorSpace") or []
         return [XAImageEventsApplication.ColorSpace(XABase.OSType(x.stringValue())) for x in ls]
 
     def connection_space(self) -> list['XAImageEventsApplication.ConnectionSpace']:
-        ls = self.xa_elem.arrayByApplyingSelector_("connectionSpace")
+        ls = self.xa_elem.arrayByApplyingSelector_("connectionSpace") or []
         return [XAImageEventsApplication.ConnectionSpace(XABase.OSType(x.stringValue())) for x in ls]
 
     def creation_date(self) -> list['datetime']:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def creator(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("creator"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creator") or [])
 
     def device_class(self) -> list['XAImageEventsApplication.DeviceClass']:
-        ls = self.xa_elem.arrayByApplyingSelector_("deviceClass")
+        ls = self.xa_elem.arrayByApplyingSelector_("deviceClass") or []
         return [XAImageEventsApplication.DeviceClass(XABase.OSType(x.stringValue())) for x in ls]
 
     def device_manufacturer(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("deviceManufacturer"))
+        return list(self.xa_elem.arrayByApplyingSelector_("deviceManufacturer") or [])
 
     def device_model(self) -> list['int']:
-        return list(self.xa_elem.arrayByApplyingSelector_("deviceModel"))
+        return list(self.xa_elem.arrayByApplyingSelector_("deviceModel") or [])
 
     def location(self) -> 'XABase.XAAliasList':
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
+        ls = self.xa_elem.arrayByApplyingSelector_("location") or []
         return self._new_element(ls, XABase.XAAliasList)
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def platform(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("platform"))
+        return list(self.xa_elem.arrayByApplyingSelector_("platform") or [])
 
     def preferred_cmm(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("preferredCMM"))
+        return list(self.xa_elem.arrayByApplyingSelector_("preferredCMM") or [])
 
     def quality(self) -> list['XAImageEventsApplication.ProfileQuality']:
-        ls = self.xa_elem.arrayByApplyingSelector_("quality")
+        ls = self.xa_elem.arrayByApplyingSelector_("quality") or []
         return [XAImageEventsApplication.ProfileQuality(XABase.OSType(x.stringValue())) for x in ls]
 
     def rendering_intent(self) -> list['XAImageEventsApplication.RenderingIntent']:
-        ls = self.xa_elem.arrayByApplyingSelector_("renderingIntent")
+        ls = self.xa_elem.arrayByApplyingSelector_("renderingIntent") or []
         return [XAImageEventsApplication.RenderingIntent(XABase.OSType(x.stringValue())) for x in ls]
 
     def size(self) -> list['int']:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def by_color_space(self, color_space: XAImageEventsApplication.ColorSpace) -> 'XAImageEventsProfile':
         return self.by_property("colorSpace", color_space.value)

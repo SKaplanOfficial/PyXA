@@ -374,11 +374,11 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderDocument, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def bounds(self) -> list[tuple[int, int, int, int]]:
         bounds = []
-        ls = self.xa_elem.arrayByApplyingSelector_("bounds")
+        ls = self.xa_elem.arrayByApplyingSelector_("bounds") or []
         for bound in ls:
             origin = bound.origin
             size = bound.size
@@ -386,20 +386,20 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         return bounds
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def file_alias(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("fileAlias")
+        ls = self.xa_elem.arrayByApplyingSelector_("fileAlias") or []
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def view_mode(self) -> list[XAAcrobatReaderApplication.ViewMode]:
-        ls = self.xa_elem.arrayByApplyingSelector_("viewMode")
+        ls = self.xa_elem.arrayByApplyingSelector_("viewMode") or []
         return [XAAcrobatReaderApplication.ViewMode(x) for x in ls]
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderDocument', None]:
@@ -581,34 +581,34 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderPDFPage, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def art_box(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("artBox"))
+        return list(self.xa_elem.arrayByApplyingSelector_("artBox") or [])
 
     def bleed_box(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bleedBox"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bleedBox") or [])
 
     def crop_box(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("cropBox"))
+        return list(self.xa_elem.arrayByApplyingSelector_("cropBox") or [])
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def label_text(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("labelText"))
+        return list(self.xa_elem.arrayByApplyingSelector_("labelText") or [])
 
     def media_box(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("mediaBox"))
+        return list(self.xa_elem.arrayByApplyingSelector_("mediaBox") or [])
 
     def page_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("pageNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("pageNumber") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def trim_box(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("trimBox"))
+        return list(self.xa_elem.arrayByApplyingSelector_("trimBox") or [])
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderPDFPage', None]:
         return self.by_property("bestType", best_type)
@@ -746,29 +746,29 @@ class XAAcrobatReaderBookmarkList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderBookmark, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def destination_page_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber") or [])
 
     def destination_rectangle(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle") or [])
 
     def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
-        ls = self.xa_elem.arrayByApplyingSelector_("fitType")
+        ls = self.xa_elem.arrayByApplyingSelector_("fitType") or []
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def zoom_factor(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor") or [])
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderBookmark', None]:
         return self.by_property("bestType", best_type)
@@ -884,49 +884,49 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderAnnotation, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def bounds(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bounds") or [])
 
     def color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("color")
+        ls = self.xa_elem.arrayByApplyingSelector_("color") or []
         return [XABase.XAColor(x) for x in ls]
 
     def contents(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("contents"))
+        return list(self.xa_elem.arrayByApplyingSelector_("contents") or [])
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def destination_page_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber") or [])
 
     def destination_rectangle(self) -> list[list[float]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle") or [])
 
     def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
-        ls = self.xa_elem.arrayByApplyingSelector_("fitType")
+        ls = self.xa_elem.arrayByApplyingSelector_("fitType") or []
         # TODO
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def open_state(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("openState"))
+        return list(self.xa_elem.arrayByApplyingSelector_("openState") or [])
 
     def subtype(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("subtype"))
+        return list(self.xa_elem.arrayByApplyingSelector_("subtype") or [])
 
     def zoom_factor(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor") or [])
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderAnnotation', None]:
         return self.by_property("bestType", best_type)
@@ -1119,16 +1119,16 @@ class XAAcrobatReaderMenuList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderMenu, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderMenu', None]:
         return self.by_property("bestType", best_type)
@@ -1188,25 +1188,25 @@ class XAAcrobatReaderMenuItemList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderMenuItem, filter)
 
     def best_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bestType") or [])
 
     def default_type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("defaultType") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def marked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("marked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("marked") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def has_submenu(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("hasSubmenu"))
+        return list(self.xa_elem.arrayByApplyingSelector_("hasSubmenu") or [])
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderMenuItem', None]:
         return self.by_property("bestType", best_type)

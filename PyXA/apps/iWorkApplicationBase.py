@@ -262,25 +262,25 @@ class XAiWorkDocumentList(XABase.XAList):
         return pyxa_dicts
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def selection(self) -> 'XAiWorkiWorkItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
+        ls = self.xa_elem.arrayByApplyingSelector_("selection") or []
         ls = [x for t in ls for x in t]
         return self._new_element(ls, XAiWorkiWorkItemList)
 
     def password_protected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected") or [])
 
     def by_properties(self, properties: dict) -> Union['XAiWorkDocument', None]:
         raw_dict = {}
@@ -447,7 +447,7 @@ class XAiWorkContainerList(XABase.XAList):
                 self.__dict__.update(new_self.__dict__)
 
     def charts(self, filter: Union[dict, None] = None) -> 'XAiWorkChartList':
-        ls = self.xa_elem.arrayByApplyingSelector_("charts")
+        ls = self.xa_elem.arrayByApplyingSelector_("charts") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -455,7 +455,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkChartList, filter)
 
     def groups(self, filter: Union[dict, None] = None) -> 'XAiWorkGroupList':
-        ls = self.xa_elem.arrayByApplyingSelector_("groups")
+        ls = self.xa_elem.arrayByApplyingSelector_("groups") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -463,7 +463,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkGroupList, filter)
 
     def images(self, filter: Union[dict, None] = None) -> 'XAiWorkImageList':
-        ls = self.xa_elem.arrayByApplyingSelector_("images")
+        ls = self.xa_elem.arrayByApplyingSelector_("images") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -471,7 +471,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkImageList, filter)
 
     def iwork_items(self, filter: Union[dict, None] = None) -> 'XAiWorkiWorkItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems")
+        ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -479,7 +479,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkiWorkItemList, filter)
 
     def lines(self, filter: Union[dict, None] = None) -> 'XAiWorkLineList':
-        ls = self.xa_elem.arrayByApplyingSelector_("lines")
+        ls = self.xa_elem.arrayByApplyingSelector_("lines") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -487,7 +487,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkLineList, filter)
     
     def movies(self, filter: Union[dict, None] = None) -> 'XAiWorkMovieList':
-        ls = self.xa_elem.arrayByApplyingSelector_("movies")
+        ls = self.xa_elem.arrayByApplyingSelector_("movies") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -495,7 +495,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkMovieList, filter)
 
     def shapes(self, filter: Union[dict, None] = None) -> 'XAiWorkShapeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("shapes")
+        ls = self.xa_elem.arrayByApplyingSelector_("shapes") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -503,7 +503,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkShapeList, filter)
 
     def tables(self, filter: Union[dict, None] = None) -> 'XAiWorkTableList':
-        ls = self.xa_elem.arrayByApplyingSelector_("tables")
+        ls = self.xa_elem.arrayByApplyingSelector_("tables") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -511,7 +511,7 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkTableList, filter)
 
     def text_items(self, filter: Union[dict, None] = None) -> 'XAiWorkTextItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("textItems")
+        ls = self.xa_elem.arrayByApplyingSelector_("textItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -690,20 +690,20 @@ class XAiWorkiWorkItemList(XABase.XAList):
         return pyxa_dicts
 
     def height(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+        return list(self.xa_elem.arrayByApplyingSelector_("height") or [])
 
     def locked(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("locked"))
+        return list(self.xa_elem.arrayByApplyingSelector_("locked") or [])
 
     def width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
     def parent(self) -> XAiWorkContainerList:
-        ls = self.xa_elem.arrayByApplyingSelector_("parent")
+        ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAiWorkContainerList)
 
     def position(self) -> list[tuple[int, int]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("position")
+        ls = self.xa_elem.arrayByApplyingSelector_("position") or []
         return [tuple(x.pointValue()) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAiWorkiWorkItem', None]:
@@ -917,20 +917,20 @@ class XAiWorkGroupList(XAiWorkContainerList):
         super().__init__(properties, filter, XAiWorkGroup)
 
     def height(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+        return list(self.xa_elem.arrayByApplyingSelector_("height") or [])
 
     def position(self) -> list[tuple[int, int]]:
-        ls = self.xa_elem.arrayByApplyingSelector_("position")
+        ls = self.xa_elem.arrayByApplyingSelector_("position") or []
         return [tuple(point.pointValue()) for point in ls]
 
     def width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def parent(self) -> XAiWorkContainerList:
-        ls = self.xa_elem.arrayByApplyingSelector_("parent")
+        ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAiWorkContainerList)
 
     def by_height(self, height: int) -> 'XAiWorkGroup':
@@ -1016,25 +1016,25 @@ class XAiWorkImageList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkImage)
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def file(self) -> list[str]:
         return [x.file() for x in self.xa_elem]
 
     def file_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileName") or [])
 
     def opacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("opacity") or [])
 
     def reflection_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing") or [])
 
     def reflection_value(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def by_description(self, description: str) -> 'XAiWorkImage':
         return self.by_property("objectDescription", description)
@@ -1191,13 +1191,13 @@ class XAiWorkAudioClipList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkAudioClip)
 
     def file_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileName") or [])
 
     def clip_volume(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("clipVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("clipVolume") or [])
 
     def repetition_method(self) -> list[XAiWorkApplication.RepetitionMethod]:
-        ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod")
+        ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod") or []
         return [XAiWorkApplication.RepetitionMethod(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_file_name(self, file_name: str) -> 'XAiWorkAudioClip':
@@ -1284,24 +1284,24 @@ class XAiWorkShapeList(XAiWorkiWorkItemList):
         } for shape in self.xa_elem]
 
     def background_fill_type(self) -> list[XAiWorkApplication.FillOption]:
-        ls = self.xa_elem.arrayByApplyingSelector_("backgroundFillType")
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundFillType") or []
         return [XAiWorkApplication.FillOption(XABase.OSType(x.stringValue())) for x in ls]
 
     def object_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("objectText")
+        ls = self.xa_elem.arrayByApplyingSelector_("objectText") or []
         return self._new_element(ls, XABase.XATextList)
 
     def opacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("opacity") or [])
 
     def reflection_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing") or [])
 
     def reflection_value(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def by_properties(self, properties: dict) -> Union['XAiWorkShape', None]:
         raw_dict = {}
@@ -1498,19 +1498,19 @@ class XAiWorkLineList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkLine)
 
     def end_point(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
+        return list(self.xa_elem.arrayByApplyingSelector_("end_point") or [])
 
     def reflection_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing") or [])
 
     def reflection_value(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def start_point(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("start_point"))
+        return list(self.xa_elem.arrayByApplyingSelector_("start_point") or [])
 
     def by_end_point(self, end_point: tuple[int, int]) -> 'XAiWorkLine':
         return self.by_property("endPoint", end_point)
@@ -1599,26 +1599,26 @@ class XAiWorkMovieList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkMovie)
 
     def file_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileName") or [])
 
     def movie_volume(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("movieVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("movieVolume") or [])
 
     def opacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("opacity") or [])
 
     def reflection_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing") or [])
 
     def reflection_value(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue") or [])
 
     def reflection_value(self) -> list[XAiWorkApplication.RepetitionMethod]:
-        ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod")
+        ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod") or []
         return [XAiWorkApplication.RepetitionMethod(x) for x in ls]
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def by_file_name(self, file_name: str) -> 'XAiWorkMovie':
         return self.by_property("fileName", file_name)
@@ -1733,24 +1733,24 @@ class XAiWorkTextItemList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkTextItem)
 
     def background_fill_type(self) -> list[XAiWorkApplication.FillOption]:
-        ls = self.xa_elem.arrayByApplyingSelector_("fileName")
+        ls = self.xa_elem.arrayByApplyingSelector_("fileName") or []
         return [XAiWorkApplication.FillOption(x) for x in ls]
 
     def text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        ls = self.xa_elem.arrayByApplyingSelector_("text") or []
         return self._new_element(ls, XABase.XATextList)
 
     def opacity(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("opacity") or [])
 
     def reflection_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing") or [])
 
     def reflection_value(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue") or [])
 
     def rotation(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
     def by_background_fill_type(self, background_fill_type: XAiWorkApplication.FillOption) -> 'XAiWorkTextItem':
         return self.by_property("backgroundFillType", background_fill_type.value)
@@ -1854,29 +1854,29 @@ class XAiWorkTableList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkTable)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def row_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("rowCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("rowCount") or [])
 
     def column_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("columnCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("columnCount") or [])
 
     def header_row_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("headerRowCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("headerRowCount") or [])
 
     def header_column_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("headerColumnCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("headerColumnCount") or [])
 
     def footer_row_count(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("footerRowCount"))
+        return list(self.xa_elem.arrayByApplyingSelector_("footerRowCount") or [])
 
     def cell_range(self) -> 'XAiWorkRangeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("cellRange")
+        ls = self.xa_elem.arrayByApplyingSelector_("cellRange") or []
         return self._new_element(ls, XAiWorkRangeList)
 
     def selection_range(self) -> 'XAiWorkRangeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selectionRange")
+        ls = self.xa_elem.arrayByApplyingSelector_("selectionRange") or []
         return self._new_element(ls, XAiWorkRangeList)
 
     def by_name(self, name: str) -> Union['XAiWorkTable', None]:
@@ -2083,7 +2083,7 @@ class XAiWorkRangeList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
@@ -2100,35 +2100,35 @@ class XAiWorkRangeList(XABase.XAList):
         return pyxa_dicts
 
     def font_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontName") or [])
 
     def font_size(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fontSize") or [])
 
     def format(self) -> list[XAiWorkApplication.CellFormat]:
-        ls = self.xa_elem.arrayByApplyingSelector_("format")
+        ls = self.xa_elem.arrayByApplyingSelector_("format") or []
         return [XAiWorkApplication.CellFormat(x) for x in ls]
 
     def alignment(self) -> list[XAiWorkApplication.Alignment]:
-        ls = self.xa_elem.arrayByApplyingSelector_("alignment")
+        ls = self.xa_elem.arrayByApplyingSelector_("alignment") or []
         return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def text_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("textColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("textColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def text_wrap(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("textWrap"))
+        return list(self.xa_elem.arrayByApplyingSelector_("textWrap") or [])
 
     def background_color(self) -> list[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor") or []
         return [XABase.XAColor(x) for x in ls]
 
     def vertical_alignment(self) -> list[XAiWorkApplication.Alignment]:
-        ls = self.xa_elem.arrayByApplyingSelector_("verticalAlignment")
+        ls = self.xa_elem.arrayByApplyingSelector_("verticalAlignment") or []
         return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAiWorkRange', None]:
@@ -2443,7 +2443,7 @@ class XAiWorkRowList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkRow)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
             properties = pyxa_dicts[index]
@@ -2452,10 +2452,10 @@ class XAiWorkRowList(XAiWorkRangeList):
         return pyxa_dicts
 
     def address(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("address"))
+        return list(self.xa_elem.arrayByApplyingSelector_("address") or [])
 
     def height(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+        return list(self.xa_elem.arrayByApplyingSelector_("height") or [])
 
     def by_properties(self, properties: dict) -> Union['XAiWorkRow', None]:
         raw_dict = {}
@@ -2551,7 +2551,7 @@ class XAiWorkColumnList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkColumn)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
             properties = pyxa_dicts[index]
@@ -2560,10 +2560,10 @@ class XAiWorkColumnList(XAiWorkRangeList):
         return pyxa_dicts
 
     def address(self) -> list[float]:
-        return list(self.xa_elem.arrayByApplyingSelector_("address"))
+        return list(self.xa_elem.arrayByApplyingSelector_("address") or [])
 
     def width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
     def by_properties(self, properties: dict) -> Union['XAiWorkColumn', None]:
         raw_dict = {}
@@ -2659,7 +2659,7 @@ class XAiWorkCellList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkCell)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
             properties = pyxa_dicts[index]
@@ -2671,20 +2671,20 @@ class XAiWorkCellList(XAiWorkRangeList):
         return pyxa_dicts
 
     def formatted_value(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("formattedValue") or [])
 
     def formula(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("formula"))
+        return list(self.xa_elem.arrayByApplyingSelector_("formula") or [])
 
     def value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def column(self) -> XAiWorkColumnList:
-        ls = self.xa_elem.arrayByApplyingSelector_("column")
+        ls = self.xa_elem.arrayByApplyingSelector_("column") or []
         return self._new_element(ls, XAiWorkColumnList)
 
     def row(self) -> XAiWorkRowList:
-        ls = self.xa_elem.arrayByApplyingSelector_("row")
+        ls = self.xa_elem.arrayByApplyingSelector_("row") or []
         return self._new_element(ls, XAiWorkRowList)
 
     def by_properties(self, properties: dict) -> Union['XAiWorkCell', None]:

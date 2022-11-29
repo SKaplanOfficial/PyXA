@@ -416,19 +416,19 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XASafariDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+        return list(self.xa_elem.arrayByApplyingSelector_("file") or [])
 
     def source(self) -> list[str]:
         return [x.source() for x in self.xa_elem]
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def text(self) -> list[XABase.XAText]:
@@ -659,11 +659,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         return sources
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def text(self) -> list[XABase.XAText]:
         """Gets the visible text of each tab in the list.
@@ -685,10 +685,10 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         return texts
 
     def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_source(self, source: str) -> Union['XASafariTab', None]:
         for tab in self.xa_elem:

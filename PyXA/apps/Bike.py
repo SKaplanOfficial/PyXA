@@ -171,48 +171,48 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         super().__init__(properties, XABikeDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
     
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("url")
+        ls = self.xa_elem.arrayByApplyingSelector_("url") or []
         return [XABase.XAURL(x) for x in ls]
 
     def root_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("rootRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("rootRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def entireContents(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
+        ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
         ls = [row for contents in ls for row in contents]
         return self._new_element(ls, XABikeRowList)
 
     def focused_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("focusedRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("focusedRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def hoisted_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("hoistedRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("hoistedRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def selected_text(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selectedText"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selectedText") or [])
 
     def selection_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selectionRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("selectionRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def selection_rows(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selectionRows")
+        ls = self.xa_elem.arrayByApplyingSelector_("selectionRows") or []
         ls = [row for contents in ls for row in contents]
         return self._new_element(ls, XABikeRowList)
 
@@ -432,52 +432,52 @@ class XABikeRowList(XABase.XAList):
         super().__init__(properties, XABikeRow, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("url")
+        ls = self.xa_elem.arrayByApplyingSelector_("url") or []
         return [XABase.XAURL(x) for x in ls]
 
     def level(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("level"))
+        return list(self.xa_elem.arrayByApplyingSelector_("level") or [])
 
     def contains_rows(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("containsRows"))
+        return list(self.xa_elem.arrayByApplyingSelector_("containsRows") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def container(self) -> list[Union[XABikeDocument, 'XABikeRow']]:
         return [x.container for x in self]
 
     def container_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("containerRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("containerRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def prev_sibling_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("prevSiblingRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("prevSiblingRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def next_sibling_row(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("nextSiblingRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("nextSiblingRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def entire_contents(self) -> 'XABikeRowList':
-        ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
+        ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
         ls = [item for contents in ls for item in contents]
         return self._new_element(ls, XABikeRowList)
 
     def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def selected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def expanded(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("expanded"))
+        return list(self.xa_elem.arrayByApplyingSelector_("expanded") or [])
 
     def collapsed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
+        return list(self.xa_elem.arrayByApplyingSelector_("collapsed") or [])
 
     def by_id(self, id: str) -> Union['XABikeRow', None]:
         return self.by_property("id", id)
@@ -767,13 +767,13 @@ class XABikeAttributeList(XABase.XAList):
         super().__init__(properties, XABikeAttribute, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def value(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def container_row(self) -> XABikeRowList:
-        ls = self.xa_elem.arrayByApplyingSelector_("containerRow")
+        ls = self.xa_elem.arrayByApplyingSelector_("containerRow") or []
         return self._new_element(ls, XABikeRowList)
 
     def by_name(self, name: str) -> Union['XABikeAttribute', None]:

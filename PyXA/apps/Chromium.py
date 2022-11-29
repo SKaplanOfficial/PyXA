@@ -285,17 +285,17 @@ class XAChromiumTabList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumTab, filter)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def loading(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("loading"))
+        return list(self.xa_elem.arrayByApplyingSelector_("loading") or [])
 
     def by_id(self, id: int) -> Union['XAChromiumTab', None]:
         return self.by_property("id", id)
@@ -578,13 +578,13 @@ class XAChromiumBookmarkFolderList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumBookmarkFolder, filter)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def by_id(self, id: int) -> Union['XAChromiumBookmarkFolder', None]:
         return self.by_property("id", id)
@@ -702,17 +702,17 @@ class XAChromiumBookmarkItemList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumBookmarkItem, filter)
 
     def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def url(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def by_id(self, id: int) -> Union['XAChromiumBookmarkItem', None]:
         return self.by_property("id", id)

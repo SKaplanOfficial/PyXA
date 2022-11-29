@@ -1131,14 +1131,6 @@ class XAApplication(XAObject, XAClipboardCodable):
         self.xa_wcls = XAWindow
         self.__xa_prcs = None
 
-    def __getattr__(self, attr):
-        if attr in self.__dict__:
-            # If possible, use PyXA attribute
-            return super().__getattribute__(attr)
-        else:
-            # Otherwise, fall back to appscript
-            return getattr(self.xa_apsc, attr)
-
     @property
     def xa_apsc(self):
         import appscript
@@ -1434,6 +1426,15 @@ class XAApplication(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
+
+    def __getattr__(self, attr):
+        attributes = [x for y in [cls.__dict__.keys() for cls in self.__class__.__mro__ if cls.__name__ != "object"] for x in y]
+        if attr in attributes:
+            # If possible, use PyXA attribute
+            return super().__getattribute__(attr)
+        else:
+            # Otherwise, fall back to appscript
+            return getattr(self.xa_apsc, attr)
 
 
 
@@ -2782,52 +2783,52 @@ class XAUIElementList(XAList):
         super().__init__(properties, obj_type, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
 
     def accessibility_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription") or [])
 
     def enabled(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def entire_contents(self) -> list[list[Any]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("entireContents"))
+        return list(self.xa_elem.arrayByApplyingSelector_("entireContents") or [])
 
     def focused(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("focused"))
+        return list(self.xa_elem.arrayByApplyingSelector_("focused") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def position(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+        return list(self.xa_elem.arrayByApplyingSelector_("position") or [])
 
     def size(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def maximum_value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("maximumValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("maximumValue") or [])
 
     def minimum_value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("minimumValue"))
+        return list(self.xa_elem.arrayByApplyingSelector_("minimumValue") or [])
 
     def value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def role(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("role"))
+        return list(self.xa_elem.arrayByApplyingSelector_("role") or [])
 
     def role_description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("roleDescription"))
+        return list(self.xa_elem.arrayByApplyingSelector_("roleDescription") or [])
 
     def subrole(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("subrole"))
+        return list(self.xa_elem.arrayByApplyingSelector_("subrole") or [])
 
     def selected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def by_properties(self, properties: dict) -> 'XAUIElement':
         return self.by_property("properties", properties)
@@ -3530,11 +3531,11 @@ class XATextDocumentList(XAList, XAClipboardCodable):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        ls = self.xa_elem.arrayByApplyingSelector_("properties")
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
         return [dict(x) for x in ls]
 
     def text(self) -> 'XATextList':
-        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        ls = self.xa_elem.arrayByApplyingSelector_("text") or []
         return self._new_element(ls, XATextList)
 
     def by_properties(self, properties: dict) -> Union['XATextDocument', None]:
@@ -3544,23 +3545,23 @@ class XATextDocumentList(XAList, XAClipboardCodable):
         return self.by_property("text", text)
 
     def paragraphs(self) -> 'XAParagraphList':
-        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs") or []
         return self._new_element([plist for plist in ls], XAParagraphList)
 
     def words(self) -> 'XAWordList':
-        ls = self.xa_elem.arrayByApplyingSelector_("words")
+        ls = self.xa_elem.arrayByApplyingSelector_("words") or []
         return [self._new_element([plist for plist in ls], XAWordList)]
 
     def characters(self) -> 'XACharacterList':
-        ls = self.xa_elem.arrayByApplyingSelector_("characters")
+        ls = self.xa_elem.arrayByApplyingSelector_("characters") or []
         return [self._new_element([plist for plist in ls], XACharacterList)]
 
     def attribute_runs(self) -> 'XAAttributeRunList':
-        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns") or []
         return [self._new_element([plist for plist in ls], XAAttributeRunList)]
 
     def attachments(self) -> 'XAAttachmentList':
-        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        ls = self.xa_elem.arrayByApplyingSelector_("attachments") or []
         return [self._new_element([plist for plist in ls], XAAttachmentList)]
 
     def get_clipboard_representation(self) -> list[Union[str, 'AppKit.NSURL']]:
@@ -3675,7 +3676,7 @@ class XATextList(XAList):
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
         ls = []
         if hasattr(self.xa_elem, "get"):
-            ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+            ls = self.xa_elem.arrayByApplyingSelector_("paragraphs") or []
         else:
             ls = [x.xa_elem.split("\n") for x in self]
         ls = [paragraph for paragraphlist in ls for paragraph in paragraphlist if paragraph.strip() != '']
@@ -3689,7 +3690,7 @@ class XATextList(XAList):
     def words(self, filter: dict = None) -> 'XAWordList':
         ls = []
         if hasattr(self.xa_elem, "get"):
-            ls = self.xa_elem.arrayByApplyingSelector_("words")
+            ls = self.xa_elem.arrayByApplyingSelector_("words") or []
         else:
             ls = [x.xa_elem.split() for x in self]
         ls = [word for wordlist in ls for word in wordlist]
@@ -3698,7 +3699,7 @@ class XATextList(XAList):
     def characters(self, filter: dict = None) -> 'XACharacterList':
         ls = []
         if hasattr(self.xa_elem, "get"):
-            ls = self.xa_elem.arrayByApplyingSelector_("characters")
+            ls = self.xa_elem.arrayByApplyingSelector_("characters") or []
         else:
             ls = [list(x.xa_elem) for x in self]
         ls = [character for characterlist in ls for character in characterlist]
@@ -3707,14 +3708,14 @@ class XATextList(XAList):
     def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
         ls = []
         if hasattr(self.xa_elem, "get"):
-            ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+            ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns") or []
         ls = [attribute_run for attribute_run_list in ls for attribute_run in attribute_run_list]
         return self._new_element(ls, XAAttributeRunList, filter)
 
     def attachments(self, filter: dict = None) -> 'XAAttachmentList':
         ls = []
         if hasattr(self.xa_elem, "get"):
-            ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+            ls = self.xa_elem.arrayByApplyingSelector_("attachments") or []
         ls = [attachment for attachment_list in ls for attachment in attachment_list]
         return self._new_element(ls, XAAttachmentList, filter)
 
@@ -5153,56 +5154,56 @@ class XADiskItemList(XAList):
         super().__init__(properties, object_class, filter)
 
     def busy_status(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("busyStatus"))
+        return list(self.xa_elem.arrayByApplyingSelector_("busyStatus") or [])
 
     def container(self) -> 'XADiskItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XADiskItemList)
 
     def creation_date(self) -> list['datetime']:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def displayed_name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def id(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def modification_date(self) -> list['datetime']:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def name_extension(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
+        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension") or [])
 
     def package_folder(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("packageFolder"))
+        return list(self.xa_elem.arrayByApplyingSelector_("packageFolder") or [])
 
     def path(self) -> list['XAPath']:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XAPath(x) for x in ls]
 
     def physical_size(self) -> list['int']:
-        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
+        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize") or [])
 
     def posix_path(self) -> list[XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("POSIXPath")
+        ls = self.xa_elem.arrayByApplyingSelector_("POSIXPath") or []
         return [XAPath(x) for x in ls]
 
     def size(self) -> list['int']:
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def url(self) -> list['XAURL']:
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
         return [XAURL(x) for x in ls]
 
     def visible(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def volume(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("volume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("volume") or [])
 
     def by_busy_status(self, busy_status: bool) -> 'XADiskItem':
         return self.by_property("busyStatus", busy_status)
@@ -5427,32 +5428,32 @@ class XAAliasList(XADiskItemList):
         super().__init__(properties, filter, XAAlias)
 
     def creator_type(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
 
     def default_application(self) -> 'XADiskItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
+        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication") or []
         return self._new_element(ls, XADiskItemList)
 
     def file_type(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
 
     def kind(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def product_version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
+        return list(self.xa_elem.arrayByApplyingSelector_("productVersion") or [])
 
     def short_version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion") or [])
 
     def stationery(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
+        return list(self.xa_elem.arrayByApplyingSelector_("stationery") or [])
 
     def type_identifier(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier") or [])
 
     def version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def by_creator_type(self, creator_type: str) -> 'XAAlias':
         return self.by_property("creatorType", creator_type)
@@ -5610,32 +5611,32 @@ class XADiskList(XADiskItemList):
         super().__init__(properties, filter, XADisk)
 
     def capacity(self) -> list['float']:
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
+        return list(self.xa_elem.arrayByApplyingSelector_("capacity") or [])
 
     def ejectable(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ejectable") or [])
 
     def format(self) -> list['XAEventsApplication.Format']:
-        ls = self.xa_elem.arrayByApplyingSelector_("format")
+        ls = self.xa_elem.arrayByApplyingSelector_("format") or []
         return [XAEventsApplication.Format(OSType(x.stringValue())) for x in ls]
 
     def free_space(self) -> list['float']:
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
+        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace") or [])
 
     def ignore_privileges(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
+        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges") or [])
 
     def local_volume(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
+        return list(self.xa_elem.arrayByApplyingSelector_("localVolume") or [])
 
     def server(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("server"))
+        return list(self.xa_elem.arrayByApplyingSelector_("server") or [])
 
     def startup(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("startup"))
+        return list(self.xa_elem.arrayByApplyingSelector_("startup") or [])
 
     def zone(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("zone"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zone") or [])
 
     def by_capacity(self, capacity: float) -> 'XADisk':
         return self.by_property("capacity", capacity)
@@ -5793,10 +5794,10 @@ class XADomainList(XAList):
         super().__init__(properties, XADomain, filter)
 
     def id(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_id(self, id: str) -> 'XADomain':
         return self.by_property("id", id)
@@ -6067,32 +6068,32 @@ class XAFileList(XADiskItemList):
         super().__init__(properties, filter, object_class)
 
     def creator_type(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
 
     def default_application(self) -> 'XADiskItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
+        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication") or []
         return self._new_element(ls, XADiskItemList)
 
     def file_type(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
+        return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
 
     def kind(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
+        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def product_version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
+        return list(self.xa_elem.arrayByApplyingSelector_("productVersion") or [])
 
     def short_version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion") or [])
 
     def stationery(self) -> list['bool']:
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
+        return list(self.xa_elem.arrayByApplyingSelector_("stationery") or [])
 
     def type_identifier(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier") or [])
 
     def version(self) -> list['str']:
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
+        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
     def by_creator_type(self, creator_type: str) -> 'XAFile':
         return self.by_property("creatorType", creator_type)

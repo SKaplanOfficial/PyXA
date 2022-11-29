@@ -305,13 +305,13 @@ class XAVLCDocumentList(XABase.XAList, XACloseable, XAClipboardCodable):
         super().__init__(properties, XAVLCDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XAVLCDocument', None]:

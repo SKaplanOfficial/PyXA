@@ -245,7 +245,7 @@ class XAMapsSidebarLocationList(XABase.XAList):
         super().__init__(properties, XAMapsSidebarLocation, filter)
 
     def name(self) -> list[str]:
-        ls = self.xa_elem.arrayByApplyingSelector_("objectDescription")
+        ls = self.xa_elem.arrayByApplyingSelector_("objectDescription") or []
         return [x.split(",")[0] for x in ls]
 
     def __repr__(self):

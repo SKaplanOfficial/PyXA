@@ -286,35 +286,35 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XANote, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def body(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("body") or [])
 
     def plaintext(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("plaintext"))
+        return list(self.xa_elem.arrayByApplyingSelector_("plaintext") or [])
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def password_protected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected") or [])
 
     def shared(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("shared"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shared") or [])
 
     def container(self) -> 'XANotesFolderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XANotesFolderList)
 
     def attachments(self) -> 'XANotesAttachmentList':
-        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        ls = self.xa_elem.arrayByApplyingSelector_("attachments") or []
         return self._new_element(ls, XANotesAttachmentList)
 
     def by_name(self, name: str) -> 'XANote':
@@ -384,13 +384,13 @@ class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XANotesDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+        return list(self.xa_elem.arrayByApplyingSelector_("file") or [])
 
     def by_name(self, name: str) -> 'XANotesDocument':
         return self.by_property("name", name)
@@ -426,24 +426,24 @@ class XANotesAccountList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XANotesAccount, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def upgraded(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("upgraded"))
+        return list(self.xa_elem.arrayByApplyingSelector_("upgraded") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def default_folder(self) -> 'XANotesFolderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultFolder")
+        ls = self.xa_elem.arrayByApplyingSelector_("defaultFolder") or []
         return self._new_element(ls, XANotesFolderList)
 
     def notes(self) -> 'XANoteList':
-        ls = self.xa_elem.arrayByApplyingSelector_("notes")
+        ls = self.xa_elem.arrayByApplyingSelector_("notes") or []
         return self._new_element(ls, XANoteList)
 
     def folders(self) -> 'XANotesFolderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("folders")
+        ls = self.xa_elem.arrayByApplyingSelector_("folders") or []
         return self._new_element(ls, XANotesFolderList)
 
     def by_name(self, name: str) -> 'XANotesAccount':
@@ -483,24 +483,24 @@ class XANotesFolderList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XANotesFolder, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def shared(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("shared"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shared") or [])
 
     def container(self) -> XANotesAccountList:
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XANotesAccountList)
 
     def folders(self) -> 'XANotesFolderList':
-        ls = self.xa_elem.arrayByApplyingSelector_("folders")
+        ls = self.xa_elem.arrayByApplyingSelector_("folders") or []
         return self._new_element(ls, XANotesFolderList)
 
     def notes(self) -> XANoteList:
-        ls = self.xa_elem.arrayByApplyingSelector_("notes")
+        ls = self.xa_elem.arrayByApplyingSelector_("notes") or []
         return self._new_element(ls, XANoteList)
 
     def by_name(self, name: str) -> 'XANotesFolder':
@@ -540,28 +540,28 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XANoteAttachment, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def content_identifier(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("contentIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("contentIdentifier") or [])
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def url(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
 
     def shared(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("shared"))
+        return list(self.xa_elem.arrayByApplyingSelector_("shared") or [])
 
     def container(self) -> XANoteList:
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
+        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XANoteList)
 
     def by_name(self, name: str) -> 'XANoteAttachment':

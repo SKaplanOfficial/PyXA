@@ -263,7 +263,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         super().__init__(properties, filter, XATextEditDocument)
 
     def properties(self) -> list[dict]:
-        raw_dicts = list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        raw_dicts = list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
         return [{
             "modified": raw_dict["modified"],
             "name": raw_dict["name"],
@@ -273,14 +273,14 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         } for raw_dict in raw_dicts]
 
     def path(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def by_properties(self, properties: dict) -> Union['XABase.XATextDocument', None]:
         for document in self.xa_elem:

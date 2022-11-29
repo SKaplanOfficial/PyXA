@@ -98,7 +98,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def default_country_code(self) -> str:
         """The default country code for addresses.
         """
-        return self.xa_scel.defaultCountryCode()
+        return self.xa_scel.defaultCountryCode().get() or ""
 
     def open(self, file_path: str):
         """Opens a document and prompts whether to import the contact(s) contained in the document.
@@ -235,13 +235,13 @@ class XAContactsDocumentList(XABase.XAList):
         super().__init__(properties, XAContactsDocument, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAURL]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAURL(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XAContactsDocument', None]:
@@ -296,31 +296,31 @@ class XAContactsAddressList(XABase.XAList):
         super().__init__(properties, XAContactsAddress, filter)
 
     def city(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("city"))
+        return list(self.xa_elem.arrayByApplyingSelector_("city") or [])
 
     def formatted_address(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("formattedAddress"))
+        return list(self.xa_elem.arrayByApplyingSelector_("formattedAddress") or [])
 
     def street(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("street"))
+        return list(self.xa_elem.arrayByApplyingSelector_("street") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def zip(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zip"))
+        return list(self.xa_elem.arrayByApplyingSelector_("zip") or [])
 
     def country(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("country"))
+        return list(self.xa_elem.arrayByApplyingSelector_("country") or [])
 
     def label(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("label"))
+        return list(self.xa_elem.arrayByApplyingSelector_("label") or [])
 
     def country_code(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("countryCode"))
+        return list(self.xa_elem.arrayByApplyingSelector_("countryCode") or [])
 
     def state(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("state"))
+        return list(self.xa_elem.arrayByApplyingSelector_("state") or [])
 
     def by_city(self, city: str) -> Union['XAContactsAddress', None]:
         return self.by_property("city", city)
@@ -458,13 +458,13 @@ class XAContactsContactInfoList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def label(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("label"))
+        return list(self.xa_elem.arrayByApplyingSelector_("label") or [])
 
     def value(self) -> list[Any]:
-        return list(self.xa_elem.arrayByApplyingSelector_("value"))
+        return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def by_label(self, label: str) -> Union['XAContactsContactInfo', None]:
         return self.by_property("label", label)
@@ -570,16 +570,16 @@ class XAContactsEntryList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def modification_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
     def creation_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def selected(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+        return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAContactsEntry', None]:
         return self.by_property("modificationDate", modification_date)
@@ -695,7 +695,7 @@ class XAContactsGroupList(XAContactsEntryList):
         super().__init__(properties, filter, XAContactsGroup)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_name(self, name: str) -> Union['XAContactsGroup', None]:
         return self.by_property("name", name)
@@ -762,14 +762,14 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
         super().__init__(properties, filter, XAContactsInstantMessage)
 
     def service_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("serviceName") or [])
 
     def service_type(self) -> list[XAContactsApplication.ServiceType]:
-        ls = self.xa_elem.arrayByApplyingSelector_("serviceType")
+        ls = self.xa_elem.arrayByApplyingSelector_("serviceType") or []
         return [XAContactsApplication.ServiceType(XABase.OSType(x.stringValue())) for x in ls]
 
     def user_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("userName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("userName") or [])
 
     def by_service_name(self, service_name: str) -> Union['XAContactsInstantMessage', None]:
         return self.by_property("serviceName", service_name)
@@ -835,65 +835,65 @@ class XAContactsPersonList(XAContactsEntryList):
         super().__init__(properties, filter, XAContactsPerson)
 
     def nickname(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("nickname"))
+        return list(self.xa_elem.arrayByApplyingSelector_("nickname") or [])
 
     def organization(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("organization"))
+        return list(self.xa_elem.arrayByApplyingSelector_("organization") or [])
 
     def maiden_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("maidenName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("maidenName") or [])
 
     def suffix(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("suffix"))
+        return list(self.xa_elem.arrayByApplyingSelector_("suffix") or [])
 
     def vcard(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("vcard"))
+        return list(self.xa_elem.arrayByApplyingSelector_("vcard") or [])
 
     def home_page(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("homePage"))
+        return list(self.xa_elem.arrayByApplyingSelector_("homePage") or [])
 
     def birth_date(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("birthdate"))
+        return list(self.xa_elem.arrayByApplyingSelector_("birthdate") or [])
 
     def phonetic_last_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("phoneticLastName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("phoneticLastName") or [])
 
     def title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def phonetic_middle_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("phoneticMiddleName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("phoneticMiddleName") or [])
 
     def department(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("department"))
+        return list(self.xa_elem.arrayByApplyingSelector_("department") or [])
 
     def image(self) -> list[XABase.XAImage]:
-        ls = self.xa_elem.arrayByApplyingSelector_("image")
+        ls = self.xa_elem.arrayByApplyingSelector_("image") or []
         return [XABase.XAImage(x) for x in ls]
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def note(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("note"))
+        return list(self.xa_elem.arrayByApplyingSelector_("note") or [])
 
     def company(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("company"))
+        return list(self.xa_elem.arrayByApplyingSelector_("company") or [])
 
     def middle_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("middleName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("middleName") or [])
 
     def phonetic_first_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("phoneticFirstName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("phoneticFirstName") or [])
 
     def job_title(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("jobTitle"))
+        return list(self.xa_elem.arrayByApplyingSelector_("jobTitle") or [])
 
     def last_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("lastName") or [])
 
     def first_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("firstName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("firstName") or [])
 
     def by_nickname(self, nickname: str) -> Union['XAContactsPerson', None]:
         return self.by_property("nickname", nickname)
@@ -1343,19 +1343,19 @@ class XAContactsSocialProfileList(XABase.XAList):
         super().__init__(properties, XAContactsSocialProfile, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def service_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("serviceName") or [])
 
     def user_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("userName"))
+        return list(self.xa_elem.arrayByApplyingSelector_("userName") or [])
 
     def user_identifier(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("userIdentifier"))
+        return list(self.xa_elem.arrayByApplyingSelector_("userIdentifier") or [])
 
     def url(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
 
     def by_id(self, id: str) -> Union['XAContactsSocialProfile', None]:
         return self.by_property("id", id)

@@ -91,31 +91,31 @@ class XADraftsDraftList(XABase.XAList):
         super().__init__(properties, XADraftsDraft, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def content(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("content"))
+        return list(self.xa_elem.arrayByApplyingSelector_("content") or [])
 
     def flagged(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("flagged"))
+        return list(self.xa_elem.arrayByApplyingSelector_("flagged") or [])
 
     def tags(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("tags"))
+        return list(self.xa_elem.arrayByApplyingSelector_("tags") or [])
 
     def created_at(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("createdAt"))
+        return list(self.xa_elem.arrayByApplyingSelector_("createdAt") or [])
 
     def modified_at(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modifiedAt"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modifiedAt") or [])
 
     def accessed_at(self) -> list[datetime]:
-        return list(self.xa_elem.arrayByApplyingSelector_("accessedAt"))
+        return list(self.xa_elem.arrayByApplyingSelector_("accessedAt") or [])
 
     def permalink(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("permalink"))
+        return list(self.xa_elem.arrayByApplyingSelector_("permalink") or [])
 
     def by_id(self, id: str) -> Union['XADraftsDraft', None]:
         return self.by_property("id", id)

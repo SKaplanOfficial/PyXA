@@ -171,7 +171,7 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         super().__init__(properties, filter, XAPagesDocument)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, doc in enumerate(self.xa_elem):
             pyxa_dicts[index] = {
@@ -190,34 +190,34 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         return pyxa_dicts
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+        return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def document_template(self) -> 'XAPagesTemplateList':
-        ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate")
+        ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate") or []
         return self._new_element(ls, XAPagesTemplateList)
 
     def body_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
     def document_body(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("documentBody"))
+        return list(self.xa_elem.arrayByApplyingSelector_("documentBody") or [])
 
     def facing_pages(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("facingPages"))
+        return list(self.xa_elem.arrayByApplyingSelector_("facingPages") or [])
 
     def current_page(self) -> 'XAPagesPageList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentPage")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentPage") or []
         return self._new_element(ls, XAPagesPageList)
 
     def by_properties(self, properties: dict) -> Union['XAPagesDocument', None]:
@@ -636,10 +636,10 @@ class XAPagesTemplateList(XABase.XAList):
         super().__init__(properties, XAPagesTemplate, filter)
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_id(self, id: str) -> Union['XAPagesTemplate', None]:
         return self.by_property("id", id)
@@ -691,7 +691,7 @@ class XAPagesSectionList(XABase.XAList):
         super().__init__(properties, XAPagesSection, filter)
 
     def body_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
     def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesSection', None]:
@@ -701,7 +701,7 @@ class XAPagesSectionList(XABase.XAList):
             self.by_property('bodyText', str(body_text))
 
     def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
-        ls = self.xa_elem.arrayByApplyingSelector_("audioClips")
+        ls = self.xa_elem.arrayByApplyingSelector_("audioClips") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -709,7 +709,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkAudioClipList, filter)
 
     def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
-        ls = self.xa_elem.arrayByApplyingSelector_("charts")
+        ls = self.xa_elem.arrayByApplyingSelector_("charts") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -717,7 +717,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkChartList, filter)
 
     def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
-        ls = self.xa_elem.arrayByApplyingSelector_("groups")
+        ls = self.xa_elem.arrayByApplyingSelector_("groups") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -725,7 +725,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkGroupList, filter)
 
     def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
-        ls = self.xa_elem.arrayByApplyingSelector_("images")
+        ls = self.xa_elem.arrayByApplyingSelector_("images") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -733,7 +733,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkImageList, filter)
 
     def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems")
+        ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -741,7 +741,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkiWorkItemList, filter)
 
     def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
-        ls = self.xa_elem.arrayByApplyingSelector_("lines")
+        ls = self.xa_elem.arrayByApplyingSelector_("lines") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -749,7 +749,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkLineList, filter)
     
     def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
-        ls = self.xa_elem.arrayByApplyingSelector_("movies")
+        ls = self.xa_elem.arrayByApplyingSelector_("movies") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -757,7 +757,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkMovieList, filter)
 
     def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("shapes")
+        ls = self.xa_elem.arrayByApplyingSelector_("shapes") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -765,7 +765,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList, filter)
 
     def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
-        ls = self.xa_elem.arrayByApplyingSelector_("tables")
+        ls = self.xa_elem.arrayByApplyingSelector_("tables") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -773,7 +773,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
     def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
-        ls = self.xa_elem.arrayByApplyingSelector_("pages")
+        ls = self.xa_elem.arrayByApplyingSelector_("pages") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -781,7 +781,7 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, XAPagesPageList, filter)
 
     def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("textItems")
+        ls = self.xa_elem.arrayByApplyingSelector_("textItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
@@ -982,7 +982,7 @@ class XAPagesPageList(XAPagesContainerList):
         super().__init__(properties, filter, XAPagesPage)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
@@ -991,7 +991,7 @@ class XAPagesPageList(XAPagesContainerList):
         return pyxa_dicts
 
     def body_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> Union['XAPagesPage', None]:
@@ -1085,7 +1085,7 @@ class XAPagesPlaceholderTextList(XABase.XATextList):
         super().__init__(properties, filter, XAPagesPlaceholderText)
 
     def tag(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("tag"))
+        return list(self.xa_elem.arrayByApplyingSelector_("tag") or [])
 
     def by_tag(self, tag: str) -> Union['XAPagesPlaceholderText', None]:
         return self.by_property("tag", tag)

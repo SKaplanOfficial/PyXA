@@ -327,33 +327,33 @@ class XAKeynoteDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         return pyxa_dicts
 
     def slide_numbers_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("slideNumbersShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("slideNumbersShowing") or [])
 
     def document_theme(self) -> 'XAKeynoteThemeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("documentTheme")
+        ls = self.xa_elem.arrayByApplyingSelector_("documentTheme") or []
         return self._new_element(ls, XAKeynoteThemeList)
 
     def auto_loop(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("autoLoop"))
+        return list(self.xa_elem.arrayByApplyingSelector_("autoLoop") or [])
 
     def auto_play(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("autoPlay"))
+        return list(self.xa_elem.arrayByApplyingSelector_("autoPlay") or [])
 
     def auto_restart(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("autoRestart"))
+        return list(self.xa_elem.arrayByApplyingSelector_("autoRestart") or [])
 
     def maximum_idle_duration(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("maximumIdleDuration"))
+        return list(self.xa_elem.arrayByApplyingSelector_("maximumIdleDuration") or [])
 
     def current_slide(self) -> 'XAKeynoteSlideList':
-        ls = self.xa_elem.arrayByApplyingSelector_("currentSlide")
+        ls = self.xa_elem.arrayByApplyingSelector_("currentSlide") or []
         return self._new_element(ls, XAKeynoteSlideList)
 
     def height(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+        return list(self.xa_elem.arrayByApplyingSelector_("height") or [])
 
     def width(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
     def by_properties(self, properties: dict) -> Union['XAKeynoteDocument', None]:
         raw_dict = {}
@@ -784,10 +784,10 @@ class XAKeynoteThemeList(XABase.XAList):
         return pyxa_dicts
 
     def id(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_properties(self, properties: dict) -> Union['XAKeynoteTheme', None]:
         for theme in self.xa_elem:
@@ -876,7 +876,7 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         super().__init__(properties, filter, obj_class)
 
     def properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
@@ -898,19 +898,19 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         return pyxa_dicts
 
     def body_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("bodyShowing") or [])
 
     def skipped(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("skipped"))
+        return list(self.xa_elem.arrayByApplyingSelector_("skipped") or [])
 
     def slide_number(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("slideNumber"))
+        return list(self.xa_elem.arrayByApplyingSelector_("slideNumber") or [])
 
     def title_showing(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("titleShowing"))
+        return list(self.xa_elem.arrayByApplyingSelector_("titleShowing") or [])
 
     def transition_properties(self) -> list[dict]:
-        raw_dicts = self.xa_elem.arrayByApplyingSelector_("transitionProperties")
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("transitionProperties") or []
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = XAKeynoteTransitionSettings({
@@ -922,19 +922,19 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         return pyxa_dicts
 
     def base_layout(self) -> 'XAKeynoteSlideLayoutList':
-        ls = self.xa_elem.arrayByApplyingSelector_("baseLayout")
+        ls = self.xa_elem.arrayByApplyingSelector_("baseLayout") or []
         return self._new_element(ls, XAKeynoteSlideLayoutList)
 
     def default_body_item(self) -> 'iWorkApplicationBase.XAiWorkShapeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultBodyItem")
+        ls = self.xa_elem.arrayByApplyingSelector_("defaultBodyItem") or []
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList)
 
     def default_title_item(self) -> 'iWorkApplicationBase.XAiWorkShapeList':
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultTitleItem")
+        ls = self.xa_elem.arrayByApplyingSelector_("defaultTitleItem") or []
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList)
 
     def presenter_notes(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("presenterNotes")
+        ls = self.xa_elem.arrayByApplyingSelector_("presenterNotes") or []
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> 'XAKeynoteSlide':
@@ -1279,7 +1279,7 @@ class XAKeynoteSlideLayoutList(XAKeynoteSlideList):
         super().__init__(properties, XAKeynoteSlideLayout, filter)
 
     def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_name(self, name: str) -> 'XAKeynoteSlideLayout':
         return self.by_property("name", name)

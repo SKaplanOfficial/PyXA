@@ -76,13 +76,13 @@ class XASBApplication(XABase.XAApplication):
         self.xa_wcls = XASBWindow
 
     @property
-    def xa_scel(self) -> ScriptingBridge.SBApplication:
+    def xa_scel(self) -> 'ScriptingBridge.SBApplication':
         if self.__xa_scel is None:
             self.__xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
         return self.__xa_scel
 
     @xa_scel.setter
-    def xa_scel(self, xa_scel: ScriptingBridge.SBObject):
+    def xa_scel(self, xa_scel: 'ScriptingBridge.SBObject'):
         self.__xa_scel = xa_scel
 
     @property
@@ -140,154 +140,49 @@ class XASBWindowList(XABase.XAList):
             self.xa_ocls = self.xa_prnt.xa_wcls
 
     def name(self) -> list[str]:
-        """Gets the name of each window in the list.
-
-        :return: A list of window names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each window in the list.
-
-        :return: A list of window IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def index(self) -> list[int]:
-        """Gets the index of each window in the list.
-
-        :return: A list of window indices
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
     def bounds(self) -> list[XARectangle]:
-        """Gets the bounding rectangle of each window in the list.
-
-        :return: A list of window bounds
-        :rtype: list[XARectangle]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("bounds") or []
         return [XARectangle(value.rectValue().origin.x, value.rectValue().origin.y, value.rectValue().size.width, value.rectValue().size.height) for value in ls]
 
     def closeable(self) -> list[bool]:
-        """Gets the closeable status of each window in the list.
-
-        :return: A list of window closeable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("closeable") or [])
 
     def resizable(self) -> list[bool]:
-        """Gets the resizable status of each window in the list.
-
-        :return: A list of window resizable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("resizable") or [])
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each window in the list.
-
-        :return: A list of window visible status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def zoomable(self) -> list[bool]:
-        """Gets the zoomable status of each window in the list.
-
-        :return: A list of window zoomable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomable") or [])
 
     def zoomed(self) -> list[bool]:
-        """Gets the zoomed status of each window in the list.
-
-        :return: A list of window zoomed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomed") or [])
 
     def miniaturizable(self) -> list[bool]:
-        """Gets the miniaturizable status of each window in the list.
-
-        :return: A list of window miniaturizable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("miniaturizable") or [])
 
     def miniaturized(self) -> list[bool]:
-        """Gets the miniaturized of each window in the list.
-
-        :return: A list of window miniaturized status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("miniaturized") or [])
 
     def by_name(self, name: str) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose name matches the given name, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: int) -> Union['XASBWindow', None]:
-        """Retrieves the window whose ID matches the given ID, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("id", id)
 
     def by_index(self, index: int) -> Union['XASBWindow', None]:
-        """Retrieves the window whose index matches the given index, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("index", index)
 
     def by_bounds(self, bounds: Union[tuple[int, int, int, int], XARectangle]) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose bounding rectangle matches the given bounds, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -296,73 +191,24 @@ class XASBWindowList(XABase.XAList):
         return self.by_property("bounds", value)
 
     def by_closeable(self, closeable: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose closeable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("closeable", closeable)
 
     def by_resizable(self, resizable: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose resizable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("resizable", resizable)
 
     def by_visible(self, visible: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("visible", visible)
 
     def by_zoomable(self, zoomable: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose zoomable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("zoomable", zoomable)
 
     def by_zoomed(self, zoomed: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose zoomed status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("zoomed", zoomed)
 
     def by_miniaturizable(self, miniaturizable: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose miniaturizable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("miniaturizable", miniaturizable)
 
     def by_miniaturized(self, miniaturized: bool) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose miniaturized status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XASBWindow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("miniaturized", miniaturized)
 
     def collapse(self):

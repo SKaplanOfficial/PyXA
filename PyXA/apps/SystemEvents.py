@@ -880,64 +880,22 @@ class XASystemEventsDocumentList(XABase.XAList):
         super().__init__(properties, XASystemEventsDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> 'XABase.XAFileList':
-        """Gets the file of each document in the list.
-
-        :return: A list of document files
-        :rtype: XABase.XAFileList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return self._new_element(ls, XABase.XAFileList)
 
     def by_name(self, name: str) -> Union['XASystemEventsDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASystemEventsDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XASystemEventsDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASystemEventsDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: 'XABase.XAFile') -> Union['XASystemEventsDocument', None]:
-        """Retrieves the document whose file matches the given file, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASystemEventsDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
@@ -1602,87 +1560,31 @@ class XASystemEventsUserList(XABase.XAList):
         super().__init__(properties, XASystemEventsUser, filter)
 
     def full_name(self) -> list[str]:
-        """Gets the full name of each user in the list.
-
-        :return: A list of user names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
 
     def home_directory(self) -> list[XABase.XAPath]:
-        """Gets the home directory path of each user in the list.
-
-        :return: A list of user home directory paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("homeDirectory")
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        """Gets the short name of each user in the list.
-
-        :return: A list of user names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def picture_path(self) -> list[XABase.XAPath]:
-        """Gets the picture path of each user in the list.
-
-        :return: A list of user picture paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("picturePath")
         return [XABase.XAPath(x) for x in ls]
 
     def by_full_name(self, full_name: str) -> Union['XASystemEventsUser', None]:
-        """Retrieves the user whose full name matches the given name, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsUser, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fullName", full_name)
 
     def by_home_directory(self, home_directory: Union[XABase.XAPath, str]) -> Union['XASystemEventsUser', None]:
-        """Retrieves the user whose short name matches the given name, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsUser, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(home_directory, str):
             home_directory = XABase.XAPath(home_directory)
         return self.by_property("homeDirectory", home_directory.xa_elem)
 
     def by_name(self, name: str) -> Union['XASystemEventsUser', None]:
-        """Retrieves the user whose short name matches the given name, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsUser, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_picture_path(self, picture_path: Union[XABase.XAPath, str]) -> Union['XASystemEventsUser', None]:
-        """Retrieves the user whose short name matches the given name, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsUser, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(picture_path, str):
             picture_path = XABase.XAPath(picture_path)
         return self.by_property("picturePath", picture_path.xa_elem)
@@ -1948,211 +1850,71 @@ class XASystemEventsDesktopList(XABase.XAList):
         super().__init__(properties, XASystemEventsUser, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each desktop in the list.
-
-        :return: A list of desktop names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> list[int]:
-        """Gets the ID of each desktop in the list.
-
-        :return: A list of desktop IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def change_interval(self) -> list[float]:
-        """Gets the change interval of each desktop in the list.
-
-        :return: A list of desktop picture change intervals
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("changeInterval"))
 
     def display_name(self) -> list[str]:
-        """Gets the display name of each desktop in the list.
-
-        :return: A list of desktop display names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
     def picture(self) -> list[XABase.XAPath]:
-        """Gets the picture path of each desktop in the list.
-
-        :return: A list of desktop picture paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("picture")
         return [XABase.XAPath(x) for x in ls]
 
     def picture_rotation(self) -> list[XASystemEventsApplication.PictureRotation]:
-        """Gets the picture rotation setting of each desktop in the list.
-
-        :return: A list of desktop picture rotation settings
-        :rtype: list[XASystemEventsApplication.PictureRotation]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("pictureRotation")
         return [XASystemEventsApplication.PictureRotation(x) for x in ls]
 
     def pictures_folder(self) -> list[XABase.XAPath]:
-        """Gets the pictures folder of each desktop in the list.
-
-        :return: A list of desktop pictures folders
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("picturesFolder")
         return [XABase.XAPath(x) for x in ls]
 
     def random_folder(self) -> list[bool]:
-        """Gets the random order setting of each desktop in the list.
-
-        :return: A list of desktop random order settings
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("randomOrder"))
 
     def translucent_menu_bar(self) -> list[bool]:
-        """Gets the translucent menu bar setting of each desktop in the list.
-
-        :return: A list of desktop translucent menu bar settings
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("translucentMenuBar"))
 
     def dynamic_style(self) -> list[XASystemEventsApplication.DynamicStyle]:
-        """Gets the dynamic style of each desktop in the list.
-
-        :return: A list of desktop dynamic styles
-        :rtype: list[XASystemEventsApplication.DynamicStyle]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("dynamicStyle")
         return [XASystemEventsApplication.DynamicStyle(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the desktop whose name matches the given name, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: int) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the desktop whose ID matches the given ID, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_change_interval(self, change_interval: float) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose change interval matches the given change interval, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("changeInterval", change_interval)
 
     def by_display_name(self, display_name: str) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose display name matches the given name, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("displayName", display_name)
 
     def by_picture(self, picture: Union[XABase.XAPath, str]) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose picture path matches the given path, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(picture, str):
             picture = XABase.XAPath(picture)
         return self.by_property("picture", picture.xa_elem)
 
     def by_picture_rotation(self, picture_rotation: XASystemEventsApplication.PictureRotation) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose picture rotation setting matches the given picture rotation setting, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("pictureRotation", picture_rotation.value)
 
     def by_pictures_folder(self, pictures_folder: Union[XABase.XAPath, str]) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose pictures folder path matches the given path, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(pictures_folder, str):
             pictures_folder = XABase.XAPath(pictures_folder)
         return self.by_property("picturesFolder", pictures_folder.xa_elem)
 
     def by_random_order(self, random_order: bool) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose random order setting matches the given boolean value, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("randomOrder", random_order)
 
     def by_translucent_menu_bar(self, translucent_menu_bar: bool) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the first desktop whose translucent menu bar setting matches the given boolean value, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("translucentMenuBar", translucent_menu_bar)
 
     def by_dynamic_style(self, dynamic_style: XASystemEventsApplication.DynamicStyle) -> Union['XASystemEventsDesktop', None]:
-        """Retrieves the desktop whose dynamic style matches the given dynamic style, if one exists.
-
-        :return: The desired desktop, if it is found
-        :rtype: Union[XASystemEventsDesktop, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("dynamicStyle", dynamic_style.value)
 
     def __repr__(self):
@@ -2407,84 +2169,28 @@ class XASystemEventsLoginItemList(XABase.XAList):
         super().__init__(properties, XASystemEventsLoginItem, filter)
 
     def hidden(self) -> list[bool]:
-        """Gets the hidden status of each item in the list.
-
-        :return: A list of property list hidden statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
     def kind(self) -> list[str]:
-        """Gets the kind of each item in the list.
-
-        :return: A list of property list kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def name(self) -> list[str]:
-        """Gets the name of each item in the list.
-
-        :return: A list of property list names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each item in the list.
-
-        :return: A list of property list paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
         
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsLoginItem', None]:
-        """Retrieves the first login item whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired login item, if it is found
-        :rtype: Union[XASystemEventsLoginItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsLoginItem', None]:
-        """Retrieves the first login item whose kind matches the given kind, if one exists.
-
-        :return: The desired login item, if it is found
-        :rtype: Union[XASystemEventsLoginItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_name(self, name: str) -> Union['XASystemEventsLoginItem', None]:
-        """Retrieves the first login item whose name matches the given name, if one exists.
-
-        :return: The desired login item, if it is found
-        :rtype: Union[XASystemEventsLoginItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XASystemEventsLoginItem', None]:
-        """Retrieves the first login item whose path matches the given path, if one exists.
-
-        :return: The desired login item, if it is found
-        :rtype: Union[XASystemEventsLoginItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(path, XABase.XAPath):
             path = path.path
         return self.by_property("path", path)
@@ -2549,83 +2255,27 @@ class XASystemEventsConfigurationList(XABase.XAList):
         super().__init__(properties, XASystemEventsConfiguration, filter)
 
     def account_name(self) -> list[str]:
-        """Gets the account name of each configuration in the list.
-
-        :return: A list of configuration account names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("accountName") or [])
 
     def connected(self) -> list[bool]:
-        """Gets the connected status of each configuration in the list.
-
-        :return: A list of configuration connected status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("connected") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each configuration in the list.
-
-        :return: A list of configuration IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each configuration in the list.
-
-        :return: A list of configuration names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_account_name(self, account_name: str) -> Union['XASystemEventsConfiguration', None]:
-        """Retrieves the first configuration whose account name matches the given name, if one exists.
-
-        :return: The desired configuration, if it is found
-        :rtype: Union[XASystemEventsConfiguration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("accountName", account_name)
 
     def by_connected(self, connected: bool) -> Union['XASystemEventsConfiguration', None]:
-        """Retrieves the first configuration whose name matches the given name, if one exists.
-
-        :return: The desired configuration, if it is found
-        :rtype: Union[XASystemEventsConfiguration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("connected", connected)
 
     def by_id(self, id: str) -> Union['XASystemEventsConfiguration', None]:
-        """Retrieves the configuration whose ID matches the given ID, if one exists.
-
-        :return: The desired configuration, if it is found
-        :rtype: Union[XASystemEventsConfiguration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XASystemEventsConfiguration', None]:
-        """Retrieves the configuration whose name matches the given name, if one exists.
-
-        :return: The desired configuration, if it is found
-        :rtype: Union[XASystemEventsConfiguration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -2701,163 +2351,51 @@ class XASystemEventsInterfaceList(XABase.XAList):
         super().__init__(properties, XASystemEventsInterface, filter)
 
     def automatic(self) -> list[bool]:
-        """Gets the automatic status of each interface in the list.
-
-        :return: A list of interface automatic status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("automatic") or [])
 
     def duplex(self) -> list[str]:
-        """Gets the duplex setting of each interface in the list.
-
-        :return: A list of interface duplex settings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("duplex") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each interface in the list.
-
-        :return: A list of interface IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def kind(self) -> list[str]:
-        """Gets the kind of each interface in the list.
-
-        :return: A list of interface kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def mac_address(self) -> list[str]:
-        """Gets the MAC address of each interface in the list.
-
-        :return: A list of interface MAC addresses
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("macAddress") or [])
 
     def mtu(self) -> list[str]:
-        """Gets the packet size of each interface in the list.
-
-        :return: A list of interface packet sizes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("mtu") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each interface in the list.
-
-        :return: A list of interface names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def speed(self) -> list[int]:
-        """Gets the speed of each interface in the list.
-
-        :return: A list of interface speeds
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("speed") or [])
 
     def by_automatic(self, automatic: bool) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the first interface whose automatic status matches the given boolean value, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("automatic", automatic)
 
     def by_duplex(self, duplex: str) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the first interface whose duplex setting matches the given duplex setting, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("duplex", duplex)
 
     def by_id(self, id: str) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the interface whose ID matches the given ID, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the first interface whose kind matches the given kind, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_mac_address(self, mac_address: str) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the interface whose MAC address matches the given MAC address, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("macAddress", mac_address)
 
     def by_mtu(self, mtu: int) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the first interface whose packet size matches the given size, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("mtu", mtu)
 
     def by_name(self, name: str) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the interface whose name matches the given name, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_speed(self, speed: int) -> Union['XASystemEventsInterface', None]:
-        """Retrieves the first interface whose speed matches the given speed, if one exists.
-
-        :return: The desired interface, if it is found
-        :rtype: Union[XASystemEventsInterface, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("speed", speed)
 
     def __repr__(self):
@@ -2949,43 +2487,15 @@ class XASystemEventsLocationList(XABase.XAList):
         super().__init__(properties, XASystemEventsLocation, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each location in the list.
-
-        :return: A list of location IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each location in the list.
-
-        :return: A list of location names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_id(self, id: str) -> Union['XASystemEventsLocation', None]:
-        """Retrieves the location whose ID matches the given ID, if one exists.
-
-        :return: The desired location, if it is found
-        :rtype: Union[XASystemEventsLocation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
     
     def by_name(self, name: str) -> Union['XASystemEventsLocation', None]:
-        """Retrieves the location whose name matches the given name, if one exists.
-
-        :return: The desired location, if it is found
-        :rtype: Union[XASystemEventsLocation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -3086,125 +2596,41 @@ class XASystemEventsServiceList(XABase.XAList):
         super().__init__(properties, XASystemEventsService, filter)
 
     def active(self) -> list[bool]:
-        """Gets the active status of each service in the list.
-
-        :return: A list of service active booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("active") or [])
 
     def current_configuration(self) -> XASystemEventsConfigurationList:
-        """Gets the current configuration of each service in the list.
-
-        :return: A list of service configurations
-        :rtype: XASystemEventsConfigurationList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("currentConfiguration") or []
         return self._new_element(ls, XASystemEventsConfigurationList)
 
     def id(self) -> list[str]:
-        """Gets the ID of each service in the list.
-
-        :return: A list of service IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def interface(self) -> XASystemEventsInterfaceList:
-        """Gets the interface of each service in the list.
-
-        :return: A list of service interfaces
-        :rtype: XASystemEventsInterfaceList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("interface") or []
         return self._new_element(ls, XASystemEventsInterfaceList)
 
     def kind(self) -> list[str]:
-        """Gets the kind of each service in the list.
-
-        :return: A list of service kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each service in the list.
-
-        :return: A list of service names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_active(self, active: bool) -> Union['XASystemEventsService', None]:
-        """Retrieves the first service whose active status matches the given boolean value, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("active", active)
 
     def by_current_configuration(self, current_configuration: XASystemEventsConfiguration) -> Union['XASystemEventsService', None]:
-        """Retrieves the first service whose current configuration matches the given configuration, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("currentConfiguration", current_configuration.xa_elem)
 
     def by_id(self, id: str) -> Union['XASystemEventsService', None]:
-        """Retrieves the service whose ID matches the given ID, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_interface(self, interface: XASystemEventsInterface) -> Union['XASystemEventsService', None]:
-        """Retrieves the service whose interface matches the given interface, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("interface", interface.xa_elem)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsService', None]:
-        """Retrieves the service whose kind matches the given kind, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_name(self, name: str) -> Union['XASystemEventsService', None]:
-        """Retrieves the service whose name matches the given name, if one exists.
-
-        :return: The desired service, if it is found
-        :rtype: Union[XASystemEventsService, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -3300,86 +2726,30 @@ class XASystemEventsScreenSaverList(XABase.XAList):
         super().__init__(properties, XASystemEventsScreenSaver, filter)
 
     def displayed_name(self) -> list[str]:
-        """Gets the displayed name of each screen saver in the list.
-
-        :return: A list of screen saver displayed names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each screen saver in the list.
-
-        :return: A list of screen saver names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each screen saver in the list.
-
-        :return: A list of screen saver paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def picture_display_style(self) -> list[str]:
-        """Gets the picture display style of each screen saver in the list.
-
-        :return: A list of screen saver picture display styles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("pictureDisplayStyle") or [])
 
     def by_displayed_name(self, displayed_name: str) -> Union['XASystemEventsScreenSaver', None]:
-        """Retrieves the screen saver whose displayed name matches the given name, if one exists.
-
-        :return: The desired screen saver, if it is found
-        :rtype: Union[XASystemEventsScreenSaver, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("displayedName", displayed_name)
 
     def by_name(self, name: str) -> Union['XASystemEventsScreenSaver', None]:
-        """Retrieves the screen saver whose name matches the given name, if one exists.
-
-        :return: The desired screen saver, if it is found
-        :rtype: Union[XASystemEventsScreenSaver, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XASystemEventsScreenSaver', None]:
-        """Retrieves the screen saver whose name matches the given name, if one exists.
-
-        :return: The desired screen saver, if it is found
-        :rtype: Union[XASystemEventsScreenSaver, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(path, str):
             path = XABase.XAPath(path)
         return self.by_property("path", path.xa_elem)
 
     def by_picture_display_style(self, picture_display_style: str) -> Union['XASystemEventsScreenSaver', None]:
-        """Retrieves the first screen saver whose picture display style matches the given style, if one exists.
-
-        :return: The desired screen saver, if it is found
-        :rtype: Union[XASystemEventsScreenSaver, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("pictureDisplayStyle", picture_display_style)
 
     def __repr__(self):
@@ -3581,86 +2951,30 @@ class XASystemEventsFolderActionList(XABase.XAList):
         super().__init__(properties, XABase.XAFolderAction, filter)
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each folder action in the list.
-
-        :return: A list of folder action enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each folder action in the list.
-
-        :return: A list of folder action names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each folder action in the list.
-
-        :return: A list of folder action paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def volume(self) -> list[str]:
-        """Gets the volume of each folder action in the list.
-
-        :return: A list of folder action volumes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("volume") or [])
 
     def by_enabled(self, enabled: bool) -> Union['XABase.XAFolderAction', None]:
-        """Retrieves the first folder action whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired folder action, if it is found
-        :rtype: Union[XABase.XAFolderAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enabled", enabled)
 
     def by_name(self, name: str) -> Union['XABase.XAFolderAction', None]:
-        """Retrieves the folder action whose name matches the given name, if one exists.
-
-        :return: The desired folder action, if it is found
-        :rtype: Union[XABase.XAFolderAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XABase.XAFolderAction', None]:
-        """Retrieves the folder action whose path matches the given path, if one exists.
-
-        :return: The desired folder action, if it is found
-        :rtype: Union[XABase.XAFolderAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(path, XABase.XAPath):
             path = path.path
         return self.by_property("path", path)
 
     def by_volume(self, volume: str) -> Union['XABase.XAFolderAction', None]:
-        """Retrieves the first folder action whose volume matches the given volume, if one exists.
-
-        :return: The desired folder action, if it is found
-        :rtype: Union[XABase.XAFolderAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("volume", volume)
 
     def __repr__(self):
@@ -3739,86 +3053,30 @@ class XASystemEventsScriptList(XABase.XAList):
         super().__init__(properties, XASystemEventsScript, filter)
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each script in the list.
-
-        :return: A list of script enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each script in the list.
-
-        :return: A list of script names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each script in the list.
-
-        :return: A list of script paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
     def posix_path(self) -> list[str]:
-        """Gets the POSIX path of each script in the list.
-
-        :return: A list of script POSIX paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("posixPath") or [])
 
     def by_enabled(self, enabled: bool) -> Union['XASystemEventsScript', None]:
-        """Retrieves the first script whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired script, if it is found
-        :rtype: Union[XASystemEventsScript, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enabled", enabled)
 
     def by_name(self, name: str) -> Union['XASystemEventsScript', None]:
-        """Retrieves the script whose name matches the given name, if one exists.
-
-        :return: The desired script, if it is found
-        :rtype: Union[XASystemEventsScript, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XASystemEventsScript', None]:
-        """Retrieves the script whose path matches the given path, if one exists.
-
-        :return: The desired script, if it is found
-        :rtype: Union[XASystemEventsScript, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(path, XABase.XAPath):
             path = path.path
         return self.by_property("path", path)
 
     def by_posix_path(self, posix_path: str) -> Union['XASystemEventsScript', None]:
-        """Retrieves the script whose POSIX path matches the given POSIX path, if one exists.
-
-        :return: The desired script, if it is found
-        :rtype: Union[XASystemEventsScript, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("posixPath", posix_path)
 
     def __repr__(self):
@@ -3874,43 +3132,15 @@ class XASystemEventsActionList(XABase.XAList):
         super().__init__(properties, XASystemEventsAction, filter)
 
     def object_description(self) -> list[str]:
-        """Gets the description of each action in the list.
-
-        :return: A list of action descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each action in the list.
-
-        :return: A list of action names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsAction', None]:
-        """Retrieves the action whose description matches the given description, if one exists.
-
-        :return: The desired action, if it is found
-        :rtype: Union[XASystemEventsAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_name(self, name: str) -> Union['XASystemEventsAction', None]:
-        """Retrieves the action whose name matches the given name, if one exists.
-
-        :return: The desired action, if it is found
-        :rtype: Union[XASystemEventsAction, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -3957,63 +3187,21 @@ class XASystemEventsAttributeList(XABase.XAList):
         super().__init__(properties, XASystemEventsAttribute, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each attribute in the list.
-
-        :return: A list of attribute names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def settable(self) -> list[bool]:
-        """Gets the settable status of each attribute in the list.
-
-        :return: A list of attribute settable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("settable") or [])
 
     def value(self) -> Any:
-        """Gets the value of each attribute in the list.
-
-        :return: A list of attribute values
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsAttribute', None]:
-        """Retrieves the attribute whose name matches the given name, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XASystemEventsAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_settable(self, settable: bool) -> Union['XASystemEventsAttribute', None]:
-        """Retrieves the first attribute whose settable status matches the given boolean value, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XASystemEventsAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("settable", settable)
 
     def by_value(self, value: Any) -> Union['XASystemEventsAttribute', None]:
-        """Retrieves the attribute whose value matches the given value, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XASystemEventsAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("value", value)
 
     def __repr__(self):
@@ -4065,364 +3253,112 @@ class XASystemEventsUIElementList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def accessibility_description(self) -> list[str]:
-        """Gets the accessibility description of each UI element in the list.
-
-        :return: A list of UI element accessibility descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription") or [])
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each UI element in the list.
-
-        :return: A list of UI element object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each UI element in the list.
-
-        :return: A list of UI element enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def entire_contents(self) -> 'XASystemEventsUIElementList':
-        """Gets the entire contents of each UI element in the list.
-
-        :return: A list of UI element contents
-        :rtype: XASystemEventsUIElementList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
         return self._new_element(ls, XASystemEventsUIElementList)
 
     def focused(self) -> list[bool]:
-        """Gets the focused status of each UI element in the list.
-
-        :return: A list of UI element focused status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("focused") or [])
 
     def help(self) -> list[str]:
-        """Gets the help text of each UI element in the list.
-
-        :return: A list of UI element help texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("help") or [])
 
     def maximum_value(self) -> list[Union[int, float]]:
-        """Gets the maximum value of each UI element in the list.
-
-        :return: A list of UI element maximum values
-        :rtype: list[Union[int, float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("maximumValue") or [])
 
     def minimum_value(self) -> list[Union[int, float]]:
-        """Gets the minimum value of each UI element in the list.
-
-        :return: A list of UI element minimum values
-        :rtype: list[Union[int, float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("minimumValue") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each UI element in the list.
-
-        :return: A list of UI element names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def orientation(self) -> list[str]:
-        """Gets the orientation of each UI element in the list.
-
-        :return: A list of UI element orientations
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("orientation") or [])
 
     def position(self) -> list[tuple[int, int]]:
-        """Gets the position of each UI element in the list.
-
-        :return: A list of UI element positions
-        :rtype: list[tuple[int, int]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("position") or [])
 
     def role(self) -> list[str]:
-        """Gets the role of each UI element in the list.
-
-        :return: A list of UI element roles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("role") or [])
 
     def role_description(self) -> list[str]:
-        """Gets the role description of each UI element in the list.
-
-        :return: A list of UI element role descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("roleDescription") or [])
 
     def selected(self) -> list[bool]:
-        """Gets the selected status of each UI element in the list.
-
-        :return: A list of UI element selected status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
     def size(self) -> list[tuple[int, int]]:
-        """Gets the size of each UI element in the list.
-
-        :return: A list of UI element sizes
-        :rtype: list[tuple[int, int]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
     def subrole(self) -> list[str]:
-        """Gets the subrole of each UI element in the list.
-
-        :return: A list of UI element subroles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("subrole") or [])
 
     def title(self) -> list[str]:
-        """Gets the title of each UI element in the list.
-
-        :return: A list of UI element titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def value(self) -> list[Any]:
-        """Gets the value of each UI element in the list.
-
-        :return: A list of UI element values
-        :rtype: list[Any]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_accessibility_description(self, accessibility_description: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose accessibility description matches the given description, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("accessibilityDescription", accessibility_description)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose object description matches the given description, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_enabled(self, enabled: bool) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enabled", enabled)
 
     def by_entire_contents(self, entire_contents: 'XASystemEventsUIElementList') -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose entire contnets matches the given list of contents, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("entireContents", entire_contents.xa_elem)
 
     def by_focused(self, focused: bool) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose focused status matches the given boolean values, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("focused", focused)
 
     def by_help(self, help: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose help text matches the given help text, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("help", help)
 
     def by_maximum_value(self, maximum_value: Union[int, float]) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose maximum value matches the given value, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("maximumValue", maximum_value)
 
     def by_minimum_value(self, minimum_value: Union[int, float]) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose minimum value matches the given value, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("minimumValue", minimum_value)
 
     def by_name(self, name: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose name matches the given name, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_orientation(self, orientation: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose orientation matches the given orientation, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("orientation", orientation)
 
     def by_position(self, position: tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose position matches the given position, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("position", position)
 
     def by_role(self, role: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose role matches the given role, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("role", role)
 
     def by_role_description(self, role_description: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose role description matches the given description, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("roleDescription", role_description)
 
     def by_selected(self, selected: bool) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose selected status matches the given boolean value, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("selected", selected)
 
     def by_size(self, size: tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose size matches the given size, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("size", size)
 
     def by_subrole(self, subrole: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose subrole matches the given subrole, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("subrole", subrole)
 
     def by_title(self, title: str) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose title matches the given title, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("title", title)
 
     def by_value(self, value: Any) -> Union['XASystemEventsUIElement', None]:
-        """Retrieves the UI element whose value matches the given value, if one exists.
-
-        :return: The desired UI element, if it is found
-        :rtype: Union[XASystemEventsUIElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("value", value)
 
     def __repr__(self):
@@ -5583,364 +4519,112 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
         super().__init__(properties, filter, obj_class)
 
     def accepts_high_level_events(self) -> list[bool]:
-        """Gets the accepts high level events status of each process in the list.
-
-        :return: A list of process accepts high level events status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("acceptsHighLevelEvents") or [])
 
     def accepts_remote_events(self) -> list[bool]:
-        """Gets the accepts remote events status of each process in the list.
-
-        :return: A list of process accepts remote events status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("acceptsRemoteEvents") or [])
 
     def architecture(self) -> list[str]:
-        """Gets the architecture of each process in the list.
-
-        :return: A list of process architectures
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("architecture") or [])
 
     def background_only(self) -> list[bool]:
-        """Gets the background only status of each process in the list.
-
-        :return: A list of process background only status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("backgroundOnly") or [])
 
     def bundle_identifier(self) -> list[str]:
-        """Gets the bundle identifier of each process in the list.
-
-        :return: A list of process bundle identifiers
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bundleIdentifier") or [])
 
     def classic(self) -> list[bool]:
-        """Gets the classic status of each process in the list.
-
-        :return: A list of process classic status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("class") or [])
 
     def creator_type(self) -> list[str]:
-        """Gets the creator type of each process in the list.
-
-        :return: A list of process creator types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
 
     def displayed_name(self) -> list[str]:
-        """Gets the displayed name of each process in the list.
-
-        :return: A list of process displayed names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
     def file(self) -> XABase.XAFileList:
-        """Gets the file of each process in the list.
-
-        :return: A list of process files
-        :rtype: XABase.XAFileList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return self._new_element(ls, XABase.XAFileList)
 
     def file_type(self) -> list[str]:
-        """Gets the file type of each process in the list.
-
-        :return: A list of process file types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
 
     def has_scripting_terminology(self) -> list[bool]:
-        """Gets the has scripting terminology status of each process in the list.
-
-        :return: A list of process has scripting terminology status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hasScriptingTerminology") or [])
 
     def id(self) -> list[int]:
-        """Gets the ID of each process in the list.
-
-        :return: A list of process IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each process in the list.
-
-        :return: A list of process names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def partition_space_used(self) -> list[int]:
-        """Gets the partition spaced used of each process in the list.
-
-        :return: A list of process partition spaces used
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("partitionSpaceUsed") or [])
 
     def short_name(self) -> list[str]:
-        """Gets the short name of each process in the list.
-
-        :return: A list of process short names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shortName") or [])
 
     def total_partition_size(self) -> list[int]:
-        """Gets the total partition size of each process in the list.
-
-        :return: A list of process total partition sizes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("totalPartitionSize") or [])
 
     def unix_id(self) -> list[int]:
-        """Gets the Unix PID of each process in the list.
-
-        :return: A list of process Unix PIDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("unixId") or [])
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each process in the list.
-
-        :return: A list of process visible status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def by_accepts_high_level_events(self, accepts_high_level_events: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose accepts high level events status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("acceptsHighLevelEvents", accepts_high_level_events)
 
     def by_accepts_remote_events(self, accepts_remote_events: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose accepts remote events status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("acceptsRemoteEvents", accepts_remote_events)
 
     def by_architecture(self, architecture: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose architecture matches the given architecture, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("architecture", architecture)
 
     def by_background_only(self, background_only: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose background only status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("backgroundOnly", background_only)
 
     def by_bundle_identifier(self, bundle_identifier: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose bundle identifier matches the given bundle identifier, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bundleIdentifier", bundle_identifier)
 
     def by_classic(self, classic: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose classic status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("classic", classic)
 
     def by_creator_type(self, creator_type: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose creator type matches the given creator type, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("creatorType", creator_type)
 
     def by_file(self, file: XABase.XAFile) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose file matches the given file, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("file", file.xa_elem)
 
     def by_file_type(self, file_type: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose file type matches the given file type, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fileType", file_type)
 
     def by_frontmost(self, frontmost: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose frontmost status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("frontmost", frontmost)
 
     def by_has_scripting_terminology(self, has_scripting_terminology: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose has scripting terminology status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hasScriptingTerminology", has_scripting_terminology)
 
     def by_id(self, id: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose ID matches the given ID, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose name matches the given name, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_partition_space_used(self, partition_space_used: int) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose partition space used matches the given amount, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("partitionSpaceUsed", partition_space_used)
 
     def by_short_name(self, short_name: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose short name matches the given short name, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("shortName", short_name)
 
     def by_total_partition_size(self, total_partition_size: int) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose total partition size matches the given amount, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("totalPartitionSize", total_partition_size)
 
     def by_unix_id(self, unix_id: str) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the process whose UNIX PID matches the given ID, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("unixId", unix_id)
 
     def by_visible(self, visible: bool) -> Union['XASystemEventsProcess', None]:
-        """Retrieves the first process whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired process, if it is found
-        :rtype: Union[XASystemEventsProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("visible", visible)
 
 class XASystemEventsProcess(XASystemEventsUIElement):
@@ -6087,24 +4771,10 @@ class XASystemEventsApplicationProcessList(XASystemEventsProcessList):
         super().__init__(properties, filter, XASystemEventsApplicationProcess)
 
     def application_file(self) -> XABase.XAFileList:
-        """Gets the application file of each application process in the list.
-
-        :return: A list of application process files
-        :rtype: XABase.XAFileList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("applicationFile") or []
         return self._new_element(ls, XABase.XAFileList)
 
     def by_application_file(self, application_file: XABase.XAFile) -> Union['XASystemEventsApplicationProcess', None]:
-        """Retrieves the application process whose file matches the given file, if one exists.
-
-        :return: The desired application process, if it is found
-        :rtype: Union[XASystemEventsApplicationProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("applicationFile", application_file.xa_elem)
 
 class XASystemEventsApplicationProcess(XASystemEventsProcess):
@@ -6135,24 +4805,10 @@ class XASystemEventsDeskAccessoryProcessList(XASystemEventsProcessList):
         super().__init__(properties, filter, XASystemEventsDeskAccessoryProcess)
 
     def desk_accessory_file(self) -> XABase.XAFileList:
-        """Gets the desk accessory file of each desk accessory process in the list.
-
-        :return: A list of desk accessory process files
-        :rtype: XABase.XAFileList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("deskAccessoryFile") or []
         return self._new_element(ls, XABase.XAFileList)
 
     def by_desk_accessory_file(self, desk_accessory_file: XABase.XAFile) -> Union['XASystemEventsDeskAccessoryProcess', None]:
-        """Retrieves the desk accessory process whose file matches the given file, if one exists.
-
-        :return: The desired desk accessory process, if it is found
-        :rtype: Union[XASystemEventsDeskAccessoryProcess, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("deskAccessoryFile", desk_accessory_file.xa_elem)
 
 class XASystemEventsDeskAccessoryProcess(XASystemEventsProcess):
@@ -6561,24 +5217,10 @@ class XASystemEventsPropertyListFileList(XABase.XAList):
         super().__init__(properties, XASystemEventsPropertyListFile, filter)
 
     def contents(self) -> 'XASystemEventsPropertyListItemList':
-        """Gets the items of each file in the list.
-
-        :return: A list of property list items
-        :rtype: XASystemEventsPropertyListItemList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XASystemEventsPropertyListItemList)
 
     def by_content(self, contents: 'XASystemEventsPropertyListItemList') -> Union['XASystemEventsPropertyListFile', None]:
-        """Retrieves the property list ite whose contents matches the given contents, if one exists.
-
-        :return: The desired property list item, if it is found
-        :rtype: Union[XASystemEventsPropertyListFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("contents", contents.xa_elem)
 
     def __repr__(self):
@@ -6616,86 +5258,30 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         super().__init__(properties, XASystemEventsPropertyListItem, filter)
 
     def kind(self) -> list[str]:
-        """Gets the kind of each property list item in the list.
-
-        :return: A list of property list item kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         # TODO
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def name(self) -> list[str]:
-        """Gets the name of each property list item in the list.
-
-        :return: A list of property list item names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def text(self) -> list[str]:
-        """Gets the text of each property list item in the list.
-
-        :return: A list of property list item texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("text"))
 
     def value(self) -> list[Union[int, bool, datetime, 'XASystemEventsList', dict, str, bytes]]:
-        """Gets the value of each property list item in the list.
-
-        :return: A list of property list item values
-        :rtype: list[Union[int, bool, datetime, XASystemEventsList, dict, str, XASystemEventsData]]
-        
-        .. versionadded:: 0.1.0
-        """
         # TODO: SPECIALIZE TYPE
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
     def by_kind(self, kind: str) -> Union['XASystemEventsPropertyListItem', None]:
-        """Retrieves the property list ite whose kind matches the given kind, if one exists.
-
-        :return: The desired property list item, if it is found
-        :rtype: Union[XASystemEventsPropertyListItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         # TODO
         return self.by_property("kind", kind)
 
     def by_name(self, name: str) -> Union['XASystemEventsPropertyListItem', None]:
-        """Retrieves the property list ite whose name matches the given name, if one exists.
-
-        :return: The desired property list item, if it is found
-        :rtype: Union[XASystemEventsPropertyListItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_text(self, text: str) -> Union['XASystemEventsPropertyListItem', None]:
-        """Retrieves the property list ite whose text matches the given text, if one exists.
-
-        :return: The desired property list item, if it is found
-        :rtype: Union[XASystemEventsPropertyListItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("text", text)
 
     def by_value(self, value: Any) -> Union['XASystemEventsPropertyListItem', None]:
-        """Retrieves the property list ite whose value matches the given value, if one exists.
-
-        :return: The desired property list item, if it is found
-        :rtype: Union[XASystemEventsPropertyListItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         # TODO
         return self.by_property("value", value)
 
@@ -6769,43 +5355,15 @@ class XASystemEventsXMLAttributeList(XABase.XAList):
         super().__init__(properties, XASystemEventsXMLAttribute, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each XML attribute in the list.
-
-        :return: A list of XML attribute names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def value(self) -> list[Any]:
-        """Gets the value of each XML attribute in the list.
-
-        :return: A list of XML attribute values
-        :rtype: list[Any]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsXMLAttribute', None]:
-        """Retrieves the XML attribute whose name matches the given name, if one exists.
-
-        :return: The desired XML attribute, if it is found
-        :rtype: Union[XASystemEventsXMLAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_value(self, value: Any) -> Union['XASystemEventsXMLAttribute', None]:
-        """Retrieves the first XML attribute whose value matches the given value, if one exists.
-
-        :return: The desired XML attribute, if it is found
-        :rtype: Union[XASystemEventsXMLAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("value", value)
 
     def __repr__(self):
@@ -6849,63 +5407,21 @@ class XASystemEventsXMLDataList(XABase.XAList):
         super().__init__(properties, XASystemEventsXMLData, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each XML data in the list.
-
-        :return: A list of XML data IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each XML data in the list.
-
-        :return: A list of XML data names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def text(self) -> list[str]:
-        """Gets the text of each XML data in the list.
-
-        :return: A list of XML data texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("text") or [])
 
     def by_id(self, id: str) -> Union['XASystemEventsXMLData', None]:
-        """Retrieves the XML data whose ID matches the given ID, if one exists.
-
-        :return: The desired XML data, if it is found
-        :rtype: Union[XASystemEventsXMLData, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XASystemEventsXMLData', None]:
-        """Retrieves the XML data whose name matches the given name, if one exists.
-
-        :return: The desired XML data, if it is found
-        :rtype: Union[XASystemEventsXMLData, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_text(self, text: str) -> Union['XASystemEventsXMLData', None]:
-        """Retrieves the first XML data whose text matches the given text, if one exists.
-
-        :return: The desired XML data, if it is found
-        :rtype: Union[XASystemEventsXMLData, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("text", text)
 
     def __repr__(self):
@@ -6971,63 +5487,21 @@ class XASystemEventsXMLElementList(XABase.XAList):
         super().__init__(properties, XASystemEventsXMLElement, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each XML element in the list.
-
-        :return: A list of XML element IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def name(self) -> list[str]:
-        """Gets the name of each XML element in the list.
-
-        :return: A list of XML element names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def value(self) -> list[Any]:
-        """Gets the value of each XML element in the list.
-
-        :return: A list of XML element values
-        :rtype: list[Any]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
     def by_id(self, id: str) -> Union['XASystemEventsXMLElement', None]:
-        """Retrieves the XML element whose ID matches the given ID, if one exists.
-
-        :return: The desired XML element, if it is found
-        :rtype: Union[XASystemEventsXMLElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XASystemEventsXMLElement', None]:
-        """Retrieves the XML element whose name matches the given name, if one exists.
-
-        :return: The desired XML element, if it is found
-        :rtype: Union[XASystemEventsXMLElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_value(self, value: Any) -> Union['XASystemEventsXMLElement', None]:
-        """Retrieves the first XML element whose value matches the given value, if one exists.
-
-        :return: The desired XML element, if it is found
-        :rtype: Union[XASystemEventsXMLElement, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("value", value)
 
     def __repr__(self):
@@ -7101,24 +5575,10 @@ class XASystemEventsXMLFileList(XABase.XAFileList):
         super().__init__(properties, filter, XASystemEventsXMLFile)
 
     def contents(self) -> XASystemEventsXMLDataList:
-        """Gets the contents of each XML file in the list.
-
-        :return: A list of XML files contents
-        :rtype: XASystemEventsXMLDataList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("contents") or []
         return self._new_element(ls, XASystemEventsXMLDataList)
 
     def by_contents(self, contents: XASystemEventsXMLData) -> Union['XASystemEventsXMLFile', None]:
-        """Retrieves the XML file whose contents match the given contents, if one exists.
-
-        :return: The desired XML file, if it is found
-        :rtype: Union[XASystemEventsXMLFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("contents", contents.xa_elem)
 
 class XASystemEventsXMLFile(XABase.XAObject):
@@ -7264,144 +5724,46 @@ class XASystemEventsScriptingClassList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingClass, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting class in the list.
-
-        :return: A list of scripting class names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting class in the list.
-
-        :return: A list of scripting class IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting class in the list.
-
-        :return: A list of scripting class object description
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def hidden(self) -> list[bool]:
-        """Gets the hidden status of each scripting class in the list.
-
-        :return: A list of scripting class hidden status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def plural_name(self) -> list[str]:
-        """Gets the plural name of each scripting class in the list.
-
-        :return: A list of scripting class plural names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("pluralName") or [])
 
     def suite_name(self) -> list[str]:
-        """Gets the suite name of each scripting class in the list.
-
-        :return: A list of scripting class suite names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("suiteName") or [])
 
     def superclass(self) -> 'XASystemEventsScriptingClassList':
-        """Gets the superclass of each scripting class in the list.
-
-        :return: A list of scripting class superclasses
-        :rtype: XASystemEventsScriptingClassList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("superclass") or []
         return self._new_element(ls, XASystemEventsScriptingClassList)
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the scripting class whose name matches the given name, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the scripting class whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the scripting class whose object description matches the given description, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the first scripting class whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def by_plural_name(self, plural_name: str) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the scripting class whose plural name matches the given plural name, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("pluralName", plural_name)
 
     def by_suite_name(self, suite_name: str) -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the first scripting class whose suite name matches the given suite name, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("suiteName", suite_name)
 
     def by_superclass(self, superclass: 'XASystemEventsScriptingClass') -> Union['XASystemEventsScriptingClass', None]:
-        """Retrieves the first scripting class whose superclass matches the given class, if one exists.
-
-        :return: The desired scripting class, if it is found
-        :rtype: Union[XASystemEventsScriptingClass, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("superclass", superclass.xa_elem)
 
     def __repr__(self):
@@ -7495,145 +5857,47 @@ class XASystemEventsScriptingCommandList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingCommand, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting command in the list.
-
-        :return: A list of scripting command names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting command in the list.
-
-        :return: A list of scripting command IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting command in the list.
-
-        :return: A list of scripting command object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def direct_parameter(self) -> 'XASystemEventsScriptingParameterList':
-        """Gets the direct parameters of each scripting command in the list.
-
-        :return: A list of scripting command parameters
-        :rtype: XASystemEventsScriptingParameterList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("directParameter") or []
         return self._new_element(ls, XASystemEventsScriptingParameterList)
 
     def hidden(self) -> list[str]:
-        """Gets the hidden status of each scripting command in the list.
-
-        :return: A list of scripting command hidden status booleans
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def scripting_result(self) -> 'XASystemEventsScriptingResultObjectList':
-        """Gets the scripting result object of each scripting command in the list.
-
-        :return: A list of scripting command scripting result objects
-        :rtype: XASystemEventsScriptingResultObjectList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("scriptingResult") or []
         return self._new_element(ls, XASystemEventsScriptingResultObjectList)
 
     def suite_name(self) -> list[str]:
-        """Gets the suite name of each scripting command in the list.
-
-        :return: A list of scripting command suite names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("suiteName") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the scripting command whose name matches the given name, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the scripting command whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the scripting command whose object description matches the given description, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_direct_parameter(self, direct_parameter: 'XASystemEventsScriptingParameter') -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the first scripting command whose direct parameter matches the given parameter, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("directParameter", direct_parameter.xa_elem)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the first scripting command whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def by_scripting_result(self, scripting_result: 'XASystemEventsScriptingResultObject') -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the first scripting command whose scripting result matches the given result object, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("scriptingResult", scripting_result.xa_elem)
 
     def by_suite_name(self, suite_name: str) -> Union['XASystemEventsScriptingCommand', None]:
-        """Retrieves the first scripting command whose suite name matches the given suite name, if one exists.
-
-        :return: The desired scripting command, if it is found
-        :rtype: Union[XASystemEventsScriptingCommand, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("suiteName", suite_name)
 
     def __repr__(self):
@@ -7759,63 +6023,21 @@ class XASystemEventsScriptingEnumerationList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingEnumeration, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting enumeration in the list.
-
-        :return: A list of scripting enumeration names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting enumeration in the list.
-
-        :return: A list of scripting enumeration IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def hidden(self) -> list[str]:
-        """Gets the hidden status of each scripting enumeration in the list.
-
-        :return: A list of scripting enumeration hidden status booleans
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingEnumeration', None]:
-        """Retrieves the scripting enumeration whose name matches the given name, if one exists.
-
-        :return: The desired scripting enumeration, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumeration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingEnumeration', None]:
-        """Retrieves the scripting enumeration whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting enumeration, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumeration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingEnumeration', None]:
-        """Retrieves the first scripting enumeration whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting enumeration, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumeration, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def __repr__(self):
@@ -7873,83 +6095,27 @@ class XASystemEventsScriptingEnumeratorList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingEnumerator, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting enumerator in the list.
-
-        :return: A list of scripting enumerator names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting enumerator in the list.
-
-        :return: A list of scripting enumerator IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting enumerator in the list.
-
-        :return: A list of scripting enumerator object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def hidden(self) -> list[str]:
-        """Gets the hidden status of each scripting enumerator in the list.
-
-        :return: A list of scripting enumerator hidden status booleans
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingEnumerator', None]:
-        """Retrieves the scripting enumerator whose name matches the given name, if one exists.
-
-        :return: The desired scripting enumerator, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumerator, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingEnumerator', None]:
-        """Retrieves the scripting enumerator whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting enumerator, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumerator, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingEnumerator', None]:
-        """Retrieves the scripting enumerator whose object description matches the given description, if one exists.
-
-        :return: The desired scripting enumerator, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumerator, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingEnumerator', None]:
-        """Retrieves the first scripting enumerator whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting enumerator, if it is found
-        :rtype: Union[XASystemEventsScriptingEnumerator, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def __repr__(self):
@@ -8001,123 +6167,39 @@ class XASystemEventsScriptingParameterList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingParameter, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting parameter in the list.
-
-        :return: A list of scripting parameter names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting parameter in the list.
-
-        :return: A list of scripting parameter IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting parameter in the list.
-
-        :return: A list of scripting parameter object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def hidden(self) -> list[bool]:
-        """Gets the hidden status of each scripting parameter in the list.
-
-        :return: A list of scripting parameter hidden status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def kind(self) -> list[str]:
-        """Gets the kind of each scripting parameter in the list.
-
-        :return: A list of scripting parameter kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def optional(self) -> list[bool]:
-        """Gets the optional status of each scripting parameter in the list.
-
-        :return: A list of scripting parameter optional status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("optional") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the scripting parameter whose name matches the given name, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the scripting parameter whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the scripting parameter whose object description matches the given description, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the first scripting parameter whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the first scripting parameter whose kind matches the given kind, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_optional(self, optional: bool) -> Union['XASystemEventsScriptingParameter', None]:
-        """Retrieves the first scripting parameter whose optional status matches the given boolean value, if one exists.
-
-        :return: The desired scripting parameter, if it is found
-        :rtype: Union[XASystemEventsScriptingParameter, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("optional", optional)
 
     def __repr__(self):
@@ -8181,164 +6263,52 @@ class XASystemEventsScriptingPropertyList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingProperty, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting property in the list.
-
-        :return: A list of scripting property names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting property in the list.
-
-        :return: A list of scripting property IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def access(self) -> list[XASystemEventsApplication.AccessRight]:
-        """Gets the access type of each scripting property in the list.
-
-        :return: A list of scripting property access types
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("access") or []
         return [XASystemEventsApplication.AccessRight(x) for x in ls]
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting property in the list.
-
-        :return: A list of scripting property object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def enumerated(self) -> list[bool]:
-        """Gets the enumerated status of each scripting property in the list.
-
-        :return: A list of scripting property enumerated status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enumerated") or [])
 
     def hidden(self) -> list[str]:
-        """Gets the hidden status of each scripting property in the list.
-
-        :return: A list of scripting property hidden status booleans
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
     def kind(self) -> list[str]:
-        """Gets the kind of each scripting property in the list.
-
-        :return: A list of scripting property kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def listed(self) -> list[bool]:
-        """Gets the listed status of each scripting property in the list.
-
-        :return: A list of scripting property listed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("listed") or [])
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the scripting property whose name matches the given name, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the scripting property whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_access(self, access: XASystemEventsApplication.AccessRight) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the first scripting property whose access type matches the given access type, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("access", access.value)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the scripting property whose object description matches the given description, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_enumerated(self, enumerated: bool) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the first scripting property whose enumerated status matches the given boolean value, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enumerated", enumerated)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the first scripting property whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the first scripting property whose kind matches the given kind, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_listed(self, listed: bool) -> Union['XASystemEventsScriptingProperty', None]:
-        """Retrieves the first scripting property whose listed status matches the given boolean value, if one exists.
-
-        :return: The desired scripting property, if it is found
-        :rtype: Union[XASystemEventsScriptingProperty, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("listed", listed)
 
     def __repr__(self):
@@ -8414,83 +6384,27 @@ class XASystemEventsScriptingResultObjectList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingResultObject, filter)
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting result object in the list.
-
-        :return: A list of scripting result object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
     def enumerated(self) -> list[bool]:
-        """Gets the enumerated status of each scripting result object in the list.
-
-        :return: A list of scripting result object enumerated status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enumerated") or [])
 
     def kind(self) -> list[str]:
-        """Gets the kind of each scripting result object in the list.
-
-        :return: A list of scripting result object kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
     def listed(self) -> list[bool]:
-        """Gets the listed status of each scripting result object in the list.
-
-        :return: A list of scripting result object listed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("listed") or [])
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingResultObject', None]:
-        """Retrieves the scripting result object whose object description matches the given description, if one exists.
-
-        :return: The desired scripting result object, if it is found
-        :rtype: Union[XASystemEventsScriptingResultObject, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_enumerated(self, enumerated: bool) -> Union['XASystemEventsScriptingResultObject', None]:
-        """Retrieves the first scripting result object whose enumerated status matches the given boolean value, if one exists.
-
-        :return: The desired scripting result object, if it is found
-        :rtype: Union[XASystemEventsScriptingResultObject, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enumerated", enumerated)
 
     def by_kind(self, kind: str) -> Union['XASystemEventsScriptingResultObject', None]:
-        """Retrieves the first scripting result object whose kind matches the given kind, if one exists.
-
-        :return: The desired scripting result object, if it is found
-        :rtype: Union[XASystemEventsScriptingResultObject, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_listed(self, listed: bool) -> Union['XASystemEventsScriptingResultObject', None]:
-        """Retrieves the first scripting result object whose listed status matches the given boolean value, if one exists.
-
-        :return: The desired scripting result object, if it is found
-        :rtype: Union[XASystemEventsScriptingResultObject, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("listed", listed)
 
     def __repr__(self):
@@ -8542,83 +6456,27 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         super().__init__(properties, XASystemEventsScriptingSuite, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each scripting suite in the list.
-
-        :return: A list of scripting suite names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each scripting suite in the list.
-
-        :return: A list of scripting suite IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each scripting suite in the list.
-
-        :return: A list of scripting suite object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def hidden(self) -> list[bool]:
-        """Gets the hidden status of each scripting suite in the list.
-
-        :return: A list of scripting suite hidden statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden"))
 
     def by_name(self, name: str) -> Union['XASystemEventsScriptingSuite', None]:
-        """Retrieves the scripting suite whose name matches the given name, if one exists.
-
-        :return: The desired scripting suite, if it is found
-        :rtype: Union[XASystemEventsScriptingSuite, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XASystemEventsScriptingSuite', None]:
-        """Retrieves the scripting suite whose ID matches the given ID, if one exists.
-
-        :return: The desired scripting suite, if it is found
-        :rtype: Union[XASystemEventsScriptingSuite, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XASystemEventsScriptingSuite', None]:
-        """Retrieves the scripting suite whose object description matches the given description, if one exists.
-
-        :return: The desired scripting suite, if it is found
-        :rtype: Union[XASystemEventsScriptingSuite, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_hidden(self, hidden: bool) -> Union['XASystemEventsScriptingSuite', None]:
-        """Retrieves the first scripting suite whose hidden status matches the given boolean value, if one exists.
-
-        :return: The desired scripting suite, if it is found
-        :rtype: Union[XASystemEventsScriptingSuite, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hidden", hidden)
 
     def __repr__(self):

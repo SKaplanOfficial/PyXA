@@ -374,23 +374,9 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderDocument, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each document in the list.
-
-        :return: A list of document best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def bounds(self) -> list[tuple[int, int, int, int]]:
-        """Gets the bounds of each document in the list.
-
-        :return: A list of document bounds
-        :rtype: list[tuple[int, int, int, int]]
-        
-        .. versionadded:: 0.1.0
-        """
         bounds = []
         ls = self.xa_elem.arrayByApplyingSelector_("bounds")
         for bound in ls:
@@ -400,75 +386,26 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         return bounds
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each document in the list.
-
-        :return: A list of document default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def file_alias(self) -> list[XABase.XAPath]:
-        """Gets the file alias of each document in the list.
-
-        :return: A list of document file aliases
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("fileAlias")
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def view_mode(self) -> list[XAAcrobatReaderApplication.ViewMode]:
-        """Gets the view mode of each document in the list.
-
-        :return: A list of document view modes
-        :rtype: list[XAAcrobatReaderApplication.ViewMode]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("viewMode")
         return [XAAcrobatReaderApplication.ViewMode(x) for x in ls]
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the first document whose best type matches the given type, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_bounds(self, bounds: tuple[int, int, int, int]) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the document whose bounds match the given bounds, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -477,55 +414,20 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         return self.by_property("name", value)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the first document whose default type matches the given type, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_file_alias(self, file_alias: Union[str, XABase.XAPath]) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the document whose file alias matches the given file, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(file_alias, str):
             file_alias = XABase.XAPath(file_alias)
         return self.by_property("fileAlias", file_alias.xa_elem)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modified", modified)
 
     def by_view_mode(self, view_mode: XAAcrobatReaderApplication.ViewMode) -> Union['XAAcrobatReaderDocument', None]:
-        """Retrieves the first document whose view mode matches the given view mode, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAAcrobatReaderDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("viewMode", view_mode.value)
 
 class XAAcrobatReaderDocument(XABase.XAObject):
@@ -679,203 +581,63 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderPDFPage, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each PDF page in the list.
-
-        :return: A list of PDF page best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def art_box(self) -> list[list[float]]:
-        """Gets the art box of each PDF page in the list.
-
-        :return: A list of PDF page art boxes
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("artBox"))
 
     def bleed_box(self) -> list[list[float]]:
-        """Gets the bleed box of each PDF page in the list.
-
-        :return: A list of PDF page bleed boxes
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bleedBox"))
 
     def crop_box(self) -> list[list[float]]:
-        """Gets the crop box of each PDF page in the list.
-
-        :return: A list of PDF page crop boxes
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("cropBox"))
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each PDF page in the list.
-
-        :return: A list of PDF page default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def label_text(self) -> list[str]:
-        """Gets the label text of each PDF page in the list.
-
-        :return: A list of PDF page label texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("labelText"))
 
     def media_box(self) -> list[list[float]]:
-        """Gets the media box of each PDF page in the list.
-
-        :return: A list of PDF page media boxes
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("mediaBox"))
 
     def page_number(self) -> list[int]:
-        """Gets the page number of each PDF page in the list.
-
-        :return: A list of PDF page page numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("pageNumber"))
 
     def rotation(self) -> list[int]:
-        """Gets the rotation of each PDF page in the list.
-
-        :return: A list of PDF page rotation amounts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
     def trim_box(self) -> list[list[float]]:
-        """Gets the trim box of each PDF page in the list.
-
-        :return: A list of PDF page trim boxes
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("trimBox"))
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose best type matches the given type, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_art_box(self, art_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose art box matches the given rectangle, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("artBox", art_box)
 
     def by_bleed_box(self, bleed_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose blled box matches the given rectangle, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bleedBox", bleed_box)
 
     def by_crop_box(self, crop_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose crop box matches the given rectangle, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("cropBox", crop_box)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose default type matches the given type, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_label_text(self, label_text: str) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose page label text matches the given text, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("labelText", label_text)
 
     def by_media_box(self, media_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose media box matches the given rectangle, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("mediaBox", media_box)
 
     def by_page_number(self, page_number: int) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose page number matches the given number, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("pageNumber", page_number)
 
     def by_rotation(self, rotation: int) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose page rotation matches the given rotation, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("rotation", rotation)
 
     def by_trim_box(self, trim_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
-        """Retrieves the first PDF page whose trim box matches the given rectangle, if one exists.
-
-        :return: The desired PDF page, if it is found
-        :rtype: Union[XAAcrobatReaderPDFPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("trimBox", trim_box)
 
 class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
@@ -984,164 +746,52 @@ class XAAcrobatReaderBookmarkList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderBookmark, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each bookmark in the list.
-
-        :return: A list of bookmark best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each bookmark in the list.
-
-        :return: A list of bookmark default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def destination_page_number(self) -> list[int]:
-        """Gets the destination page number of each bookmark in the list.
-
-        :return: A list of bookmark destination page numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
 
     def destination_rectangle(self) -> list[list[float]]:
-        """Gets the destination rectangle of each bookmark in the list.
-
-        :return: A list of bookmark destination rectangles
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
 
     def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
-        """Gets the fit type of each bookmark in the list.
-
-        :return: A list of bookmark fit types
-        :rtype: list[XAAcrobatReaderApplication.FitType]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("fitType")
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
     def index(self) -> list[int]:
-        """Gets the index of each bookmark in the list.
-
-        :return: A list of bookmark indices
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def name(self) -> list[str]:
-        """Gets the name of each bookmark in the list.
-
-        :return: A list of bookmark names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def zoom_factor(self) -> list[float]:
-        """Gets the zoom factor of each bookmark in the list.
-
-        :return: A list of bookmark zoom factors
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor"))
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the first bookmark whose best type matches the given type, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the first bookmark whose default type matches the given type, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_destination_page_number(self, destination_page_number: int) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the bookmark whose destination page number matches the given number, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("destinationPageNumber", destination_page_number)
 
     def by_destination_rectangle(self, destination_rectangle: list[float]) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the bookmark whose destination rectangle matches the given rectangle, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("destinationRectangle", destination_rectangle)
 
     def by_fit_type(self, fit_type: XAAcrobatReaderApplication.FitType) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the first bookmark whose fit type matches the given fit type, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fitType", fit_type.value)
 
     def by_index(self, index: int) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the bookmark whose index matches the given index, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("index", index)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the bookmark whose name matches the given name, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_zoom_factor(self, zoom_factor: float) -> Union['XAAcrobatReaderBookmark', None]:
-        """Retrieves the first bookmark whose zoom factor matches the given zoom factor, if one exists.
-
-        :return: The desired bookmark, if it is found
-        :rtype: Union[XAAcrobatReaderBookmark, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("zoomFactor", zoom_factor)
 
 class XAAcrobatReaderBookmark(XABase.XAObject):
@@ -1234,296 +884,93 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderAnnotation, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each annotation in the list.
-
-        :return: A list of annotation best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def bounds(self) -> list[list[float]]:
-        """Gets the bounds of each annotation in the list.
-
-        :return: A list of annotation bounds
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
 
     def color(self) -> list[XABase.XAColor]:
-        """Gets the color of each annotation in the list.
-
-        :return: A list of annotation colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
     def contents(self) -> list[str]:
-        """Gets the contents of each annotation in the list.
-
-        :return: A list of annotation contents
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each annotation in the list.
-
-        :return: A list of annotation default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def destination_page_number(self) -> list[int]:
-        """Gets the destination page number of each annotation in the list.
-
-        :return: A list of annotation destination page numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
 
     def destination_rectangle(self) -> list[list[float]]:
-        """Gets the destination rectangle of each annotation in the list.
-
-        :return: A list of annotation destination rectangles
-        :rtype: list[list[float]]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
 
     def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
-        """Gets the fit type of each annotation in the list.
-
-        :return: A list of annotation fit types
-        :rtype: list[XAAcrobatReaderApplication.FitType]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("fitType")
         # TODO
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
     def index(self) -> list[int]:
-        """Gets the index of each annotation in the list.
-
-        :return: A list of annotation indices
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def modification_date(self) -> list[datetime]:
-        """Gets the modification date of each annotation in the list.
-
-        :return: A list of annotation modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def name(self) -> list[str]:
-        """Gets the name of each annotation in the list.
-
-        :return: A list of annotation names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def open_state(self) -> list[bool]:
-        """Gets the open status of each annotation in the list.
-
-        :return: A list of annotation open status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("openState"))
 
     def subtype(self) -> list[str]:
-        """Gets the subtype of each annotation in the list.
-
-        :return: A list of annotation subtypes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("subtype"))
 
     def zoom_factor(self) -> list[float]:
-        """Gets the zoom factor of each annotation in the list.
-
-        :return: A list of annotation zoom factors
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomFactor"))
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose best type matches the given type, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_bounds(self, bounds: list[float]) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose bounds match the given bounds, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bounds", bounds)
 
     def by_color(self, color: XABase.XAColor) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose color matches the given color, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("color", color.xa_elem)
 
     def by_contents(self, contents: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose contents matches the given contents, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("contents", contents)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose default type matches the given type, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_destination_page_number(self, destination_page_number: int) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose destination page number matches the given number, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("destinationPageNumber", destination_page_number)
 
     def by_destination_rectangle(self, destination_rectangle: list[float]) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose destination rectangle matches the given rectangle, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("destinationRectangle", destination_rectangle)
 
     def by_fit_type(self, fit_type: XAAcrobatReaderApplication.FitType) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose fit type matches the given fit type, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fitType", fit_type.value)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose name matches the given name, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_index(self, index: int) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose index matches the given index, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("index", index)
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose modification date matches the given name, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose name matches the given name, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_open_state(self, open_state: bool) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose open state matches the given boolean value, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("openState", open_state)
 
     def by_subtype(self, subtype: str) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose subtype matches the given subtype, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("subtype", subtype)
 
     def by_zoom_factor(self, zoom_factor: float) -> Union['XAAcrobatReaderAnnotation', None]:
-        """Retrieves the first annotation whose zoom factor matches the given zoom factor, if one exists.
-
-        :return: The desired annotation, if it is found
-        :rtype: Union[XAAcrobatReaderAnnotation, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("zoomFactor", zoom_factor)
 
 class XAAcrobatReaderAnnotation(XABase.XAObject):
@@ -1672,83 +1119,27 @@ class XAAcrobatReaderMenuList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderMenu, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each menu in the list.
-
-        :return: A list of menu best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each menu in the list.
-
-        :return: A list of menu default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def name(self) -> list[str]:
-        """Gets the name of each menu in the list.
-
-        :return: A list of menu names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def title(self) -> list[str]:
-        """Gets the title of each menu in the list.
-
-        :return: A list of menu titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderMenu', None]:
-        """Retrieves the first menu whose best type matches the given type, if one exists.
-
-        :return: The desired menu, if it is found
-        :rtype: Union[XAAcrobatReaderMenu, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderMenu', None]:
-        """Retrieves the first menu whose default type matches the given type, if one exists.
-
-        :return: The desired menu, if it is found
-        :rtype: Union[XAAcrobatReaderMenu, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderMenu', None]:
-        """Retrieves the first menu whose name matches the given name, if one exists.
-
-        :return: The desired menu, if it is found
-        :rtype: Union[XAAcrobatReaderMenu, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
     
     def by_title(self, title: str) -> Union['XAAcrobatReaderMenu', None]:
-        """Retrieves the first menu whose title matches the given title, if one exists.
-
-        :return: The desired menu, if it is found
-        :rtype: Union[XAAcrobatReaderMenu, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("title", title)
 
 class XAAcrobatReaderMenu(XABase.XAObject):
@@ -1797,143 +1188,45 @@ class XAAcrobatReaderMenuItemList(XABase.XAList):
         super().__init__(properties, XAAcrobatReaderMenuItem, filter)
 
     def best_type(self) -> list[str]:
-        """Gets the best type of each menu item in the list.
-
-        :return: A list of menu item best types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
     def default_type(self) -> list[str]:
-        """Gets the default type of each menu item in the list.
-
-        :return: A list of menu item default types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each menu item in the list.
-
-        :return: A list of menu item enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def marked(self) -> list[bool]:
-        """Gets the marked status of each menu item in the list.
-
-        :return: A list of menu item marked status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("marked"))
 
     def name(self) -> list[str]:
-        """Gets the name of each menu item in the list.
-
-        :return: A list of menu item names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def title(self) -> list[str]:
-        """Gets the title of each menu item in the list.
-
-        :return: A list of menu item titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def has_submenu(self) -> list[bool]:
-        """Gets the has submenu status of each menu item in the list.
-
-        :return: A list of menu item has submenu status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hasSubmenu"))
 
     def by_best_type(self, best_type: str) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose best type matches the given type, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("bestType", best_type)
 
     def by_default_type(self, default_type: str) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose default type matches the given type, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultType", default_type)
 
     def by_enabled(self, enabled: bool) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("enabled", enabled)
 
     def by_marked(self, marked: bool) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose marked status matches the given boolean value, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("marked", marked)
 
     def by_name(self, name: str) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose name matches the given name, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_title(self, title: str) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose title matches the given title, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("title", title)
 
     def by_has_submenu(self, has_submenu: bool) -> Union['XAAcrobatReaderMenuItem', None]:
-        """Retrieves the first menu item whose has submenu status matches the given boolean value, if one exists.
-
-        :return: The desired menu item, if it is found
-        :rtype: Union[XAAcrobatReaderMenuItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hasSubmenu", has_submenu)
 
 class XAAcrobatReaderMenuItem(XABase.XAObject):

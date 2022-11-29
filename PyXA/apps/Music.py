@@ -302,185 +302,59 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicAirPlayDevice)
 
     def active(self) -> list[bool]:
-        """Gets the active status of each device in the list.
-
-        :return: A list of AirPlay device active statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("active"))
 
     def available(self) -> list[bool]:
-        """Gets the available status of each device in the list.
-
-        :return: A list of AirPlay device available statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("available"))
 
     def kind(self) -> list[XAMusicApplication.DeviceKind]:
-        """Gets the kind of each device in the list.
-
-        :return: A list of AirPlay device kinds
-        :rtype: list[XAMusicApplication.DeviceKind]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("kind")
         return [XAMusicApplication.DeviceKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def network_address(self) -> list[str]:
-        """Gets the network address of each device in the list.
-
-        :return: A list of AirPlay device MAC addresses
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("networkAddress"))
 
     def protected(self) -> list[bool]:
-        """Gets the protected status of each device in the list.
-
-        :return: A list of AirPlay device protected statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("protected"))
 
     def selected(self) -> list[bool]:
-        """Gets the selected status of each device in the list.
-
-        :return: A list of AirPlay device selected statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
     def supports_audio(self) -> list[bool]:
-        """Gets the supports audio status of each device in the list.
-
-        :return: A list of AirPlay device supports audio statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsAudio"))
 
     def supports_audio(self) -> list[bool]:
-        """Gets the supports video status of each device in the list.
-
-        :return: A list of AirPlay device supports video statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsVideo"))
 
     def sound_volume(self) -> list[int]:
-        """Gets the sound volume of each device in the list.
-
-        :return: A list of AirPlay device sound volumes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("soundVolume"))
 
     def by_active(self, active: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose active status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("active", active)
 
     def by_available(self, available: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose available status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("available", available)
 
     def by_kind(self, kind: XAMusicApplication.DeviceKind) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose kind matches the given kind, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("kind", kind.value)
 
     def by_network_address(self, network_address: str) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the AirPlay device whose MAC address matches the given MAC address, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("networkAddress", network_address)
 
     def by_protected(self, protected: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose protected status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("protected", protected)
 
     def by_selected(self, selected: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose selected status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("selected", selected)
 
     def by_supports_audio(self, supports_audio: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose supports audio status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("supportsAudio", supports_audio)
 
     def by_supports_video(self, supports_video: bool) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose supports video status matches the given boolean value, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("supportsVideo", supports_video)
 
     def by_sound_volume(self, sound_volume: int) -> Union['XAMusicAirPlayDevice', None]:
-        """Retrieves the first AirPlay device whose sound volume matches the given volume, if one exists.
-
-        :return: The desired AirPlay device, if it is found
-        :rtype: Union[XAMusicAirPlayDevice, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("soundVolume", sound_volume)
 
 class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
@@ -567,23 +441,9 @@ class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicEncoder)
 
     def format(self) -> list[str]:
-        """Gets the format of each encoder in the list.
-
-        :return: A list of encoder desformatscriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("format"))
 
     def by_format(self, format: str) -> Union['XAMusicEncoder', None]:
-        """Retrieves the first encoder whose format matches the given format, if one exists.
-
-        :return: The desired encoder, if it is found
-        :rtype: Union[XAMusicEncoder, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("format", format)
 
 class XAMusicEncoder(MediaApplicationBase.XAMediaItem):
@@ -614,263 +474,81 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, XAMusicEQPreset)
 
     def band1(self) -> list[float]:
-        """Gets the band1 of each preset in the list.
-
-        :return: A list of preset band1 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band1"))
 
     def band2(self) -> list[float]:
-        """Gets the band2 of each preset in the list.
-
-        :return: A list of preset band2 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band2"))
 
     def band3(self) -> list[float]:
-        """Gets the band3 of each preset in the list.
-
-        :return: A list of preset band3 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band3"))
 
     def band4(self) -> list[float]:
-        """Gets the band4 of each preset in the list.
-
-        :return: A list of preset band4 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band4"))
 
     def band5(self) -> list[float]:
-        """Gets the band5 of each preset in the list.
-
-        :return: A list of preset band5 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band5"))
 
     def band6(self) -> list[float]:
-        """Gets the band6 of each preset in the list.
-
-        :return: A list of preset band6 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band6"))
 
     def band7(self) -> list[float]:
-        """Gets the band7 of each preset in the list.
-
-        :return: A list of preset band7 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band7"))
 
     def band8(self) -> list[float]:
-        """Gets the band8 of each preset in the list.
-
-        :return: A list of preset band8 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band8"))
 
     def band9(self) -> list[float]:
-        """Gets the band9 of each preset in the list.
-
-        :return: A list of preset band9 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band9"))
 
     def band10(self) -> list[float]:
-        """Gets the band10 of each preset in the list.
-
-        :return: A list of preset band10 levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("band10"))
 
     def modifiable(self) -> list[float]:
-        """Gets the modifiable status of each preset in the list.
-
-        :return: A list of preset modifiable statuses
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modifiable"))
 
     def preamp(self) -> list[float]:
-        """Gets the preamp level of each preset in the list.
-
-        :return: A list of preset preamp levels
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("preamp"))
 
     def update_tracks(self) -> list[float]:
-        """Gets the update track status of each preset in the list.
-
-        :return: A list of preset update track statuses
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("updateTracks"))
 
     def by_band1(self, band1: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band1 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band1", band1)
 
     def by_band2(self, band2: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band2 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band2", band2)
 
     def by_band3(self, band3: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band3 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band3", band3)
     
     def by_band4(self, band4: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band4 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band4", band4)
 
     def by_band5(self, band5: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band5 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band5", band5)
 
     def by_band6(self, band6: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band6 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band6", band6)
 
     def by_band7(self, band7: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band7 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band7", band7)
 
     def by_band8(self, band8: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band8 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band8", band8)
 
     def by_band9(self, band9: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band9 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band9", band9)
 
     def by_band10(self, band10: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose band10 level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("band10", band10)
 
     def by_modifiable(self, modifiable: bool) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose modifiable status level matches the given boolean value, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("modifiable", modifiable)
 
     def by_preamp(self, preamp: float) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose preamp level matches the given level, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("preamp", preamp)
 
     def by_update_tracks(self, update_tracks: bool) -> Union['XAMusicEQPreset', None]:
-        """Retrieves the first EQ preset whose update tracks status level matches the given boolean value, if one exists.
-
-        :return: The desired EQ preset, if it is found
-        :rtype: Union[XAMusicEQPreset, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("updateTracks", update_tracks)
 
 class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
@@ -1023,43 +701,15 @@ class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
         super().__init__(properties, filter, obj_class)
 
     def disliked(self) -> list[bool]:
-        """Gets the dislike status of each playlist in the list.
-
-        :return: A list of playlist dislike statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
 
     def loved(self) -> list[bool]:
-        """Gets the loved status of each playlist in the list.
-
-        :return: A list of playlist loved statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("loved"))
 
     def by_disliked(self, disliked: bool) -> Union['XAMusicPlaylist', None]:
-        """Retrieves the first playlist whose closeable disliked status matches the given boolean value, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMusicPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("disliked", disliked)
 
     def by_loved(self, loved: bool) -> Union['XAMusicPlaylist', None]:
-        """Retrieves the playlist whose loved status matches the given boolean value, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMusicPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("loved", loved)
 
 class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
@@ -1146,143 +796,45 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
         super().__init__(properties, filter, XAMusicAudioCDPlaylist)
 
     def artist(self) -> list[str]:
-        """Gets the artist of each playlist in the list.
-
-        :return: A list of audio CD playlist artists
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("artist"))
 
     def compilation(self) -> list[bool]:
-        """Gets the compilation status of each playlist in the list.
-
-        :return: A list of audio CD playlist compilation status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
 
     def composer(self) -> list[str]:
-        """Gets the composer of each playlist in the list.
-
-        :return: A list of audio CD playlist composers
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("composer"))
 
     def disc_count(self) -> list[int]:
-        """Gets the disc count of each playlist in the list.
-
-        :return: A list of audio CD playlist disc counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
 
     def disc_number(self) -> list[int]:
-        """Gets the disc number of each playlist in the list.
-
-        :return: A list of audio CD playlist disc numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
 
     def genre(self) -> list[str]:
-        """Gets the genre of each playlist in the list.
-
-        :return: A list of audio CD playlist genres
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("genre"))
 
     def year(self) -> list[int]:
-        """Gets the year of each playlist in the list.
-
-        :return: A list of audio CD playlist years
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("year"))
 
     def by_artist(self, artist: str) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose artist matches the given artist, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("artist", artist)
 
     def by_compilation(self, compilation: bool) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose compilation status matches the given boolean value, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("compilation", compilation)
 
     def by_composer(self, composer: str) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose composer matches the given composer, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("composer", composer)
 
     def by_disc_count(self, disc_count: int) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose disc count matches the given disc count, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("discCount", disc_count)
 
     def by_disc_number(self, disc_number: int) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose disc number matches the given disc number, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("discNumber", disc_number)
 
     def by_genre(self, genre: str) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose genre matches the given genre, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("genre", genre)
 
     def by_year(self, year: int) -> Union['XAMusicAudioCDPlaylist', None]:
-        """Retrieves the first audio CD playlist whose year matches the given year, if one exists.
-
-        :return: The desired audio CD playlist, if it is found
-        :rtype: Union[XAMusicAudioCDPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("year", year)
 
 class XAMusicAudioCDPlaylist(XAMusicPlaylist):
@@ -1528,435 +1080,134 @@ class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
         super().__init__(properties, filter, obj_class)
 
     def album_artist(self) -> list[str]:
-        """Gets the album artist of each track in the list.
-
-        :return: A list of track album artists
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("albumArtist"))
 
     def album_disliked(self) -> list[bool]:
-        """Gets the album disliked status of each track in the list.
-
-        :return: A list of track album disliked statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("albumDisliked"))
 
     def album_loved(self) -> list[bool]:
-        """Gets the album loved status of each track in the list.
-
-        :return: A list of track album loved statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("albumLoved"))
 
     def artist(self) -> list[str]:
-        """Gets the artist of each track in the list.
-
-        :return: A list of track artists
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("artist"))
 
     def bpm(self) -> list[int]:
-        """Gets the BPM of each track in the list.
-
-        :return: A list of track BPMs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bpm"))
 
     def cloud_status(self) -> list[XAMusicApplication.iCloudStatus]:
-        """Gets the cloud status of each track in the list.
-
-        :return: A list of track cloud statuses
-        :rtype: list[XAMusicApplication.iCloudStatus]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("cloudStatus")
         return [XAMusicApplication.iCloudStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def compilation(self) -> list[bool]:
-        """Gets the compilation status of each track in the list.
-
-        :return: A list of track compilation statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
 
     def composer(self) -> list[str]:
-        """Gets the composer of each track in the list.
-
-        :return: A list of track composers
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("composer"))
 
     def disliked(self) -> list[bool]:
-        """Gets the disliked status of each track in the list.
-
-        :return: A list of track disliked statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
 
     def eq(self) -> list[str]:
-        """Gets the name of the EQ preset of each track in the list.
-
-        :return: A list of track EQ presets
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("EQ"))
 
     def gapless(self) -> list[bool]:
-        """Gets the gapless status of each track in the list.
-
-        :return: A list of track gapless statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("gapless"))
 
     def loved(self) -> list[bool]:
-        """Gets the loved status of each track in the list.
-
-        :return: A list of track loved statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("loved"))
 
     def lyrics(self) -> list[str]:
-        """Gets the lyrics of each track in the list.
-
-        :return: A list of track lyrics
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("lyrics"))
 
     def movement(self) -> list[str]:
-        """Gets the movement of each track in the list.
-
-        :return: A list of track movements
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("movement"))
 
     def movement_count(self) -> list[int]:
-        """Gets the movement count of each track in the list.
-
-        :return: A list of track movement counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("movementCount"))
 
     def movement_number(self) -> list[int]:
-        """Gets the movement number of each track in the list.
-
-        :return: A list of track movement numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("movementNumber"))
 
     def shufflable(self) -> list[bool]:
-        """Gets the shufflable status of each track in the list.
-
-        :return: A list of track shuffle statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shufflable"))
 
     def sort_artist(self) -> list[str]:
-        """Gets the artist sort string of each track in the list.
-
-        :return: A list of track artist sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortArtist"))
 
     def sort_album_artist(self) -> list[str]:
-        """Gets the album artist sort string of each track in the list.
-
-        :return: A list of track album artist sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortAlbumArtist"))
 
     def sort_composer(self) -> list[str]:
-        """Gets the composer sort string of each track in the list.
-
-        :return: A list of track composer sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortComposer"))
 
     def work(self) -> list[str]:
-        """Gets the work of each track in the list.
-
-        :return: A list of track works
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("work"))
 
     def by_album_artist(self, album_artist: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose album artist matches the given artist, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("albumArtist", album_artist)
 
     def by_album_disliked(self, album_disliked: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose album disliked status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("albumDisliked", album_disliked)
 
     def by_album_loved(self, album_loved: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose album loved status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("albumLoved", album_loved)
 
     def by_artist(self, artist: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose artist matches the given artist, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("artist", artist)
 
     def by_bpm(self, bpm: int) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose BPM matches the given BPM, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("bpm", bpm)
 
     def by_cloud_status(self, cloud_status: XAMusicApplication.iCloudStatus) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose cloud status matches the given status, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("cloudStatus", cloud_status.value)
 
     def by_compilation(self, compilation: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose compilation status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("compilation", compilation)
 
     def by_composer(self, composer: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose composer matches the given composer, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("composer", composer)
 
     def by_disliked(self, disliked: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose disliked status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("disliked", disliked)
 
     def by_eq(self, eq: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose EQ preset matches the given EQ preset name, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("EQ", eq)
 
     def by_gapless(self, gapless: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose gapless status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("gapless", gapless)
 
     def by_loved(self, loved: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose loved status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("loved", loved)
 
     def by_lyrics(self, lyrics: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose lyrics match the given lyrics, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("lyrics", lyrics)
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose modification date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_movement(self, movement: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose movement matches the given movement, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("movement", movement)
 
     def by_movement_count(self, movement_count: int) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose movement count matches the given movement count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("movementCount", movement_count)
 
     def by_movement_number(self, movement_number: int) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose movement number matches the given movement number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("movementNumber", movement_number)
 
     def by_shufflable(self, shufflable: bool) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose shufflable status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("shufflable", shufflable)
 
     def by_sort_artist(self, sort_artist: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose artist sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortArtist", sort_artist)
 
     def by_sort_album_artist(self, sort_album_artist: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose album artist sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortAlbumArtist", sort_album_artist)
 
     def by_sort_composer(self, sort_composer: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose composer sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortComposer", sort_composer)
 
     def by_work(self, work: str) -> Union['XAMusicTrack', None]:
-        """Retrieves the first track whose work matches the given work, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMusicTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("work", work)
 
 class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
@@ -2199,24 +1450,10 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
         super().__init__(properties, filter, XAMusicAudioCDTrack)
 
     def location(self) -> list[XABase.XAURL]:
-        """Gets the location of each track in the list.
-
-        :return: A list of track locations
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return [XABase.XAURL(x) for x in ls]
 
     def by_location(self, location: XABase.XAURL) -> Union['XAMusicAudioCDTrack', None]:
-        """Retrieves the audio CD track whose location matches the given location, if one exists.
-
-        :return: The desired audio CD track, if it is found
-        :rtype: Union[MusicAudioCDTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("location", location.xa_elem)
 
 class XAMusicAudioCDTrack(XAMusicTrack):
@@ -2250,23 +1487,9 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
         super().__init__(properties, filter, XAMusicUserPlaylist)
 
     def genius(self) -> list[bool]:
-        """Gets the genius status of each user playlist in the list.
-
-        :return: A list of playlist genius status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("genius"))
 
     def by_genius(self, genius: bool) -> Union['XAMusicUserPlaylist', None]:
-        """Retrieves the user playlist whose genius status matches the given value, if one exists.
-
-        :return: The desired user playlist, if it is found
-        :rtype: Union[XAMusicUserPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("genius", genius)
 
 class XAMusicUserPlaylist(XAMusicPlaylist):

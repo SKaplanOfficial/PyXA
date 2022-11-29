@@ -102,64 +102,22 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
         super().__init__(properties, XACardhopDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XACardhopDocument', None]:
-        """Retrieves the first document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACardhopDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XACardhopDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACardhopDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: Union[XABase.XAPath, str]) -> Union['XACardhopDocument', None]:
-        """Retrieves the first document whose file path matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACardhopDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(file, str):
             file = XABase.XAPath(file)
         return self.by_property("file", file.xa_elem)

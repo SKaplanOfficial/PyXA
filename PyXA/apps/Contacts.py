@@ -235,64 +235,22 @@ class XAContactsDocumentList(XABase.XAList):
         super().__init__(properties, XAContactsDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAURL]:
-        """Gets the file of each document in the list.
-
-        :return: A list of document files
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAURL(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XAContactsDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAContactsDocument, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAContactsDocument', None]:
-        """Retrieves the document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAContactsDocument, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: XABase.XAURL) -> Union['XAContactsDocument', None]:
-        """Retrieves the document whose file matches the given file, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAContactsDocument, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
@@ -338,183 +296,57 @@ class XAContactsAddressList(XABase.XAList):
         super().__init__(properties, XAContactsAddress, filter)
 
     def city(self) -> list[str]:
-        """Gets the city of each address in the list.
-
-        :return: A list of address cities
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("city"))
 
     def formatted_address(self) -> list[str]:
-        """Gets the formatted address representation of each address in the list.
-
-        :return: A list of address formatted representations
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("formattedAddress"))
 
     def street(self) -> list[str]:
-        """Gets the street of each address in the list.
-
-        :return: A list of address streets
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("street"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each address in the list.
-
-        :return: A list of address IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def zip(self) -> list[str]:
-        """Gets the ZIP code of each address in the list.
-
-        :return: A list of address ZIP codes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zip"))
 
     def country(self) -> list[str]:
-        """Gets the country of each address in the list.
-
-        :return: A list of address countries
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("country"))
 
     def label(self) -> list[str]:
-        """Gets the label of each address in the list.
-
-        :return: A list of address labels
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("label"))
 
     def country_code(self) -> list[str]:
-        """Gets the country code of each address in the list.
-
-        :return: A list of address country codes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("countryCode"))
 
     def state(self) -> list[str]:
-        """Gets the state of each address in the list.
-
-        :return: A list of address states
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("state"))
 
     def by_city(self, city: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the first address whose city matches the given city, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("city", city)
 
     def by_formatted_address(self, formatted_address: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose formatted address matches the given string, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("formattedAddress", formatted_address)
 
     def by_street(self, street: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose street matches the given street, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("street", street)
 
     def by_id(self, id: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose ID matches the given ID, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def by_zip(self, zip: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose ZIP code matches the given ZIP code, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("zip", zip)
 
     def by_country(self, country: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose country matches the given country, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("country", country)
 
     def by_label(self, label: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose label matches the given label, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("label", label)
 
     def by_country_code(self, country_code: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose country code matches the given country code, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("countryCode", country_code)
 
     def by_state(self, state: str) -> Union['XAContactsAddress', None]:
-        """Retrieves the address whose state matches the given state, if one exists.
-
-        :return: The desired address, if it is found
-        :rtype: Union[XAContactsAddress, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("state", state)
 
     def __repr__(self):
@@ -626,63 +458,21 @@ class XAContactsContactInfoList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def label(self) -> list[str]:
-        """Gets the label of each information entry in the list.
-
-        :return: A list of information entry labels
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("label"))
 
     def value(self) -> list[Any]:
-        """Gets the value of each information entry in the list.
-
-        :return: A list of information entry values
-        :rtype: list[Any]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each information entry in the list.
-
-        :return: A list of information entry IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def by_label(self, label: str) -> Union['XAContactsContactInfo', None]:
-        """Retrieves the information entry whose label matches the given label, if one exists.
-
-        :return: The desired information entry, if it is found
-        :rtype: Union[XAContactsContactInfo, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("label", label)
 
     def by_value(self, value: Any) -> Union['XAContactsContactInfo', None]:
-        """Retrieves the first information entry whose value matches the given value, if one exists.
-
-        :return: The desired information entry, if it is found
-        :rtype: Union[XAContactsContactInfo, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("value", value)
     
     def by_id(self, id: str) -> Union['XAContactsContactInfo', None]:
-        """Retrieves the information entry whose ID matches the given ID, if one exists.
-
-        :return: The desired information entry, if it is found
-        :rtype: Union[XAContactsContactInfo, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def __repr__(self):
@@ -780,83 +570,27 @@ class XAContactsEntryList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def modification_date(self) -> list[datetime]:
-        """Gets the last modification date of each contact entry in the list.
-
-        :return: A list of contact entry modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def creation_date(self) -> list[datetime]:
-        """Gets the creation date of each contact entry in the list.
-
-        :return: A list of contact entry creation dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each contact entry in the list.
-
-        :return: A list of contact entry IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def selected(self) -> list[bool]:
-        """Gets the selected status of each contact entry in the list.
-
-        :return: A list of contact entry selected statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAContactsEntry', None]:
-        """Retrieves the first contact entry whose last modification date matches the given date, if one exists.
-
-        :return: The desired contact entry, if it is found
-        :rtype: Union[XAContactsEntry, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_creation_date(self, creation_date: datetime) -> Union['XAContactsEntry', None]:
-        """Retrieves the first contact entry whose creation date matches the given date, if one exists.
-
-        :return: The desired contact entry, if it is found
-        :rtype: Union[XAContactsEntry, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("creationDate", creation_date)
 
     def by_id(self, id: str) -> Union['XAContactsEntry', None]:
-        """Retrieves the contact entry whose ID matches the given ID, if one exists.
-
-        :return: The desired contact entry, if it is found
-        :rtype: Union[XAContactsEntry, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def by_selected(self, selected: bool) -> Union['XAContactsEntry', None]:
-        """Retrieves the contact entry whose selected status matches the given boolean value, if one exists.
-
-        :return: The desired contact entry, if it is found
-        :rtype: Union[XAContactsEntry, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("selected", selected)
 
     def __repr__(self):
@@ -961,23 +695,9 @@ class XAContactsGroupList(XAContactsEntryList):
         super().__init__(properties, filter, XAContactsGroup)
 
     def name(self) -> list[str]:
-        """Gets the name of each contact group in the list.
-
-        :return: A list of contact group names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_name(self, name: str) -> Union['XAContactsGroup', None]:
-        """Retrieves the first contact group whose name matches the given name, if one exists.
-
-        :return: The desired contact group, if it is found
-        :rtype: Union[XAContactsGroup, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -1042,65 +762,23 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
         super().__init__(properties, filter, XAContactsInstantMessage)
 
     def service_name(self) -> list[str]:
-        """Gets the service name of each IM address in the list.
-
-        :return: A list of IM address service names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
 
     def service_type(self) -> list[XAContactsApplication.ServiceType]:
-        """Gets the service type of each IM address in the list.
-
-        :return: A list of IM address service types
-        :rtype: list[XAContactsApplication.ServiceType]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("serviceType")
         return [XAContactsApplication.ServiceType(XABase.OSType(x.stringValue())) for x in ls]
 
     def user_name(self) -> list[str]:
-        """Gets the user name of each IM address in the list.
-
-        :return: A list of IM address user names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("userName"))
 
     def by_service_name(self, service_name: str) -> Union['XAContactsInstantMessage', None]:
-        """Retrieves the first IM address whose service name matches the given service name, if one exists.
-
-        :return: The desired IM address, if it is found
-        :rtype: Union[XAContactsInstantMessage, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("serviceName", service_name)
 
     def by_service_type(self, service_type: XAContactsApplication.ServiceType) -> Union['XAContactsInstantMessage', None]:
-        """Retrieves the first IM address whose service type matches the given service type, if one exists.
-
-        :return: The desired IM address, if it is found
-        :rtype: Union[XAContactsInstantMessage, None]
-        
-        .. versionadded:: 0.0.7
-        """
         event = XAEvents.event_from_int(service_type.value)
         return self.by_property("serviceType", event)
 
     def by_user_name(self, user_name: str) -> Union['XAContactsInstantMessage', None]:
-        """Retrieves the first IM address whose user name matches the given user name, if one exists.
-
-        :return: The desired IM address, if it is found
-        :rtype: Union[XAContactsInstantMessage, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("userName", user_name)
 
     def __repr__(self):
@@ -1157,405 +835,125 @@ class XAContactsPersonList(XAContactsEntryList):
         super().__init__(properties, filter, XAContactsPerson)
 
     def nickname(self) -> list[str]:
-        """Gets the nickname of each person in the list.
-
-        :return: A list of contact person nicknames
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("nickname"))
 
     def organization(self) -> list[str]:
-        """Gets the organization of each person in the list.
-
-        :return: A list of contact person organizations
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("organization"))
 
     def maiden_name(self) -> list[str]:
-        """Gets the maiden name of each person in the list.
-
-        :return: A list of contact person maiden names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("maidenName"))
 
     def suffix(self) -> list[str]:
-        """Gets the suffix of each person in the list.
-
-        :return: A list of contact person suffixes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("suffix"))
 
     def vcard(self) -> list[str]:
-        """Gets the vCard representation of each person in the list.
-
-        :return: A list of contact person vCard representations
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("vcard"))
 
     def home_page(self) -> list[str]:
-        """Gets the home page of each person in the list.
-
-        :return: A list of contact person home pages
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("homePage"))
 
     def birth_date(self) -> list[datetime]:
-        """Gets the birthdate of each person in the list.
-
-        :return: A list of contact person birthdates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("birthdate"))
 
     def phonetic_last_name(self) -> list[str]:
-        """Gets the phonetic last name of each person in the list.
-
-        :return: A list of contact person phonetic last names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticLastName"))
 
     def title(self) -> list[str]:
-        """Gets the title of each person in the list.
-
-        :return: A list of contact person titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def phonetic_middle_name(self) -> list[str]:
-        """Gets the phonetic middle name of each person in the list.
-
-        :return: A list of contact person phonetic middle names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticMiddleName"))
 
     def department(self) -> list[str]:
-        """Gets the department of each person in the list.
-
-        :return: A list of contact person departments
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("department"))
 
     def image(self) -> list[XABase.XAImage]:
-        """Gets the image of each person in the list.
-
-        :return: A list of contact person images
-        :rtype: list[XABase.XAImage]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("image")
         return [XABase.XAImage(x) for x in ls]
 
     def name(self) -> list[str]:
-        """Gets the name of each person in the list.
-
-        :return: A list of contact person names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def note(self) -> list[str]:
-        """Gets the notes of each person in the list.
-
-        :return: A list of contact person notes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("note"))
 
     def company(self) -> list[bool]:
-        """Gets the company status of each "person" in the list.
-
-        :return: A list of contact company statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("company"))
 
     def middle_name(self) -> list[str]:
-        """Gets the middle name of each person in the list.
-
-        :return: A list of contact person middle names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("middleName"))
 
     def phonetic_first_name(self) -> list[str]:
-        """Gets the phonetic first name of each person in the list.
-
-        :return: A list of contact person phonetic first names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticFirstName"))
 
     def job_title(self) -> list[str]:
-        """Gets the job title of each person in the list.
-
-        :return: A list of contact person job titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("jobTitle"))
 
     def last_name(self) -> list[str]:
-        """Gets the last name of each person in the list.
-
-        :return: A list of contact person last names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
 
     def first_name(self) -> list[str]:
-        """Gets the first name of each person in the list.
-
-        :return: A list of contact person first names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("firstName"))
 
     def by_nickname(self, nickname: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose nickname matches the given nickname, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("nickname", nickname)
 
     def by_organization(self, organization: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose organization matches the given organization, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("organization", organization)
 
     def by_maiden_name(self, maiden_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose maiden name matches the given maiden name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("maidenName", maiden_name)
 
     def by_suffix(self, suffix: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose suffix matches the given suffix, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("suffix", suffix)
 
     def by_vcard(self, vcard: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the person whose vCard representation matches the given string, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("vcard", vcard)
 
     def by_home_page(self, home_page: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose home page URL matches the given URL, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO - URL?
         return self.by_property("homePage", home_page)
 
     def by_birth_date(self, birth_date: datetime) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose birthdate matches the given date, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("birthDate", birth_date)
 
     def by_phonetic_last_name(self, phonetic_last_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose phonetic last name matches the given phonetic last name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("phoneticLastName", phonetic_last_name)
 
     def by_title(self, title: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose title matches the given title, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("title", title)
 
     def by_phonetic_middle_name(self, phonetic_middle_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose phonetic middle name matches the given phonetic middle name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("phoneticMiddleName", phonetic_middle_name)
 
     def by_department(self, department: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose department matches the given department, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("department", department)
 
     def by_image(self, image: XABase.XAImage) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose image matches the given image, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("image", image.xa_elem)
 
     def by_name(self, name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose name matches the given name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def by_note(self, note: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose notes matches the given notes, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("note", note)
 
     def by_company(self, company: bool) -> Union['XAContactsPerson', None]:
-        """Retrieves the first "person" whose company status matches the given boolean value, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("company", company)
 
     def by_middle_name(self, middle_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose middle name matches the given middle name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("middleName", middle_name)
 
     def by_phonetic_first_name(self, phonetic_first_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose phonetic first name matches the given phonetic first name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("phoneticFirstName", phonetic_first_name)
 
     def by_job_title(self, job_title: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose job title matches the given job title, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("jobTitle", job_title)
 
     def by_last_name(self, last_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose last name matches the given last name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("lastName", last_name)
 
     def by_first_name(self, first_name: str) -> Union['XAContactsPerson', None]:
-        """Retrieves the first person whose first name matches the given first name, if one exists.
-
-        :return: The desired person, if it is found
-        :rtype: Union[XAContactsPerson, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("firstName", first_name)
 
     def __repr__(self):
@@ -1945,103 +1343,33 @@ class XAContactsSocialProfileList(XABase.XAList):
         super().__init__(properties, XAContactsSocialProfile, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each social profile in the list.
-
-        :return: A list of social profile IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def service_name(self) -> list[str]:
-        """Gets the service name of each social profile in the list.
-
-        :return: A list of social profile service names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
 
     def user_name(self) -> list[str]:
-        """Gets the user name of each social profile in the list.
-
-        :return: A list of social profile user names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("userName"))
 
     def user_identifier(self) -> list[str]:
-        """Gets the user identifier of each social profile in the list.
-
-        :return: A list of social profile user identifiers
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("userIdentifier"))
 
     def url(self) -> list[str]:
-        """Gets the URL of each social profile in the list.
-
-        :return: A list of social profile URLs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def by_id(self, id: str) -> Union['XAContactsSocialProfile', None]:
-        """Retrieves the social profile whose ID matches the given ID, if one exists.
-
-        :return: The desired social profile, if it is found
-        :rtype: Union[XAContactsSocialProfile, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def by_service_name(self, service_name: str) -> Union['XAContactsSocialProfile', None]:
-        """Retrieves the first social profile whose service name matches the given service name, if one exists.
-
-        :return: The desired social profile, if it is found
-        :rtype: Union[XAContactsSocialProfile, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("serviceName", service_name)
 
     def by_user_name(self, user_name: str) -> Union['XAContactsSocialProfile', None]:
-        """Retrieves the first social profile whose user name matches the given user name, if one exists.
-
-        :return: The desired social profile, if it is found
-        :rtype: Union[XAContactsSocialProfile, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("userName", user_name)
 
     def by_user_identifier(self, user_identifier: str) -> Union['XAContactsSocialProfile', None]:
-        """Retrieves the social profile whose user identifier matches the given identifier, if one exists.
-
-        :return: The desired social profile, if it is found
-        :rtype: Union[XAContactsSocialProfile, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("userIdentifier", user_identifier)
 
     def by_url(self, url: str) -> Union['XAContactsSocialProfile', None]:
-        """Retrieves the social profile whose URL matches the given URL, if one exists.
-
-        :return: The desired social profile, if it is found
-        :rtype: Union[XAContactsSocialProfile, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("URL", url)
 
     def __repr__(self):

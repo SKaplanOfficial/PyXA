@@ -370,324 +370,107 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         super().__init__(properties, XAOmniOutlinerDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def alternate_color(self) -> list[XABase.XAColor]:
-        """Gets the alternate row color of each document in the list.
-
-        :return: A list of document alternate row colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("alternateColor")
         return [XABase.XAColor(x) for x in ls]
 
     def background_color(self) -> list[XABase.XAColor]:
-        """Gets the background color of each document in the list.
-
-        :return: A list of document background colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [XABase.XAColor(x) for x in ls]
 
     def canredo(self) -> list[bool]:
-        """Gets the redo status of each document in the list.
-
-        :return: A list of redo status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("canredo") or [])
 
     def canundo(self) -> list[bool]:
-        """Gets the undo status of each document in the list.
-
-        :return: A list of undo status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("canundo") or [])
 
     def children_are_sections(self) -> list[bool]:
-        """Gets the children are sections status of each document in the list.
-
-        :return: A list of child are sections status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("childrenAreSections") or [])
 
     def column_title_style(self) -> 'XAOmniOutlinerStyleList':
-        """Gets the column title style of each document in the list.
-
-        :return: A list of column title styles
-        :rtype: XAOmniOutlinerStyleList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("columnTitleStyle")
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
     def editable(self) -> list[bool]:
-        """Gets the editable status of each document in the list.
-
-        :return: A list of editable status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("editable") or [])
 
     def folded_editing_enabled(self) -> list[bool]:
-        """Gets the folded editing enabled status of each document in the list.
-
-        :return: A list of folded editing enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("foldedEditingEnabled") or [])
 
     def has_subtopics(self) -> list[bool]:
-        """Gets the has subtopics of each document in the list.
-
-        :return: A list of has subtopics status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("hasSubtopics") or [])
 
     def horizontal_grid_color(self) -> list[XABase.XAColor]:
-        """Gets the horizontal grid color of each document in the list.
-
-        :return: A list of horizontal grid colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("horizontalGridColor")
         return [XABase.XAColor(x) for x in ls]
 
     def id(self) -> list[str]:
-        """Gets the ID of each document in the list.
-
-        :return: A list of document IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def note_column(self) -> 'XAOmniOutlinerColumnList':
-        """Gets the note column of each document in the list.
-
-        :return: A list of document note columns
-        :rtype: XAOmniOutlinerColumnList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("noteColumn")
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
     def note_display(self) -> list[XAOmniOutlinerApplication.DisplayType]:
-        """Gets the note display type of each document in the list.
-
-        :return: A list of document note display types
-        :rtype: list[XAOmniOutlinerApplication.DisplayType]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("noteDisplay")
         return [XAOmniOutlinerApplication.DisplayType(XABase.OSType(x.stringValue())) for x in ls]
 
     def save_identifier(self) -> list[str]:
-        """Gets the save identifier of each document in the list.
-
-        :return: A list of document save identifiers
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("saveIdentifier") or [])
 
     def save_identifier_enabled(self) -> list[bool]:
-        """Gets the save identifier enabled status of each document in the list.
-
-        :return: A list of saved identifier enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("saveIdentifierEnabled") or [])
 
     def sorting_postponed(self) -> list[bool]:
-        """Gets the sorting postponed status of each document in the list.
-
-        :return: A list of sort postponed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortingPostponed") or [])
 
     def status_sort_order(self) -> list[XAOmniOutlinerApplication.SortOrder]:
-        """Gets the status sort order direction of each document in the list.
-
-        :return: A list of status sort order directions
-        :rtype: list[XAOmniOutlinerApplication.SortOrder]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("statusSortOrder")
         return [XAOmniOutlinerApplication.SortOrder(XABase.OSType(x.stringValue())) for x in ls]
 
     def status_visible(self) -> list[bool]:
-        """Gets the status visible status of each document in the list.
-
-        :return: A list of status visible status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("statusVisible") or [])
 
     def store_compressed(self) -> list[bool]:
-        """Gets the store compressed status of each document in the list.
-
-        :return: A list of store compressed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("storeCompressed") or [])
 
     def style(self) -> 'XAOmniOutlinerStyleList':
-        """Gets the style of each document in the list.
-
-        :return: A list of document styles
-        :rtype: XAOmniOutlinerStyleList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("style")
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
     def title(self) -> list[str]:
-        """Gets the title of each document in the list.
-
-        :return: A list of document titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
     def topic_column(self) -> 'XAOmniOutlinerColumnList':
-        """Gets the topic column of each document in the list.
-
-        :return: A list of document topic columns
-        :rtype: XAOmniOutlinerColumnList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("topicColumn")
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
     def undo_enabled(self) -> list[bool]:
-        """Gets the undo enabled status of each document in the list.
-
-        :return: A list of document undo enabled status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("undoEnabled") or [])
 
     def verticalGridColor(self) -> list[XABase.XAColor]:
-        """Gets the vertical grid color of each document in the list.
-
-        :return: A list of vertical grid colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("verticalGridColor")
         return [XABase.XAColor(x) for x in ls]
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each document in the list.
-
-        :return: A list of document visible status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
     def writes_wrapper(self) -> list[bool]:
-        """Gets the writes wrapper of each document in the list.
-
-        :return: A list of document writes wrapper status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("writesWrapper") or [])
 
     def topiccolumnid(self) -> list[str]:
-        """Gets the topic column ID of each document in the list.
-
-        :return: A list of document topic column IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("topiccolumnid") or [])
 
     def notecolumnid(self) -> list[str]:
-        """Gets the note column ID of each document in the list.
-
-        :return: A list of document note column IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("notecolumnid") or [])
 
     def __repr__(self):

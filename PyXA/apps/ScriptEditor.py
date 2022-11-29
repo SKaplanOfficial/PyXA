@@ -24,23 +24,9 @@ class XAScriptEditorItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties each item in the list.
-
-        :return: A list of property dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def by_properties(self, properties: dict) -> 'XAScriptEditorItem':
-        """Retrieves the item whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired item, if it is found
-        :rtype: Union[XAScriptEditorItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("properties", properties)
 
 class XAScriptEditorItem(XABase.XAObject):
@@ -140,188 +126,62 @@ class XAScriptEditorDocumentList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorDocument)
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each document in the list.
-
-        :return: A list of document paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
     def contents(self) -> 'XAScriptEditorTextList':
-        """Gets the contents of each document in the list.
-
-        :return: A list of document contents
-        :rtype: XAScriptEditorTextList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XAScriptEditorTextList)
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each document in the list.
-
-        :return: A list of document object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def event_log(self) -> list[str]:
-        """Gets the event log of each document in the list.
-
-        :return: A list of document event logs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("eventLog"))
 
     def language(self) -> 'XAScriptEditorLanguageList':
-        """Gets the language of each document in the list.
-
-        :return: A list of document languages
-        :rtype: XAScriptEditorLanguageList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("language")
         return self._new_element(ls, XAScriptEditorLanguageList)
 
     def selection(self) -> 'XAScriptEditorSelectionObjectList':
-        """Gets the selection of each document in the list.
-
-        :return: A list of document selection objects
-        :rtype: XAScriptEditorSelectionObjectList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selection")
         return self._new_element(ls, XAScriptEditorSelectionObjectList)
     
     def text(self) -> 'XAScriptEditorTextList':
-        """Gets the text of each document in the list.
-
-        :return: A list of document text
-        :rtype: XAScriptEditorTextList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("text")
         return self._new_element(ls, XAScriptEditorTextList)
 
     def by_modified(self, modified: bool) -> 'XAScriptEditorDocument':
-        """Retrieves the tab whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("modified", modified)
 
     def by_name(self, name: str) -> 'XAScriptEditorDocument':
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: XABase.XAPath) -> 'XAScriptEditorDocument':
-        """Retrieves the document whose path matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("path", path.xa_elem)
 
     def by_contents(self, contents: 'XAScriptEditorText') -> 'XAScriptEditorDocument':
-        """Retrieves the document whose contents match the given contents, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("contents", contents.xa_elem)
 
     def by_object_description(self, object_description: str) -> 'XAScriptEditorDocument':
-        """Retrieves the document whose object description matches the given description, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_event_log(self, event_log: str) -> 'XAScriptEditorDocument':
-        """Retrieves the document whose event log matches the given string, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("eventLog", event_log)
 
     def by_language(self, language: 'XAScriptEditorLanguage') -> 'XAScriptEditorDocument':
-        """Retrieves the document whose language matches the given language, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("language", language.xa_elem)
 
     def by_selection(self, selection: 'XAScriptEditorSelectionObject') -> 'XAScriptEditorDocument':
-        """Retrieves the document whose selection matches the given selection object, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("selection", selection.xa_elem)
 
     def by_text(self, text: 'XAScriptEditorText') -> 'XAScriptEditorDocument':
-        """Retrieves the document whose text matches the given text, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAScriptEditorDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("text", text.xa_elem)
 
     def __repr__(self):
@@ -559,24 +419,10 @@ class XAScriptEditorInsertionPointList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorInsertionPoint)
 
     def contents(self) -> XAScriptEditorItemList:
-        """Gets the contents status of each insertion point in the list.
-
-        :return: A list of insertion point contents
-        :rtype: XAScriptEditorItemList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XAScriptEditorItemList)
 
     def by_contents(self, contents: XAScriptEditorItem) -> 'XAScriptEditorInsertionPoint':
-        """Retrieves the insertion point whose contents match the given contents, if one exists.
-
-        :return: The desired insertion point, if it is found
-        :rtype: Union[XAScriptEditorInsertionPoint, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("contents", contents.xa_elem)
 
     def __repr__(self):
@@ -617,64 +463,22 @@ class XAScriptEditorTextList(XABase.XATextList):
         super().__init__(properties, filter, XAScriptEditorText)
 
     def color(self) -> list[XABase.XAColor]:
-        """Gets the color each text in the list.
-
-        :return: A list of text colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
     def font(self) -> list[str]:
-        """Gets the font name each text in the list.
-
-        :return: A list of text fonts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("font"))
 
     def size(self) -> list[int]:
-        """Gets the font size each text in the list.
-
-        :return: A list of text font sizes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
     def by_color(self, color: XABase.XAColor) -> 'XAScriptEditorText':
-        """Retrieves the text whose font color matches the given color, if one exists.
-
-        :return: The desired text, if it is found
-        :rtype: Union[XAScriptEditorText, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("color", color.xa_elem)
 
     def by_font(self, font: str) -> 'XAScriptEditorText':
-        """Retrieves the text whose font name matches the given font name, if one exists.
-
-        :return: The desired text, if it is found
-        :rtype: Union[XAScriptEditorText, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("font", font)
 
     def by_size(self, size: int) -> 'XAScriptEditorText':
-        """Retrieves the text whose font size matches the given value, if one exists.
-
-        :return: The desired text, if it is found
-        :rtype: Union[XAScriptEditorText, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("size", size)
 
 class XAScriptEditorText(XABase.XAText):
@@ -732,103 +536,33 @@ class XAScriptEditorLanguageList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorLanguage)
 
     def object_description(self) -> list[str]:
-        """Gets the object description each language in the list.
-
-        :return: A list of language object descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def id(self) -> list[str]:
-        """Gets the ID each language in the list.
-
-        :return: A list of language IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name each language in the list.
-
-        :return: A list of language names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def supports_compiling(self) -> list[bool]:
-        """Gets the supports compiling status each language in the list.
-
-        :return: A list of supports compiling status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsCompiling"))
 
     def supports_recording(self) -> list[bool]:
-        """Gets the supports recording status each language in the list.
-
-        :return: A list of supports recording status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsRecording"))
 
     def by_object_description(self, object_description: str) -> 'XAScriptEditorLanguage':
-        """Retrieves the language whose object description matches the given description, if one exists.
-
-        :return: The desired language, if it is found
-        :rtype: Union[XAScriptEditorLanguage, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_id(self, id: str) -> 'XAScriptEditorLanguage':
-        """Retrieves the language whose ID matches the given ID, if one exists.
-
-        :return: The desired language, if it is found
-        :rtype: Union[XAScriptEditorLanguage, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> 'XAScriptEditorLanguage':
-        """Retrieves the language whose name matches the given name, if one exists.
-
-        :return: The desired language, if it is found
-        :rtype: Union[XAScriptEditorLanguage, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("name", name)
 
     def by_supports_compiling(self, supports_compiling: bool) -> 'XAScriptEditorLanguage':
-        """Retrieves the first language whose supports compiling status matches the given boolean value, if one exists.
-
-        :return: The desired language, if it is found
-        :rtype: Union[XAScriptEditorLanguage, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("supportsCompiling", supports_compiling)
 
     def by_supports_recording(self, supports_recording: bool) -> 'XAScriptEditorLanguage':
-        """Retrieves the first language whose supports recording status matches the given boolean value, if one exists.
-
-        :return: The desired language, if it is found
-        :rtype: Union[XAScriptEditorLanguage, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("supportsRecording", supports_recording)
 
     def __repr__(self):
@@ -889,44 +623,16 @@ class XAScriptEditorSelectionObjectList(XAScriptEditorItemList):
         super().__init__(properties, filter, XAScriptEditorSelectionObject)
 
     def character_range(self) -> list[tuple[int, int]]:
-        """Gets the character range each selection object in the list.
-
-        :return: A list of character ranges
-        :rtype: list[tuple[int, int]]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("characterRange"))
 
     def contents(self) -> XAScriptEditorItemList:
-        """Gets the character range each selection object in the list.
-
-        :return: A list of character ranges
-        :rtype: XAScriptEditorItemList
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XAScriptEditorItemList)
 
     def by_character_range(self, character_range: tuple[int, int]) -> 'XAScriptEditorSelectionObject':
-        """Retrieves the selection object whose character range matches the given character range, if one exists.
-
-        :return: The desired selection object, if it is found
-        :rtype: Union[XAScriptEditorSelectionObject, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("characterRange", character_range)
 
     def by_contents(self, contents: XAScriptEditorItem) -> 'XAScriptEditorSelectionObject':
-        """Retrieves the selection object whose contents match the given contents, if one exists.
-
-        :return: The desired selection object, if it is found
-        :rtype: Union[XAScriptEditorSelectionObject, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("contents", contents.xa_elem)
 
 class XAScriptEditorSelectionObject(XAScriptEditorItem):

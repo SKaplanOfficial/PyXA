@@ -183,224 +183,70 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XATerminalTab, filter)
 
     def number_of_rows(self) -> list[int]:
-        """Gets the number of rows of each tab in the list.
-
-        :return: A list of tab row counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
 
     def number_of_columns(self) -> list[int]:
-        """Gets the number of columns of each tab in the list.
-
-        :return: A list of tab column counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
 
     def contents(self) -> list[str]:
-        """Gets the contents of each tab in the list.
-
-        :return: A list of tab contents
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
     def history(self) -> list[str]:
-        """Gets the history f each tab in the list.
-
-        :return: A list of tab histories
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("history"))
 
     def busy(self) -> list[bool]:
-        """Gets the busy status of each tab in the list.
-
-        :return: A list of tab busy statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("busy"))
 
     def processes(self) -> list[list[str]]:
-        """Gets the processes of each tab in the list.
-
-        :return: A list of tab process lists
-        :rtype: list[list[str]]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("processes"))
 
     def selected(self) -> list[bool]:
-        """Gets the selected status of each tab in the list.
-
-        :return: A list of tab selected statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
     def title_displays_custom_title(self) -> list[bool]:
-        """Gets the custom title status of each tab in the list.
-
-        :return: A list of tab custom title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
 
     def custom_title(self) -> list[str]:
-        """Gets the custom title of each tab in the list.
-
-        :return: A list of tab custom titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("customTitle"))
 
     def tty(self) -> list[str]:
-        """Gets the TTY name of each tab in the list.
-
-        :return: A list of tab TTY names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("tty"))
 
     def current_settings(self) -> 'XATerminalSettingsSetList':
-        """Gets the current settings of each tab in the list.
-
-        :return: A list of tab current settings set objects
-        :rtype: XATerminalSettingsSetList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("currentSettings")
         return self._new_element(ls, XATerminalSettingsSetList)
 
     def by_number_of_rows(self, number_of_rows: int) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose number of rows matches the given number, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("numberOfRows", number_of_rows)
 
     def by_number_of_columns(self, number_of_columns: int) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose number of columns matches the given number, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("numberOfColumns", number_of_columns)
 
     def by_contents(self, contents: str) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose contents matches the given string, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("contents", contents)
 
     def by_history(self, history: str) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose history matches the given string, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("history", history)
 
     def by_busy(self, busy: bool) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose busy status matches the given boolean value, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("busy", busy)
 
     def by_processes(self, processes: list[str]) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose list of processes matches the given list, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("processes", processes)
 
     def by_selected(self, selected: bool) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose selected status matches the given boolean value, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("selected", selected)
 
     def by_title_displays_custom_title(self, title_displays_custom_title: bool) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose custom title status matches the given boolean value, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysCustomTitle", title_displays_custom_title)
 
     def by_custom_title(self, custom_title: str) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose custom title matches the given title, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("customTitle", custom_title)
 
     def by_tty(self, tty: str) -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose TTY name matches the given TTY name, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("tty", tty)
 
     def by_current_settings(self, current_settings: 'XATerminalSettingsSet') -> Union['XATerminalTab', None]:
-        """Retrieves the tab whose current settings matches the given settings set object, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XATerminalTab, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("currentSettings", current_settings.xa_elem)
 
     def get_clipboard_representation(self) -> list[str]:
@@ -551,367 +397,115 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XATerminalSettingsSet, filter)
 
     def id(self) -> list[int]:
-        """Gets the ID of each settings set in the list.
-
-        :return: A list of settings set IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each settings set in the list.
-
-        :return: A list of settings set names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def number_of_rows(self) -> list[int]:
-        """Gets the number of rows of each settings set in the list.
-
-        :return: A list of settings set row counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
 
     def number_of_columns(self) -> list[int]:
-        """Gets the number of columns of each settings set in the list.
-
-        :return: A list of settings set column counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
 
     def cursor_color(self) -> list[XABase.XAColor]:
-        """Gets the cursor color of each settings set in the list.
-
-        :return: A list of settings set cursor colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("cursorColor")
         return [XABase.XAColor(x) for x in ls]
 
     def background_color(self) -> list[XABase.XAColor]:
-        """Gets the background color of each settings set in the list.
-
-        :return: A list of settings set background colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [XABase.XAColor(x) for x in ls]
 
     def normal_text_color(self) -> list[XABase.XAColor]:
-        """Gets the normal text color of each settings set in the list.
-
-        :return: A list of settings set normal text colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("normalTextColor")
         return [XABase.XAColor(x) for x in ls]
 
     def bold_text_color(self) -> list[XABase.XAColor]:
-        """Gets the bold text color of each settings set in the list.
-
-        :return: A list of settings set bold text colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("boldTextColor")
         return [XABase.XAColor(x) for x in ls]
 
     def font_name(self) -> list[str]:
-        """Gets the font name of each settings set in the list.
-
-        :return: A list of settings set font names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
 
     def font_size(self) -> list[int]:
-        """Gets the font size of each settings set in the list.
-
-        :return: A list of settings set font sizes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
 
     def font_antialiasing(self) -> list[bool]:
-        """Gets the font antialiasing status of each settings set in the list.
-
-        :return: A list of settings set font antialiasing statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontAntialiasing"))
 
     def clean_commands(self) -> list[list[str]]:
-        """Gets the clean commands of each settings set in the list.
-
-        :return: A list of settings set clean commands
-        :rtype: list[list[str]]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("cleanCommands"))
 
     def title_displays_device_name(self) -> list[bool]:
-        """Gets the device name in title status of each settings set in the list.
-
-        :return: A list of settings set device name in title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysDeviceName"))
 
     def title_displays_shell_path(self) -> list[bool]:
-        """Gets the shell path in title status of each settings set in the list.
-
-        :return: A list of settings set shell path in title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysShellPath"))
 
     def title_displays_window_size(self) -> list[bool]:
-        """Gets the window size in title status of each settings set in the list.
-
-        :return: A list of settings set window size in title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysWindowSize"))
 
     def title_displays_settings_name(self) -> list[bool]:
-        """Gets the settings name in title status of each settings set in the list.
-
-        :return: A list of settings set settings name in title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysSettingsName"))
 
     def title_displays_custom_title(self) -> list[bool]:
-        """Gets the custom title in title status of each settings set in the list.
-
-        :return: A list of settings set custom title in title statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
 
     def custom_title(self) -> list[str]:
-        """Gets the custom title of each settings set in the list.
-
-        :return: A list of settings set custom titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("customTitle"))
 
     def by_id(self, id: int) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the settings set whose ID matches the given ID, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the settings set whose name matches the given name, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def by_number_of_rows(self, number_of_rows: int) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose number of rows matches the given number, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("numberOfRows", number_of_rows)
 
     def by_number_of_columns(self, number_of_columns: int) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose number of columns matches the given number, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("numberOfColumns", number_of_columns)
 
     def by_cursor_color(self, cursor_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose cursor color matches the given color, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("cursorColor", cursor_color.xa_elem)
 
     def by_background_color(self, background_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose background color matches the given color, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("backgroundColor", background_color.xa_elem)
 
     def by_normal_text_color(self, normal_text_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose normal text color matches the given color, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("normalTextColor", normal_text_color.xa_elem)
 
     def by_bold_text_color(self, bold_text_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose bold text color matches the given color, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("boldTextColor", bold_text_color.xa_elem)
 
     def by_font_name(self, font_name: str) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose font name matches the given font name, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("fontName", font_name)
 
     def by_font_size(self, font_size: int) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose font size matches the given font size, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("fontSize", font_size)
 
     def by_font_antialiasing(self, font_antialiasing: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose font antialiasing status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("fontAntialiasing", font_antialiasing)
 
     def by_clean_commands(self, clean_commands: list[str]) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose list of clean commands matches the given list, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("cleanCommands", clean_commands)
 
     def by_title_displays_device_name(self, title_displays_device_name: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose device name in title status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysDeviceName", title_displays_device_name)
 
     def by_title_displays_shell_path(self, title_displays_shell_path: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose shell path in title status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysShellPath", title_displays_shell_path)
 
     def by_title_displays_windows_size(self, title_displays_windows_size: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose window size in title status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysWindowSize", title_displays_windows_size)
 
     def by_title_displays_settings_name(self, title_displays_settings_name: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose settings name in title status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysSettingsName", title_displays_settings_name)
     
     def by_title_displays_custom_title(self, title_displays_custom_title: bool) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the first settings set whose custom title in title status matches the given boolean value, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("titleDisplaysCustomTitle", title_displays_custom_title)
 
     def by_custom_title(self, custom_title: str) -> Union['XATerminalSettingsSet', None]:
-        """Retrieves the settings set whose custom title matches the given title, if one exists.
-
-        :return: The desired settings set, if it is found
-        :rtype: Union[XATerminalSettingsSet, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("customTitle", custom_title)
 
     def get_clipboard_representation(self) -> list[str]:

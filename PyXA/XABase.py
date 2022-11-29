@@ -4,11 +4,9 @@ General classes and methods applicable to any PyXA object.
 """
 
 import importlib
-import logging
 import math
 import os
 import random
-import subprocess
 import sys
 import tempfile
 import threading
@@ -19,22 +17,11 @@ from pprint import pprint
 from typing import Any, Callable, Literal, Self, Union
 
 import AppKit
-import appscript
-import AVFoundation
-import CoreLocation
-import CoreMedia
-import EventKit
-import NaturalLanguage
-import objc
 import Quartz
 import requests
 import ScriptingBridge
-import Vision
 from bs4 import BeautifulSoup, element
 from PyObjCTools import AppHelper
-from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef,
-                    CGRectMake)
-from ScriptingBridge import SBApplication
 
 from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError
 from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
@@ -52,16 +39,6 @@ VERSION = "0.1.1" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
 workspace = None
-
-# Set up logging
-if not os.path.exists("logs"):
-    os.makedirs("logs")
-    
-logging.basicConfig(
-    filename="logs/pyxa_debug.log",
-    level=logging.DEBUG,
-    format="%(asctime)s:%(levelname)s:%(name)s:%(message)s"
-)
 
 ###############
 ### General ###
@@ -101,12 +78,13 @@ class XAObject():
     @property
     def xa_sevt(self):
         if XAObject._xa_sevt is None:
-            XAObject._xa_sevt = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
+            XAObject._xa_sevt = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
         return XAObject._xa_sevt
 
     @property
     def xa_estr(self):
         if XAObject._xa_estr is None:
+            import EventKit
             XAObject._xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
         return XAObject._xa_estr
 
@@ -141,7 +119,7 @@ class XAObject():
             raise error
         return value
 
-    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject', *args: list[Any]) -> 'XAObject':
+    def _new_element(self, obj: 'AppKit.NSObject', obj_class: type = 'XAObject', *args: list[Any]) -> 'XAObject':
         """Wrapper for creating a new PyXA object.
 
         :param folder_obj: The Objective-C representation of an object.
@@ -864,63 +842,21 @@ class XAApplicationList(XAList):
         return Application(app_name)
 
     def bundle_identifier(self) -> list[str]:
-        """Gets the bundle identifier of every application in the list.
-
-        :return: The list of application bundle identifiers
-        :rtype: list[str]
-
-        .. versionadded:: 0.0.5
-        """
         return [app.bundle_identifier for app in self]
 
     def bundle_url(self) -> list['XAURL']:
-        """Gets the bundle URL of every application in the list.
-
-        :return: The list of application bundle URLs
-        :rtype: list[XAURL]
-
-        .. versionadded:: 0.0.5
-        """
         return [XAURL(app.bundle_url)for app in self]
 
     def executable_url(self) -> list['XAURL']:
-        """Gets the executable URL of every application in the list.
-
-        :return: The list of application executable URLs
-        :rtype: list[XAURL]
-
-        .. versionadded:: 0.0.5
-        """
         return [XAURL(app.executable_url) for app in self]
 
     def launch_date(self) -> list[datetime]:
-        """Gets the launch date of every application in the list.
-
-        :return: The list of application launch dates
-        :rtype: list[str]
-
-        .. versionadded:: 0.0.5
-        """
         return [app.launch_date for app in self]
 
     def localized_name(self) -> list[str]:
-        """Gets the localized name of every application in the list.
-
-        :return: The list of application localized names
-        :rtype: list[str]
-
-        .. versionadded:: 0.0.5
-        """
         return [x.get("kCGWindowOwnerName") for x in self.xa_elem]
 
     def process_identifier(self) -> list[str]:
-        """Gets the process identifier of every application in the list.
-
-        :return: The list of application process identifiers
-        :rtype: list[str]
-
-        .. versionadded:: 0.0.5
-        """
         return [x.get("kCGWindowOwnerPID") for x in self.xa_elem]
 
     def hide(self):
@@ -1204,7 +1140,8 @@ class XAApplication(XAObject, XAClipboardCodable):
             return getattr(self.xa_apsc, attr)
 
     @property
-    def xa_apsc(self) -> appscript.GenericApp:
+    def xa_apsc(self):
+        import appscript
         return appscript.app(self.bundle_url.path())
 
     @property
@@ -1475,7 +1412,7 @@ class XAApplication(XAObject, XAClipboardCodable):
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
 
-    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL, AppKit.NSImage]]:
+    def get_clipboard_representation(self) -> list[Union[str, 'AppKit.NSURL', 'AppKit.NSImage']]:
         """Gets a clipboard-codable representation of the application.
 
         When the clipboard content is set to an application, three items are placed on the clipboard:
@@ -1853,7 +1790,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
                 self.values.append(args[index + 1])
         return self
 
-    def evaluate(self, target: Union[AppKit.NSArray, XAList]) -> AppKit.NSArray:
+    def evaluate(self, target: Union['AppKit.NSArray', XAList]) -> 'AppKit.NSArray':
         """Evaluates the predicate on the given array.
 
         :param target: The array to evaluate against the predicate
@@ -1887,7 +1824,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
             })
         return ls
 
-    def evaluate_with_format(target: Union[AppKit.NSArray, XAList], fmt: str) -> AppKit.NSArray:
+    def evaluate_with_format(target: Union['AppKit.NSArray', XAList], fmt: str) -> 'AppKit.NSArray':
         """Evaluates the specified array against a predicate with the given format.
 
         :param target: The array to filter
@@ -1914,7 +1851,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
             })
         return ls
 
-    def evaluate_with_dict(target: Union[AppKit.NSArray, XAList], properties_dict: dict) -> AppKit.NSArray:
+    def evaluate_with_dict(target: Union['AppKit.NSArray', XAList], properties_dict: dict) -> 'AppKit.NSArray':
         """Evaluates the specified array against a predicate constructed from the supplied dictionary.
 
         The predicate will use == for all comparisons.
@@ -2340,13 +2277,12 @@ class XAURL(XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, url: Union[str, AppKit.NSURL, 'XAURL', 'XAPath']):
+    def __init__(self, url: Union[str, 'AppKit.NSURL', 'XAURL', 'XAPath']):
         super().__init__()
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
         self.url: str #: The string form of the URL
 
         if isinstance(url, str):
-            logging.debug("Initializing XAURL from string")
             # URL-encode spaces
             url = url.replace(" ", "%20")
 
@@ -2367,7 +2303,6 @@ class XAURL(XAObject, XAClipboardCodable):
             self.url = url
             url = AppKit.NSURL.alloc().initWithString_(url)
         elif isinstance(url, XAURL) or isinstance(url, XAPath):
-            logging.debug("Initializing XAURL from XAURL/XAPath")
             self.url = url.url
             url = url.xa_elem
 
@@ -2476,7 +2411,7 @@ class XAURL(XAObject, XAClipboardCodable):
 
             return image_objects
 
-    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union['AppKit.NSURL', str]]:
         """Gets a clipboard-codable representation of the URL.
 
         When the clipboard content is set to a URL, the raw URL data and the string representation of the URL are added to the clipboard.
@@ -2508,7 +2443,7 @@ class XAPath(XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, path: Union[str, AppKit.NSURL]):
+    def __init__(self, path: Union[str, 'AppKit.NSURL']):
         super().__init__()
         if isinstance(path, str):
             path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
@@ -2543,7 +2478,7 @@ class XAPath(XAObject, XAClipboardCodable):
             workspace = AppKit.NSWorkspace.sharedWorkspace()
         workspace.activateFileViewerSelectingURLs_([self.xa_elem])
 
-    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union['AppKit.NSURL', str]]:
         """Gets a clipboard-codable representation of the path.
 
         When the clipboard content is set to a path, the raw file URL data and the string representation of the path are added to the clipboard.
@@ -2690,57 +2625,6 @@ class XAClipboard(XAObject):
         """
         self.xa_elem.clearContents()
         self.xa_elem.writeObjects_(content)
-
-
-
-
-class XANotification(XAObject):
-    """A class for managing and interacting with notifications.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, sound_name: Union[str, None] = None):
-        """Initializes a notification object.
-
-        :param text: The main text of the notification
-        :type text: str
-        :param title: The title of the notification, defaults to None
-        :type title: Union[str, None], optional
-        :param subtitle: The subtitle of the notification, defaults to None
-        :type subtitle: Union[str, None], optional
-        :param sound_name: The sound to play when the notification is displayed, defaults to None
-        :type sound_name: Union[str, None], optional
-
-        .. versionadded:: 0.0.9
-        """
-        self.text = text
-        self.title = title
-        self.subtitle = subtitle
-        self.sound_name = sound_name
-
-    def display(self):
-        """Displays the notification.
-
-        .. todo::
-        
-           Currently uses :func:`subprocess.Popen`. Should use UserNotifications in the future.
-
-        .. versionadded:: 0.0.9
-        """
-        script = AppleScript()
-        script.add(f"display notification \\\"{self.text}\\\"")
-
-        if self.title is not None:
-            script.add(f"with title \\\"{self.title}\\\"")
-        
-        if self.subtitle is not None:
-            script.add(f"subtitle \\\"{self.subtitle}\\\"")
-
-        if self.sound_name is not None:
-            script.add(f"sound name \\\"{self.sound_name}\\\"")
-
-        cmd = "osascript -e \"" + " ".join(script.script) + "\""
-        subprocess.Popen([cmd], shell=True)
 
 
 
@@ -3646,103 +3530,40 @@ class XATextDocumentList(XAList, XAClipboardCodable):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("properties")
         return [dict(x) for x in ls]
 
     def text(self) -> 'XATextList':
-        """Gets the text of each document in the list.
-
-        :return: A list of document texts
-        :rtype: XATextList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("text")
         return self._new_element(ls, XATextList)
 
     def by_properties(self, properties: dict) -> Union['XATextDocument', None]:
-        """Retrieves the document whose properties match the given properties dictionary, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("properties", properties)
 
     def by_text(self, text: str) -> Union['XATextDocument', None]:
-        """Retrieves the first documents whose text matches the given text.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("text", text)
 
     def paragraphs(self) -> 'XAParagraphList':
-        """Gets the paragraphs of each document in the list.
-
-        :return: A combined list of all paragraphs in each document of the list
-        :rtype: XAParagraphList
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
         return self._new_element([plist for plist in ls], XAParagraphList)
 
     def words(self) -> 'XAWordList':
-        """Gets the words of each document in the list.
-
-        :return: A combined list of all words in each document of the list
-        :rtype: XAWordList
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("words")
         return [self._new_element([plist for plist in ls], XAWordList)]
 
     def characters(self) -> 'XACharacterList':
-        """Gets the characters of each document in the list.
-
-        :return: A combined list of all characters in each document of the list
-        :rtype: XACharacterList
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("characters")
         return [self._new_element([plist for plist in ls], XACharacterList)]
 
     def attribute_runs(self) -> 'XAAttributeRunList':
-        """Gets the attribute runs of each document in the list.
-
-        :return: A combined list of all attribute runs in each document of the list
-        :rtype: XAAttributeRunList
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
         return [self._new_element([plist for plist in ls], XAAttributeRunList)]
 
     def attachments(self) -> 'XAAttachmentList':
-        """Gets the attachments of each document in the list.
-
-        :return: A combined list of all attachments in each document of the list
-        :rtype: XAAttachmentList
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("attachments")
         return [self._new_element([plist for plist in ls], XAAttachmentList)]
 
-    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, 'AppKit.NSURL']]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
@@ -3852,13 +3673,6 @@ class XATextList(XAList):
         super().__init__(properties, obj_class, filter)
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
-        """Gets the paragraphs of every text item in the list.
-
-        :return: The list of paragraphs
-        :rtype: XAParagraphList
-
-        .. versionadded:: 0.0.1
-        """
         ls = []
         if hasattr(self.xa_elem, "get"):
             ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
@@ -3868,25 +3682,11 @@ class XATextList(XAList):
         return self._new_element(ls, XAParagraphList, filter)
 
     def sentences(self) -> 'XASentenceList':
-        """Gets the sentences of every text item in the list.
-
-        :return: The list of sentences
-        :rtype: XASentenceList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x.sentences() for x in self]
         ls = [sentence for sentencelist in ls for sentence in sentencelist]
         return self._new_element(ls, XASentenceList)
 
     def words(self, filter: dict = None) -> 'XAWordList':
-        """Gets the words of every text item in the list.
-
-        :return: The list of words
-        :rtype: XAWordList
-
-        .. versionadded:: 0.0.1
-        """
         ls = []
         if hasattr(self.xa_elem, "get"):
             ls = self.xa_elem.arrayByApplyingSelector_("words")
@@ -3896,13 +3696,6 @@ class XATextList(XAList):
         return self._new_element(ls, XAWordList, filter)
 
     def characters(self, filter: dict = None) -> 'XACharacterList':
-        """Gets the characters of every text item in the list.
-
-        :return: The list of characters
-        :rtype: XACharacterList
-
-        .. versionadded:: 0.0.1
-        """
         ls = []
         if hasattr(self.xa_elem, "get"):
             ls = self.xa_elem.arrayByApplyingSelector_("characters")
@@ -3912,13 +3705,6 @@ class XATextList(XAList):
         return self._new_element(ls, XACharacterList, filter)
 
     def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
-        """Gets the attribute runs of every text item in the list.
-
-        :return: The list of attribute runs
-        :rtype: XAAttributeRunList
-
-        .. versionadded:: 0.0.1
-        """
         ls = []
         if hasattr(self.xa_elem, "get"):
             ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
@@ -3926,13 +3712,6 @@ class XATextList(XAList):
         return self._new_element(ls, XAAttributeRunList, filter)
 
     def attachments(self, filter: dict = None) -> 'XAAttachmentList':
-        """Gets the attachments of every text item in the list.
-
-        :return: The list of attachments
-        :rtype: XAAttachmentList
-
-        .. versionadded:: 0.0.1
-        """
         ls = []
         if hasattr(self.xa_elem, "get"):
             ls = self.xa_elem.arrayByApplyingSelector_("attachments")
@@ -4026,28 +3805,6 @@ class XAText(XAObject):
         else:
             self.set_property("size", size)
 
-    # def spelling_suggestions(self):
-    #     suggestions = []
-    #     text = str(self.xa_elem)
-    #     spellchecker = AppKit.NSSpellChecker.sharedSpellChecker()
-
-    #     orthography = None
-    #     word_count = 0
-
-    #     pprint(dir(LatentSemanticMapping.LSMMapCreate(None, 0)))
-
-    #     # c = spellchecker.checkString_range_types_options_inSpellDocumentWithTag_orthography_wordCount_(text, (0, len(text)), AppKit.NSTextCheckingTypeSpelling | AppKit.NSTextCheckingTypeGrammar | AppKit.NSTextCheckingTypeCorrection, {}, 0, orthography, None)
-    #     # print(c[1].languageMap())
-
-    #     for word in text.split():
-    #         completions = spellchecker.completionsForPartialWordRange_inString_language_inSpellDocumentWithTag_((0, len(word)), word, "", 0)
-    #         suggestions.append(completions)
-
-    #     # for word in text.split():
-    #     #     guesses = spellchecker.guessesForWordRange_inString_language_inSpellDocumentWithTag_((0, len(word)), word, "", 0)
-    #     #     suggestions.append(guesses)
-    #     return suggestions
-
     def tag_parts_of_speech(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> list[tuple[str, str]]:
         """Tags each word of the text with its associated part of speech.
 
@@ -4066,6 +3823,7 @@ class XAText(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        import NaturalLanguage
         tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLexicalClass])
         tagger.setString_(str(self.xa_elem))
 
@@ -4103,6 +3861,7 @@ class XAText(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        import NaturalLanguage
         tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLanguage])
         tagger.setString_(str(self.xa_elem))
 
@@ -4141,6 +3900,7 @@ class XAText(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        import NaturalLanguage
         tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeNameTypeOrLexicalClass])
         tagger.setString_(str(self.xa_elem))
 
@@ -4190,6 +3950,7 @@ class XAText(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        import NaturalLanguage
         tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLemma])
         tagger.setString_(str(self.xa_elem))
 
@@ -4248,6 +4009,7 @@ class XAText(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        import NaturalLanguage
         if sentiment_scale is None or len(sentiment_scale) == 0:
             sentiment_scale = ["Negative", "Neutral", "Positive"]
 
@@ -4768,7 +4530,7 @@ class XAColor(XAObject, XAClipboardCodable):
     def brightness_value(self, brightness_value: float):
         self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(self.hue_value, self.saturation_value, brightness_value, self.alpha_value)
 
-    def copy_color(self, color: AppKit.NSColor) -> 'XAColor':
+    def copy_color(self, color: 'AppKit.NSColor') -> 'XAColor':
         """Initializes a XAColor copy of an NSColor object.
 
         :param color: The NSColor to copy
@@ -4901,7 +4663,7 @@ class XAColor(XAObject, XAClipboardCodable):
         img.unlockFocus()
         return XAImage(img)
 
-    def get_clipboard_representation(self) -> AppKit.NSColor:
+    def get_clipboard_representation(self) -> 'AppKit.NSColor':
         """Gets a clipboard-codable representation of the color.
 
         When the clipboard content is set to a color, the raw color data is added to the clipboard.
@@ -4927,7 +4689,7 @@ class XALocation(XAObject):
     """
     current_location: 'XALocation' #: The current location of the device
 
-    def __init__(self, raw_value: CoreLocation.CLLocation = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None):
+    def __init__(self, raw_value = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None):
         self.raw_value = raw_value #: The raw CLLocation object
         self.title = title #: The name of the location
         self.latitude = latitude #: The latitude of the location
@@ -4936,16 +4698,17 @@ class XALocation(XAObject):
         self.radius = radius #: The horizontal accuracy of the location measurement
         self.address = address #: The address of the location
 
+        import CoreLocation
         if self.raw_value is None:
             if latitude is not None and longitude is not None:
                 self.raw_value = CoreLocation.CLLocation.alloc().initWithLatitude_longitude_(latitude, longitude)
 
     @property
-    def raw_value(self) -> CoreLocation.CLLocation: 
+    def raw_value(self): 
         return self.__raw_value
 
     @raw_value.setter
-    def raw_value(self, raw_value: CoreLocation.CLLocation):
+    def raw_value(self, raw_value):
         self.__raw_value = raw_value
         if raw_value is not None:
             self.latitude = raw_value.coordinate()[0]
@@ -4995,6 +4758,7 @@ class XALocation(XAObject):
                 self._placemark = place[0]
             AppHelper.stopEventLoop()
 
+        import CoreLocation
         CoreLocation.CLGeocoder.alloc().init().reverseGeocodeLocation_completionHandler_(self.raw_value, get_place)
         AppHelper.runConsoleEventLoop()
 
@@ -5013,6 +4777,7 @@ class XALocation(XAObject):
         }
 
     def __get_current_location(self):
+        import CoreLocation
         location_manager = CoreLocation.CLLocationManager.alloc().init()
         old_self = self
         class CLLocationManagerDelegate(AppKit.NSObject):
@@ -5032,45 +4797,6 @@ class XALocation(XAObject):
 
     def __repr__(self):
         return "<" + str(type(self)) + str((self.latitude, self.longitude)) + ">"
-        
-    
-
-
-class XAAlertStyle(Enum):
-    """Options for which alert style an alert should display with.
-    """
-    INFORMATIONAL   = AppKit.NSAlertStyleInformational
-    WARNING         = AppKit.NSAlertStyleWarning
-    CRITICAL        = AppKit.NSAlertStyleCritical
-
-class XAAlert(XAObject):
-    """A class for creating and interacting with an alert dialog window.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, title: str = "Alert!", message: str = "", style: XAAlertStyle = XAAlertStyle.INFORMATIONAL, buttons = ["Ok", "Cancel"]):
-        super().__init__()
-        self.title: str = title
-        self.message: str = message
-        self.style: XAAlertStyle = style
-        self.buttons: list[str] = buttons
-
-    def display(self) -> int:
-        """Displays the alert.
-
-        :return: A number representing the button that the user selected, if any
-        :rtype: int
-
-        .. versionadded:: 0.0.5
-        """
-        alert = AppKit.NSAlert.alloc().init()
-        alert.setMessageText_(self.title)
-        alert.setInformativeText_(self.message)
-        alert.setAlertStyle_(self.style.value)
-
-        for button in self.buttons:
-            alert.addButtonWithTitle_(button)
-        return alert.runModal()
 
 
 
@@ -5092,7 +4818,7 @@ class XAColorPicker(XAObject):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, style: XAColorPickerStyle = XAColorPickerStyle.GRAYSCALE):
+    def __init__(self, style: XAColorPickerStyle = XAColorPickerStyle.COLOR_WHEEL):
         super().__init__()
         self.style = style
 
@@ -5163,7 +4889,7 @@ class XADialog(XAObject):
         default_answer_str = "default answer \"" + default_answer + "\"" if self.default_answer is not None else ""
 
         script = AppleScript(f"""
-        tell application "Terminal"
+        tell application "System Events"
             display dialog \"{self.text}\" with title \"{self.title}\" buttons {buttons} {default_button_str} {cancel_button_str} {icon_str} {default_answer_str} hidden answer {self.hidden_answer}
         end tell
         """)
@@ -5206,7 +4932,7 @@ class XAMenu(XAObject):
         menu_items = str(menu_items).replace("'", '"')
         default_items = str(self.default_items).replace("'", '"')
         script = AppleScript(f"""
-        tell application "Terminal"
+        tell application "System Events"
             choose from list {menu_items} with title \"{self.title}\" with prompt \"{self.prompt}\" default items {default_items} OK button name \"{self.ok_button_name}\" cancel button name \"{self.cancel_button_name}\" multiple selections allowed {self.multiple_selections_allowed} empty selection allowed {self.empty_selection_allowed}
         end tell
         """)
@@ -5255,7 +4981,7 @@ class XAFilePicker(XAObject):
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
         script = AppleScript(f"""
-        tell application "Terminal"
+        tell application "System Events"
             choose file with prompt \"{self.prompt}\" {types_str}{default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
         end tell
         """)
@@ -5299,7 +5025,7 @@ class XAFolderPicker(XAObject):
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
         script = AppleScript(f"""
-        tell application "Terminal"
+        tell application "System Events"
             choose folder with prompt \"{self.prompt}\" {default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
         end tell
         """)
@@ -5337,7 +5063,7 @@ class XAApplicationPicker(XAObject):
         .. versionadded:: 0.0.8
         """
 
-        script = AppleScript("tell application \"Terminal\"")
+        script = AppleScript("tell application \"System Events\"")
         dialog_str = "choose application "
         if self.title is not None:
             dialog_str += f"with title \"{self.title}\" "
@@ -5375,7 +5101,7 @@ class XAFileNameDialog(XAObject):
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
         script = AppleScript(f"""
-        tell application "Terminal"
+        tell application "System Events"
             choose file name with prompt \"{self.prompt}\" default name \"{self.default_name}\" {default_location_str}
         end tell
         """)
@@ -5427,235 +5153,107 @@ class XADiskItemList(XAList):
         super().__init__(properties, object_class, filter)
 
     def busy_status(self) -> list['bool']:
-        """Retrieves the busy status of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("busyStatus"))
 
     def container(self) -> 'XADiskItemList':
-        """Retrieves the containing folder or disk of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XADiskItemList)
 
     def creation_date(self) -> list['datetime']:
-        """Retrieves the creation date of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def displayed_name(self) -> list['str']:
-        """Retrieves the displayed name of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
     def id(self) -> list['str']:
-        """Retrieves the unique ID of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def modification_date(self) -> list['datetime']:
-        """Retrieves the last modified date of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def name(self) -> list['str']:
-        """Retrieves the name of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def name_extension(self) -> list['str']:
-        """Retrieves the name extension of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
 
     def package_folder(self) -> list['bool']:
-        """Retrieves the package folder status of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("packageFolder"))
 
     def path(self) -> list['XAPath']:
-        """Retrieves the file system path of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XAPath(x) for x in ls]
 
     def physical_size(self) -> list['int']:
-        """Retrieves the actual disk space used by each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
 
     def posix_path(self) -> list[XAPath]:
-        """Retrieves the POSIX file system path of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("POSIXPath")
         return [XAPath(x) for x in ls]
 
     def size(self) -> list['int']:
-        """Retrieves the logical size of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
     def url(self) -> list['XAURL']:
-        """Retrieves the URL of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XAURL(x) for x in ls]
 
     def visible(self) -> list['bool']:
-        """Retrieves the visible status of each item in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def volume(self) -> list['str']:
-        """Retrieves the volume on which each item in the list resides.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("volume"))
 
     def by_busy_status(self, busy_status: bool) -> 'XADiskItem':
-        """Retrieves item whose busy status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("busyStatus", busy_status)
 
     def by_container(self, container: 'XADiskItem') -> 'XADiskItem':
-        """Retrieves item whose container matches the given disk item.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("container", container.xa_elem)
 
     def by_creation_date(self, creation_date: datetime) -> 'XADiskItem':
-        """Retrieves item whose creation date matches the given date.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("creationDate", creation_date)
 
     def by_displayed_name(self, displayed_name: str) -> 'XADiskItem':
-        """Retrieves item whose displayed name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("displayedName", displayed_name)
 
     def by_id(self, id: str) -> 'XADiskItem':
-        """Retrieves item whose ID matches the given ID.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_modification_date(self, modification_date: datetime) -> 'XADiskItem':
-        """Retrieves item whose date matches the given date.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_name(self, name: str) -> 'XADiskItem':
-        """Retrieves item whose name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_name_extension(self, name_extension: str) -> 'XADiskItem':
-        """Retrieves item whose name extension matches the given extension.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("nameExtension", name_extension)
 
     def by_package_folder(self, package_folder: bool) -> 'XADiskItem':
-        """Retrieves item whose package folder status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("packageFolder", package_folder)
 
     def by_path(self, path: Union[XAPath, str]) -> 'XADiskItem':
-        """Retrieves item whose path matches the given path.
-
-        .. versionadded:: 0.1.0
-        """
         if isinstance(path, XAPath):
             path = path.path
         return self.by_property("path", path)
 
     def by_physical_size(self, physical_size: int) -> 'XADiskItem':
-        """Retrieves item whose physical size matches the given size.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("physicalSize", physical_size)
 
     def by_posix_path(self, posix_path: Union[XAPath, str]) -> 'XADiskItem':
-        """Retrieves item whose POSIX path matches the given POSIX path.
-
-        .. versionadded:: 0.1.0
-        """
         if isinstance(posix_path, XAPath):
             posix_path = posix_path.path
         return self.by_property("POSIXPath", posix_path)
 
     def by_size(self, size: int) -> 'XADiskItem':
-        """Retrieves item whose size matches the given size.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("size", size)
 
     def by_url(self, url: XAURL) -> 'XADiskItem':
-        """Retrieves the item whose URL matches the given URL.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("URL", url.xa_elem)
 
     def by_visible(self, visible: bool) -> 'XADiskItem':
-        """Retrieves the item whose visible status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("visible", visible)
 
     def by_volume(self, volume: str) -> 'XADiskItem':
-        """Retrieves the item whose volume matches the given volume.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("volume", volume)
 
     def __repr__(self):
@@ -5829,130 +5427,58 @@ class XAAliasList(XADiskItemList):
         super().__init__(properties, filter, XAAlias)
 
     def creator_type(self) -> list['str']:
-        """Retrieves the OSType identifying the application that created each alias in the list
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
 
     def default_application(self) -> 'XADiskItemList':
-        """Retrieves the applications that will launch if each alias in the list is opened.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
         return self._new_element(ls, XADiskItemList)
 
     def file_type(self) -> list['str']:
-        """Retrieves the OSType identifying the type of data contained in each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
 
     def kind(self) -> list['str']:
-        """Retrieves the kind of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def product_version(self) -> list['str']:
-        """Retrieves the product version of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
 
     def short_version(self) -> list['str']:
-        """Retrieves the short version of the application bundle referenced by each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
 
     def stationery(self) -> list['bool']:
-        """Retrieves the stationery status of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
 
     def type_identifier(self) -> list['str']:
-        """Retrieves the type identifier of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
 
     def version(self) -> list['str']:
-        """Retrieves the version of the application bundle referenced by each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("version"))
 
     def by_creator_type(self, creator_type: str) -> 'XAAlias':
-        """Retrieves the alias whose creator type matches the given creator type.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("creatorType", creator_type)
 
     def by_default_application(self, default_application: 'XADiskItem') -> 'XAAlias':
-        """Retrieves the alias whose default application matches the given application.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultApplication", default_application.xa_elem)
 
     def by_file_type(self, file_type: str) -> 'XAAlias':
-        """Retrieves the alias whose file type matches the given file type.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fileType", file_type)
 
     def by_kind(self, kind: str) -> 'XAAlias':
-        """Retrieves the alias whose kind matches the given kind.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_product_version(self, product_version: str) -> 'XAAlias':
-        """Retrieves the alias whose product version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("productVersion", product_version)
 
     def by_short_version(self, short_version: str) -> 'XAAlias':
-        """Retrieves the alias whose short version matches the given text.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("shortVersion", short_version)
 
     def by_stationery(self, stationery: bool) -> 'XAAlias':
-        """Retrieves the alias whose stationery status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("stationery", stationery)
 
     def by_type_identifier(self, type_identifier: str) -> 'XAAlias':
-        """Retrieves the alias whose type identifier matches the given type identifier.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("typeIdentifier", type_identifier)
 
     def by_version(self, version: str) -> 'XAAlias':
-        """Retrieves the alias whose version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("version", version)
 
 class XAAlias(XADiskItem):
@@ -6084,130 +5610,58 @@ class XADiskList(XADiskItemList):
         super().__init__(properties, filter, XADisk)
 
     def capacity(self) -> list['float']:
-        """Retrieves the total number of bytes (free or used) on each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
 
     def ejectable(self) -> list['bool']:
-        """Retrieves the ejectable status of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
 
     def format(self) -> list['XAEventsApplication.Format']:
-        """Retrieves the file system format of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("format")
         return [XAEventsApplication.Format(OSType(x.stringValue())) for x in ls]
 
     def free_space(self) -> list['float']:
-        """Retrieves the number of free bytes left on each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
 
     def ignore_privileges(self) -> list['bool']:
-        """Retrieves the ignore privileges status for each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
 
     def local_volume(self) -> list['bool']:
-        """Retrieves the local volume status for each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
 
     def server(self) -> list['str']:
-        """Retrieves the server on which each disk in the list resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("server"))
 
     def startup(self) -> list['bool']:
-        """Retrieves the startup disk status of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("startup"))
 
     def zone(self) -> list['str']:
-        """Retrieves the zone in which each disk's server resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zone"))
 
     def by_capacity(self, capacity: float) -> 'XADisk':
-        """Retrieves the disk whose capacity matches the given capacity.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("capacity", capacity)
 
     def by_ejectable(self, ejectable: bool) -> 'XADisk':
-        """Retrieves the disk whose ejectable status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("ejectable", ejectable)
 
     def by_format(self, format: 'XAEventsApplication.Format') -> 'XADisk':
-        """Retrieves the disk whose format matches the given format.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("format", format.value)
 
     def by_free_space(self, free_space: float) -> 'XADisk':
-        """Retrieves the disk whose free space matches the given amount.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("freeSpace", free_space)
 
     def by_ignore_privileges(self, ignore_privileges: bool) -> 'XADisk':
-        """Retrieves the disk whose ignore privileges status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("ignorePrivileges", ignore_privileges)
 
     def by_local_volume(self, local_volume: bool) -> 'XADisk':
-        """Retrieves the disk whose local volume status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("localVolume", local_volume)
 
     def by_server(self, server: str) -> 'XADisk':
-        """Retrieves the disk whose server matches the given server.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("server", server)
 
     def by_startup(self, startup: bool) -> 'XADisk':
-        """Retrieves the disk whose startup status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("startup", startup)
 
     def by_zone(self, zone: str) -> 'XADisk':
-        """Retrieves the disk whose zone matches the given zone.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("zone", zone)
 
 class XADisk(XADiskItem):
@@ -6339,31 +5793,15 @@ class XADomainList(XAList):
         super().__init__(properties, XADomain, filter)
 
     def id(self) -> list['str']:
-        """Retrieves the unique identifier of each domain in the list
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list['str']:
-        """Retrieves the name of each domain in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_id(self, id: str) -> 'XADomain':
-        """Retrieves the domain whose ID matches the given ID.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> 'XADomain':
-        """Retrieves the domain whose name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -6629,130 +6067,58 @@ class XAFileList(XADiskItemList):
         super().__init__(properties, filter, object_class)
 
     def creator_type(self) -> list['str']:
-        """Retrieves the OSType identifying the application that created each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
 
     def default_application(self) -> 'XADiskItemList':
-        """Retrieves the applications that will launch if each file in the list is opened.
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
         return self._new_element(ls, XADiskItemList)
 
     def file_type(self) -> list['str']:
-        """Retrieves the OSType identifying the type of data contained in each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
 
     def kind(self) -> list['str']:
-        """Retrieves the kind of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def product_version(self) -> list['str']:
-        """Retrieves the product version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
 
     def short_version(self) -> list['str']:
-        """Retrieves the short version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
 
     def stationery(self) -> list['bool']:
-        """Retrieves the stationery status of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
 
     def type_identifier(self) -> list['str']:
-        """Retrieves the type identifier of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
 
     def version(self) -> list['str']:
-        """Retrieves the version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("version"))
 
     def by_creator_type(self, creator_type: str) -> 'XAFile':
-        """Retrieves the file whose creator type matches the given creator type.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("creatorType", creator_type)
 
     def by_default_application(self, default_application: 'XADiskItem') -> 'XAFile':
-        """Retrieves the file whose default application matches the given application.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("defaultApplication", default_application.xa_elem)
 
     def by_file_type(self, file_type: str) -> 'XAFile':
-        """Retrieves the file whose file type matches the given file type.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("fileType", file_type)
 
     def by_kind(self, kind: str) -> 'XAFile':
-        """Retrieves the file whose kind matches the given kind.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("kind", kind)
 
     def by_product_version(self, product_version: str) -> 'XAFile':
-        """Retrieves the file whose product version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("productVersion", product_version)
 
     def by_short_version(self, short_version: str) -> 'XAFile':
-        """Retrieves the file whose short version matches the given text.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("shortVersion", short_version)
 
     def by_stationery(self, stationery: bool) -> 'XAFile':
-        """Retrieves the file whose stationery status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("stationery", stationery)
 
     def by_type_identifier(self, type_identifier: str) -> 'XAFile':
-        """Retrieves the file whose type identifier matches the given type identifier.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("typeIdentifier", type_identifier)
 
     def by_version(self, version: str) -> 'XAFile':
-        """Retrieves the file whose version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("version", version)
 
 class XAFile(XADiskItem):
@@ -8137,6 +7503,7 @@ class XAImageList(XAList, XAClipboardCodable):
                     image_strings.append(recognized_strings)
 
             # Perform request and return extracted text
+            import Vision
             request = Vision.VNRecognizeTextRequest.alloc().initWithCompletionHandler_(recognize_text_handler)
             request_handler = Vision.VNImageRequestHandler.alloc().initWithCGImage_options_(img, None)
             request_handler.performRequests_error_([request], None)
@@ -8173,7 +7540,7 @@ class XAImageList(XAList, XAClipboardCodable):
                 path = file_paths[index]
             image.save(path)
 
-    def get_clipboard_representation(self) -> list[AppKit.NSImage]:
+    def get_clipboard_representation(self) -> list['AppKit.NSImage']:
         """Gets a clipboard-codable representation of each image in the list.
 
         When the clipboard content is set to a list of image, the raw data of each image is added to the clipboard. You can then 
@@ -8195,7 +7562,7 @@ class XAImage(XAObject, XAClipboardCodable):
     .. versionadded:: 0.0.2
     """
 
-    def __init__(self, image_reference: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None):
+    def __init__(self, image_reference: Union[str, XAPath, 'AppKit.NSURL', 'AppKit.NSImage', None] = None, data: Union['AppKit.NSData', None] = None):
         self.size: tuple[int, int] #: The dimensions of the image
         self.file: Union[XAPath, None] = None #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
@@ -8213,51 +7580,42 @@ class XAImage(XAObject, XAClipboardCodable):
 
         if data is not None:
             # Deprecated as of 0.1.0 -- Pass data as the image_reference instead
-            logging.warning("Setting the data parameter when initalizing an XAImage is deprecated functionality and will be removed in a future release")
+            AppKit.NSLog("Warning: Setting the data parameter when initalizing an XAImage is deprecated functionality and will be removed in a future release")
             self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
         else:
             self.file = image_reference
             match image_reference:
                 case None:
-                    logging.debug("Image ref is none -- use empty NSImage")
                     self.xa_elem = AppKit.NSImage.alloc().init()
 
                 case {"element": str(ref)}:
-                    logging.debug("Image ref is string from XAList --> Reinit XAImage with string")
                     self.file = ref
                     self.xa_elem = XAImage(ref).xa_elem
 
                 case {"element": XAImage() as image}:
-                    logging.debug("Image ref is XAImage from XAList --> Set xa_elem to that image's xa_elem")
                     self.file = image.file
                     self.xa_elem = image.xa_elem
 
                 case {"element": AppKit.NSImage() as image}:
-                    logging.debug("Image ref is NSImage from XAList --> Set xa_elem to that image")
                     self.xa_elem = image
 
                 case str() as ref if "://" in ref:
-                    logging.debug("Image ref is web/file URL string --> Init NSImage with URL")
                     url = XAURL(ref).xa_elem
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url)
 
                 case str() as ref if os.path.exists(ref) or os.path.exists(os.getcwd() + "/" + ref):
-                    logging.debug("Image ref is file path string --> Init NSImage with path URL")
                     path = XAPath(ref).xa_elem
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path)
 
                 case XAPath() as path:
-                    logging.debug("Image ref is file path object --> Init NSImage with path URL")
                     self.file = path.path
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path.xa_elem)
 
                 case XAURL() as url:
-                    logging.debug("Image ref is web/file URL object --> Init NSImage with URL")
                     self.file = url.url
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url.xa_elem)
 
                 case str() as raw_string:
-                    logging.debug("Image ref is raw string --> Make image from string")
                     font = AppKit.NSFont.monospacedSystemFontOfSize_weight_(15, AppKit.NSFontWeightMedium)
                     text = AppKit.NSString.alloc().initWithString_(raw_string)
                     attributes = {
@@ -8281,22 +7639,18 @@ class XAImage(XAObject, XAClipboardCodable):
                     self.xa_elem = image.xa_elem
 
                 case XAObject():
-                    logging.debug("Image ref is XAObject --> Obtain proper ref via XAImageLike protocol")
                     self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
 
                 case AppKit.NSData() as data:
-                    logging.debug("Image ref is NSData --> Init NSImage with data")
                     self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
 
                 case AppKit.NSImage() as image:
-                    logging.debug("Image ref is NSImage --> Set xa_elem to that image")
                     self.xa_elem = image
 
                 case _:
-                    logging.debug(f"Image ref is of unaccounted for type {type(image_reference)} --> Raise TypeError")
                     raise TypeError(f"Error: Cannot initialize XAImage using {type(image_reference)} type.")
 
-    def __update_image(self, modified_image: Quartz.CIImage) -> 'XAImage':
+    def __update_image(self, modified_image: 'Quartz.CIImage') -> 'XAImage':
         # Crop the result to the original image size
         cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0] * 2, self.size[1] * 2))
 
@@ -8319,7 +7673,7 @@ class XAImage(XAObject, XAClipboardCodable):
         return tuple(self.xa_elem.size())
 
     @property
-    def data(self) -> AppKit.NSData:
+    def data(self) -> 'AppKit.NSData':
         return self.xa_elem.TIFFRepresentation()
 
     @property
@@ -8595,7 +7949,7 @@ class XAImage(XAObject, XAClipboardCodable):
         return XAImage(canvas)
 
     @staticmethod
-    def image_from_text(text: str, font_size: int = 15, font_name: str = "Menlo", font_color: XAColor = XAColor.black(), background_color: XAColor = XAColor.white(), inset: int = 10) -> 'XAImage':
+    def image_from_text(text: str, font_size: int = 15, font_name: str = "Menlo", font_color: XAColor = None, background_color: XAColor = None, inset: int = 10) -> 'XAImage':
         """Initializes an image of the provided text overlaid on the specified background color.
 
         :param text: The text to create an image of
@@ -8616,8 +7970,9 @@ class XAImage(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         font = AppKit.NSFont.fontWithName_size_(font_name, font_size)
-        print(font.displayName())
         text = AppKit.NSString.alloc().initWithString_(text)
+        if font_color is None:
+            font_color = XAColor.black()
         attributes = {
             AppKit.NSFontAttributeName: font,
             AppKit.NSForegroundColorAttributeName: font_color.xa_elem
@@ -8625,6 +7980,8 @@ class XAImage(XAObject, XAClipboardCodable):
         text_size = text.sizeWithAttributes_(attributes)
 
         # Make a white background to overlay the text on
+        if background_color is None:
+            background_color = XAColor.white()
         swatch = background_color.make_swatch(text_size.width + inset * 2, text_size.height + inset * 2)
         text_rect = AppKit.NSMakeRect(inset, inset, text_size.width, text_size.height)
 
@@ -9308,6 +8665,7 @@ class XAImage(XAObject, XAClipboardCodable):
                 extracted_strings.append(recognized_strings)
 
         # Perform request and return extracted text
+        import Vision
         request = Vision.VNRecognizeTextRequest.alloc().initWithCompletionHandler_(recognize_text_handler)
         request_handler = Vision.VNImageRequestHandler.alloc().initWithCGImage_options_(img, None)
         request_handler.performRequests_error_([request], None)
@@ -9329,9 +8687,12 @@ class XAImage(XAObject, XAClipboardCodable):
             with open(tmp_file.name, 'wb') as f:
                 f.write(self.xa_elem.TIFFRepresentation())
 
+            config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+            config.setActivates_(True)
+
             img_url = XAPath(tmp_file.name).xa_elem
             preview_url = XAPath("/System/Applications/Preview.app/").xa_elem
-            workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
+            workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, config, None)
             time.sleep(1)
 
     def save(self, file_path: Union[XAPath, str, None] = None):
@@ -9349,7 +8710,7 @@ class XAImage(XAObject, XAClipboardCodable):
         fm = AppKit.NSFileManager.defaultManager()
         fm.createFileAtPath_contents_attributes_(file_path, self.xa_elem.TIFFRepresentation(), None)
 
-    def get_clipboard_representation(self) -> AppKit.NSImage:
+    def get_clipboard_representation(self) -> 'AppKit.NSImage':
         """Gets a clipboard-codable representation of the iimage.
 
         When the clipboard content is set to an image, the image itself, including any modifications, is added to the clipboard. Pasting will then insert the image into the active document.
@@ -9375,7 +8736,7 @@ class XASoundList(XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASound, filter)
 
-    def get_clipboard_representation(self) -> list[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union['AppKit.NSSound', 'AppKit.NSURL', str]]:
         """Gets a clipboard-codable representation of each sound in the list.
 
         When the clipboard content is set to a list of sounds, each sound's raw sound data, its associated file URL, and its file path string are added to the clipboard.
@@ -9397,35 +8758,29 @@ class XASound(XAObject, XAClipboardCodable):
 
         match sound_reference:
             case str() as ref if "://" in ref:
-                logging.debug(f"Sound ref is web/file URL --> Set file to URL")
                 self.file = XAURL(ref)
 
             case str() as ref if os.path.exists(ref):
-                logging.debug(f"Sound ref is file path --> Set file to path")
                 self.file = XAPath(sound_reference)
 
             case str() as ref:
-                logging.debug(f"Sound ref is raw string --> Set file to path of sound with ref name")
                 self.file = XAPath("/System/Library/Sounds/" + ref + ".aiff")
 
             case {"element": str() as ref}:
-                logging.debug(f"Sound ref is string from XASoundList --> Reinit with string")
                 self.file = XASound(ref).file
 
             case XAPath() as ref:
-                logging.debug(f"Sound ref is path object --> Set file to path")
                 self.file = ref
 
             case XAURL() as ref:
-                logging.debug(f"Sound ref is web/file URL object --> Set file to URL")
                 self.file = ref
 
             case XASound() as sound:
-                logging.debug(f"Sound ref is another XASound object --> Set file to that sound's file")
                 self.file = sound.file
 
         self.duration: float #: The duration of the sound in seconds
 
+        import AVFoundation
         self.__audio_file = AVFoundation.AVAudioFile.alloc().initForReading_error_(self.file.xa_elem if self.file is not None else None, None)[0]
 
         self.__audio_engine = AVFoundation.AVAudioEngine.alloc().init()
@@ -9512,7 +8867,6 @@ class XASound(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.1
         """
         def play_sound(self):
-            logging.debug(f"Playing XASound audio in new thread")
             self.__player_node.scheduleFile_atTime_completionHandler_(self.xa_elem, None, None)
             self.__audio_engine.startAndReturnError_(None)
             self.__player_node.play()
@@ -9679,9 +9033,11 @@ class XASound(XAObject, XAClipboardCodable):
             AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(file_path, None)
 
         # Configure the export session
+        import AVFoundation
         asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
         export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, AVFoundation.AVAssetExportPresetAppleM4A)
 
+        import CoreMedia
         start_time = CoreMedia.CMTimeMake(start_time * 100, 100)
         end_time = CoreMedia.CMTimeMake(end_time * 100, 100)
         time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
@@ -9719,9 +9075,11 @@ class XASound(XAObject, XAClipboardCodable):
             file_path = XAPath(file_path)
 
         # Configure the export session
+        import AVFoundation
         asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
         export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, AVFoundation.AVAssetExportPresetAppleM4A)
 
+        import CoreMedia
         start_time = CoreMedia.CMTimeMake(0, 100)
         end_time = CoreMedia.CMTimeMake(self.duration * 100, 100)
         time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
@@ -9741,7 +9099,7 @@ class XASound(XAObject, XAClipboardCodable):
         while not waiting:
             time.sleep(0.01)
 
-    def get_clipboard_representation(self) -> list[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union['AppKit.NSSound', 'AppKit.NSURL', str]]:
         """Gets a clipboard-codable representation of the sound.
 
         When the clipboard content is set to a sound, the raw sound data, the associated file URL, and the path string of the file are added to the clipboard.
@@ -9768,7 +9126,8 @@ class XAVideo(XAObject):
             else:
                 video_reference = XAPath(video_reference)
 
-        self.xa_elem = AVFoundation.AVURLAsset.alloc().initWithURL_options_(video_reference.xa_elem, { AVFoundation.AVURLAssetPreferPreciseDurationAndTimingKey: objc.YES })
+        import AVFoundation
+        self.xa_elem = AVFoundation.AVURLAsset.alloc().initWithURL_options_(video_reference.xa_elem, { AVFoundation.AVURLAssetPreferPreciseDurationAndTimingKey: True })
 
     def reverse(self, output_file: Union[XAPath, str]):
         """Reverses the video and exports the result to the specified output file path.
@@ -9782,6 +9141,7 @@ class XAVideo(XAObject):
             output_file = XAPath(output_file)
         output_url = output_file.xa_elem
 
+        import AVFoundation
         reader = AVFoundation.AVAssetReader.alloc().initWithAsset_error_(self.xa_elem, None)[0]
 
         video_track = self.xa_elem.tracksWithMediaType_(AVFoundation.AVMediaTypeVideo)[-1]
@@ -9809,6 +9169,7 @@ class XAVideo(XAObject):
 
         writer_input.setExpectsMediaDataInRealTime_(False)
 
+        import CoreMedia
         pixel_buffer_adaptor = AVFoundation.AVAssetWriterInputPixelBufferAdaptor.alloc().initWithAssetWriterInput_sourcePixelBufferAttributes_(writer_input, None)
         writer.addInput_(writer_input)
         writer.startWriting()
@@ -9859,8 +9220,10 @@ class XAVideo(XAObject):
             file_path = XAPath(file_path)
 
         # Configure the export session
+        import AVFoundation
         export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(self.xa_elem, AVFoundation.AVAssetExportPresetHighestQuality)
 
+        import CoreMedia
         start_time = CoreMedia.CMTimeMake(0, 100)
         end_time = CoreMedia.CMTimeMake(self.xa_elem.duration().value * self.xa_elem.duration().timescale, 100)
         time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);

@@ -161,64 +161,22 @@ class XAFantasticalDocumentList(XABase.XAList):
         super().__init__(properties, XAFantasticalDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the path of each document in the list.
-
-        :return: A list of document paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> 'XAFantasticalDocument':
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAFantasticalDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> 'XAFantasticalDocument':
-        """Retrieves the tab whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAFantasticalDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: XABase.XAPath) -> 'XAFantasticalDocument':
-        """Retrieves the document whose file matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAFantasticalDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
@@ -327,43 +285,15 @@ class XAFantasticalCalendarList(XABase.XAList):
         super().__init__(properties, XAFantasticalCalendar, filter)
 
     def title(self) -> list[str]:
-        """Gets the title of each calendar in the list.
-
-        :return: A list of calendar titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each calendar in the list.
-
-        :return: A list of calendar IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def by_title(self, title: str) -> 'XAFantasticalCalendar':
-        """Retrieves the calendar whose title matches the given title, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XAFantasticalCalendar, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("title", title)
 
     def by_id(self, id: str) -> 'XAFantasticalCalendar':
-        """Retrieves the calendar whose ID matches the given ID, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XAFantasticalCalendar, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("id", id)
 
     def __repr__(self):
@@ -412,184 +342,58 @@ class XAFantasticalCalendarItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each calendar item in the list.
-
-        :return: A list of calendar item IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> list[str]:
-        """Gets the title of each calendar item in the list.
-
-        :return: A list of calendar item titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def start_date(self) -> list[datetime]:
-        """Gets the start date of each calendar item in the list.
-
-        :return: A list of calendar item IDs
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
 
     def end_date(self) -> list[datetime]:
-        """Gets the end date of each calendar item in the list.
-
-        :return: A list of calendar item IDs
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
 
     def notes(self) -> list[str]:
-        """Gets the notes of each calendar item in the list.
-
-        :return: A list of calendar item notes
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("notes"))
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the URL of each calendar item in the list.
-
-        :return: A list of calendar item URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def show_url(self) -> list[XABase.XAURL]:
-        """Gets the show URL of each calendar item in the list.
-
-        :return: A list of calendar item show URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("showURL"))
 
     def is_recurring(self) -> list[bool]:
-        """Gets the recurring status of each calendar item in the list.
-
-        :return: A list of calendar item recurring statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("isRecurring"))
 
     def is_all_day(self) -> list[bool]:
-        """Gets the all day status of each calendar item in the list.
-
-        :return: A list of calendar item all day statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("isAllDay"))
 
     def by_id(self, id: str) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose ID matches the given ID, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("id", id)
 
     def by_title(self, title: str) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose title matches the given title, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("title", title)
 
     def by_start_date(self, start_date: datetime) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose start date matches the given date, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("startDate", start_date)
 
     def by_end_date(self, end_date: datetime) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose end date matches the given date, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("endDate", end_date)
 
     def by_notes(self, notes: str) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose notes match the given notes, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("notes", notes)
 
     def by_url(self, url: XABase.XAURL) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose URL matches the given URL, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("URL", url.xa_elem)
 
     def by_show_url(self, show_url: XABase.XAURL) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose show URL matches the given URL, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("showURL", show_url.xa_elem)
 
     def by_is_recurring(self, is_recurring: bool) -> 'XAFantasticalCalendarItem':
-        """Retrieves the first calendar item whose recurring status matches the given boolean value, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("isRecurring", is_recurring)
 
     def by_is_all_day(self, is_all_day: bool) -> 'XAFantasticalCalendarItem':
-        """Retrieves the calendar item whose all day status matches the given boolean value, if one exists.
-
-        :return: The desired calendar item, if it is found
-        :rtype: Union[XAFantasticalCalendarItem, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("isAllDay", is_all_day)
 
     def __repr__(self):

@@ -279,84 +279,28 @@ class XARemindersDocumentList(XABase.XAList):
         super().__init__(properties, XARemindersDocument, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def name(self) -> list[dict]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[dict]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XARemindersDocument', None]:
-        """Retrieves the document whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XARemindersDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_name(self, name: str) -> Union['XARemindersDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XARemindersDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XARemindersDocument', None]:
-        """Retrieves the document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XARemindersDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: XABase.XAPath) -> Union['XARemindersDocument', None]:
-        """Retrieves the document whose file matches the given file path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XARemindersDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
@@ -439,63 +383,21 @@ class XARemindersAccountList(XABase.XAList):
         super().__init__(properties, XARemindersAccount, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each account in the list.
-
-        :return: A list of account properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each account in the list.
-
-        :return: A list of account IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each account in the list.
-
-        :return: A list of account names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_properties(self, properties: dict) -> Union['XARemindersAccount', None]:
-        """Retrieves the account whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XARemindersAccount, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_id(self, id: str) -> Union['XARemindersAccount', None]:
-        """Retrieves the account whose ID matches the given ID, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XARemindersAccount, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XARemindersAccount', None]:
-        """Retrieves the account whose name matches the given name, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XARemindersAccount, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -549,135 +451,44 @@ class XARemindersListList(XABase.XAList):
         super().__init__(properties, XARemindersList, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each reminder list in the list.
-
-        :return: A list of reminder list properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each reminder list in the list.
-
-        :return: A list of reminder list IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[dict]:
-        """Gets the name of each reminder list in the list.
-
-        :return: A list of reminder list names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def container(self) -> XARemindersAccountList:
-        """Gets the parent container of each reminder list in the list.
-
-        :return: A list of accounts
-        :rtype: XARemindersAccountList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XARemindersAccountList)
 
     def color(self) -> list[dict]:
-        """Gets the color of each reminder list in the list.
-
-        :return: A list of reminder list colors
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("color"))
 
     def emblem(self) -> list[dict]:
-        """Gets the emblem name of each reminder list in the list.
-
-        :return: A list of reminder list emblems
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("emblem"))
 
     def reminders(self) -> 'XARemindersReminderList':
-        """Gets the reminders of each reminder list in the list.
-
-        :return: A list of reminders
-        :rtype: XARemindersReminderList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("reminders")
         return self._new_element(ls, XARemindersReminderList)
 
     def by_properties(self, properties: dict) -> Union['XARemindersListList', None]:
-        """Retrieves the list whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_id(self, id: str) -> Union['XARemindersListList', None]:
-        """Retrieves the list whose ID matches the given ID, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XARemindersListList', None]:
-        """Retrieves the list whose name matches the given name, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_container(self, container: 'XARemindersList') -> Union['XARemindersListList', None]:
-        """Retrieves the list whose parent container matches the given account, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("container", container.xa_elem)
 
     def by_color(self, color: str) -> Union['XARemindersListList', None]:
-        """Retrieves the list whose color matches the given color, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("color", color)
 
     def by_emblem(self, emblem: str) -> Union['XARemindersListList', None]:
-        """Retrieves the list whose emblem matches the given emblem, if one exists.
-
-        :return: The desired list, if it is found
-        :rtype: Union[XARemindersListList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("emblem", emblem)
 
     def delete(self):
@@ -799,294 +610,91 @@ class XARemindersReminderList(XABase.XAList):
         super().__init__(properties, XARemindersReminder, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each reminder in the list.
-
-        :return: A list of reminder properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def name(self) -> list[str]:
-        """Gets the name of each reminder in the list.
-
-        :return: A list of reminder names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each reminder in the list.
-
-        :return: A list of reminder IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def container(self) -> XARemindersListList:
-        """Gets the parent list of each reminder in the list.
-
-        :return: A list of reminder lists
-        :rtype: XARemindersListList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("creationDate")
         return self._new_element(ls, XARemindersListList)
 
     def creation_date(self) -> list[datetime]:
-        """Gets the creation date of each reminder in the list.
-
-        :return: A list of creation dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def modification_date(self) -> list[datetime]:
-        """Gets the last modification date of each reminder in the list.
-
-        :return: A list of modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def body(self) -> list[str]:
-        """Gets the body text of each reminder in the list.
-
-        :return: A list of reminder body texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("body"))
 
     def completed(self) -> list[bool]:
-        """Gets the completed status of each reminder in the list.
-
-        :return: A list of reminder completed status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("completed"))
 
     def completion_date(self) -> list[datetime]:
-        """Gets the completion date of each reminder in the list.
-
-        :return: A list of completion dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("completionDate"))
 
     def due_date(self) -> list[datetime]:
-        """Gets the due date of each reminder in the list.
-
-        :return: A list of due dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("dueDate"))
 
     def allday_due_date(self) -> list[datetime]:
-        """Gets the allday due date of each reminder in the list.
-
-        :return: A list of allday due dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("alldayDueDate"))
 
     def remind_me_date(self) -> list[datetime]:
-        """Gets the remind me date of each reminder in the list.
-
-        :return: A list of remind me dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("remindMeDate"))
 
     def priority(self) -> list[int]:
-        """Gets the priority of each reminder in the list.
-
-        :return: A list of reminder priorities
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("priority"))
 
     def flagged(self) -> list[bool]:
-        """Gets the flagged status of each reminder in the list.
-
-        :return: A list of reminder flagged status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("flagged"))
 
     def alarms(self) -> list['XARemindersAlarmList']:
-        """Gets the alarms of each reminder in the list.
-
-        :return: A list of lists of alarms
-        :rtype: list[XARemindersAlarmList]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.alarms() for x in self]
 
     def by_properties(self, properties: dict) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_name(self, name: str) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose name matches the given name, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_id(self, id: str) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose ID matches the given ID, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_container(self, container: 'XARemindersList') -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose parent container matches the given list, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("container", container.xa_elem)
 
     def by_creation_date(self, creation_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose creation date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("creationDate", creation_date)
 
     def by_modification_date(self, modification_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose modification date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_body(self, body: str) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose body content matches the given string, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("body", body)
 
     def by_completed(self, completed: bool) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose completed status matches the given boolean value, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("completed", completed)
 
     def by_completion_date(self, completed_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose completion date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("completedDate", completed_date)
 
     def by_due_date(self, due_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose due date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("dueDate", due_date)
 
     def by_allday_due_date(self, allday_due_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose allday due date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("alldayDueDate", allday_due_date)
 
     def by_remind_me_date(self, remind_me_date: datetime) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose remind me date matches the given date, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("remindMeDate", remind_me_date)
 
     def by_priority(self, priority: int) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose priority matches the given priority, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("priority", priority)
 
     def by_flagged(self, flagged: bool) -> Union['XARemindersReminderList', None]:
-        """Retrieves the reminder whose flagged status matches the given boolean value, if one exists.
-
-        :return: The desired reminder, if it is found
-        :rtype: Union[XARemindersReminderList, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("flagged", flagged)
 
     def delete(self):
@@ -1477,103 +1085,33 @@ class XARemindersAlarmList(XABase.XAList):
         super().__init__(properties, XARemindersAlarm, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each alarm in the list.
-
-        :return: A list of alarm IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sharedUID"))
 
     def snoozed(self) -> list[bool]:
-        """Gets the snoozed status of each alarm in the list.
-
-        :return: A list of alarm snoozed status boolean values
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("isSnoozed"))
 
     def date(self) -> list[datetime]:
-        """Gets the date of each alarm in the list.
-
-        :return: A list of alarm dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("absoluteDate"))
 
     def proximity_direction(self) -> list[str]:
-        """Gets the proximity direction of each alarm in the list.
-
-        :return: A list of directions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("proximityString"))
 
     def location(self) -> list[XABase.XALocation]:
-        """Gets the location of each alarm in the list.
-
-        :return: A list of alarm locations
-        :rtype: list[XABase.XALocation]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.location for x in self]
 
     def by_id(self, id: str) -> Union['XARemindersAlarm', None]:
-        """Retrieves the alarm whose ID matches the given ID, if one exists.
-
-        :return: The desired alarm, if it is found
-        :rtype: Union[XARemindersAlarm, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("sharedUID", id)
 
     def by_snoozed(self, snoozed: bool) -> Union['XARemindersAlarm', None]:
-        """Retrieves the alarm whose snoozed status matches the given boolean value, if one exists.
-
-        :return: The desired alarm, if it is found
-        :rtype: Union[XARemindersAlarm, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("isSnoozed", snoozed)
 
     def by_date(self, date: datetime) -> Union['XARemindersAlarm', None]:
-        """Retrieves the alarm whose date matches the given date, if one exists.
-
-        :return: The desired alarm, if it is found
-        :rtype: Union[XARemindersAlarm, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("absoluteDate", date)
 
     def by_proximity_direction(self, proximity_direction: str) -> Union['XARemindersAlarm', None]:
-        """Retrieves the alarm whose proximity direction matches the given direction, if one exists.
-
-        :return: The desired alarm, if it is found
-        :rtype: Union[XARemindersAlarm, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("proximityString", proximity_direction)
 
     def by_location(self, location: XABase.XALocation) -> Union['XARemindersAlarm', None]:
-        """Retrieves the alarm whose location matches the given location, if one exists.
-
-        :return: The desired alarm, if it is found
-        :rtype: Union[XARemindersAlarm, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("structuredLocation", location.xa_elem)
 
     def __repr__(self):

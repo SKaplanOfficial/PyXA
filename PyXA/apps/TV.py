@@ -37,23 +37,9 @@ class XATVTrackList(MediaApplicationBase.XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def sort_director(self) -> list[str]:
-        """Gets the director sort string of each track in the list.
-
-        :return: A list of track director sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortDirector"))
 
     def by_sort_director(self, sort_director: str) -> Union['XATVTrack', None]:
-        """Retrieves the first track whose director sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XATVTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortDirector", sort_director)
 
 class XATVTrack(MediaApplicationBase.XAMediaItem):

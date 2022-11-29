@@ -305,64 +305,22 @@ class XAVLCDocumentList(XABase.XAList, XACloseable, XAClipboardCodable):
         super().__init__(properties, XAVLCDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.9
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.9
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XAVLCDocument', None]:
-        """Retrieves the first document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAVLCDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAVLCDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAVLCDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         return self.by_property("modified", modified)
 
     def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XAVLCDocument', None]:
-        """Retrieves the first document whose file path matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAVLCDocument, None]
-        
-        .. versionadded:: 0.0.9
-        """
         if isinstance(path, str):
             path = XABase.XAPath(path)
         return self.by_property("path", path.xa_elem)

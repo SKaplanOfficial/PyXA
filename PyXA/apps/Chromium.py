@@ -285,84 +285,28 @@ class XAChromiumTabList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumTab, filter)
 
     def id(self) -> list[int]:
-        """Gets the ID of each tab in the list.
-
-        :return: A list of tab IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> list[str]:
-        """Gets the title of each tab in the list.
-
-        :return: A list of tab titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the URL of each tab in the list.
-
-        :return: A list of tab URLS
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def loading(self) -> list[bool]:
-        """Gets the loading state of each tab in the list.
-
-        :return: A list of loading states; a list of booleans.
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("loading"))
 
     def by_id(self, id: int) -> Union['XAChromiumTab', None]:
-        """Retrieves the tab whose ID matches the given ID, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XAChromiumTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_title(self, title: str) -> Union['XAChromiumTab', None]:
-        """Retrieves the first tab whose title matches the given title, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XAChromiumTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("title", title)
 
     def by_url(self, url: XABase.XAURL) -> Union['XAChromiumTab', None]:
-        """Retrieves the first tab whose URL matches the given URL, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XAChromiumTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("url", str(url.xa_elem))
 
     def by_loading(self, loading: bool) -> Union['XAChromiumTab', None]:
-        """Retrieves the first tab whose loading state matches the given boolean value, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XAChromiumTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("loading", loading)
 
     def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
@@ -634,63 +578,21 @@ class XAChromiumBookmarkFolderList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumBookmarkFolder, filter)
 
     def id(self) -> list[int]:
-        """Gets the ID of each bookmark folder in the list.
-
-        :return: A list of bookmark folder IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> list[str]:
-        """Gets the title of each bookmark folder in the list.
-
-        :return: A list of bookmark folder titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def index(self) -> list[int]:
-        """Gets the index of each bookmark folder in the list.
-
-        :return: A list of indexes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def by_id(self, id: int) -> Union['XAChromiumBookmarkFolder', None]:
-        """Retrieves the bookmark folder whose ID matches the given ID, if one exists.
-
-        :return: The desired bookmark folder, if it is found
-        :rtype: Union[XAChromiumBookmarkFolder, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_title(self, title: str) -> Union['XAChromiumBookmarkFolder', None]:
-        """Retrieves the first bookmark folder whose title matches the given title, if one exists.
-
-        :return: The desired bookmark folder, if it is found
-        :rtype: Union[XAChromiumBookmarkFolder, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("title", title)
 
     def by_index(self, index: int) -> Union['XAChromiumBookmarkFolder', None]:
-        """Retrieves the bookmark folder whose index matches the given index, if one exists.
-
-        :return: The desired bookmark folder, if it is found
-        :rtype: Union[XAChromiumBookmarkFolder, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("index", index)
 
     def get_clipboard_representation(self) -> list[str]:
@@ -800,84 +702,28 @@ class XAChromiumBookmarkItemList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAChromiumBookmarkItem, filter)
 
     def id(self) -> list[int]:
-        """Gets the ID of each item in the list.
-
-        :return: A list of bookmark item IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> list[str]:
-        """Gets the title of each item in the list.
-
-        :return: A list of bookmark item titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the url of each item in the list.
-
-        :return: A list of bookmark item URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> list[int]:
-        """Gets the index of each item in the list.
-
-        :return: A list of indexes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def by_id(self, id: int) -> Union['XAChromiumBookmarkItem', None]:
-        """Retrieves the bookmark item whose ID matches the given ID, if one exists.
-
-        :return: The desired bookmark item, if it is found
-        :rtype: Union[XAChromiumBookmarkItem, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_title(self, title: str) -> Union['XAChromiumBookmarkItem', None]:
-        """Retrieves the first bookmark item whose title matches the given title, if one exists.
-
-        :return: The desired bookmark item, if it is found
-        :rtype: Union[XAChromiumBookmarkItem, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("title", title)
 
     def by_url(self, url: XABase.XAURL) -> Union['XAChromiumBookmarkItem', None]:
-        """Retrieves the first bookmark item whose URL matches the given URL, if one exists.
-
-        :return: The desired bookmark item, if it is found
-        :rtype: Union[XAChromiumBookmarkItem, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("URL", str(url.xa_elem))
 
     def by_index(self, index: int) -> Union['XAChromiumBookmarkItem', None]:
-        """Retrieves the bookmark item whose index matches the given index, if one exists.
-
-        :return: The desired bookmark item, if it is found
-        :rtype: Union[XAChromiumBookmarkItem, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("index", index)
 
     def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:

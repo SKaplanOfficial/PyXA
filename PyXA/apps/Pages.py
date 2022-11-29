@@ -171,13 +171,6 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         super().__init__(properties, filter, XAPagesDocument)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.0
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, doc in enumerate(self.xa_elem):
@@ -197,107 +190,37 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         return pyxa_dicts
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans 
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file URL of each document in the list.
-
-        :return: A list of document file URLs
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.5
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        """Gets the ID of each document in the list.
-
-        :return: A list of document IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def document_template(self) -> 'XAPagesTemplateList':
-        """Gets the document template of each document in the list.
-
-        :return: A list of document templates
-        :rtype: XAPagesTemplateList
-        
-        .. versionadded:: 0.0.5
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate")
         return self._new_element(ls, XAPagesTemplateList)
 
     def body_text(self) -> XABase.XATextList:
-        """Gets the body text of each document in the list.
-
-        :return: A list of document body texts
-        :rtype: XABase.XATextList
-        
-        .. versionadded:: 0.0.5
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
         return self._new_element(ls, XABase.XATextList)
 
     def document_body(self) -> list[bool]:
-        """Gets the document body status of each document in the list.
-
-        :return: A list of document body status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("documentBody"))
 
     def facing_pages(self) -> list[bool]:
-        """Gets the facing pages of each document in the list.
-
-        :return: A list of document facing pages status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.5
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("facingPages"))
 
     def current_page(self) -> 'XAPagesPageList':
-        """Gets the current page of each document in the list.
-
-        :return: A list of document current pages
-        :rtype: XAPagesPageList
-        
-        .. versionadded:: 0.0.5
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("currentPage")
         return self._new_element(ls, XAPagesPageList)
 
     def by_properties(self, properties: dict) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         raw_dict = {}
 
         if "id" in properties:
@@ -344,266 +267,86 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
                 return self._new_element(document, XAPagesDocument)
 
     def by_name(self, name: str) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: Union[str, XABase.XAPath]) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose file matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         if isinstance(file, XABase.XAPath):
             file = file.url
         return self.by_property("file", file)
 
     def by_id(self, id: str) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose ID matches the given ID, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("id", id)
 
     def by_document_template(self, document_template: 'XAPagesTemplate') -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose document template matches the given template, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("documentTemplate", document_template.xa_elem)
 
     def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose body text matches the given text, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         if isinstance(body_text, str):
             self.by_property('bodyText', body_text)
         else:
             self.by_property('bodyText', body_text.xa_elem)
 
     def by_document_body(self, document_body: bool) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose document body status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("documentBody", document_body)
 
     def by_facing_pages(self, facing_pages: bool) -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose facing pages status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("facingPages", facing_pages)
 
     def by_current_page(self, current_page: 'XAPagesPage') -> Union['XAPagesDocument', None]:
-        """Retrieves the first document whose current page matches the given page, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPagesDocument, None]
-        
-        .. versionadded:: 0.0.5
-        """
         return self.by_property("currentPage", current_page.xa_elem)
 
     def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
-        """Returns the audio clips of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's audio clips
-        :rtype: iWorkApplicationBase.XAiWorkAudioClipList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("audioClips")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkAudioClipList, filter)
 
     def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
-        """Returns the charts of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's charts
-        :rtype: iWorkApplicationBase.XAiWorkChartList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("charts")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkChartList, filter)
 
     def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
-        """Returns the groups of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's groups
-        :rtype: iWorkApplicationBase.XAiWorkGroupList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("groups")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkGroupList, filter)
 
     def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
-        """Returns the images of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's images
-        :rtype: iWorkApplicationBase.XAiWorkImageList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("images")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkImageList, filter)
 
     def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
-        """Returns the iWork items of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's iWork items
-        :rtype: iWorkApplicationBase.XAiWorkiWorkItemList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("iWorkItems")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkiWorkItemList, filter)
 
     def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
-        """Returns the lines of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's lines
-        :rtype: iWorkApplicationBase.XAiWorkLineList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("lines")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkLineList, filter)
     
     def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
-        """Returns the movies of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's movies
-        :rtype: iWorkApplicationBase.XAiWorkMovieList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("movies")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkMovieList, filter)
 
     def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
-        """Returns the pages of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned pages will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's pages
-        :rtype: XAPagesPageList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("pages")]
         return self._new_element(ls, XAPagesPageList, filter)
 
     def sections(self, filter: Union[dict, None] = None) -> 'XAPagesSectionList':
-        """Returns the sections of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned sections will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's sections
-        :rtype: XAPagesSectionList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("sections")]
         return self._new_element(ls, XAPagesSectionList, filter)
 
     def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
-        """Returns the shapes of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's shapes
-        :rtype: iWorkApplicationBase.XAiWorkShapeList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("shapes")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList, filter)
 
     def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
-        """Returns the tables of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's tables
-        :rtype: iWorkApplicationBase.XAiWorkTableList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("tables")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
     def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
-        """Returns the text items of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned text items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's text items
-        :rtype: iWorkApplicationBase.XAiWorkTextItemList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("textItems")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
     def placeholder_texts(self, filter: Union[dict, None] = None) -> 'XAPagesPlaceholderTextList':
-        """Returns the placeholder texts of each document in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned placeholder texts will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every document's placeholder texts
-        :rtype: XAPagesPlaceholderTextList
-
-        .. versionadded:: 0.1.0
-        """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("placeholderTexts")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
@@ -893,43 +636,15 @@ class XAPagesTemplateList(XABase.XAList):
         super().__init__(properties, XAPagesTemplate, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each template in the list.
-
-        :return: A list of template IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each template in the list.
-
-        :return: A list of template names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_id(self, id: str) -> Union['XAPagesTemplate', None]:
-        """Retrieves the first template whose ID matches the given ID, if one exists.
-
-        :return: The desired template, if it is found
-        :rtype: Union[XAPagesTemplate, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XAPagesTemplate', None]:
-        """Retrieves the first template whose name matches the given name, if one exists.
-
-        :return: The desired template, if it is found
-        :rtype: Union[XAPagesTemplate, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -976,39 +691,16 @@ class XAPagesSectionList(XABase.XAList):
         super().__init__(properties, XAPagesSection, filter)
 
     def body_text(self) -> XABase.XATextList:
-        """Gets the body text of each section in the list.
-
-        :return: A list of section body texts
-        :rtype: XABase.XATextList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
         return self._new_element(ls, XABase.XATextList)
 
     def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesSection', None]:
-        """Retrieves the first section whose body text matches the given text, if one exists.
-
-        :return: The desired section, if it is found
-        :rtype: Union[XAPagesSection, None]
-        
-        .. versionadded:: 0.0.6
-        """
         if isinstance(body_text, str):
             self.by_property('bodyText', body_text)
         else:
             self.by_property('bodyText', str(body_text))
 
     def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
-        """Returns the audio clips of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's audio clips
-        :rtype: iWorkApplicationBase.XAiWorkAudioClipList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("audioClips")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1017,15 +709,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkAudioClipList, filter)
 
     def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
-        """Returns the charts of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's charts
-        :rtype: iWorkApplicationBase.XAiWorkChartList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("charts")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1034,15 +717,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkChartList, filter)
 
     def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
-        """Returns the groups of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's groups
-        :rtype: iWorkApplicationBase.XAiWorkGroupList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("groups")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1051,15 +725,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkGroupList, filter)
 
     def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
-        """Returns the images of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's images
-        :rtype: iWorkApplicationBase.XAiWorkImageList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("images")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1068,15 +733,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkImageList, filter)
 
     def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
-        """Returns the iWork items of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's iWork items
-        :rtype: iWorkApplicationBase.XAiWorkiWorkItemList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1085,15 +741,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkiWorkItemList, filter)
 
     def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
-        """Returns the lines of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's lines
-        :rtype: iWorkApplicationBase.XAiWorkLineList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("lines")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1102,15 +749,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkLineList, filter)
     
     def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
-        """Returns the movies of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's movies
-        :rtype: iWorkApplicationBase.XAiWorkMovieList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("movies")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1119,15 +757,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkMovieList, filter)
 
     def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
-        """Returns the shapes of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's shapes
-        :rtype: iWorkApplicationBase.XAiWorkShapeList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("shapes")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1136,15 +765,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList, filter)
 
     def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
-        """Returns the tables of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's tables
-        :rtype: iWorkApplicationBase.XAiWorkTableList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("tables")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1153,15 +773,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
     def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
-        """Returns the pages of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned pages will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's pages
-        :rtype: XAPagesPageList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("pages")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1170,15 +781,6 @@ class XAPagesSectionList(XABase.XAList):
         return self._new_element(ls, XAPagesPageList, filter)
 
     def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
-        """Returns the text items of each section in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned text items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every section's text items
-        :rtype: iWorkApplicationBase.XAiWorkTextItemList
-
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("textItems")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -1380,13 +982,6 @@ class XAPagesPageList(XAPagesContainerList):
         super().__init__(properties, filter, XAPagesPage)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each page in the list.
-
-        :return: A list of page properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.0
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
@@ -1396,24 +991,10 @@ class XAPagesPageList(XAPagesContainerList):
         return pyxa_dicts
 
     def body_text(self) -> XABase.XATextList:
-        """Gets the body text of each page in the list.
-
-        :return: A list of page body texts
-        :rtype: XABase.XATextList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> Union['XAPagesPage', None]:
-        """Retrieves the first page whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired page, if it is found
-        :rtype: Union[XAPagesPage, None]
-        
-        .. versionadded:: 0.1.0
-        """
         raw_dict = {}
 
         if "body_text" in properties:
@@ -1424,13 +1005,6 @@ class XAPagesPageList(XAPagesContainerList):
                 return self._new_element(page, XAPagesPage)
 
     def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesPage', None]:
-        """Retrieves the first page whose body text matches the given text, if one exists.
-
-        :return: The desired page, if it is found
-        :rtype: Union[XAPagesPage, None]
-        
-        .. versionadded:: 0.0.6
-        """
         if isinstance(body_text, str):
             self.by_property('bodyText', body_text)
         else:
@@ -1472,46 +1046,6 @@ class XAPagesPage(XAPagesContainer):
         else:
             self.set_property('bodyText', str(body_text))
 
-    # def duplicate(self) -> 'XAPagesPage':
-    #     """Duplicates the page, mimicking the action of copying and pasting the page manually.
-
-    #     :return: A reference to the PyXA page object that called this command.
-    #     :rtype: XAPagesPage
-
-    #     .. versionadded:: 0.0.6
-    #     """
-    #     parent = self.xa_prnt
-    #     while not hasattr(parent, "new_page"):
-    #         parent = parent.xa_prnt
-
-    #     new_page = parent.new_page(self.body_text)
-
-    #     parent = self.xa_prnt
-    #     while not hasattr(parent, "make"):
-    #         parent = parent.xa_prnt
-        
-    #     for item in self.xa_elem.lines():
-    #         properties = item.properties()
-    #         # properties.pop("id")
-    #         properties["parent"] = new_page.xa_elem
-
-    #         print(properties)
-
-    #         new_line = parent.make("line", properties)
-    #         print(new_line.xa_elem)
-    #         print(new_page.lines().push(new_line))
-    #     return self
-
-    # def move_to(self, document):
-    #     self.xa_elem.moveTo_(document.xa_elem.pages())
-
-    # def delete(self):
-    #     """Deletes the page.
-
-    #     .. versionadded:: 0.0.6
-    #     """
-    #     self.xa_elem.get().delete()
-
     def add_image(self, file_path: Union[str, XABase.XAPath, XABase.XAImage]) -> 'iWorkApplicationBase.XAiWorkImage':
         """Adds the image at the specified path to the page.
 
@@ -1538,38 +1072,6 @@ class XAPagesPage(XAPagesContainer):
         image.xa_prnt = self
         return image
 
-    # def add_chart(self, row_names: list[str], column_names: list[str], data: list[list[Any]], type: int = XAPagesApplication.ChartType.LINE_2D.value, group_by: int = XAPagesApplication.ChartGrouping.ROW.value) -> 'iWorkApplicationBase.XAiWorkChart':
-    #     """_summary_
-
-    #     _extended_summary_
-
-    #     :param row_names: A list of row names.
-    #     :type row_names: list[str]
-    #     :param column_names: A list of column names.
-    #     :type column_names: list[str]
-    #     :param data: A 2d array 
-    #     :type data: list[list[Any]]
-    #     :param type: The chart type, defaults to _PagesLegacyChartType.PagesLegacyChartTypeLine_2d.value
-    #     :type type: int, optional
-    #     :param group_by: The grouping schema, defaults to _PagesLegacyChartGrouping.PagesLegacyChartGroupingChartRow.value
-    #     :type group_by: int, optional
-    #     :return: A reference to the newly created chart object.
-    #     :rtype: iWorkApplicationBase.XAiWorkChart
-
-    #     .. versionadded:: 0.0.2
-    #     """
-    #     self.xa_prnt.set_property("currentSlide", self.xa_elem)
-    #     self.xa_elem.addChartRowNames_columnNames_data_type_groupBy_(row_names, column_names, data, type, group_by)
-    #     chart = self.xa_elem.charts()[-1].get()
-    #     properties = {
-    #         "parent": self,
-    #         "element": chart,
-    #         "appref": self.xa_aref,
-    #         "system_events": self.xa_sevt,
-    #     }
-    #     return iWorkApplicationBase.XAiWorkChart(properties)
-
-
 
 
 class XAPagesPlaceholderTextList(XABase.XATextList):
@@ -1583,23 +1085,9 @@ class XAPagesPlaceholderTextList(XABase.XATextList):
         super().__init__(properties, filter, XAPagesPlaceholderText)
 
     def tag(self) -> list[str]:
-        """Gets the script tag of each placeholder text in the list.
-
-        :return: The list of tags
-        :rtype: list[str]
-
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("tag"))
 
     def by_tag(self, tag: str) -> Union['XAPagesPlaceholderText', None]:
-        """Retrieves the placeholder text whose script tag matches the given tag.
-
-        :return: The matching placeholder text, if one is found
-        :rtype: Union[XAPagesPlaceholderText, None]
-
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("tag", tag)
 
 class XAPagesPlaceholderText(XABase.XAText):

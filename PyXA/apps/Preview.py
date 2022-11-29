@@ -137,86 +137,30 @@ class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAPreviewDocument, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each document in the list.
-
-        :return: A list of document paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
     def modified(self) -> list[str]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def by_properties(self, properties: dict) -> Union['XAPreviewDocument', None]:
-        """Retrieves the document whose properties dictionary matches the given properties, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPreviewDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("properties", properties)
 
     def by_name(self, name: str) -> Union['XAPreviewDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPreviewDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XAPreviewDocument', None]:
-        """Retrieves the document whose path status matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPreviewDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         if isinstance(path, str):
             path = XABase.XAPath(str)
         return self.by_property("path", str(path.xa_elem))
 
     def by_modified(self, modified: bool) -> Union['XAPreviewDocument', None]:
-        """Retrieves the document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAPreviewDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("modified", modified)
 
     def get_clipboard_representation(self) -> list[AppKit.NSURL]:

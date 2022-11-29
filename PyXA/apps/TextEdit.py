@@ -263,13 +263,6 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         super().__init__(properties, filter, XATextEditDocument)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.3
-        """
         raw_dicts = list(self.xa_elem.arrayByApplyingSelector_("properties"))
         return [{
             "modified": raw_dict["modified"],
@@ -280,44 +273,16 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         } for raw_dict in raw_dicts]
 
     def path(self) -> list[XABase.XAPath]:
-        """Gets the path of each document in the list.
-
-        :return: A list of document paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[str]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def by_properties(self, properties: dict) -> Union['XABase.XATextDocument', None]:
-        """Retrieves the document whose properties match the given properties dictionary, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         for document in self.xa_elem:
             doc_props = document.properties()
             conditions = [
@@ -330,35 +295,14 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
                 return self._new_element(document, self.xa_ocls)
 
     def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XATextEditDocument', None]:
-        """Retrieves the document whose path matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextEditDocument, None]
-        
-        .. versionadded:: 0.0.3
-        """
         if isinstance(path, XABase.XAPath):
             path = path.path
         return self.by_property("path", path)
 
     def by_name(self, name: str) -> Union['XATextEditDocument', None]:
-        """Retrieves the first document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextEditDocument, None]
-        
-        .. versionadded:: 0.0.3
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XATextEditDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XATextEditDocument, None]
-        
-        .. versionadded:: 0.0.3
-        """
         return self.by_property("modified", modified)
 
     def prepend(self, text: str) -> 'XATextEditDocumentList':

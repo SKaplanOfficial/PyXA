@@ -403,209 +403,69 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return element
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each media item in the list.
-
-        :return: A list of media item properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_scel.arrayByApplyingSelector_("properties"))
 
     def keywords(self) -> list[list[str]]:
-        """Gets the keywords of each media item in the list.
-
-        :return: A list of media item keywords
-        :rtype: list[list[str]]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_scel.arrayByApplyingSelector_("keywords")
         return [keyword for keywordlist in ls for keyword in keywordlist]
 
     def duration(self) -> list[float]:
-        """Gets the duration of each media item in the list.
-
-        :return: A list of media item durations
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.duration() for x in self.xa_elem]
 
     def title(self) -> list[str]:
-        """Gets the title of each media item in the list.
-
-        :return: A list of media item titles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def file_path(self) -> list[XABase.XAPath]:
-        """Gets the file path of each media item in the list.
-
-        :return: A list of media item original file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("mainFileURL")
         return [XABase.XAPath(x) for x in ls]
 
     def object_description(self) -> list[str]:
-        """Gets the object description of each media item in the list.
-
-        :return: A list of media item descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_scel.arrayByApplyingSelector_("objectDescription"))
 
     def favorite(self) -> list[bool]:
-        """Gets the favorited status of each media item in the list.
-
-        :return: A list of media item favorited status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.isFavorite() for x in self.xa_elem]
 
     def creation_date(self) -> list[datetime]:
-        """Gets the creation date of each media item in the list.
-
-        :return: A list of media item creation dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def modification_date(self) -> list[datetime]:
-        """Gets the last modification date of each media item in the list.
-
-        :return: A list of media item modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def is_burst(self) -> list[bool]:
-        """Gets the is burst status of each media item in the list.
-
-        :return: A list of media item is burst status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return [x.representsBurst() for x in self.xa_elem]
 
     def is_video(self) -> list[bool]:
-        """Gets the is video status of each media item in the list.
-
-        :return: A list of media item is video status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return [x.isVideo() for x in self.xa_elem]
 
     def is_hidden(self) -> list[bool]:
-        """Gets the is hidden status of each media item in the list.
-
-        :return: A list of media item is hidden status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return [x.isHidden() for x in self.xa_elem]
 
     def is_photo(self) -> list[bool]:
-        """Gets the is photo status of each media item in the list.
-
-        :return: A list of media item is photo status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return [x.isPhoto() for x in self.xa_elem]
 
     def id(self) -> list[str]:
-        """Gets the ID of each media item in the list.
-
-        :return: A list of media item IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("localIdentifier"))
 
     def height(self) -> list[int]:
-        """Gets the height of each media item in the list.
-
-        :return: A list of media item heights
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.pixelHeight() for x in self.xa_elem]
 
     def width(self) -> list[int]:
-        """Gets the width of each media item in the list.
-
-        :return: A list of media item widths
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.6
-        """
         return [x.pixelWidth() for x in self.xa_elem]
 
     def filename(self) -> list[str]:
-        """Gets the filename of each media item in the list.
-
-        :return: A list of media item filenames
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("filename"))
 
     def altitude(self) -> list[float]:
-        """Gets the altitude of each media item in the list.
-
-        :return: A list of media item altitudes
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.6
-        """
         locations = self.xa_elem.arrayByApplyingSelector_("location")
         return [x.altitude() for x in locations]
 
     def size(self) -> list[tuple[float, float]]:
-        """Gets the file size, in bytes, of each media item in the list.
-
-        :return: A list of media item file sizes
-        :rtype: list[tuple[float, float]]
-        
-        .. versionadded:: 0.0.6
-        """
         paths = self.file_path()
         file_manager = AppKit.NSFileManager.defaultManager()
         attributes = [file_manager.attributesOfItemAtPath_error_(x.path, None) for x in paths]
         return [x[0][AppKit.NSFileSize] for x in attributes if x is not None and x[0] is not None]
 
     def location(self) -> list[list[Union[float, None]]]:
-        """Gets the location of each media item in the list.
-
-        :return: A list of media item locations
-        :rtype: list[list[Union[float, None]]]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return [XABase.XALocation(
             latitude = x.coordinate()[0],
@@ -615,13 +475,6 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         ) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         predicate = XABase.XAPredicate()
         predicate.add_eq_condition("properties", properties)
         ls = predicate.evaluate(self.xa_scel).get()
@@ -629,123 +482,39 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         return self._new_element(obj, self.xa_ocls)
 
     def by_keywords(self, keywords: list[str]) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose keywords list matches the given keywords, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("keywords", keywords)
 
     def by_title(self, title: str) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose title matches the given title string, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("title", title)
 
     def by_object_description(self, object_description: str) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose object description matches the given description, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_favorite(self, favorite: bool) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose favorited status matches the given boolean value, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("favorite", favorite)
 
     def by_date(self, date: datetime) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose date matches the given date, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("date", date)
 
     def by_id(self, id: str) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose ID matches the given ID, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_height(self, height: int) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose height matches the given height, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("height", height)
 
     def by_width(self, width: int) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose width matches the given width, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("width", width)
 
     def by_filename(self, filename: str) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose filename matches the given filename, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("filename", filename)
 
     def by_altitude(self, altitude: float) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose altitude matches the given altitude, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("altitude", altitude)
 
     def by_size(self, size: int) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose file size matches the given size, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("size", size)
 
     def by_location(self, location: XABase.XALocation) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose location matches the given location, if one exists.
-
-        :return: The desired media item, if it is found
-        :rtype: Union[XAPhotosMediaItem, None]
-        
-        .. versionadded:: 0.0.6
-        """
         loc = (location.latitude, location.longitude)
         return self.by_property("location", loc)
 
@@ -1025,84 +794,28 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each container in the list.
-
-        :return: A list of container properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def id(self) -> list[str]:
-        """Gets the ID of each container in the list.
-
-        :return: A list of container IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each container in the list.
-
-        :return: A list of container names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def parent(self) -> 'XAPhotosFolderList':
-        """Gets the parent of each container in the list.
-
-        :return: A list of container parent folders
-        :rtype: XAPhotosFolderList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("parent")
         return self._new_element(ls, XAPhotosFolderList)
 
     def by_properties(self, properties: dict) -> Union['XAPhotosContainer', None]:
-        """Retrieves the container whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired container, if it is found
-        :rtype: Union[XAPhotosContainer, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_id(self, id: str) -> Union['XAPhotosContainer', None]:
-        """Retrieves the container whose ID matches the given ID, if one exists.
-
-        :return: The desired container, if it is found
-        :rtype: Union[XAPhotosContainer, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XAPhotosContainer', None]:
-        """Retrieves the first container whose name matches the given name, if one exists.
-
-        :return: The desired container, if it is found
-        :rtype: Union[XAPhotosContainer, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_parent(self, parent: 'XAPhotosFolder') -> Union['XAPhotosContainer', None]:
-        """Retrieves the first container whose parent matches the given folder, if one exists.
-
-        :return: The desired container, if it is found
-        :rtype: Union[XAPhotosContainer, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("parent", parent.xa_elem)
 
     def get_clipboard_representation(self) -> str:

@@ -416,127 +416,43 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XASafariDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[str]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of file paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("file"))
 
     def source(self) -> list[str]:
-        """Gets the source HTML of each document in the list.
-
-        :return: A list of document source HTML
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return [x.source() for x in self.xa_elem]
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the file URL of each document in the list.
-
-        :return: A list of document URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def text(self) -> list[XABase.XAText]:
-        """Gets the visible text of each document in the list.
-
-        :return: A list of document text
-        :rtype: list[XABase.XAText]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = [x.text() for x in self.xa_elem]
         return [XABase.XAText(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XASafariDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XASafariDocument', None]:
-        """Retrieves the tab whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: str) -> Union['XASafariDocument', None]:
-        """Retrieves the tab whose file matches the given file path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("file", file)
 
     def by_source(self, source: str) -> Union['XASafariDocument', None]:
-        """Retrieves the tab whose source HTML matches the given HTML, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for doc in self.xa_elem:
             if doc.source() == source:
                 return self._new_element(doc, XASafariDocument)
 
     def by_url(self, url: XABase.XAURL) -> Union['XASafariDocument', None]:
-        """Retrieves the tab whose URL matches the given URL, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("URL", str(url.xa_elem))
     
     def by_text(self, text: Union[str, XABase.XAText]) -> Union['XASafariDocument', None]:
-        """Retrieves the tab whose visible text matches the given text, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XASafariDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for doc in self.xa_elem:
             if doc.text() == str(text):
                 return self._new_element(doc, XASafariDocument)
@@ -743,24 +659,10 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         return sources
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the current URL of each tab in the list.
-
-        :return: A list of web URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> list[int]:
-        """Gets the index of each tab in the list.
-
-        :return: A list of indices
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def text(self) -> list[XABase.XAText]:
@@ -783,87 +685,31 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         return texts
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each tab in the list.
-
-        :return: A list of visible status booleans
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def name(self) -> list[str]:
-        """Gets the name of each tab in the list.
-
-        :return: A list of tab names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_source(self, source: str) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose source HTML matches the given HTML, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for tab in self.xa_elem:
             if tab.source() == source:
                 return self._new_element(tab, XASafariTab)
 
     def by_url(self, url: XABase.XAURL) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose URL matches the given URL, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("URL", str(url.xa_elem))
 
     def by_index(self, index: int) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose index matches the given index, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("index", index)
 
     def by_text(self, text: Union[str, XABase.XAText]) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose visible text matches the given text, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for tab in self.xa_elem:
             if tab.text() == str(text):
                 return self._new_element(tab, XASafariTab)
 
     def by_visible(self, visible: bool) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose visible status matches the given boolean, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("visible", visible)
 
     def by_name(self, name: str) -> Union['XASafariTab', None]:
-        """Retrieves the tab whose name matches the given name, if one exists.
-
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def reload(self) -> Self:

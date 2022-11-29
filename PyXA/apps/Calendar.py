@@ -357,84 +357,28 @@ class XACalendarDocumentList(XABase.XAList):
         super().__init__(properties, XACalendarDocument, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
         
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XACalendarDocument', None]:
-        """Retrieves the document whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACalendarDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_name(self, name: str) -> Union['XACalendarDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACalendarDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XACalendarDocument', None]:
-        """Retrieves the document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACalendarDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: XABase.XAPath) -> Union['XACalendarDocument', None]:
-        """Retrieves the document whose file matches the given file path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XACalendarDocument, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
@@ -486,135 +430,44 @@ class XACalendarCalendarList(XABase.XAList):
         super().__init__(properties, XACalendarCalendar, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each calendar in the list.
-
-        :return: A list of calendar properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def name(self) -> list[str]:
-        """Gets the name of each calendar in the list.
-
-        :return: A list of calendar names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def color(self) -> list[str]:
-        """Gets the color of each calendar in the list.
-
-        :return: A list of calendar color strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
     def calendar_identifier(self) -> list[str]:
-        """Gets the ID of each calendar in the list.
-
-        :return: A list of calendar IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("calendarIdentifier"))
 
     def writable(self) -> list[bool]:
-        """Gets the writable status of each calendar in the list.
-
-        :return: A list of calendar writable status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("writable"))
 
     def description(self) -> list[str]:
-        """Gets the description of each calendar in the list.
-
-        :return: A list of calendar descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("description"))
 
     def events(self) -> 'XACalendarEventList':
-        """Gets the events of each calendar in the list.
-
-        :return: A list of calendar events
-        :rtype: XACalendarEventList
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("events")
         return self._new_element(ls, XACalendarEventList)
 
     def by_properties(self, properties: dict) -> Union['XACalendarCalendar', None]:
-        """Retrieves the calendar whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_name(self, name: str) -> Union['XACalendarCalendar', None]:
-        """Retrieves the calendar whose name matches the given name, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("name", name)
 
     def by_color(self, color: XABase.XAColor) -> Union['XACalendarCalendar', None]:
-        """Retrieves the first calendar whose color matches the given color string, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("color", color.xa_elem)
 
     def by_calendar_identifier(self, calendar_identifier: str) -> Union['XACalendarCalendar', None]:
-        """Retrieves the calendar whose ID matches the given ID, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("calendarIdentifier", calendar_identifier)
 
     def by_writable(self, writable: bool) -> Union['XACalendarCalendar', None]:
-        """Retrieves the first calendar whose writable status matches the given boolean value, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("writable", writable)
 
     def by_description(self, description: str) -> Union['XACalendarCalendar', None]:
-        """Retrieves the calendar whose description matches the given description string, if one exists.
-
-        :return: The desired calendar, if it is found
-        :rtype: Union[XACalendarCalendar, None]
-        
-        .. versionadded:: 0.0.6
-        """
         for calendar in self:
             if calendar.description == description:
                 return calendar
@@ -914,84 +767,28 @@ class XACalendarAttendeeList(XABase.XAList):
         super().__init__(properties, XACalendarEvent, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each attendee in the list.
-
-        :return: A list of attendee properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def display_name(self) -> list[str]:
-        """Gets the display name of each attendee in the list.
-
-        :return: A list of attendee first and last names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
     def email(self) -> list[str]:
-        """Gets the email address of each attendee in the list.
-
-        :return: A list of attendee email addresses
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("email"))
 
     def participation_status(self) -> list[XACalendarApplication.ParticipationStatus]:
-        """Gets the participation status of each attendee in the list.
-
-        :return: A list of attendee participation statuses
-        :rtype: list[XACalendarApplication.ParticipationStatus]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("participationStatus")
         return [XACalendarApplication.ParticipationStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XACalendarAttendee', None]:
-        """Retrieves the attendee whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired attendee, if it is found
-        :rtype: Union[XACalendarAttendee, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_display_name(self, display_name: str) -> Union['XACalendarAttendee', None]:
-        """Retrieves the attendee whose display name matches the given first and last names, if one exists.
-
-        :return: The desired attendee, if it is found
-        :rtype: Union[XACalendarAttendee, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("displayName", display_name)
 
     def by_email(self, email: str) -> Union['XACalendarAttendee', None]:
-        """Retrieves the attendee whose email address matches the given email address, if one exists.
-
-        :return: The desired attendee, if it is found
-        :rtype: Union[XACalendarAttendee, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("email", email)
 
     def by_participation_status(self, participation_status: XACalendarApplication.ParticipationStatus) -> Union['XACalendarAttendee', None]:
-        """Retrieves the attendee whose participation status matches the given status, if one exists.
-
-        :return: The desired attendee, if it is found
-        :rtype: Union[XACalendarAttendee, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("participationStatus", participation_status.value)
 
     def __repr__(self):
@@ -1043,285 +840,88 @@ class XACalendarEventList(XABase.XAList):
         super().__init__(properties, XACalendarEvent, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties of each event in the list.
-
-        :return: A list of event properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def description(self) -> list[str]:
-        """Gets the description of each event in the list.
-
-        :return: A list of event descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("description"))
 
     def start_date(self) -> list[datetime]:
-        """Gets the start date of each event in the list.
-
-        :return: A list of event start dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
 
     def end_date(self) -> list[datetime]:
-        """Gets the end date of each event in the list.
-
-        :return: A list of event end dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
 
     def allday_event(self) -> list[bool]:
-        """Gets the all-day status of each event in the list.
-
-        :return: A list of event all-day status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("alldayEvent"))
 
     def recurrence(self) -> list[str]:
-        """Gets the recurrence string of each event in the list.
-
-        :return: A list of event recurrence strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("recurrence"))
 
     def sequence(self) -> list[int]:
-        """Gets the version of each event in the list.
-
-        :return: A list of event versions
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sequence"))
 
     def stamp_date(self) -> list[datetime]:
-        """Gets the modification date of each event in the list.
-
-        :return: A list of event modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("stampDate"))
 
     def excluded_dates(self) -> list[list[datetime]]:
-        """Gets the excluded dates of each event in the list.
-
-        :return: A list of event excluded dates
-        :rtype: list[list[datetime]]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("excludedDates"))
 
     def status(self) -> list[XACalendarApplication.EventStatus]:
-        """Gets the status of each event in the list.
-
-        :return: A list of event statuses
-        :rtype: list[XACalendarApplication.EventStatus]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("status")
         return [XACalendarApplication.EventStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def summary(self) -> list[str]:
-        """Gets the summary of each event in the list.
-
-        :return: A list of event summaries
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("summary"))
 
     def location(self) -> list[str]:
-        """Gets the location string of each event in the list.
-
-        :return: A list of event locations
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("location"))
 
     def uid(self) -> list[str]:
-        """Gets the unique identifier of each event in the list.
-
-        :return: A list of event IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("uid"))
 
     def url(self) -> list[str]:
-        """Gets the URL associated to each event in the list.
-
-        :return: A list of event URLs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def by_properties(self, properties: dict) -> Union['XACalendarEvent', None]:
-        """Retrieves the event whose properties matches the given properties dictionary, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("properties", properties)
 
     def by_description(self, description: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the event whose description matches the given description string, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("description", description)
 
     def by_start_date(self, start_date: datetime) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose start date matches the given date, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("startDate", start_date)
 
     def by_end_date(self, end_date: datetime) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose end date matches the given date, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("endDate", end_date)
 
     def by_allday_event(self, allday_event: bool) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose all-day even status matches the given boolean value, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("alldayEvent", allday_event)
 
     def by_recurrence(self, recurrence: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose recurrence string matches the given string, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("recurrence", recurrence)
 
     def by_sequence(self, sequence: int) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose sequence (version) matches the given sequence number, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("sequence", sequence)
 
     def by_stamp_date(self, stamp_date: datetime) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose stamp date matches the given date, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("stampDate", stamp_date)
 
     def by_excluded_dates(self, excluded_dates: list[datetime]) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose excluded dates date matches the given list of dates, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("excludedDates", excluded_dates)
 
     def by_status(self, status: XACalendarApplication.EventStatus) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose status matches the given status, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("status", status.value)
 
     def by_summary(self, summary: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose summary matches the given string, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("summary", summary)
 
     def by_location(self, location: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose location string matches the given location, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("location", location)
 
     def by_uid(self, uid: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the event whose unique identifier matches the given ID string, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("uid", uid)
 
     def by_url(self, url: str) -> Union['XACalendarEvent', None]:
-        """Retrieves the first event whose associated URL matches the given URL string, if one exists.
-
-        :return: The desired event, if it is found
-        :rtype: Union[XACalendarEvent, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("URL", url)
 
     def __repr__(self):
@@ -1619,105 +1219,35 @@ class XACalendarAttachmentList(XABase.XAList):
         super().__init__(properties, XACalendarAttachment, filter)
 
     def type(self) -> list[str]:
-        """Gets the type of each attachment in the list.
-
-        :return: A list of attachment types
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("type"))
 
     def file_name(self) -> list[str]:
-        """Gets the file name of each attachment in the list.
-
-        :return: A list of attachment file names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("filename"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each attachment in the list.
-
-        :return: A list of attachment file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the URL of each attachment in the list.
-
-        :return: A list of attachment file URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.6
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
     def uuid(self) -> list[str]:
-        """Gets the UUID of each attachment in the list.
-
-        :return: A list of attachment UUIDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.6
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("uuid"))
 
     def by_type(self, type: str) -> Union['XACalendarAttachment', None]:
-        """Retrieves the first attachment whose type matches the given type, if one exists.
-
-        :return: The desired attachment, if it is found
-        :rtype: Union[XACalendarAttachment, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("type", type)
 
     def by_file_name(self, file_name: str) -> Union['XACalendarAttachment', None]:
-        """Retrieves the first attachment whose file name matches the given file name, if one exists.
-
-        :return: The desired attachment, if it is found
-        :rtype: Union[XACalendarAttachment, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("filename", file_name)
 
     def by_file(self, file: XABase.XAPath) -> Union['XACalendarAttachment', None]:
-        """Retrieves the first attachment whose file path matches the given path, if one exists.
-
-        :return: The desired attachment, if it is found
-        :rtype: Union[XACalendarAttachment, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("file", file.xa_elem)
 
     def by_url(self, url: XABase.XAURL) -> Union['XACalendarAttachment', None]:
-        """Retrieves the first attachment whose URL matches the given URL, if one exists.
-
-        :return: The desired attachment, if it is found
-        :rtype: Union[XACalendarAttachment, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("URL", url.xa_elem)
 
     def by_url(self, uuid: str) -> Union['XACalendarAttachment', None]:
-        """Retrieves the attachment whose UUID matches the given UUID, if one exists.
-
-        :return: The desired attachment, if it is found
-        :rtype: Union[XACalendarAttachment, None]
-        
-        .. versionadded:: 0.0.6
-        """
         return self.by_property("uuid", uuid)
 
     def __repr__(self):

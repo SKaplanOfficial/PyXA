@@ -171,207 +171,74 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         super().__init__(properties, XABikeDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        """Gets the ID of each document in the list.
-
-        :return: A list of document IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
     
     def url(self) -> list[XABase.XAURL]:
-        """Gets the URL of each document in the list.
-
-        :return: A list of document urls
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("url")
         return [XABase.XAURL(x) for x in ls]
 
     def root_row(self) -> 'XABikeRowList':
-        """Gets the root row of each document in the list.
-
-        :return: A list of document root rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("rootRow")
         return self._new_element(ls, XABikeRowList)
 
     def entireContents(self) -> 'XABikeRowList':
-        """Gets the entire contents of each document in the list.
-
-        :return: A list of document rows
-        :rtype: XABikeRowLists
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
         ls = [row for contents in ls for row in contents]
         return self._new_element(ls, XABikeRowList)
 
     def focused_row(self) -> 'XABikeRowList':
-        """Gets the focused row of each document in the list.
-
-        :return: A list of document focused rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("focusedRow")
         return self._new_element(ls, XABikeRowList)
 
     def hoisted_row(self) -> 'XABikeRowList':
-        """Gets the hoisted row of each document in the list.
-
-        :return: A list of document hoisted rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("hoistedRow")
         return self._new_element(ls, XABikeRowList)
 
     def selected_text(self) -> list[str]:
-        """Gets the selected text of each document in the list.
-
-        :return: A list of document selected texts
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selectedText"))
 
     def selection_row(self) -> 'XABikeRowList':
-        """Gets the selection row of each document in the list.
-
-        :return: A list of document selection rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selectionRow")
         return self._new_element(ls, XABikeRowList)
 
     def selection_rows(self) -> 'XABikeRowList':
-        """Gets the selection rows of each document in the list.
-
-        :return: A list of document selection rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selectionRows")
         ls = [row for contents in ls for row in contents]
         return self._new_element(ls, XABikeRowList)
 
     def by_name(self, name: str) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XABikeDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: Union[str, XABase.XAPath]) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose file path matches the given path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(file, XABase.XAPath):
             file = file.path
         return self.by_property("file", file)
 
     def by_id(self, id: str) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose ID matches the given ID, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_url(self, url: Union[str, XABase.XAURL]) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose URL matches the given URL, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(url, XABase.XAURL):
             url = url.url
         return self.by_property("url", url)
 
     def by_root_row(self, root_row: 'XABikeRow') -> Union['XABikeDocument', None]:
-        """Retrieves the document whose root row matches the given row, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("rootRow", root_row.xa_elem)
 
     def by_entire_contents(self, entire_contents: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose entire contents matches the given list of rows, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(entire_contents, list):
             entire_contents = [x.xa_elem for x in entire_contents]
             return self.by_property("entireContents", entire_contents)
@@ -379,53 +246,18 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
             return self.by_property("entireContents", entire_contents.xa_elem)
 
     def by_focused_row(self, focused_row: 'XABikeRow') -> Union['XABikeDocument', None]:
-        """Retrieves the document whose focused row matches the given row, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("focusedRow", focused_row.xa_elem)
 
     def by_hoisted_row(self, hoisted_row: 'XABikeRow') -> Union['XABikeDocument', None]:
-        """Retrieves the document whose hoisted row matches the given row, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("hoistedRow", hoisted_row.xa_elem)
 
     def by_selected_text(self, selected_text: str) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose selected text matches the given text, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("selectedText", selected_text)
 
     def by_selection_row(self, selection_row: 'XABikeRow') -> Union['XABikeDocument', None]:
-        """Retrieves the document whose selection row matches the given row, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("selectionRow", selection_row.xa_elem)
 
     def by_selection_rows(self, selection_rows: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeDocument', None]:
-        """Retrieves the document whose selection rows match the given list of rows, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XABikeDocument, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(selection_rows, list):
             selection_rows = [x.xa_elem for x in selection_rows]
             return self.by_property("selectionRows", selection_rows)
@@ -600,261 +432,86 @@ class XABikeRowList(XABase.XAList):
         super().__init__(properties, XABikeRow, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each row in the list.
-
-        :return: A list of row IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def url(self) -> list[XABase.XAURL]:
-        """Gets the URL of each row in the list.
-
-        :return: A list of row URLs
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("url")
         return [XABase.XAURL(x) for x in ls]
 
     def level(self) -> list[int]:
-        """Gets the level of each row in the list.
-
-        :return: A list of row levels
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("level"))
 
     def contains_rows(self) -> list[bool]:
-        """Gets the contains rows status of each row in the list.
-
-        :return: A list of row contains rows status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("containsRows"))
 
     def name(self) -> list[str]:
-        """Gets the name of each row in the list.
-
-        :return: A list of row names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def container(self) -> list[Union[XABikeDocument, 'XABikeRow']]:
-        """Gets the container of each row in the list.
-
-        :return: A list of row containers
-        :rtype: list[Union[XABikeDocument, 'XABikeRow']]
-        
-        .. versionadded:: 0.1.0
-        """
         return [x.container for x in self]
 
     def container_row(self) -> 'XABikeRowList':
-        """Gets the container row of each row in the list.
-
-        :return: A list of row container rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("containerRow")
         return self._new_element(ls, XABikeRowList)
 
     def prev_sibling_row(self) -> 'XABikeRowList':
-        """Gets the previous sibling row of each row in the list.
-
-        :return: A list of row previous sibling rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("prevSiblingRow")
         return self._new_element(ls, XABikeRowList)
 
     def next_sibling_row(self) -> 'XABikeRowList':
-        """Gets the next sibling row of each row in the list.
-
-        :return: A list of row next sibling rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("nextSiblingRow")
         return self._new_element(ls, XABikeRowList)
 
     def entire_contents(self) -> 'XABikeRowList':
-        """Gets the all contained rows of each row in the list.
-
-        :return: A list of contained rows
-        :rtype: XABikeRowList
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
         ls = [item for contents in ls for item in contents]
         return self._new_element(ls, XABikeRowList)
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each row in the list.
-
-        :return: A list of row visible status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def selected(self) -> list[bool]:
-        """Gets the selected status of each row in the list.
-
-        :return: A list of row selected status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
     def expanded(self) -> list[bool]:
-        """Gets the expanded status of each row in the list.
-
-        :return: A list of row expanded status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("expanded"))
 
     def collapsed(self) -> list[bool]:
-        """Gets the collapsed status of each row in the list.
-
-        :return: A list of row collapsed status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
 
     def by_id(self, id: str) -> Union['XABikeRow', None]:
-        """Retrieves the row whose ID matches the given ID, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("id", id)
 
     def by_url(self, url: Union[str, XABase.XAURL]) -> Union['XABikeRow', None]:
-        """Retrieves the row whose URL matches the given URL, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(url, XABase.XAURL):
             url = url.url
         return self.by_property("url", url)
 
     def by_level(self, level: int) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose level matches the given level, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("level", level)
 
     def by_contains_rows(self, contains_rows: bool) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose contains rows status matches the given boolean value, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("containsRows", contains_rows)
 
     def by_name(self, name: str) -> Union['XABikeRow', None]:
-        """Retrieves the row whose name matches the given name, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_container(self, container: Union[XABikeDocument, 'XABikeRow']) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose container matches the given container, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("container", container.xa_elem)
 
     def by_container_row(self, container_row: 'XABikeRow') -> Union['XABikeRow', None]:
-        """Retrieves the first row whose container row matches the given row, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("containerRow", container_row.xa_elem)
 
     def by_prev_sibling_row(self, prev_sibling_row: 'XABikeRow') -> Union['XABikeRow', None]:
-        """Retrieves the row whose previous sibling row matches the given row, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("prevSiblingRow", prev_sibling_row.xa_elem)
 
     def by_next_sibling_row(self, next_sibling_row: 'XABikeRow') -> Union['XABikeRow', None]:
-        """Retrieves the row whose next sibling row matches the given row, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("nextSiblingRow", next_sibling_row.xa_elem)
 
     def by_container_document(self, container_document: XABikeDocument) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose container document matches the given document, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("containerDocument", container_document.xa_elem)
 
     def by_entire_contents(self, entire_contents: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeRow', None]:
-        """Retrieves the row whose entire contents matches the given list of rows, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         if isinstance(entire_contents, list):
             entire_contents = [x.xa_elem for x in entire_contents]
             return self.by_property("entireContents", entire_contents)
@@ -862,43 +519,15 @@ class XABikeRowList(XABase.XAList):
             return self.by_property("entireContents", entire_contents.xa_elem)
 
     def by_visible(self, visible: bool) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("visible", visible)
 
     def by_selected(self, selected: bool) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose selected status matches the given boolean value, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("selected", selected)
 
     def by_expanded(self, expanded: bool) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose expanded status matches the given boolean value, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("expanded", expanded)
 
     def by_collapsed(self, collapsed: bool) -> Union['XABikeRow', None]:
-        """Retrieves the first row whose collapsed status matches the given boolean value, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XABikeRow, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("collapsed", collapsed)
 
     def collapse(self, all: bool = False):
@@ -1138,64 +767,22 @@ class XABikeAttributeList(XABase.XAList):
         super().__init__(properties, XABikeAttribute, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each attribute in the list.
-
-        :return: A list of attribute names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def value(self) -> list[str]:
-        """Gets the value of each attribute in the list.
-
-        :return: A list of attribute values
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
     def container_row(self) -> XABikeRowList:
-        """Gets the container row of each attribute in the list.
-
-        :return: A list of attribute container rows
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.0
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("containerRow")
         return self._new_element(ls, XABikeRowList)
 
     def by_name(self, name: str) -> Union['XABikeAttribute', None]:
-        """Retrieves the attribute whose name matches the given name, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XABikeAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("name", name)
 
     def by_value(self, value: str) -> Union['XABikeAttribute', None]:
-        """Retrieves the first attribute whose value matches the given value, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XABikeAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("value", value)
 
     def by_container_row(self, container_row: XABikeRow) -> Union['XABikeAttribute', None]:
-        """Retrieves the first attribute whose container row matches the given row, if one exists.
-
-        :return: The desired attribute, if it is found
-        :rtype: Union[XABikeAttribute, None]
-        
-        .. versionadded:: 0.1.0
-        """
         return self.by_property("containerRow", container_row.xa_elem)
 
     def __repr__(self):

@@ -369,63 +369,21 @@ class XAMessagesDocumentList(XABase.XAList):
         super().__init__(properties, XAMessagesDocument, filter)
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of modified status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[str]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("file"))
 
     def by_name(self, name: str) -> Union['XAMessagesDocument', None]:
-        """Retrieves the first document whose name matches the given string, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAMessagesDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAMessagesDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAMessagesDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: str) -> Union['XAMessagesDocument', None]:
-        """Retrieves the first document whose file matches the given file path, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAMessagesDocument, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("file", file)
 
 class XAMessagesDocument(XABase.XAObject):
@@ -474,89 +432,31 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesChat, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each chat in the list.
-
-        :return: A list of chat IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each chat in the list.
-
-        :return: A list of chat names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def account(self) -> 'XAMessagesAccountList':
-        """Gets the account of each chat in the list.
-
-        :return: A list of accounts
-        :rtype: XAMessagesAccountList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("account")
         return self._new_element(ls, XAMessagesAccountList)
 
     def participants(self) -> list['XAMessagesParticipantList']:
-        """Gets the list of participants of every chat in the list.
-
-        :return: A list of lists of participants
-        :rtype: list[XAMessagesParticipantList]
-
-        .. versionadded:: 0.0.6
-        """
         ls = []
         for chat in self.xa_elem:
             ls.append(self._new_element(chat.participants(), XAMessagesParticipantList))
         return ls
 
     def by_id(self, id: str) -> 'XAMessagesChat':
-        """Retrieves the first chat whose ID matches the given ID, if one exists.
-
-        :return: The desired chat, if it is found
-        :rtype: Union[XAMessagesChat, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> 'XAMessagesChat':
-        """Retrieves the first chat whose name matches the given name, if one exists.
-
-        :return: The desired chat, if it is found
-        :rtype: Union[XAMessagesChat, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_account(self, account: 'XAMessagesAccount') -> 'XAMessagesChat':
-        """Retrieves the first chat whose account matches the given account, if one exists.
-
-        :return: The desired chat, if it is found
-        :rtype: Union[XAMessagesChat, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("account", account.xa_elem)
 
     def by_participants(self, participants: list['XAMessagesParticipant']) -> 'XAMessagesChat':
-        """Retrieves the first chat whose participants list matches the given list.
-
-        :param participants: A list of participants to compare chat participants against
-        :type participants: list[XAMessagesParticipant]
-        :return: The desired chat, if it exists
-        :rtype: XAMessagesChat
-
-        .. versionadded:: 0.0.6
-        """
         target_handles = [x.handle for x in participants]
         for chat in self.xa_elem:
             chat_participants = chat.participants()
@@ -673,97 +573,34 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesFileTransfer, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each file transfer in the list.
-
-        :return: A list of file transfer IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each file transfer in the list.
-
-        :return: A list of file names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def file_path(self) -> list[XABase.XAPath]:
-        """Gets the file path of each file transfer in the list.
-
-        :return: A list of file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("filePath")
         return [XABase.XAPath(x) for x in ls]
 
     def direction(self) -> list[XAMessagesApplication.MessageDirection]:
-        """Gets the direction of each file transfer in the list.
-
-        :return: A list of direction enum values
-        :rtype: list[XAMessagesApplication.MessageDirection]:
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("direction")
         return [XAMessagesApplication.MessageDirection(XABase.OSType(x.stringValue())) for x in ls]
 
     def account(self) -> 'XAMessagesAccountList':
-        """Gets the account of each file transfer in the list.
-
-        :return: A list of accounts
-        :rtype: XAMessagesAccountList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = [x.account() for x in self.xa_elem]
         return self._new_element(ls, XAMessagesAccountList)
 
     def participant(self) -> 'XAMessagesParticipantList':
-        """Gets the participant of each file transfer in the list.
-
-        :return: A list of participants
-        :rtype: XAMessagesParticipantList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = [x.participant() for x in self.xa_elem]
         return self._new_element(ls, XAMessagesParticipantList)
 
     def file_size(self) -> list[int]:
-        """Gets the file size of each file transfer in the list.
-
-        :return: A list of file sizes in byes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileSize"))
 
     def file_progress(self) -> list[int]:
-        """Gets the file progress of each file transfer in the list.
-
-        :return: A list of file progress in bytes transferred out of total bytes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileProgress"))
 
     def transfer_status(self) -> list[XAMessagesApplication.TransferStatus]:
-        """Gets the transfer status of each file transfer in the list.
-
-        :return: A list of transfer status enum values
-        :rtype: list[XAMessagesApplication.TransferStatus]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = list(self.xa_elem.arrayByApplyingSelector_("transferStatus"))
         try:
             return [XAMessagesApplication.TransferStatus(x) for x in ls]
@@ -771,117 +608,40 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
             return [XAMessagesApplication.TransferStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def started(self) -> list[datetime]:
-        """Gets the start time of each file transfer in the list.
-
-        :return: A list of start times
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("started"))
 
     def by_id(self, id: str) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose ID matches the given ID string, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose name matches the given name string, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_file_path(self, file_path: XABase.XAPath) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose file path matches the given path, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("filePath", file_path.xa_elem)
 
     def by_direction(self, direction: XAMessagesApplication.MessageDirection) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose direction matches the given enum value, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for x in self.xa_elem:
             if x.direction() == direction.value:
                 return self._new_element(x, XAMessagesFileTransfer)
 
     def by_account(self, account: 'XAMessagesAccount') -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose account matches the given account, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("account", account.xa_elem)
 
     def by_participant(self, participant: 'XAMessagesParticipant') -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose participant matches the given participant, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("participant", participant.xa_elem)
 
     def by_file_size(self, file_size: int) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose file size matches the given number, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("fileSize", file_size)
 
     def by_file_progress(self, file_progress: int) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose file progress matches the given enum value, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("fileProgress", file_progress)
 
     def by_transfer_status(self, transfer_status: XAMessagesApplication.TransferStatus) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose transfer status matches the given enum value, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for x in self.xa_elem:
             if x.transferStatus() == transfer_status.value:
                 return self._new_element(x, XAMessagesFileTransfer)
 
     def by_started(self, started: bool) -> 'XAMessagesFileTransfer':
-        """Retrieves the first file transfer whose started state matches the given boolean value, if one exists.
-
-        :return: The desired file transfer, if it is found
-        :rtype: Union[XAMessagesFileTransfer, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("started", started)
 
     def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> XABase.XAList:
@@ -1013,147 +773,49 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesParticipant, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each participant in the list.
-
-        :return: A list of participant IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def account(self) -> 'XAMessagesAccountList':
-        """Gets the account of each participant in the list.
-
-        :return: A list of accounts
-        :rtype: XAMessagesAccountList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("account")
         return self._new_element(ls, XAMessagesAccountList)
 
     def name(self) -> list[str]:
-        """Gets the displayed name of each participant in the list.
-
-        :return: A list of participant names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def handle(self) -> list[str]:
-        """Gets the handle of each participant in the list.
-
-        :return: A list of participant handles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("handle"))
 
     def first_name(self) -> list[str]:
-        """Gets the first name of each participant in the list.
-
-        :return: A list of participant first names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("firstName"))
 
     def last_name(self) -> list[str]:
-        """Gets the last name of each participant in the list.
-
-        :return: A list of participant last names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
 
     def full_name(self) -> list[str]:
-        """Gets the full name of each participant in the list.
-
-        :return: A list of participant names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
 
     def by_id(self, id: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose ID matches the given ID string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_account(self, account: 'XAMessagesAccount') -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose account matches the given account, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for x in self:
             if x.account.xa_elem == account.xa_elem:
                 return x
         return self.by_property("account", account.xa_elem)
 
     def by_name(self, name: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose displayed name matches the given name string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_handle(self, handle: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose handle matches the given handle string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("handle", handle)
 
     def by_first_name(self, first_name: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose first name matches the given name string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("firstName", first_name)
 
     def by_last_name(self, last_name: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose last name matches the given name string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("lastName", last_name)
 
     def by_full_name(self, full_name: str) -> Union['XAMessagesParticipant', None]:
-        """Retrieves the first participant whose full name matches the given name string, if one exists.
-
-        :return: The desired participant, if it is found
-        :rtype: Union[XAMessagesParticipant, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("fullName", full_name)
 
     def get_clipboard_representation(self) -> list[str]:
@@ -1264,107 +926,37 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAMessagesAccount, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each account in the list.
-
-        :return: A list of account IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def object_description(self) -> list[str]:
-        """Gets the description of each account in the list.
-
-        :return: A list of description strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.get().arrayByApplyingSelector_("objectDescription"))
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each account in the list.
-
-        :return: A list of enabled status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def connection_status(self) -> list[XAMessagesApplication.ConnectionStatus]:
-        """Gets the connection status of each account in the list.
-
-        :return: A list of connection status enum values
-        :rtype: list[XAMessagesApplication.ConnectionStatus]:
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("connectionStatus")
         return [XAMessagesApplication.ConnectionStatus(XABase.OSType(x.stringValue())) for x in ls]
 
     def service_type(self) -> list[XAMessagesApplication.ServiceType]:
-        """Gets the service type of each account in the list.
-
-        :return: A list of service type enum values
-        :rtype: list[XAMessagesApplication.ServiceType]:
-        
-        .. versionadded:: 0.0.4
-        """
         ls = [x.serviceType() for x in self.xa_elem]
         return [XAMessagesApplication.ServiceType(x) for x in ls]
 
     def by_id(self, id: str) -> Union['XAMessagesAccount', None]:
-        """Retrieves the first account whose ID matches the given ID string, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XAMessagesAccount, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_object_description(self, object_description: str) -> Union['XAMessagesAccount', None]:
-        """Retrieves the first account whose object description matches the given string, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XAMessagesAccount, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_enabled(self, enabled: bool) -> Union['XAMessagesAccount', None]:
-        """Retrieves the first account whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XAMessagesAccount, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("enabled", enabled)
 
     def by_connection_status(self, connection_status: XAMessagesApplication.ConnectionStatus) -> Union['XAMessagesAccount', None]:
-        """Retrieves the first account whose connection status matches the given enum value, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XAMessagesAccount, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for account in self.xa_elem:
             if account.connectionStatus() == connection_status.value:
                 return self._new_element(account, XAMessagesAccount)
 
     def by_service_type(self, service_type: XAMessagesApplication.ServiceType) -> Union['XAMessagesAccount', None]:
-        """Retrieves the first account whose service type matches the given enum value, if one exists.
-
-        :return: The desired account, if it is found
-        :rtype: Union[XAMessagesAccount, None]
-        
-        .. versionadded:: 0.0.4
-        """
         for account in self.xa_elem:
             if account.serviceType() == service_type.value:
                 return self._new_element(account, XAMessagesAccount)

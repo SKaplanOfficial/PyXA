@@ -113,53 +113,18 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAShortcutFolder, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each folder in the list.
-
-        :return: A list of folder IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each folder in the list.
-
-        :return: A list of folder names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_id(self, id: str) -> Union['XAShortcutFolder', None]:
-        """Retrieves the folder whose ID matches the given ID, if one exists.
-
-        :return: The desired folder, if it is found
-        :rtype: Union[XAShortcutFolder, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XAShortcutFolder', None]:
-        """Retrieves the first folder whose name matches the given name, if one exists.
-
-        :return: The desired folder, if it is found
-        :rtype: Union[XAShortcutFolder, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def shortcuts(self, filter: dict = None) -> list['XAShortcutList']:
-        """Gets the shortcuts within each folder in the list.
-
-        :return: A list of lists of shortcuts.
-        :rtype: list[XAShortcutList]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("shortcuts")
         return [self._new_element(x, XAShortcutList, filter) for x in ls.get()]
 
@@ -262,166 +227,54 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAShortcut, filter)
 
     def id(self) -> list[str]:
-        """Gets the ID of each shortcut in the list.
-
-        :return: A list of shortcut IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def name(self) -> list[str]:
-        """Gets the name of each shortcut in the list.
-
-        :return: A list of shortcut names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def subtitle(self) -> list[str]:
-        """Gets the subtitle of each shortcut in the list.
-
-        :return: A list of shortcut subtitles
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("subtitle"))
 
     def folder(self) -> XAShortcutFolderList:
-        """Gets the containing folder of each shortcut in the list.
-
-        :return: A list of shortcut folders containing the shortcuts in the list
-        :rtype: XAShortcutFolderList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("id")
         return self._new_element(ls, XAShortcutFolderList)
 
     def color(self) -> list[XABase.XAColor]:
-        """Gets the color of each shortcut in the list.
-
-        :return: A list of colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
     def icon(self) -> XABase.XAImageList:
-        """Gets the icon of each shortcut in the list.
-
-        :return: A list of shortcut icons
-        :rtype: XABase.XAImageList
-        
-        .. versionadded:: 0.0.4
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("icon")
         return [XABase.XAImage(x) for x in ls]
 
     def accepts_input(self) -> list[bool]:
-        """Gets the accept input status of each shortcut in the list.
-
-        :return: A list of accept input statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("acceptsInput"))
 
     def action_count(self) -> list[int]:
-        """Gets the action count of each shortcut in the list.
-
-        :return: A list of each shortcut's action count
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.4
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("actionCount"))
 
     def by_id(self, id: str) -> Union['XAShortcut', None]:
-        """Gets the shortcut whose ID matches the given ID, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("id", id)
 
     def by_name(self, name: str) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose name matches the given name, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("name", name)
 
     def by_subtitle(self, subtitle: str) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose subtitle matches the given subtitle, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("subtitle", subtitle)
 
     def by_folder(self, folder: XAShortcutFolder) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose parent folder matches the given folder, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("folder", folder.xa_elem)
 
     def by_color(self, color: XABase.XAColor) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose color matches the given color, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("color", color.xa_elem)
 
     def by_icon(self, icon: XABase.XAImage) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose icon matches the given icon, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("icon", icon.xa_elem)
 
     def by_accepts_input(self, accepts_input: bool) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose accepts input status matches the given boolean value, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("acceptsInput", accepts_input)
 
     def by_action_count(self, action_count: int) -> Union['XAShortcut', None]:
-        """Gets the first shortcut whose action count matches the given number, if one exists.
-
-        :return: The desired shortcut, if it is found
-        :rtype: Union[XAShortcut, None]
-        
-        .. versionadded:: 0.0.4
-        """
         return self.by_property("actionCount", action_count)
 
     def get_clipboard_representation(self) -> list[Union[list[str], list[str], list[AppKit.NSImage]]]:

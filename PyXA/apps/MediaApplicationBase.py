@@ -450,124 +450,40 @@ class XAMediaItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def container(self) -> list[XABase.XAObject]:
-        """Gets the container of each music item in the list.
-
-        :return: A list of music item containers
-        :rtype: list[XABase.XAObject]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XABase.XAList)
 
     def id(self) -> list[int]:
-        """Gets the ID of each music item in the list.
-
-        :return: A list of music item IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def index(self) -> list[int]:
-        """Gets the index of each music item in the list.
-
-        :return: A list of music item indices
-        :rtype: list[nt]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def name(self) -> list[str]:
-        """Gets the name of each music item in the list.
-
-        :return: A list of music item names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def persistent_id(self) -> list[str]:
-        """Gets the persistent ID of each music item in the list.
-
-        :return: A list of music item persistent IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("persistentID"))
     
     def properties(self) -> list[dict]:
-        """Gets the properties of each music item in the list.
-
-        :return: A list of music item properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def by_container(self, container: XABase.XAObject) -> Union['XAMediaItem', None]:
-        """Retrieves the first music item whose container matches the given container object, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("container", container.xa_elem)
 
     def by_id(self, id: int) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose ID matches the given ID, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("id", id)
 
     def by_index(self, index: int) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose index matches the given index, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("index", index)
 
     def by_name(self, name: str) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose name matches the given name, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def by_persistent_id(self, persistent_id: str) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose persistent ID matches the given ID, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("persistentID", persistent_id)
 
     def by_properties(self, properties: dict) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose properties dictionary matches the given dictionary, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("properties", properties)
 
     def get_clipboard_representation(self) -> list[str]:
@@ -685,124 +601,40 @@ class XAMediaArtworkList(XAMediaItemList):
         super().__init__(properties, filter, XAMediaArtwork)
 
     def data(self) -> list[XABase.XAImage]:
-        """Gets the data image of each artwork in the list.
-
-        :return: A list of artwork images
-        :rtype: list[XABase.XAImage]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("data")
         return [XABase.XAImage(x) for x in ls]
 
     def object_description(self) -> list[str]:
-        """Gets the description of each artwork in the list.
-
-        :return: A list of artwork descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def downloaded(self) -> list[bool]:
-        """Gets the download status of each artwork in the list.
-
-        :return: A list of artwork download statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaded"))
 
     def format(self) -> list[int]:
-        """Gets the format of each artwork in the list.
-
-        :return: A list of artwork formats
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("format"))
 
     def kind(self) -> list[int]:
-        """Gets the kind of each artwork in the list.
-
-        :return: A list of artwork kinds
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def raw_data(self) -> list[bytes]:
-        """Gets the raw data of each artwork in the list.
-
-        :return: A list of artwork raw data
-        :rtype: list[bytes]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("rawData"))
 
     def by_data(self, data: XABase.XAImage) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose data matches the given image, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("data", data.xa_elem)
 
     def by_object_description(self, object_description: str) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose description matches the given description, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_downloaded(self, downloaded: bool) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose downloaded status matches the given boolean value, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("downloaded", downloaded)
 
     def by_format(self, format: int) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose format matches the format, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("format", format)
 
     def by_kind(self, kind: int) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose kind matches the given kind, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("kind", kind)
 
     def by_raw_data(self, raw_data: bytes) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose raw data matches the given byte data, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("rawData", raw_data)
 
 class XAMediaArtwork(XAMediaItem):
@@ -881,165 +713,53 @@ class XAMediaPlaylistList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def object_description(self) -> list[str]:
-        """Gets the description of each playlist in the list.
-
-        :return: A list of playlist descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def duration(self) -> list[int]:
-        """Gets the duration of each playlist in the list.
-
-        :return: A list of playlist durations
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("duration"))
 
     def name(self) -> list[str]:
-        """Gets the name of each playlist in the list.
-
-        :return: A list of playlist names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def parent(self) -> 'XAMediaPlaylistList':
-        """Gets the parent playlist of each playlist in the list.
-
-        :return: A list of playlist parent playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("parent")
         return self._new_element(ls, XAMediaPlaylistList)
 
     def size(self) -> list[int]:
-        """Gets the size of each playlist in the list.
-
-        :return: A list of playlist sizes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
     def special_kind(self) -> list[XAMediaApplication.PlaylistKind]:
-        """Gets the special kind of each playlist in the list.
-
-        :return: A list of playlist kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("specialKind")
         return [XAMediaApplication.PlaylistKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def time(self) -> list[str]:
-        """Gets the time, in HH:MM:SS format, of each playlist in the list.
-
-        :return: A list of playlist times
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("time"))
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each playlist in the list.
-
-        :return: A list of playlist visible statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def by_object_description(self, object_description: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose closeable description matches the given description, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_duration(self, duration: int) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the first playlist whose duration matches the given duration, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("duration", duration)
 
     def by_name(self, name: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose name matches the given name, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("name", name)
 
     def by_parent(self, parent: 'XAMediaPlaylist') -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose parent matches the given playlist, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("parent", parent.xa_elem)
 
     def by_size(self, size: int) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose size matches the given size, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("size", size)
 
     def by_special_kind(self, special_kind: XAMediaApplication.PlaylistKind) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose kind matches the given kind, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("specialKind", special_kind.value)
 
     def by_time(self, time: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose time string matches the given string, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("time", time)
 
     def by_visible(self, visible: bool) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("visible", visible)
 
 class XAMediaPlaylist(XAMediaItem):
@@ -1241,64 +961,22 @@ class XAMediaSourceList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def capacity(self) -> list[int]:
-        """Gets the capacity of each source in the list.
-
-        :return: A list of source capacity amounts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
 
     def free_space(self) -> list[int]:
-        """Gets the free space of each source in the list.
-
-        :return: A list of source free space amounts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
 
     def kind(self) -> list[XAMediaApplication.SourceKind]:
-        """Gets the kind of each source in the list.
-
-        :return: A list of source kinds
-        :rtype: list[XAMediaApplication.SourceKind]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("kind")
         return [XAMediaApplication.SourceKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_capacity(self, capacity: int) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose capacity matches the given capacity, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("capacity", capacity)
 
     def by_free_space(self, free_space: int) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose free space matches the given value, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("freeSpace", free_space)
 
     def by_kind(self, kind: XAMediaApplication.SourceKind) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose kind matches the given kind, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("kind", kind.value)
 
@@ -1380,989 +1058,303 @@ class XAMediaTrackList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def album(self) -> list[str]:
-        """Gets the album name of each track in the list.
-
-        :return: A list of track album names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("album"))
 
     def album_rating(self) -> list[int]:
-        """Gets the album rating of each track in the list.
-
-        :return: A list of track album ratings
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("albumRating"))
 
     def album_rating_kind(self) -> list[XAMediaApplication.RatingKind]:
-        """Gets the album rating kind of each track in the list.
-
-        :return: A list of track album rating kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("albumRatingKind")
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def bit_rate(self) -> list[int]:
-        """Gets the bit rate of each track in the list.
-
-        :return: A list of track bit rates
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bitRate"))
 
     def bookmark(self) -> list[float]:
-        """Gets the bookmark time of each track in the list.
-
-        :return: A list of track bookmark times
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bookmark"))
 
     def bookmarkable(self) -> list[bool]:
-        """Gets the bookmarkable status of each track in the list.
-
-        :return: A list of track bookmarkable statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bookmarkable"))
 
     def category(self) -> list[str]:
-        """Gets the category of each track in the list.
-
-        :return: A list of track categories
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("category"))
 
     def comment(self) -> list[str]:
-        """Gets the comment of each track in the list.
-
-        :return: A list of track comments
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("comment"))
 
     def database_id(self) -> list[int]:
-        """Gets the database ID of each track in the list.
-
-        :return: A list of track database IDs
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("databaseID"))
 
     def date_added(self) -> list[datetime]:
-        """Gets the date added of each track in the list.
-
-        :return: A list of track dates added
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("dateAdded"))
 
     def object_description(self) -> list[str]:
-        """Gets the description of each track in the list.
-
-        :return: A list of track descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
     def disc_count(self) -> list[int]:
-        """Gets the disc count of each track in the list.
-
-        :return: A list of track disc counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
 
     def disc_number(self) -> list[int]:
-        """Gets the disc number of each track in the list.
-
-        :return: A list of track disc numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
 
     def downloader_apple_id(self) -> list[str]:
-        """Gets the downloader Apple ID of each track in the list.
-
-        :return: A list of track downloader Apple IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaderAppleID"))
 
     def downloader_name(self) -> list[str]:
-        """Gets the downloader name of each track in the list.
-
-        :return: A list of track downloader names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaderName"))
 
     def duration(self) -> list[float]:
-        """Gets the duration of each track in the list.
-
-        :return: A list of track durations
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("duration"))
 
     def enabled(self) -> list[bool]:
-        """Gets the enabled status of each track in the list.
-
-        :return: A list of track enabled statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def episode_id(self) -> list[str]:
-        """Gets the episode ID of each track in the list.
-
-        :return: A list of track episode IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("episodeID"))
 
     def episode_number(self) -> list[int]:
-        """Gets the episode number of each track in the list.
-
-        :return: A list of track episode numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("episodeNumber"))
 
     def finish(self) -> list[float]:
-        """Gets the stop time of each track in the list.
-
-        :return: A list of track stop times
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("finish"))
 
     def genre(self) -> list[str]:
-        """Gets the genre of each track in the list.
-
-        :return: A list of track genres
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("genre"))
 
     def grouping(self) -> list[str]:
-        """Gets the grouping of each track in the list.
-
-        :return: A list of track groupings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("grouping"))
 
     def kind(self) -> list[str]:
-        """Gets the kind of each track in the list.
-
-        :return: A list of track kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def long_description(self) -> list[str]:
-        """Gets the long description of each track in the list.
-
-        :return: A list of track long descriptions
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("longDescription"))
 
     def media_kind(self) -> list[XAMediaApplication.MediaKind]:
-        """Gets the media kind of each track in the list.
-
-        :return: A list of track media kinds
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("mediaKind")
         return [XAMediaApplication.MediaKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def modification_date(self) -> list[datetime]:
-        """Gets the modification date of each track in the list.
-
-        :return: A list of track modification dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def played_count(self) -> list[int]:
-        """Gets the played count of each track in the list.
-
-        :return: A list of track played counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("playedCount"))
 
     def played_date(self) -> list[datetime]:
-        """Gets the played date of each track in the list.
-
-        :return: A list of track played dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("playedDate"))
 
     def purchaser_apple_id(self) -> list[str]:
-        """Gets the purchaser Apple ID of each track in the list.
-
-        :return: A list of track purchaser Apple IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("purchaserAppleID"))
 
     def purchaser_name(self) -> list[str]:
-        """Gets the purchaser name of each track in the list.
-
-        :return: A list of track purchaser names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("purchaserName"))
 
     def rating(self) -> list[int]:
-        """Gets the rating of each track in the list.
-
-        :return: A list of track ratings
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("rating"))
 
     def rating_kind(self) -> list[XAMediaApplication.RatingKind]:
-        """Gets the rating kind of each track in the list.
-
-        :return: A list of track rating kinds
-        :rtype: list[XAMediaApplication.RatingKind]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("ratingKind")
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
     def release_date(self) -> list[datetime]:
-        """Gets the release date of each track in the list.
-
-        :return: A list of track release dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("releaseDate"))
 
     def sample_rate(self) -> list[int]:
-        """Gets the sample rate of each track in the list.
-
-        :return: A list of track sample rates
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sampleRate"))
 
     def season_number(self) -> list[int]:
-        """Gets the season number of each track in the list.
-
-        :return: A list of track season numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("seasonNumber"))
 
     def skipped_count(self) -> list[int]:
-        """Gets the skipped count of each track in the list.
-
-        :return: A list of track skipped count
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("skippedCount"))
 
     def skipped_date(self) -> list[datetime]:
-        """Gets the skipped date of each track in the list.
-
-        :return: A list of track skipped dates
-        :rtype: list[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("skippedDate"))
 
     def show(self) -> list[str]:
-        """Gets the show of each track in the list.
-
-        :return: A list of track shows
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("show"))
 
     def sort_album(self) -> list[str]:
-        """Gets the album sort string of each track in the list.
-
-        :return: A list of track album sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortAlbum"))
 
     def sort_name(self) -> list[str]:
-        """Gets the name sort string of each track in the list.
-
-        :return: A list of track name sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortName"))
 
     def sort_show(self) -> list[str]:
-        """Gets the show sort strings of each track in the list.
-
-        :return: A list of track show sort strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortShow"))
 
     def size(self) -> list[int]:
-        """Gets the size of each track in the list.
-
-        :return: A list of track sizes
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
     def start(self) -> list[float]:
-        """Gets the start time of each track in the list.
-
-        :return: A list of track start times
-        :rtype: list[float]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("start"))
 
     def time(self) -> list[str]:
-        """Gets the time string of each track in the list.
-
-        :return: A list of track time strings
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("time"))
 
     def track_count(self) -> list[int]:
-        """Gets the track count of each track in the list.
-
-        :return: A list of track counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("trackCount"))
 
     def track_number(self) -> list[int]:
-        """Gets the track number of each track in the list.
-
-        :return: A list of track numbers
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("trackNumber"))
 
     def unplayed(self) -> list[bool]:
-        """Gets the unplayed status of each track in the list.
-
-        :return: A list of track unplayed statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("unplayed"))
 
     def volume_adjustment(self) -> list[int]:
-        """Gets the volume adjustment of each track in the list.
-
-        :return: A list of track volume adjustments
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("volumeAdjustment"))
 
     def year(self) -> list[int]:
-        """Gets the year of each track in the list.
-
-        :return: A list of track years
-        :rtype: list[int]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("year"))
 
     def by_album(self, album: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album matches the given album, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("album", album)
 
     def by_album_rating(self, album_rating: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album rating matches the given rating, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("albumRating", album_rating)
 
     def by_album_rating_kind(self, album_rating_kind: XAMediaApplication.RatingKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album rating kind matches the given kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("albumRatingKind", album_rating_kind.value)
 
     def by_bit_rate(self, bit_rate: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bit rate matches the given bit rate, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("bitRate", bit_rate)
 
     def by_bookmark(self, bookmark: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bookmark matches the given bookmark, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("bookmark", bookmark)
 
     def by_bookmarkable(self, bookmarkable: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bookmarkable status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("bookmarkable", bookmarkable)
 
     def by_category(self, category: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose category matches the given category, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("category", category)
 
     def by_comment(self, comment: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose comment matches the given comment, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("comment", comment)
 
     def by_database_id(self, database_id: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose database ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("databaseID", database_id)
 
     def by_date_added(self, date_added: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose date added matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("dateAdded", date_added)
 
     def by_object_description(self, object_description: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose description matches the given description, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("objectDescription", object_description)
 
     def by_disc_count(self, disc_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose disc count matches the given disc count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("discCount", disc_count)
 
     def by_disc_number(self, disc_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose disc number matches the given disc number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("discNumber", disc_number)
 
     def by_downloader_apple_id(self, downloader_apple_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose downloader Apple ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("downloaderAppleID", downloader_apple_id)
 
     def by_downloader_name(self, downloader_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose downloader name matches the given name, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("downloaderName", downloader_name)
 
     def by_duration(self, duration: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose duration matches the given duration, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("duration", duration)
 
     def by_enabled(self, enabled: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("enabled", enabled)
 
     def by_episode_id(self, episode_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose episode ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("episodeID", episode_id)
 
     def by_episode_number(self, episode_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose episode number matches the given episode number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("episodeNumber", episode_number)
 
     def by_finish(self, finish: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose stop time matches the given stop time, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("finish", finish)
 
     def by_genre(self, genre: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose genre matches the given genre, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("genre", genre)
 
     def by_grouping(self, grouping: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose grouping matches the given grouping, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("grouping", grouping)
 
     def by_kind(self, kind: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose kind matches the given kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("kind", kind)
 
     def by_long_description(self, long_description: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose long description matches the given long description, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("longDescription", long_description)
 
     def by_media_kind(self, media_kind: XAMediaApplication.MediaKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose media kind matches the given media kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("mediaKind", media_kind.value)
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose modification date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("modificationDate", modification_date)
 
     def by_played_count(self, played_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose played count matches the given played count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("playedCount", played_count)
 
     def by_played_date(self, played_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose last played date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("playedDate", played_date)
 
     def by_purchaser_apple_id(self, purchaser_apple_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose purchaser Apple ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("purchaserAppleID", purchaser_apple_id)
 
     def by_purchaser_name(self, purchaser_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose purchaser name matches the given name, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("purchaserName", purchaser_name)
 
     def by_rating(self, rating: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose rating matches the given rating, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("rating", rating)
 
     def by_rating_kind(self, rating_kind: XAMediaApplication.RatingKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose rating kind matches the given rating kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("ratingKind", rating_kind.value)
 
     def by_release_date(self, release_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose release date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("releaseDate", release_date)
 
     def by_sample_rate(self, sample_rate: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose sample rate matches the given rate, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sampleRate", sample_rate)
 
     def by_season_number(self, season_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose season number matches the given season number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("seasonNumber", season_number)
 
     def by_skipped_count(self, skipped_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose skipped count matches the given skipped count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("skippedCount", skipped_count)
 
     def by_skipped_date(self, skipped_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose last skipped date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("skippedDate", skipped_date)
 
     def by_show(self, show: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose show matches the given show, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("show", show)
 
     def by_sort_album(self, sort_album: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortAlbum", sort_album)
 
     def by_sort_name(self, sort_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose name sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortName", sort_name)
 
     def by_sort_show(self, sort_show: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose show sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("sortShow", sort_show)
 
     def by_size(self, size: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose size matches the given size, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("size", size)
 
     def by_start(self, start: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose start time matches the given start time, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("start", start)
 
     def by_time(self, time: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose time string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("time", time)
 
     def by_track_count(self, track_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose track count matches the given track count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("trackCount", track_count)
 
     def by_track_number(self, track_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose track number matches the given track number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("trackNumber", track_number)
 
     def by_unplayed(self, unplayed: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose unplayed status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("unplayed", unplayed)
 
     def by_volume_adjustment(self, volume_adjustment: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose volume adjustment matches the given volume adjustment, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("volumeAdjustment", volume_adjustment)
 
     def by_year(self, year: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose year matches the given year, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("year", year)
 
 class XAMediaTrack(XAMediaItem):
@@ -2862,24 +1854,10 @@ class XAMediaFileTrackList(XAMediaTrackList):
         super().__init__(properties, filter, XAMediaFileTrack)
 
     def location(self) -> list[XABase.XAURL]:
-        """Gets the location of each track in the list.
-
-        :return: A list of track locations
-        :rtype: list[XABase.XAURL]
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return [XABase.XAURL(x) for x in ls]
 
     def by_location(self, location: XABase.XAURL) -> Union['XAMediaFileTrack', None]:
-        """Retrieves the file track whose location matches the given location, if one exists.
-
-        :return: The desired file track, if it is found
-        :rtype: Union[XAMediaFileTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("location", location.xa_elem)
 
 class XAMediaFileTrack(XAMediaTrack):
@@ -2937,23 +1915,9 @@ class XAMediaURLTrackList(XAMediaTrackList):
         super().__init__(properties, filter, XAMediaURLTrack)
 
     def address(self) -> list[str]:
-        """Gets the address of each track in the list.
-
-        :return: A list of track addresses
-        :rtype: list[str]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
 
     def by_address(self, address: str) -> Union['XAMediaURLTrack', None]:
-        """Retrieves the URL track whose address matches the given address, if one exists.
-
-        :return: The desired URL track, if it is found
-        :rtype: Union[XAMediaURLTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("address", address)
 
 class XAMediaURLTrack(XAMediaTrack):
@@ -2990,43 +1954,15 @@ class XAMediaUserPlaylistList(XAMediaPlaylistList):
         super().__init__(properties, filter, XAMediaUserPlaylist)
 
     def shared(self) -> list[bool]:
-        """Gets the shared status of each user playlist in the list.
-
-        :return: A list of playlist shared status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def smart(self) -> list[bool]:
-        """Gets the smart status of each user playlist in the list.
-
-        :return: A list of playlist smart status boolean values
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("smart"))
 
     def by_shared(self, shared: bool) -> Union['XAMediaUserPlaylist', None]:
-        """Retrieves the user playlist whose shared status matches the given value, if one exists.
-
-        :return: The desired user playlist, if it is found
-        :rtype: Union[XAMediaUserPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("shared", shared)
 
     def by_smart(self, smart: bool) -> Union['XAMediaUserPlaylist', None]:
-        """Retrieves the user playlist whose smart status matches the given value, if one exists.
-
-        :return: The desired user playlist, if it is found
-        :rtype: Union[XAMediaUserPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("smart", smart)
 
 class XAMediaUserPlaylist(XAMediaPlaylist):
@@ -3126,205 +2062,65 @@ class XAMediaWindowList(XAMediaItemList):
         super().__init__(properties, filter, obj_class)
 
     def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-        """Gets the bounds of each window in the list.
-
-        :return: A list of window bounds
-        :rtype: list[tuple[tuple[int, int], tuple[int, int]]]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
 
     def closeable(self) -> list[bool]:
-        """Gets the closeable status of each window in the list.
-
-        :return: A list of window closeable statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("closeable"))
 
     def collapseable(self) -> list[bool]:
-        """Gets the collapseable status of each window in the list.
-
-        :return: A list of window collapseable statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("collapseable"))
 
     def collapsed(self) -> list[bool]:
-        """Gets the collapsed status of each window in the list.
-
-        :return: A list of window collapsed statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
 
     def full_screen(self) -> list[bool]:
-        """Gets the full screen status of each window in the list.
-
-        :return: A list of window full screen statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fullScreen"))
 
     def position(self) -> list[tuple[int, int]]:
-        """Gets the position of each window in the list.
-
-        :return: A list of window positions
-        :rtype: list[tuple[int, int]]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("position"))
 
     def resizable(self) -> list[bool]:
-        """Gets the resizable status of each window in the list.
-
-        :return: A list of window resizable statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("resizable"))
 
     def visible(self) -> list[bool]:
-        """Gets the visible status of each window in the list.
-
-        :return: A list of window visible statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def zoomable(self) -> list[bool]:
-        """Gets the zoomable status of each window in the list.
-
-        :return: A list of window zoomable statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomable"))
 
     def zoomed(self) -> list[bool]:
-        """Gets the zoomed status of each window in the list.
-
-        :return: A list of window zoomed statuses
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.0.7
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomed"))
 
     def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> Union['XAMediaWindow', None]:
-        """Retrieves the window whose bounds matches the given bounds, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("bounds", bounds)
 
     def by_closeable(self, closeable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose closeable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("closeable", closeable)
 
     def by_collapseable(self, collapseable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose collapseable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("collapseable", collapseable)
 
     def by_collapsed(self, collapsed: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose collapsed status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("collapsed", collapsed)
 
     def by_full_screen(self, full_screen: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose full screen status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("fullScreen", full_screen)
 
     def by_position(self, position: tuple[int, int]) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose position matches the given position, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         # TODO
         return self.by_property("position", position)
 
     def by_resizable(self, resizable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose resizable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("resizable", resizable)
 
     def by_visible(self, visible: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("visible", visible)
 
     def by_zoomable(self, zoomable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose zoomable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("zoomable", zoomable)
 
     def by_zoomed(self, zoomed: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose zoomed status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("zoomed", zoomed)
 
 class XAMediaWindow(XABaseScriptable.XASBWindow, XAMediaItem):
@@ -3395,45 +2191,17 @@ class XAMediaBrowserWindowList(XAMediaWindowList):
         super().__init__(properties, filter, XAMediaBrowserWindow)
 
     def selection(self) -> XAMediaTrackList:
-        """Gets the selection of each window in the list.
-
-        :return: A list of selected tracks
-        :rtype: XAMediaTrackList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selection")
         return self._new_element(ls, XAMediaTrackList)
 
     def view(self) -> XAMediaPlaylistList:
-        """Gets the current playlist view of each user window in the list.
-
-        :return: A list of currently viewed playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("view")
         return self._new_element(ls, XAMediaPlaylistList)
 
     def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose selection matches the given list of tracks, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("selection", selection.xa_elem)
 
     def by_view(self, view: XAMediaPlaylist) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose view matches the given view, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("view", view.xa_elem)
 
 class XAMediaBrowserWindow(XAMediaWindow):
@@ -3469,45 +2237,17 @@ class XAMediaPlaylistWindowList(XAMediaWindowList):
         super().__init__(properties, filter, XAMediaPlaylistWindow)
 
     def selection(self) -> XAMediaTrackList:
-        """Gets the selection of each window in the list.
-
-        :return: A list of selected tracks
-        :rtype: XAMediaTrackList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selection")
         return self._new_element(ls, XAMediaTrackList)
 
     def view(self) -> XAMediaPlaylistList:
-        """Gets the current playlist view of each user window in the list.
-
-        :return: A list of currently viewed playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("view")
         return self._new_element(ls, XAMediaPlaylistList)
 
     def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose selection matches the given list of tracks, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("selection", selection.xa_elem)
 
     def by_view(self, view: XAMediaPlaylist) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose view matches the given view, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
         return self.by_property("view", view.xa_elem)
 
 class XAMediaPlaylistWindow(XAMediaWindow):

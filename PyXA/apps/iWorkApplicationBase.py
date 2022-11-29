@@ -251,13 +251,6 @@ class XAiWorkDocumentList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each document in the list.
-
-        :return: A list of document properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, document in enumerate(self.xa_elem):
             pyxa_dicts[index] = {
@@ -269,66 +262,24 @@ class XAiWorkDocumentList(XABase.XAList):
         return pyxa_dicts
 
     def name(self) -> list[str]:
-        """Gets the name of each document in the list.
-
-        :return: A list of document names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> list[bool]:
-        """Gets the modified status of each document in the list.
-
-        :return: A list of document modified status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> list[XABase.XAPath]:
-        """Gets the file path of each document in the list.
-
-        :return: A list of document file paths
-        :rtype: list[XABase.XAPath]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
     def id(self) -> list[str]:
-        """Gets the ID of each document in the list.
-
-        :return: A list of document IDs
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def selection(self) -> 'XAiWorkiWorkItemList':
-        """Gets the selection of each document in the list.
-
-        :return: A list of selected items in each document of the list
-        :rtype: XAiWorkiWorkItemList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selection")
         ls = [x for t in ls for x in t]
         return self._new_element(ls, XAiWorkiWorkItemList)
 
     def password_protected(self) -> list[bool]:
-        """Gets the password protected status of each document in the list.
-
-        :return: A list of document password protect status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
 
     def by_properties(self, properties: dict) -> Union['XAiWorkDocument', None]:
@@ -372,55 +323,20 @@ class XAiWorkDocumentList(XABase.XAList):
                 return self._new_element(document, XAiWorkDocument)
 
     def by_name(self, name: str) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose name matches the given name, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: Union[str, XABase.XAPath]) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose file path matches the given file, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         if isinstance(file, XABase.XAPath):
             file = file.url
         return self.by_property("file", file)
 
     def by_id(self, id: str) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose ID matches the given ID, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("id", id)
 
     def by_selection(self, selection: Union['XAiWorkiWorkItemList', list['XAiWorkiWorkItem']]) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose selection matches the given list of objects, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
         elif isinstance(selection, XAiWorkiWorkItemList):
@@ -428,13 +344,6 @@ class XAiWorkDocumentList(XABase.XAList):
         return self.by_property("selection", selection)
 
     def by_password_protected(self, password_protected: bool) -> Union['XAiWorkDocument', None]:
-        """Retrieves the first document whose password protected status matches the given boolean value, if one exists.
-
-        :return: The desired document, if it is found
-        :rtype: Union[XAiWorkDocument, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("passwordProtected", password_protected)
 
     def __repr__(self):
@@ -538,15 +447,6 @@ class XAiWorkContainerList(XABase.XAList):
                 self.__dict__.update(new_self.__dict__)
 
     def charts(self, filter: Union[dict, None] = None) -> 'XAiWorkChartList':
-        """Returns the charts of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's charts
-        :rtype: XAiWorkChartList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("charts")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -555,15 +455,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkChartList, filter)
 
     def groups(self, filter: Union[dict, None] = None) -> 'XAiWorkGroupList':
-        """Returns the groups of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's groups
-        :rtype: XAiWorkGroupList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("groups")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -572,15 +463,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkGroupList, filter)
 
     def images(self, filter: Union[dict, None] = None) -> 'XAiWorkImageList':
-        """Returns the images of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's images
-        :rtype: XAiWorkImageList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("images")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -589,15 +471,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkImageList, filter)
 
     def iwork_items(self, filter: Union[dict, None] = None) -> 'XAiWorkiWorkItemList':
-        """Returns the iWork items of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's iWork items
-        :rtype: XAiWorkiWorkItemList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -606,15 +479,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkiWorkItemList, filter)
 
     def lines(self, filter: Union[dict, None] = None) -> 'XAiWorkLineList':
-        """Returns the lines of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's lines
-        :rtype: XAiWorkLineList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("lines")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -623,15 +487,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkLineList, filter)
     
     def movies(self, filter: Union[dict, None] = None) -> 'XAiWorkMovieList':
-        """Returns the movies of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's movies
-        :rtype: XAiWorkMovieList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("movies")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -640,15 +495,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkMovieList, filter)
 
     def shapes(self, filter: Union[dict, None] = None) -> 'XAiWorkShapeList':
-        """Returns the shapes of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's shapes
-        :rtype: XAiWorkShapeList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("shapes")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -657,15 +503,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkShapeList, filter)
 
     def tables(self, filter: Union[dict, None] = None) -> 'XAiWorkTableList':
-        """Returns the tables of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's tables
-        :rtype: XAiWorkTableList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("tables")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -674,15 +511,6 @@ class XAiWorkContainerList(XABase.XAList):
         return self._new_element(ls, XAiWorkTableList, filter)
 
     def text_items(self, filter: Union[dict, None] = None) -> 'XAiWorkTextItemList':
-        """Returns the text items of each container in the list.
-
-        :param filter: A dictionary specifying property-value pairs that all returned text items will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of every container's text items
-        :rtype: XAiWorkTextItemList
-
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("textItems")
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -850,13 +678,6 @@ class XAiWorkiWorkItemList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each iWork item in the list.
-
-        :return: A list of item properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, item in enumerate(self.xa_elem):
             pyxa_dicts[index] = {
@@ -869,65 +690,23 @@ class XAiWorkiWorkItemList(XABase.XAList):
         return pyxa_dicts
 
     def height(self) -> list[int]:
-        """Gets the height of each iWork item in the list.
-
-        :return: A list of item heights
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
 
     def locked(self) -> list[bool]:
-        """Gets the locked status of each iWork item in the list.
-
-        :return: A list of item locked status booleans
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("locked"))
 
     def width(self) -> list[int]:
-        """Gets the width of each iWork item in the list.
-
-        :return: A list of item widths
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
     def parent(self) -> XAiWorkContainerList:
-        """Gets the parent of each iWork item in the list.
-
-        :return: A list of containers
-        :rtype: XAiWorkContainerList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("parent")
         return self._new_element(ls, XAiWorkContainerList)
 
     def position(self) -> list[tuple[int, int]]:
-        """Gets the position of each iWork item in the list.
-
-        :return: A list of iWork item positions
-        :rtype: list[tuple[int, int]]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("position")
         return [tuple(x.pointValue()) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose properties dictionary matches the given properties, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dict = {}
 
         if "parent" in properties:
@@ -951,53 +730,18 @@ class XAiWorkiWorkItemList(XABase.XAList):
                 return self._new_element(item, XAiWorkiWorkItem)
 
     def by_height(self, height: int) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose height matches the given height, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("height", height)
 
     def by_locked(self, locked: bool) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose locked status matches the given boolean value, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("locked", locked)
 
     def by_width(self, width: int) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose width matches the given width, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("width", width)
 
     def by_parent(self, parent: XAiWorkContainer) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose parent matches the given object, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("parent", parent.xa_elem)
 
     def by_position(self, position: tuple[int, int]) -> Union['XAiWorkiWorkItem', None]:
-        """Retrieves the first iWork item whose position matches the given position, if one exists.
-
-        :return: The desired iWork item, if it is found
-        :rtype: Union[XAiWorkiWorkItem, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("position", position)
 
     def __repr__(self):
@@ -2110,165 +1854,53 @@ class XAiWorkTableList(XAiWorkiWorkItemList):
         super().__init__(properties, filter, XAiWorkTable)
 
     def name(self) -> list[str]:
-        """Gets the name of each table in the list.
-
-        :return: A list of table names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def row_count(self) -> list[int]:
-        """Gets the row count of each table in the list.
-
-        :return: A list of table row counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("rowCount"))
 
     def column_count(self) -> list[int]:
-        """Gets the column count of each table in the list.
-
-        :return: A list of table column counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("columnCount"))
 
     def header_row_count(self) -> list[int]:
-        """Gets the header row count of each table in the list.
-
-        :return: A list of table header row counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("headerRowCount"))
 
     def header_column_count(self) -> list[int]:
-        """Gets the header column count of each table in the list.
-
-        :return: A list of table header column counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("headerColumnCount"))
 
     def footer_row_count(self) -> list[int]:
-        """Gets the footer row count of each table in the list.
-
-        :return: A list of table footer row counts
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("footerRowCount"))
 
     def cell_range(self) -> 'XAiWorkRangeList':
-        """Gets the total cell range of each table in the list.
-
-        :return: A list of table cell ranges
-        :rtype: XAiWorkRangeList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("cellRange")
         return self._new_element(ls, XAiWorkRangeList)
 
     def selection_range(self) -> 'XAiWorkRangeList':
-        """Gets the selected cell range of each table in the list.
-
-        :return: A list of selected table cell ranges
-        :rtype: XAiWorkRangeList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("selectionRange")
         return self._new_element(ls, XAiWorkRangeList)
 
     def by_name(self, name: str) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose name matches the given name, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("name", name)
 
     def by_row_count(self, row_count: int) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose row count matches the given number, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("rowCount", row_count)
 
     def by_column_count(self, column_count: int) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose column count matches the given number, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("columnCount", column_count)
 
     def by_header_row_count(self, header_row_count: int) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose header row count matches the given number, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("headerRowCount", header_row_count)
 
     def by_header_column_count(self, header_column_count: int) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose header column count matches the given number, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("headerColumnCount", header_column_count)
 
     def by_footer_row_count(self, footer_row_count: int) -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose footer row count matches the given number, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("footerRowCount", footer_row_count)
 
     def by_cell_range(self, cell_range: 'XAiWorkRange') -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose cell range matches the given range, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("cellRange", cell_range.xa_elem)
 
     def by_selection_range(self, selection_range: 'XAiWorkRange') -> Union['XAiWorkTable', None]:
-        """Retrieves the first table whose selection range matches the given range, if one exists.
-
-        :return: The desired table, if it is found
-        :rtype: Union[XAiWorkTable, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("selectionRange", selection_range.xa_elem)
 
     def __repr__(self):
@@ -2451,13 +2083,6 @@ class XAiWorkRangeList(XABase.XAList):
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each range in the list.
-
-        :return: A list of range properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
@@ -2475,44 +2100,16 @@ class XAiWorkRangeList(XABase.XAList):
         return pyxa_dicts
 
     def font_name(self) -> list[str]:
-        """Gets the font name of each range in the list.
-
-        :return: A list of range font names
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
 
     def font_size(self) -> list[float]:
-        """Gets the font size of each range in the list.
-
-        :return: A list of range font sizes
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
 
     def format(self) -> list[XAiWorkApplication.CellFormat]:
-        """Gets the cell format of each range in the list.
-
-        :return: A list of range cell formats
-        :rtype: list[XAiWorkApplication.CellFormat]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("format")
         return [XAiWorkApplication.CellFormat(x) for x in ls]
 
     def alignment(self) -> list[XAiWorkApplication.Alignment]:
-        """Gets the alignment setting of each range in the list.
-
-        :return: A list of range alignment settings
-        :rtype: list[XAiWorkApplication.Alignment]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("alignment")
         return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
 
@@ -2520,56 +2117,21 @@ class XAiWorkRangeList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def text_color(self) -> list[XABase.XAColor]:
-        """Gets the text color of each range in the list.
-
-        :return: A list of range text colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("textColor")
         return [XABase.XAColor(x) for x in ls]
 
     def text_wrap(self) -> list[bool]:
-        """Gets the text wrap setting of each range in the list.
-
-        :return: A list of range text wrap settings
-        :rtype: list[bool]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("textWrap"))
 
     def background_color(self) -> list[XABase.XAColor]:
-        """Gets the background color of each range in the list.
-
-        :return: A list of range background colors
-        :rtype: list[XABase.XAColor]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [XABase.XAColor(x) for x in ls]
 
     def vertical_alignment(self) -> list[XAiWorkApplication.Alignment]:
-        """Gets the vertical alignment setting of each range in the list.
-
-        :return: A list of range vertical alignment settings
-        :rtype: list[XAiWorkApplication.Alignment]
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("verticalAlignment")
         return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dict = {}
 
         if "background_color" in properties:
@@ -2604,95 +2166,32 @@ class XAiWorkRangeList(XABase.XAList):
                 return self._new_element(page_range, XAiWorkRange)
 
     def by_font_name(self, font_name: str) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose font name matches the given font name, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("fontName", font_name)
 
     def by_font_size(self, font_size: float) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose font size matches the given font size, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("fontSize", font_size)
 
     def by_format(self, format: XAiWorkApplication.CellFormat) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose cell format matches the given format, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("format", format.value)
 
     def by_alignment(self, alignment: XAiWorkApplication.Alignment) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose alignment setting matches the given alignment, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         for page_range in self.xa_elem:
             if page_range.alignment() == alignment.value:
                 return self._new_element(page_range, XAiWorkRange)
 
     def by_name(self, name: str) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose name matches the given name, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("name", name)
 
     def by_text_color(self, text_color: XABase.XAColor) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose text color matches the given color, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("textColor", text_color.xa_elem)
 
     def by_text_wrap(self, text_wrap: bool) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose text wrap setting matches the given boolean value, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("textWrap", text_wrap)
 
     def by_background_color(self, background_color: XABase.XAColor) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose background color matches the given color, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("backgroundColor", background_color.xa_elem)
 
     def by_vertical_alignment(self, vertical_alignment: XAiWorkApplication.Alignment) -> Union['XAiWorkRange', None]:
-        """Retrieves the first range whose vertical alignment setting matches the given alignment, if one exists.
-
-        :return: The desired range, if it is found
-        :rtype: Union[XAiWorkRange, None]
-        
-        .. versionadded:: 0.1.1
-        """
         for page_range in self.xa_elem:
             if page_range.verticalAlignment() == vertical_alignment.value:
                 return self._new_element(page_range, XAiWorkRange)
@@ -2944,13 +2443,6 @@ class XAiWorkRowList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkRow)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each row in the list.
-
-        :return: A list of row properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
@@ -2960,33 +2452,12 @@ class XAiWorkRowList(XAiWorkRangeList):
         return pyxa_dicts
 
     def address(self) -> list[float]:
-        """Gets the address of each row in the list.
-
-        :return: A list of row addresses
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
 
     def height(self) -> list[int]:
-        """Gets the height of each row in the list.
-
-        :return: A list of row heights
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
 
     def by_properties(self, properties: dict) -> Union['XAiWorkRow', None]:
-        """Retrieves the first row whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XAiWorkRow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dict = {}
 
         if "background_color" in properties:
@@ -3027,23 +2498,9 @@ class XAiWorkRowList(XAiWorkRangeList):
                 return self._new_element(page_range, XAiWorkRow)
 
     def by_address(self, address: float) -> Union['XAiWorkRow', None]:
-        """Retrieves the first row whose address matches the given address, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XAiWorkRow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("address", address)
 
     def by_height(self, height: int) -> Union['XAiWorkRow', None]:
-        """Retrieves the first row whose height matches the given height, if one exists.
-
-        :return: The desired row, if it is found
-        :rtype: Union[XAiWorkRow, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("height", height)
 
 class XAiWorkRow(XAiWorkRange):
@@ -3094,13 +2551,6 @@ class XAiWorkColumnList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkColumn)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each column in the list.
-
-        :return: A list of column properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
@@ -3110,33 +2560,12 @@ class XAiWorkColumnList(XAiWorkRangeList):
         return pyxa_dicts
 
     def address(self) -> list[float]:
-        """Gets the address of each column in the list.
-
-        :return: A list of column addresses
-        :rtype: list[float]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
 
     def width(self) -> list[int]:
-        """Gets the width of each column in the list.
-
-        :return: A list of column widths
-        :rtype: list[int]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
     def by_properties(self, properties: dict) -> Union['XAiWorkColumn', None]:
-        """Retrieves the first column whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired column, if it is found
-        :rtype: Union[XAiWorkColumn, None]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dict = {}
 
         if "background_color" in properties:
@@ -3177,23 +2606,9 @@ class XAiWorkColumnList(XAiWorkRangeList):
                 return self._new_element(page_range, XAiWorkColumn)
 
     def by_address(self, address: float) -> Union['XAiWorkColumn', None]:
-        """Retrieves the first column whose address matches the given address, if one exists.
-
-        :return: The desired column, if it is found
-        :rtype: Union[XAiWorkColumn, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("address", address)
 
     def by_width(self, width: int) -> Union['XAiWorkColumn', None]:
-        """Retrieves the first column whose width matches the given width, if one exists.
-
-        :return: The desired column, if it is found
-        :rtype: Union[XAiWorkColumn, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("width", width)
 
 class XAiWorkColumn(XAiWorkRange):
@@ -3244,13 +2659,6 @@ class XAiWorkCellList(XAiWorkRangeList):
         super().__init__(properties, filter, XAiWorkCell)
 
     def properties(self) -> list[dict]:
-        """Gets the properties dictionary of each cell in the list.
-
-        :return: A list of cell properties dictionaries
-        :rtype: list[dict]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
         pyxa_dicts = super().properties()
         for index, raw_dict in enumerate(raw_dicts):
@@ -3263,65 +2671,23 @@ class XAiWorkCellList(XAiWorkRangeList):
         return pyxa_dicts
 
     def formatted_value(self) -> list[str]:
-        """Gets the formatted value of each cell in the list.
-
-        :return: A list of cell formatted values
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))
 
     def formula(self) -> list[str]:
-        """Gets the formula of each cell in the list.
-
-        :return: A list of cell formulae
-        :rtype: list[str]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("formula"))
 
     def value(self) -> list[Any]:
-        """Gets the value of each cell in the list.
-
-        :return: A list of cell values
-        :rtype: list[Any]
-        
-        .. versionadded:: 0.1.1
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
     def column(self) -> XAiWorkColumnList:
-        """Gets the column of each cell in the list.
-
-        :return: A list of cell columns
-        :rtype: XAiWorkColumnList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("column")
         return self._new_element(ls, XAiWorkColumnList)
 
     def row(self) -> XAiWorkRowList:
-        """Gets the row of each cell in the list.
-
-        :return: A list of cell rows
-        :rtype: XAiWorkRowList
-        
-        .. versionadded:: 0.1.1
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("row")
         return self._new_element(ls, XAiWorkRowList)
 
     def by_properties(self, properties: dict) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose properties dictionary matches the given properties dictionary, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         raw_dict = {}
 
         if "background_color" in properties:
@@ -3371,53 +2737,18 @@ class XAiWorkCellList(XAiWorkRangeList):
                 return self._new_element(page_range, XAiWorkCell)
 
     def by_formatted_value(self, formatted_value: str) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose formatted value matches the given value, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("formattedValue", formatted_value)
 
     def by_formula(self, formula: str) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose formula matches the given formula, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("formula", formula)
 
     def by_value(self, value: Any) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose value matches the given value, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("value", value)
 
     def by_column(self, column: XAiWorkColumn) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose column matches the given column, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("column", column.xa_elem)
 
     def by_row(self, row: XAiWorkRow) -> Union['XAiWorkCell', None]:
-        """Retrieves the first cell whose row matches the given row, if one exists.
-
-        :return: The desired cell, if it is found
-        :rtype: Union[XAiWorkCell, None]
-        
-        .. versionadded:: 0.1.1
-        """
         return self.by_property("row", row.xa_elem)
 
 class XAiWorkCell(XAiWorkRange):

@@ -1,3 +1,10 @@
+import importlib
+import sys
+from types import ModuleType
+
+import PyXA.Additions
+import PyXA.XABase
+
 from .PyXA import (
     application,
 )
@@ -23,11 +30,9 @@ from .XABase import (
     XASpotlight,
 
     # Alerts, Dialogs, Menus, and Notifications
-    XAAlert, XAAlertStyle,
     XAFilePicker, XAFolderPicker, XAApplicationPicker,
     XADialog, XAFileNameDialog,
     XAColorPicker, XAColorPickerStyle,
-    XANotification,
     XAMenu,
 
     # Constants
@@ -39,21 +44,33 @@ from .XABase import (
     current_application, running_applications,
 )
 
-from .Additions.XASpeech import (
-    XACommandDetector,
-    XASpeech,
-    XASpeechRecognizer,
-)
+module_map = {
+    "XACommandDetector": ".Additions.Speech",
+    "XASpeech": ".Additions.Speech",
+    "XASpeechRecognizer": ".Additions.Speech",
 
-from .Additions.XALearn import (
-    XALSM,
-)
+    "XALSM": ".Additions.Learn",
 
-from .Additions.XAUtils import (
-    SDEFParser,
-    XAMenuBar,
-)
+    "SDEFParser": ".Additions.Utils",
 
-from .Additions.XAWeb import (
-    RSSFeed,
-)
+    "XAMenuBar": ".Additions.UI",
+    "XAAlertStyle": ".Additions.UI",
+    "XAAlert": ".Additions.UI",
+    "XANotification": ".Additions.UI",
+    "XAHUD": ".Additions.UI",
+
+    "RSSFeed": ".Additions.Web",
+}
+
+old_module = sys.modules["PyXA"] 
+
+class module(ModuleType):
+    def __getattr__(self, attr):
+        if attr in old_module.__dict__:
+            return getattr(old_module, attr)
+
+        if attr in module_map:
+            module = importlib.import_module(module_map[attr], "PyXA")
+            return getattr(module, attr)
+
+sys.modules["PyXA"] = module("PyXA")

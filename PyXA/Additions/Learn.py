@@ -3,6 +3,8 @@
 A collection of classes for interfacing with built-in ML/AI features in macOS.
 """
 
+print("Hi")
+
 from typing import Union
 
 import Foundation

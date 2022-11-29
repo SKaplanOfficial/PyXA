@@ -1,297 +1,250 @@
-""".. versionadded:: 0.1.1
+""".. versionadded:: 0.1.2
 
-A collection of classes for interacting with macOS features in various ways.
+Classes for creating and displaying various UI elements.
 """
 
+from datetime import datetime, timedelta
+from enum import Enum
+from time import sleep
+from typing import Any, Callable, Union
+
 import AppKit
-import xml.etree.ElementTree as ET
-from typing import Union, Callable, Any
 from PyObjCTools import AppHelper
+
 from PyXA import XABase
 
-class SDEFParser():
-    def __init__(self, sdef_file: Union['XABase.XAPath', str]):
-        if isinstance(sdef_file, str):
-            sdef_file = XABase.XAPath(sdef_file)
-        self.file = sdef_file #: The full path to the SDEF file to parse
 
-        self.app_name = ""
-        self.scripting_suites = []
+class XAHUD():
+    """A momentary HUD window that displays a message to the user.
 
-    def parse(self):
-        app_name = self.file.path.split("/")[-1][:-5].title()
-        xa_prefix = "XA" + app_name
+    .. versionadded:: 0.1.1
+    """
 
-        tree = ET.parse(self.file.path)
+    def __init__(self, message: str, font_size: int = 20, duration: float = 3.0, background_color: Union['XABase.XAColor', None] = None, text_color: Union['XABase.XAColor', None] = None):
+        self.message = message #: The HUD's message text
+        self.font_size = font_size #: The font size of the HUD's message text
+        self.duration: float = duration #: The amount of time to display the HUD for, in seconds
+        self.background_color: XABase.XAColor = background_color or XABase.XAColor(0, 0, 0, 0.3) #: The background color of the HUD window
+        self.text_color: XABase.XAColor = text_color or XABase.XAColor(1, 1, 1, 1) #: The text color of the HUD's message text
 
-        suites = []
+    def display(self):
+        """Displays the HUD in the center of the screen.
 
-        scripting_suites = tree.findall("suite")
-        for suite in scripting_suites:
-            classes = []
-            commands = {}
+        .. versionadded:: 0.1.2
+        """
+        # Adjust text frame bounds according to current font size
+        text = AppKit.NSText.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 500, 50))
+        text.setString_(self.message)
+        text.setDrawsBackground_(False)
+        text.setSelectable_(False)
+        text.setAlignment_(AppKit.NSTextAlignmentCenter)
+        text.setTextColor_(self.text_color.xa_elem)
+        font = AppKit.NSFont.systemFontOfSize_(font_size)
+        text.setFont_(font)
+        text.sizeToFit()
 
-            ### Class Extensions
-            class_extensions = suite.findall("class-extension")
-            for extension in class_extensions:
-                properties = []
-                elements = []
-                responds_to_commands = []
+        # Create a HUD panel, add the text as a subview
+        panel = AppKit.NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(text.frame(), AppKit.NSWindowStyleMaskFullSizeContentView | AppKit.NSWindowStyleMaskUtilityWindow | AppKit.NSTitledWindowMask | AppKit.NSWindowStyleMaskHUDWindow, AppKit.NSBackingStoreBuffered, False)
+        panel.setTitlebarAppearsTransparent_(True)
+        panel.contentView().addSubview_(text)
+        panel.contentView().setBackgroundColor_(self.background_color.xa_elem)
 
-                class_name = xa_prefix + extension.attrib.get("extends", "").title()
-                class_comment = extension.attrib.get("description", "")
+        # Vertically center the text within the panel frame
+        font_size = text.font().boundingRectForFont().size.height
+        offset = text.frame().size.height - font_size / 2
+        new_text_rect = AppKit.NSInsetRect(text.frame(), 0, offset)
+        text.setFrame_(new_text_rect)
 
-                ## Class Extension Properties
-                class_properties = extension.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
+        # Center the panel in the display
+        panel.center()
 
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
-
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
-
-                ## Class Extension Elements
-                class_elements = extension.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
-
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
-
-                ## Class Extension Responds-To Commands
-                class_responds_to_commands = extension.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
-
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
-
-            ### Classes
-            scripting_classes = suite.findall("class")
-            for scripting_class in scripting_classes:
-                properties = []
-                elements = []
-                responds_to_commands = []
-
-                class_name = xa_prefix + scripting_class.attrib.get("name", "").title()
-                class_comment = scripting_class.attrib.get("description", "")
-
-                ## Class Properties
-                class_properties = scripting_class.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
-
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
-
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
-
-                ## Class Elements
-                class_elements = scripting_class.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
-
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
-
-                ## Class Responds-To Commands
-                class_responds_to_commands = scripting_class.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
-
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
+        # Display the HUD for the specified duration
+        panel.makeKeyAndOrderFront_(panel)
+        app = AppKit.NSApplication.sharedApplication()
+        app.setActivationPolicy_(AppKit.NSApplicationActivationPolicyAccessory)
+        app.activateIgnoringOtherApps_(True)
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = self.duration))
 
 
-            ### Commands
-            script_commands = suite.findall("command")
-            for command in script_commands:
-                command_name = command.attrib.get("name", "").lower().replace(" ", "_")
-                command_comment = command.attrib.get("description", "")
-
-                parameters = []
-                direct_param = command.find("direct-parameter")
-                if direct_param is not None:
-                    direct_parameter_type = direct_param.attrib.get("type", "")
-                    if direct_parameter_type == "specifier":
-                        direct_parameter_type = "XABase.XAObject"
-
-                    direct_parameter_comment = direct_param.attrib.get("description")
-
-                    parameters.append({
-                        "name": "direct_param",
-                        "type": direct_parameter_type,
-                        "comment": direct_parameter_comment
-                    })
-
-                if not "_" in command_name and len(parameters) > 0:
-                    command_name += "_"
-
-                command_parameters = command.findall("parameter")
-                for parameter in command_parameters:
-                    parameter_type = parameter.attrib.get("type", "")
-                    if parameter_type == "specifier":
-                        parameter_type = "XAObject"
-
-                    parameter_name = parameter.attrib.get("name", "").lower().replace(" ", "_")
-                    parameter_comment = parameter.attrib.get("description", "")
-
-                    parameters.append({
-                        "name": parameter_name,
-                        "type": parameter_type,
-                        "comment": parameter_comment,
-                    })
-
-                commands[command_name] = {
-                    "name": command_name,
-                    "comment": command_comment,
-                    "parameters": parameters
-                }
-
-            suites.append({
-                "classes": classes,
-                "commands": commands
-            })
-
-        self.scripting_suites = suites
-        return suites
-
-    def export(self, output_file: Union['XABase.XAPath', str]):
-        if isinstance(output_file, XABase.XAPath):
-            output_file = output_file.path
-
-        lines = []
-
-        lines.append("from typing import Any, Callable, Union")
-        lines.append("\nfrom PyXA import XABase")
-        lines.append("from PyXA.XABase import OSType")
-        lines.append("from PyXA import XABaseScriptable")
-
-        for suite in self.scripting_suites:
-            for scripting_class in suite["classes"]:
-                lines.append("\n\n")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + "List:")
-                lines.append("\t\"\"\"A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques.")
-                lines.append("\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.")
-                lines.append("\n\t.. versionadded:: " + XABase.VERSION)
-                lines.append("\t\"\"\"")
-
-                lines.append("\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):")
-                lines.append("\t\tsuper().__init__(properties, " + scripting_class["name"].replace(" ", "") + ", filter)")
-
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef " + property["name"] + "(self) -> list['" + property["type"].replace(" ", "") + "']:")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
-
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef by_" + property["name"] + "(self, " + property["name"] + ") -> '" + scripting_class["name"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Retrieves the " + scripting_class["comment"] + "whose " + property["name"] + " matches the given " + property["name"] + ".\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.by_property(\"" + property["name"] + "\", " + property["name"] + ")")
 
 
-                lines.append("")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + ":")
-                lines.append("\t\"\"\"" + scripting_class["comment"] + "\n\n\t.. versionadded:: " + XABase.VERSION + "\n\t\"\"\"")
+class XAAlertStyle(Enum):
+    """Options for which alert style an alert should display with.
+    """
+    INFORMATIONAL   = AppKit.NSAlertStyleInformational
+    WARNING         = AppKit.NSAlertStyleWarning
+    CRITICAL        = AppKit.NSAlertStyleCritical
 
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\t@property")
-                    lines.append("\tdef " + property["name"] + "(self) -> '" + property["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.xa_elem." + property["name"] + "()")
+class XAAlert():
+    """A class for creating and interacting with an alert dialog window.
 
-                for element in scripting_class["elements"]:
-                    lines.append("")
-                    lines.append("\tdef " + element["name"].replace(" ", "") + "(self, filter: Union[dict, None] = None) -> '" + element["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Returns a list of " + element["name"] + ", as PyXA objects, matching the given filter.")
-                    lines.append("\n\t\t.. versionadded:: " + XABase.VERSION)
-                    lines.append("\t\t\"\"\"")
-                    lines.append("\t\tself._new_element(self.xa_elem." + element["name"] + "(), " + element["type"].replace(" ", "") + "List, filter)")
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, title: str = "Alert!", message: str = "", style: XAAlertStyle = XAAlertStyle.INFORMATIONAL, buttons = ["Ok", "Cancel"], icon: Union['XABase.XAImage', None] = None):
+        """Initializes an alert object.
 
-                for command in scripting_class["responds-to"]:
-                    if command in suite["commands"]:
-                        lines.append("")
-                        command_str = "\tdef " + suite["commands"][command]["name"] + "(self, "
+        :param title: The title text of the alert
+        :type title: str
+        :param message: The detail message text of the alert, defaults to ""
+        :type message: str, optional
+        :param style: The style of the alert (i.e. informational, warning, or critical), deprecated as of PyXA 0.1.2
+        :type style: XAAlertStyle, optional
+        :param buttons: A list specifying the buttons available for the user to click
+        :type buttons: list[str]
+        :param icon: The icon displayed in the alert window
+        :type icon: XABase.XAImage
+        """
+        self.title: str = title #: The title text of the alert
+        self.message: str = message #: The detail message text of the alert
+        self.style: XAAlertStyle = style
+        """The style of the alert.
 
-                        for parameter in suite["commands"][command]["parameters"]:
-                            command_str += parameter["name"] + ": '" + parameter["type"] + "', "
+        .. deprecated:: 0.1.2
+        
+           To customize the icon, set the :attr:`icon` attribute instead.
+        """
 
-                        command_str = command_str[:-2] + "):"
-                        lines.append(command_str)
+        self.buttons: list[str] = buttons #: A list specifying the buttons available for the user to click
+        self.icon = icon #: The icon displayed in the alert window
+        self.__return_value = None
 
-                        lines.append("\t\t\"\"\"" + suite["commands"][command]["comment"])
-                        lines.append("\n\t\t.. versionadded:: " + XABase.VERSION)
-                        lines.append("\t\t\"\"\"")
+    def __display(self):
+        # Actual logic for displaying the alert, run on main thread via display()
+        alert = AppKit.NSAlert.alloc().init()
+        alert.setInformativeText_(self.title)
+        alert.setMessageText_(self.message)
 
-                        cmd_call_str = "self.xa_elem." + suite["commands"][command]["name"] + "("
+        if self.icon is not None:
+            alert.setIcon_(self.icon.xa_elem)
 
-                        if len(suite["commands"][command]["parameters"]) > 0:
-                            for parameter in suite["commands"][command]["parameters"]:
-                                cmd_call_str += parameter["name"] + ", "
-                            
-                            cmd_call_str = cmd_call_str[:-2] + ")"
-                        else:
-                            cmd_call_str += ")"
+        for button in self.buttons:
+            alert.addButtonWithTitle_(button)
+        self.__return_value = alert.runModal()
 
-                        lines.append("\t\t" + cmd_call_str)
+    def display(self) -> int:
+        """Displays the alert.
 
-        data = "\n".join(lines)
-        with open(output_file, "w") as f:
-            f.write(data)
+        :return: A number representing the button that the user selected, if any
+        :rtype: int
+
+        .. versionadded:: 0.0.5
+        """
+        loop_mode = AppKit.NSRunLoop.mainRunLoop().currentMode()
+        if loop_mode is None:
+            # Not in run loop; run normally (must be done on main thread)
+            self.__display()
+        else:
+            # In run loop; force run on main thread
+            AppHelper.callAfter(self.__display)
+
+        # Wait for user to click some button
+        while self.__return_value is None:
+            sleep(0.01)
+        return self.__return_value
+
+
+
+
+class XANotification():
+    """A class for managing and interacting with notifications.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, image: Union['XABase.XAImage', None] = None, sound_name: Union[str, None] = None, primary_button_title: Union[str, None] = None, show_reply_button: bool = False, click_action: Union[Callable[[], None], None] = None, primary_action: Union[Callable[[], None], None] = None, reply_action: Union[Callable[[], None], None] = None, timeout: float = -1):
+        """Initializes a notification object.
+
+        :param text: The main text of the notification
+        :type text: str
+        :param title: The title of the notification, defaults to None
+        :type title: Union[str, None], optional
+        :param subtitle: The subtitle of the notification, defaults to None
+        :type subtitle: Union[str, None], optional
+        :param image: The content image of the notification, defaults to None
+        :type image: Union[XABase.XAImage, None], optional
+        :param sound_name: The sound to play when the notification is displayed, defaults to None
+        :type sound_name: Union[str, None], optional
+        :param primary_button_title: The name of the primary action button, defaults to None
+        :type primary_button_title: str, optional
+        :param click_action: The method to run when the user clicks the notification
+        :type click_action: Union[Callable[[XANotification], None], None], optional
+        :param primary_action: The method to run when the user clicks the primary action button, defaults to None
+        :type primary_action: Union[Callable[[XANotification], None], None], optional
+        :param reply_action: The method to run when the user replies to the notification, defaults to None
+        :type reply_action: Union[Callable[[XANotification, str], None], None], optional
+        :param timeout: The number of seconds to wait for the user to act on the notification, or -1 to wait infinitely, defaults to -1
+        :type timeout: float
+
+        .. versionadded:: 0.0.9
+        """
+        self.text: str = text #: The main text of the notification
+        self.title: str = title #: The title of the notification
+        self.subtitle: str = subtitle #: The subtitle of the notification
+        self.image: XABase.XAImage = image #: The content image of the notification
+        self.sound_name = sound_name #: The sound to play when the notification is displayed
+        self.primary_button_title: str = primary_button_title #: The name of the primary action button
+        self.click_action: Union[Callable[[XANotification], None], None] = click_action or (lambda x: None) #: The method to run when the user clicks the notification
+        self.primary_action: Union[Callable[[XANotification], None], None] = primary_action or (lambda x: None) #: The method to run when the user clicks the primary action button
+        self.reply_action: Union[Callable[[XANotification, str], None], None] = reply_action #: The method to run when the user replies to the notification. Overrides the primary action and replaces the primary action button with a "Reply" button.
+        self.timeout: float = timeout #: The number of seconds to wait for the user to act on the notification, or -1 to wait infinitely
+
+    def display(self):
+        """Displays the notification.
+
+        .. versionadded:: 0.0.9
+        """
+        nc = AppKit.NSUserNotificationCenter.defaultUserNotificationCenter()
+        parent = self
+
+        class NotificationCenterDelegate(AppKit.NSObject):
+            def userNotificationCenter_didActivateNotification_(self, nc, notification):
+                activation_type = notification.activationType()
+                if activation_type == 1:
+                    parent.click_action(parent)
+                elif activation_type == 2:
+                    parent.primary_action(parent)
+                elif activation_type == 3:
+                    parent.reply_action(parent, notification.response().string())
+
+                nc.removeDeliveredNotification_(notification)
+
+        nc.setDelegate_(NotificationCenterDelegate.alloc().init().retain())
+        notification = AppKit.NSUserNotification.alloc().init()
+
+        if isinstance(self.title, str):
+            notification.setTitle_(self.title)
+
+        if isinstance(self.subtitle, str):
+            notification.setSubtitle_(self.subtitle)
+
+        notification.setInformativeText_(self.text)
+
+        if isinstance(self.image, XABase.XAImage):
+            notification.setContentImage_(self.image.xa_elem)
+        
+        if isinstance(self.sound_name, str):
+            notification.setSoundName_(self.sound_name)
+
+        if isinstance(self.primary_button_title, str):
+            notification.setActionButtonTitle_(self.primary_button_title)
+            self.__dismiss = False
+        else:
+            notification.setHasActionButton_(False)
+
+        if callable(self.reply_action):
+            notification.setHasReplyButton_(True)
+            self.__dismiss = False
+
+        notification.setDeliveryDate_(datetime.now())
+        nc.scheduleNotification_(notification)
+
+        # Wait for notification to be delivered
+        while notification not in nc.deliveredNotifications():
+            sleep(0.01)
+
+        # Wait for user to do some action on the notification
+        while notification in nc.deliveredNotifications():
+            AppKit.NSRunLoop.mainRunLoop().runUntilDate_(datetime.now() + timedelta(seconds=0.01))
+
 
 
 
@@ -306,30 +259,36 @@ class XAMenuBar():
         app = AppKit.NSApplication.sharedApplication()
         detector = self
 
+        def get_all_subitems(menu):
+            items = []
+            for item_key, item in menu.items.items():
+                items.append(item)
+                items.extend(get_all_subitems(item))
+            return items
+
         class MyApplicationAppDelegate(AppKit.NSObject):
+            def menu_willHighlightItem_(self, menu, item):
+                if hasattr(item, "submenu") and item.submenu() is not None:
+                    self.action_(item)
+
             def menuWillOpen_(self, selected_menu):
                 button = app.currentEvent().buttonNumber()
                 for menu_key, menu in detector.menus.items():
                     if menu.xa_elem == selected_menu:
                         menu._run_action(button)
 
-            def statusBarButtonClicked_(self, sender):
-                print("hi", sender)
-
             def action_(self, menu_item):
                 button = app.currentEvent().buttonNumber()
                 for menu_key, menu in detector.menus.items():
-                    for item_key, item in menu.items.items():
-                        if item.xa_elem == menu_item:
-                                item._run_action(button)
-
-                        else:
-                            for subitem_key, subitem in item.items.items():
-                                if subitem.xa_elem == menu_item:
-                                    subitem._run_action(button)
+                    subitems = get_all_subitems(menu)
+                    for subitem in subitems:
+                        if subitem.xa_elem == menu_item:
+                            subitem._run_action(button)
+                            break
 
         self.__delegate = MyApplicationAppDelegate.alloc().init().retain()
         app.setDelegate_(self.__delegate)
+        app.setActivationPolicy_(AppKit.NSApplicationActivationPolicyAccessory)
 
     def add_menu(self, title: str, image: Union['XABase.XAImage', None] = None, tool_tip: Union[str, None] = None, img_width: int = 30, img_height: int = 30):
         """Adds a new menu to be displayed in the system menu bar.
@@ -361,7 +320,7 @@ class XAMenuBar():
         """
         self.new_menu(title, image, tool_tip, (img_width, img_height))
 
-    def new_menu(self, title: Union[str, None] = None, image: Union['XABase.XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None) -> 'XAMenuBarMenu':
+    def new_menu(self, title: Union[str, None] = None, image: Union['XABase.XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenu':
         """Adds a new menu to be displayed in the system menu bar.
 
         :param title: The title text of the menu, defaults to None
@@ -376,6 +335,8 @@ class XAMenuBar():
         :type action: Callable[[XAMenuBarMenu, None], None], optional
         :param id: A unique identifier for the menu, or None to use the title, defaults to None
         :type id: Union[str, None], optional
+        :param index: The position to insert the menu in the list of menus, defaults to -1
+        :type index: int, optional
         :return: The newly created menu object
         :rtype: XAMenuBarMenu
 
@@ -406,7 +367,7 @@ class XAMenuBar():
         while id in self.menus:
             id += "_"
 
-        self.menus[id] = XAMenuBarMenu(title, image, tooltip, image_dimensions, action, id)
+        self.menus[id] = XAMenuBarMenu(title, image, tooltip, image_dimensions, action, id, index)
         return self.menus[id]
         
     def add_item(self, menu: str, item_name: str, action: Union[Callable[[], None], None] = None, image: Union['XABase.XAImage', None] = None, img_width: int = 20, img_height: int = 20):
@@ -573,7 +534,7 @@ class XAMenuBar():
     
 
 class XAMenuBarMenu():
-    def __init__(self, title: str, image: Union['XABase.XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None):
+    def __init__(self, title: str, image: Union['XABase.XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1):
         """Initializes a new menu to be displayed in the system menu bar.
 
         :param title: The name of the menu
@@ -588,6 +549,8 @@ class XAMenuBarMenu():
         :type action: Callable[[XAMenuBarMenu, None], None], optional
         :param id: A unique identifier for the menu, or None to use the title, defaults to None
         :type id: Union[str, None], optional
+        :param index: The position to insert the menu in the list of menus, defaults to -1
+        :type index: int, optional
 
         .. versionadded:: 0.1.1
         """
@@ -598,6 +561,7 @@ class XAMenuBarMenu():
         self.action = action #: The method to call when the menu is opened
         self.id = id or title #: The unique identifier for the menu
         self.items = {} #: The menu items, keyed by their IDs
+        self.index = index 
     
         # Create a new status bar item
         self.__status_bar = AppKit.NSStatusBar.systemStatusBar()
@@ -672,7 +636,7 @@ class XAMenuBarMenu():
         self.__tooltip = tooltip
         self._status_item.setToolTip_(tooltip)
 
-    def new_item(self, title: Union[str, None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+    def new_item(self, title: Union[str, None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
         """Creates a new menu item and adds it to this menu at the current insertion point.
 
         :param title: The title text of the item, defaults to None
@@ -687,6 +651,8 @@ class XAMenuBarMenu():
         :type image_dimensions: tuple[int, int], optional
         :param id: A unique identifier for the item, defaults to None
         :type id: Union[str, None], optional
+        :param index: The position to insert the item in the list of menu items, defaults to -1
+        :type index: int, optional
         :return: The newly created menu item object
         :rtype: XAMenuBarMenuItem
 
@@ -716,8 +682,10 @@ class XAMenuBarMenu():
         while id in self.items:
             id += "_"
 
-        self.items[id] = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
-        self.xa_elem.addItem_(self.items[id].xa_elem)
+        if index == -1:
+            index = self.xa_elem.numberOfItems()
+        self.items[id] = XAMenuBarMenuItem(self, title, action, args, image, image_dimensions, id, index)
+        self.xa_elem.insertItem_atIndex_(self.items[id].xa_elem, index)
         return self.items[id]
 
     def add_separator(self, id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
@@ -728,14 +696,40 @@ class XAMenuBarMenu():
         :return: The newly created separator menu item object
         :rtype: XAMenuBarMenuItem
 
+        .. deprecated:: 0.1.2
+        
+           Use :func:`new_separator` instead.
+
         .. versionadded:: 0.1.1
         """
         id = id or "separator"
         while id in self.items:
             id += "_"
 
-        self.items[id] = XAMenuBarMenuItem(id)
+        self.items[id] = XAMenuBarMenuItem(self, id)
         self.xa_elem.addItem_(self.items[id].xa_elem)
+        return self.items[id]
+
+    def new_separator(self, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
+        """Adds a separator to the menu at the current insertion point.
+
+        :param id: A unique identifier for the separator, defaults to None
+        :type id: Union[str, None], optional
+        :param index: The position to insert the separator in the list of menus, defaults to -1
+        :type index: int, optional
+        :return: The newly created separator menu item object
+        :rtype: XAMenuBarMenuItem
+
+        .. versionadded:: 0.1.1
+        """
+        id = id or "separator"
+        while id in self.items:
+            id += "_"
+
+        if index == -1:
+            index = self.xa_elem.numberOfItems()
+        self.items[id] = XAMenuBarMenuItem(self, id)
+        self.xa_elem.insertItem_atIndex_(self.items[id].xa_elem, index)
         return self.items[id]
 
     def _run_action(self, button: int):
@@ -757,11 +751,20 @@ class XAMenuBarMenu():
         item = self.items.pop(id)
         self.xa_elem.removeItem_(item.xa_elem)
 
+    def delete(self):
+        """Deletes the menu.
+
+        .. versionadded:: 0.1.2
+        """
+        self.__status_bar.removeStatusItem_(self._status_item)
+
 
 class XAMenuBarMenuItem():
-    def __init__(self, title: str, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None):
+    def __init__(self, parent: XAMenuBarMenu, title: str, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1):
         """Initializes an item of a menu.
 
+        :param parent: The menu which owns this menu item
+        :type parent: XAMenuBarMenu
         :param title: The name of the item
         :type title: str
         :param action: The method to associate with the item (the method called when the item is clicked), defaults to None
@@ -774,9 +777,12 @@ class XAMenuBarMenuItem():
         :type image_dimensions: tuple[int, int], optional
         :param id: A unique identifier for the item, or None to use the title, defaults to None
         :type id: Union[str, None], optional
+        :param index: The position to insert the item in the list of menu items, defaults to -1
+        :type index: int, optional
 
         .. versionadded:: 0.1.1
         """
+        self.__parent = parent
         self.__title = title
         self.action = action #: The method to call when this menu item is clicked
         self.args = args or [] #: The arguments to pass to the action method upon execution
@@ -869,7 +875,7 @@ class XAMenuBarMenuItem():
         if callable(self.action):
             self.action(self, button, *self.args)
 
-    def new_subitem(self, title: Union[str, None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+    def new_subitem(self, title: Union[str, None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XABase.XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
         """Creates a new menu item and places it in a submenu of this item.
 
         This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
@@ -886,6 +892,8 @@ class XAMenuBarMenuItem():
         :type image_dimensions: tuple[int, int], optional
         :param id: A unique identifier for the item, or None to use the title, defaults to None
         :type id: Union[str, None], optional
+        :param index: The position to insert the subitem in the list of subitems, defaults to -1
+        :type index: int, optional
         :return: The newly created menu item
         :rtype: XAMenuBarMenuItem
 
@@ -914,8 +922,10 @@ class XAMenuBarMenuItem():
             submenu = AppKit.NSMenu.alloc().init()
 
         # Create a subitem and add it to the submenu
-        item = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
-        submenu.addItem_(item.xa_elem)
+        if index == -1:
+            index = submenu.numberOfItems()
+        item = XAMenuBarMenuItem(self, title, action, args, image, image_dimensions, id)
+        submenu.insertItem_atIndex_(item.xa_elem, index)
 
         # Associate the submenu to this item
         self.xa_elem.menu().setSubmenu_forItem_(submenu, self.xa_elem)
@@ -932,3 +942,13 @@ class XAMenuBarMenuItem():
         """
         item = self.items.pop(id)
         self.xa_elem.submenu().removeItem_(item.xa_elem)
+
+    def delete(self):
+        """Deletes the item.
+
+        .. versionadded:: 0.1.2
+        """
+        if isinstance(self.__parent, XAMenuBarMenu):
+            self.__parent.xa_elem.removeItem_(self.xa_elem)
+        else:
+            self.__parent.xa_elem.submenu().removeItem_(self.xa_elem)

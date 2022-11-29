@@ -6,15 +6,12 @@ from enum import Enum
 from typing import Any, Union, Self
 
 import AppKit
-import logging
 
 from PyXA import XABase
 from PyXA import XAEvents
 from PyXA.XABase import OSType
 
 from . import iWorkApplicationBase
-
-logger = logging.getLogger("keynote")
 
 class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
     """A class for managing and interacting with Keynote.app.
@@ -126,8 +123,6 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAKeynoteWindow
-
-        logger.debug("Initialized XAKeynoteApplication")
 
     @property
     def properties(self) -> dict:
@@ -308,7 +303,6 @@ class XAKeynoteDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteDocument)
-        logger.debug("Got list of documents")
 
     def properties(self) -> list[dict]:
         pyxa_dicts = [None] * len(self.xa_elem)
@@ -778,7 +772,6 @@ class XAKeynoteThemeList(XABase.XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAKeynoteTheme, filter)
-        logger.debug("Got list of themes")
 
     def properties(self) -> list[str]:
         # TODO
@@ -857,7 +850,6 @@ class XAKeynoteContainerList(iWorkApplicationBase.XAiWorkContainerList):
             obj_class = XAKeynoteContainer
         self._xa_ccls = XAKeynoteSlideList
         super().__init__(properties, filter, obj_class)
-        logger.debug("Got list of containers")
 
 class XAKeynoteContainer(iWorkApplicationBase.XAiWorkContainer):
     """A class for managing and interacting with containers in Keynote.
@@ -882,7 +874,6 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         if obj_class is None:
             obj_class = XAKeynoteSlide
         super().__init__(properties, filter, obj_class)
-        logger.debug("Got list of slides")
 
     def properties(self) -> list[dict]:
         raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
@@ -1286,7 +1277,6 @@ class XAKeynoteSlideLayoutList(XAKeynoteSlideList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAKeynoteSlideLayout, filter)
-        logger.debug("Got list of slide layouts")
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))

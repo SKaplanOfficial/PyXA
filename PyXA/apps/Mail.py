@@ -8,14 +8,11 @@ from enum import Enum
 from typing import Union
 
 import AppKit
-import logging
 
 from PyXA import XABase
 from PyXA.XABase import OSType, unOSType
 from PyXA import XABaseScriptable
 from PyXA.XAEvents import event_from_str
-
-logger = logging.getLogger("mail")
 
 class XAMailApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Mail.app.
@@ -134,7 +131,6 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        logger.debug("Initialized XAMailApplication")
 
     @property
     def name(self) -> str:

@@ -6,14 +6,11 @@ from enum import Enum
 from typing import Any, Union, Self
 
 import AppKit
-import logging
 
 from PyXA import XABase
 from PyXA.XABase import OSType
 
 from . import iWorkApplicationBase
-
-logger = logging.getLogger("numbers")
 
 class XANumbersApplication(iWorkApplicationBase.XAiWorkApplication):
     """A class for managing and interacting with Numbers.app.
@@ -189,7 +186,6 @@ class XANumbersDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XANumbersDocument)
-        logger.debug("Got list of documents")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each document in the list.
@@ -401,7 +397,6 @@ class XANumbersTemplateList(XABase.XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANumbersTemplate, filter)
-        logger.debug("Got list of templates")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each template in the list.
@@ -521,7 +516,6 @@ class XANumbersContainerList(iWorkApplicationBase.XAiWorkContainerList):
             obj_class = XANumbersContainer
         self._xa_ccls = XANumbersSheetList
         super().__init__(properties, filter, obj_class)
-        logger.debug("Got list of containers")
 
 class XANumbersContainer(iWorkApplicationBase.XAiWorkContainer):
     """A class for managing and interacting with containers in Numbers.
@@ -544,7 +538,6 @@ class XANumbersSheetList(XANumbersContainerList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XANumbersSheet)
-        logger.debug("Got list of sheets")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each sheet in the list.

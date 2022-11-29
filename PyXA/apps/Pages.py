@@ -6,13 +6,10 @@ from enum import Enum
 from typing import Any, Union, Self
 
 import AppKit, ScriptingBridge
-import logging
 
 from PyXA import XABase
 from PyXA.XABase import OSType
 from . import iWorkApplicationBase
-
-logger = logging.getLogger("pages")
 
 class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
     """A class for managing and interacting with Pages.app.
@@ -1359,7 +1356,6 @@ class XAPagesContainerList(iWorkApplicationBase.XAiWorkContainerList):
             obj_class = XAPagesContainer
         self._xa_ccls = XAPagesPageList
         super().__init__(properties, filter, obj_class)
-        logger.debug("Got list of containers")
 
 class XAPagesContainer(iWorkApplicationBase.XAiWorkContainer):
     """A class for managing and interacting with containers in Pages.

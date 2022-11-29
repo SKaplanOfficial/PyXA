@@ -8,13 +8,10 @@ from typing import Any, Union, Self
 import threading
 
 import AppKit
-import logging
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable
-
-logger = logging.getLogger("safari")
 
 class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject, XACanOpenPath):
     """A class for interacting with Safari.app.
@@ -26,8 +23,6 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XASafariWindow
-
-        logging.debug("Initialized XASafariApplication")
 
     @property
     def frontmost(self) -> bool:
@@ -348,7 +343,6 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        logging.debug("Initialized XASafariGeneric")
 
     def search(self, term: str) -> Self:
         """Searches for the specified term in the current tab or document.
@@ -420,8 +414,6 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASafariDocument, filter)
-
-        logging.debug("Initialized XASafariDocumentList")
 
     def name(self) -> list[str]:
         """Gets the name of each document in the list.
@@ -644,8 +636,6 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
     def __init__(self, properties):
         super().__init__(properties)
 
-        logging.debug("Initialized XASafariDocument")
-
     @property
     def name(self) -> str:
         """The title of the document.
@@ -732,7 +722,6 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASafariTab, filter)
-        logging.debug("Initialized XASafariTabList")
 
     def source(self) -> list[str]:
         """Gets the source HTML of each tab in the list.
@@ -1004,8 +993,6 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-        logging.debug("Initialized XASafariTab")
 
     @property
     def source(self) -> str:

@@ -9,15 +9,12 @@ from time import sleep
 from typing import Any, Union, Self
 
 import AppKit, ScriptingBridge
-import logging
 
 from PyXA import XABase
 from PyXA import XAEvents
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACloseable
-
-logger = logging.getLogger("iwork")
 
 class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with iWork applications.
@@ -252,7 +249,6 @@ class XAiWorkDocumentList(XABase.XAList):
         if obj_class is None:
             obj_class = XAiWorkDocumentList
         super().__init__(properties, obj_class, filter)
-        logger.debug("Got list of documents")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each document in the list.
@@ -852,7 +848,6 @@ class XAiWorkiWorkItemList(XABase.XAList):
         if obj_class is None:
             obj_class = XAiWorkiWorkItem
         super().__init__(properties, obj_class, filter)
-        logger.debug("Got list of iWork items")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each iWork item in the list.
@@ -1025,31 +1020,22 @@ class XAiWorkiWorkItem(XABase.XAObject):
             new_self = None
             if ": defaultTitleItem" in description or ": defaultBodyItem" in description or ": <class 'sshp'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkShape)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkShape")
             elif ": <class 'imag'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkImage)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkImage")
             elif ": <class 'igrp'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkGroup)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkGroup")
             elif ": <class 'shtx'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkTextItem)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkTextItem")
             elif ": <class 'NmTb'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkTable)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkTable")
             elif ": <class 'iWln'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkLine)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkLine")
             elif ": <class 'shmv'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkMovie)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkMovie")
             elif ": <class 'shau'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkAudioClip)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkAudioClip")
             elif ": <class 'shct'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkChart)
-                logger.debug("Specialized XAiWorkiWorkItem to XAiWorkChart")
 
             if new_self is not None:
                 new_self.xa_prnt = self.xa_prnt
@@ -1185,7 +1171,6 @@ class XAiWorkGroupList(XAiWorkContainerList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkGroup)
-        logger.debug("Got list of groups")
 
     def height(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1285,7 +1270,6 @@ class XAiWorkImageList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkImage)
-        logger.debug("Got list of images")
 
     def description(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
@@ -1461,7 +1445,6 @@ class XAiWorkAudioClipList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkAudioClip)
-        logger.debug("Got list of audio clips")
 
     def file_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1540,7 +1523,6 @@ class XAiWorkShapeList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkShape)
-        logger.debug("Got list of shapes")
 
     def properties(self) -> list[dict]:
         return [{
@@ -1749,7 +1731,6 @@ class XAiWorkChartList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkChart)
-        logger.debug("Got list of charts")
 
 class XAiWorkChart(XAiWorkiWorkItem):
     """A class for managing and interacting with charts in Keynote.
@@ -1771,7 +1752,6 @@ class XAiWorkLineList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkLine)
-        logger.debug("Got list of lines")
 
     def end_point(self) -> list[tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
@@ -1873,7 +1853,6 @@ class XAiWorkMovieList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkMovie)
-        logger.debug("Got list of movies")
 
     def file_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -2008,7 +1987,6 @@ class XAiWorkTextItemList(XAiWorkiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkTextItem)
-        logger.debug("Got list of text items")
 
     def background_fill_type(self) -> list[XAiWorkApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
@@ -2964,7 +2942,6 @@ class XAiWorkRowList(XAiWorkRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkRow)
-        logger.debug("Got list of table rows")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each row in the list.
@@ -3115,7 +3092,6 @@ class XAiWorkColumnList(XAiWorkRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkColumn)
-        logger.debug("Got list of table columns")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each column in the list.
@@ -3266,7 +3242,6 @@ class XAiWorkCellList(XAiWorkRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkCell)
-        logger.debug("Got list of table cells")
 
     def properties(self) -> list[dict]:
         """Gets the properties dictionary of each cell in the list.

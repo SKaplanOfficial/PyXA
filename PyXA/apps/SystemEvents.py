@@ -788,7 +788,7 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.uiElements(), XASystemEventsUIElementList, filter)
+        return self._new_element(self.xa_scel.UIElements(), XASystemEventsUIElementList, filter)
 
     def property_list_files(self, filter: dict = None) -> Union['XASystemEventsPropertyListFileList', None]:
         """Returns a list of property list files, as PyXA-wrapped objects, matching the given filter.
@@ -943,6 +943,64 @@ class XASystemEventsDocument(XABase.XAObject, XACloseable, XAPrintable):
 
 
 
+class XASystemEventsWindowList(XABaseScriptable.XASBWindowList):
+    """A wrapper around a list of windows.
+
+    .. versionadded:: 0.1.2
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        super().__init__(properties, filter, obj_class)
+        if obj_class is None or issubclass(self.xa_prnt.xa_wcls, obj_class):
+            self.xa_ocls = self.xa_prnt.xa_wcls
+
+    def name(self) -> list[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
+
+    def collapse(self) -> 'XASystemEventsWindowList':
+        """Collapses all windows in the list.
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().collapse()
+
+        .. versionadded:: 0.0.5
+        """
+        for window in self:
+            window.collapse()
+            sleep(0.025)
+        return self
+
+    def uncollapse(self) -> 'XASystemEventsWindowList':
+        """Uncollapses all windows in the list.
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().uncollapse()
+
+        .. versionadded:: 0.0.6
+        """
+        for window in self:
+            window.uncollapse()
+        return self
+
+    def close(self):
+        """Closes all windows in the list.add()
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().close()
+        
+        .. versionadded:: 0.0.6
+        """
+        for window in self:
+            window.close()
+
 class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
     """A window belonging to a process.
 
@@ -979,7 +1037,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
     def entire_contents(self) -> list[XABase.XAObject]:
         """A list of every UI element contained in this window and its child UI elements, to the limits of the tree.
         """
-        return self.xa_elem.entireContents()
+        return self._new_element(self.xa_elem.entireContents(), XASystemEventsUIElementList)
 
     @property
     def focused(self) -> Union[bool, None]:
@@ -1080,6 +1138,69 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         """The current value of the window.
         """
         return self.xa_elem.value()
+
+    def close(self) -> 'XASystemEventsWindow':
+        """Collapses (minimizes) the window.
+
+        :return: A reference to the now-collapsed window object.
+        :rtype: XASystemEventsWindow
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.close()
+
+        .. versionadded:: 0.0.1
+        """
+        try:
+            close_button = self.buttons().by_subrole("AXCloseButton")
+            close_button.click()
+        except:
+            pass
+        return self
+
+    def collapse(self) -> 'XASystemEventsWindow':
+        """Collapses (minimizes) the window.
+
+        :return: A reference to the now-collapsed window object.
+        :rtype: XASystemEventsWindow
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.collapse()
+
+        .. versionadded:: 0.0.1
+        """
+        try:
+            button = self.buttons().by_subrole("AXMinimizeButton")
+            button.click()
+            while self.visible:
+                sleep(0.01)
+        except:
+            pass
+        return self
+
+    def uncollapse(self) -> 'XASystemEventsWindow':
+        """Uncollapses (unminimizes/expands) the window.
+
+        :return: A reference to the uncollapsed window object.
+        :rtype: XASystemEventsWindow
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.uncollapse()
+
+        .. versionadded:: 0.0.1
+        """
+        dock_process = self.xa_sevt.application_processes().by_name("Dock")
+        app_icon = dock_process.lists()[0].ui_elements().by_name(self.name)
+        if app_icon is not None:
+            app_icon.actions()[0].perform()
+            while not self.visible:
+                sleep(0.01)
+        return self
 
     def actions(self, filter: dict = None) -> Union['XASystemEventsActionList', None]:
         """Returns a list of action elements, as PyXA-wrapped objects, matching the given filter.
@@ -1499,7 +1620,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
+        return self._new_element(self.xa_elem.UIElements(), XASystemEventsUIElementList)
 
     def click(self, point: Union[tuple[int, int], None] = None):
         """Cause the window.
@@ -1545,6 +1666,9 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.cancel()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -3361,6 +3485,15 @@ class XASystemEventsUIElementList(XABase.XAList):
     def by_value(self, value: Any) -> Union['XASystemEventsUIElement', None]:
         return self.by_property("value", value)
 
+    def actions(self, filter: dict = None) -> 'XASystemEventsActionList':
+        ls = [x for y in self.xa_elem.arrayByApplyingSelector_("actions") or [] for x in y]
+        return self._new_element(ls, XASystemEventsActionList)
+
+    def windows(self, filter: dict = None) -> 'XASystemEventsWindowList':
+        ls = list(self.xa_elem.arrayByApplyingSelector_("windows") or [])
+        self.xa_wcls = XASystemEventsWindow
+        return self._new_element(ls, XASystemEventsWindowList)
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
@@ -4035,7 +4168,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
+        return self._new_element(self.xa_elem.UIElements(), XASystemEventsUIElementList)
 
     def value_indicators(self, filter: dict = None) -> Union['XASystemEventsValueIndicatorList', None]:
         """Returns a list of value indicator elements, as PyXA-wrapped objects, matching the given filter.
@@ -4060,7 +4193,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         .. versionadded:: 0.1.0
         """
         self.xa_wcls = XASystemEventsWindow
-        return self._new_element(self.xa_elem.windows(), XABaseScriptable.XASBWindowList)
+        return self._new_element(self.xa_elem.windows(), XASystemEventsWindowList)
     
 
 
@@ -4594,6 +4727,9 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
     def by_creator_type(self, creator_type: str) -> Union['XASystemEventsProcess', None]:
         return self.by_property("creatorType", creator_type)
 
+    def by_displayed_name(self, displayed_name: str) -> Union['XASystemEventsProcess', None]:
+        return self.by_property("displayedName", displayed_name)
+
     def by_file(self, file: XABase.XAFile) -> Union['XASystemEventsProcess', None]:
         return self.by_property("file", file.xa_elem)
 
@@ -4634,6 +4770,12 @@ class XASystemEventsProcess(XASystemEventsUIElement):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    @property
+    def front_window(self) -> 'XABaseScriptable.XASBWindow':
+        """The front window of the application process.
+        """
+        return self._new_element(self.xa_elem.windows()[0], XASystemEventsWindow)
 
     @property
     def accepts_high_level_events(self) -> bool:

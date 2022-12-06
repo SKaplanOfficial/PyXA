@@ -1,58 +1,9 @@
-from time import sleep
-from typing import Any, List
-import objc
-import CoreServices
 import ApplicationServices
-import struct
 
 import objc
-from AppKit import NSURL, NSApp, NSData
-import AppKit
-import Quartz
-
-from Foundation import NSBundle
-
-def send_save_event(pid: str):
-    s_down = Quartz.CGEventCreateKeyboardEvent(None, 1, True)
-    s_up = Quartz.CGEventCreateKeyboardEvent(None, 1, False)
-    shift_down = Quartz.CGEventCreateKeyboardEvent(None, 56, True)
-    shift_up = Quartz.CGEventCreateKeyboardEvent(None, 56, False)
-    command_down = Quartz.CGEventCreateKeyboardEvent(None, 55, True)
-    command_up = Quartz.CGEventCreateKeyboardEvent(None, 55, False)
-
-    Quartz.CGEventPostToPid(pid, shift_down)
-    Quartz.CGEventPostToPid(pid, s_down)
-    Quartz.CGEventPostToPid(pid, s_up)
-    Quartz.CGEventPostToPid(pid, s_down)
-    Quartz.CGEventPostToPid(pid, s_up)
-    Quartz.CGEventPostToPid(pid, shift_up)
-
-    # print(s_down)
-    # Quartz.CGEventPost(Quartz.kCGHIDEventTap, s_down)
-    # Quartz.CGEventPost(Quartz.kCGHIDEventTap, command_down)
-
-def send_copy_event(pid: str):
-    c_down = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 8, True)
-    c_up = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 8, False)
-    command_down = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 55, True)
-    command_up = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 55, False)
-
-    Quartz.CGEventPostToPid(pid, c_down)
-    Quartz.CGEventPostToPid(pid, command_down)
-    Quartz.CGEventPostToPid(pid, c_up)
-    Quartz.CGEventPostToPid(pid, command_up)
 
 def OSType(s):
     return int.from_bytes(s.encode("UTF-8"), "big")
-
-event_manager = ApplicationServices.NSAppleEventManager.sharedAppleEventManager()
-
-def send_event_to_bundle(event_type: int, event: int, bundle: str):
-    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle.encode("UTF-8"))
-
-    new_event = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(event_type, event, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
-
-    new_event.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
 
 KEYCODES = {
     "a": 0x00,
@@ -165,9 +116,6 @@ kAEApplicationDied            = OSType('obit')
 kAEShowPreferences            = OSType('pref')
 
 keyDirectObject = OSType('----')
-
-def xaevent_quit_application_by_bundle_id(bundle_id: str):
-    send_event_to_bundle(kAEQuitApplication, "com.apple.MobileSMS")
 
 cAEList                       = OSType('list')
 cApplication                  = OSType('capp')
@@ -385,27 +333,6 @@ kAEShutDown                   = OSType('shut')
 kAEShowRestartDialog          = OSType('rrst')
 kAEShowShutdownDialog         = OSType('rsdn')
 kAERestart                    = OSType('rest')
-
-def xaevent_sleep():
-    send_event_to_bundle(kAESleep, "com.apple.loginwindow")
-
-def xaevent_show_logout_dialog():
-    send_event_to_bundle(kAELogOut, "com.apple.loginwindow")
-
-def xaevent_logout_immediately():
-    send_event_to_bundle(kAEReallyLogOut, "com.apple.loginwindow")
-
-def xaevent_show_restart_dialog():
-    send_event_to_bundle(kAEShowRestartDialog, "com.apple.loginwindow")
-
-def xaevent_restart_immediately():
-    send_event_to_bundle(kAERestart, "com.apple.loginwindow")
-
-def xaevent_show_shutdown_dialog():
-    send_event_to_bundle(kAEShowShutdownDialog, "com.apple.loginwindow")
-
-def xaevent_shutdown_immediately():
-    send_event_to_bundle(kAEShutDown, "com.apple.loginwindow")
 
 # kAEMouseClass
 kAEMouseClass                 = OSType('mous')
@@ -1112,31 +1039,3 @@ def event_from_bool(b: bool) -> ApplicationServices.NSAppleEventDescriptor:
     .. versionadded:: 0.0.4
     """
     return ApplicationServices.NSAppleEventDescriptor.descriptorWithBoolean_(b)
-
-def xaevent_activate_app_by_bundle_id(paths: List[str]):
-    send_event_to_bundle(kAEMiscStandards, kAEActivate, "com.apple.MobileSMS")
-
-def xaevent_reopen_app_by_bundle_id(paths: List[str]):
-    send_event_to_bundle(typeAppleEvent, kAEReopenApplication, "com.apple.MobileSMS")
-
-def xaevent_open_in_app_by_bundle_id(path: str, bundle_id: str):
-    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
-
-    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, kAEOpenDocuments, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
-
-    url = NSURL.alloc().initFileURLWithPath_(path)
-    desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeFileURL, url.absoluteString().encode("UTF-8"))
-
-    openEvent.setParamDescriptor_forKeyword_(desc, keyDirectObject)
-    openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
-
-def xaevent_print_immediately_from_app_by_bundle_id(path: str, bundle_id: str):
-    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
-
-    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, kAEPrintDocuments, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
-
-    url = NSURL.alloc().initFileURLWithPath_(path)
-    desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeFileURL, url.absoluteString().encode("UTF-8"))
-
-    openEvent.setParamDescriptor_forKeyword_(desc, keyDirectObject)
-    openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)

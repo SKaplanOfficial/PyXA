@@ -417,7 +417,6 @@ class XAMenuBar():
                         menu._run_action(button)
 
             def action_(self, menu_item):
-                print(app.currentEvent())
                 button = app.currentEvent().buttonNumber()
                 if app.currentEvent().type() == AppKit.NSEventTypeMouseMoved:
                     button = -1

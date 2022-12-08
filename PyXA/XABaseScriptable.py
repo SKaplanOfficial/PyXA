@@ -55,7 +55,7 @@ class XASBPrintable(XABase.XAObject):
 class XASBApplication(XABase.XAApplication):
     """An application class for scriptable applications.
 
-    .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`
+    .. seealso:: :class:`XABase.XAApplication`
     """
     class SaveOption(Enum):
         """Options for whether to save documents when closing them.
@@ -88,8 +88,6 @@ class XASBApplication(XABase.XAApplication):
     @property
     def front_window(self) -> 'XASBWindow':
         """The front window of the application.
-
-        .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
@@ -261,8 +259,6 @@ class XASBWindow(XABase.XAObject, XACloseable):
     @property
     def name(self) -> str:
         """The title of the window.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.name()
 
@@ -273,16 +269,12 @@ class XASBWindow(XABase.XAObject, XACloseable):
     @property
     def id(self) -> int:
         """The unique identifier for the window.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
         """The index of the window, ordered front to back.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.index()
 
@@ -293,8 +285,6 @@ class XASBWindow(XABase.XAObject, XACloseable):
     @property
     def bounds(self) -> XARectangle:
         """The bounding rectangle of the window.
-
-        .. versionadded:: 0.0.4
         """
         rect = self.xa_elem.bounds()
         origin = rect.origin
@@ -313,24 +303,18 @@ class XASBWindow(XABase.XAObject, XACloseable):
     @property
     def closeable(self) -> bool:
         """Whether the window has a close button.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.closeable()
 
     @property
     def resizable(self) -> bool:
         """Whether the window can be resized.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
         """Whether the window is currently visible.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.visible()
 
@@ -341,16 +325,12 @@ class XASBWindow(XABase.XAObject, XACloseable):
     @property
     def zoomable(self) -> bool:
         """Whether the window has a zoom button.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
         """Whether the window is currently zoomed.
-
-        .. versionadded:: 0.0.1
         """
         return self.xa_elem.zoomed()
 
@@ -421,7 +401,7 @@ class XASBWindow(XABase.XAObject, XACloseable):
         """Uncollapses (unminimizes/expands) the window.
 
         :return: A reference to the uncollapsed window object.
-        :rtype: XABase.XAWindow
+        :rtype: Self
 
         .. deprecated:: 0.1.0.2
 

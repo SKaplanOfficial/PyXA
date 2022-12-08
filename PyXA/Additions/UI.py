@@ -6,7 +6,7 @@ Classes for creating and displaying various UI elements.
 from datetime import datetime, timedelta
 from enum import Enum
 from time import sleep
-from typing import Any, Callable, Union
+from typing import Any, Callable, Union, Literal
 
 import AppKit
 from PyObjCTools import AppHelper
@@ -32,7 +32,7 @@ class XASwitch():
         self.action = action #: The method to run when the switch's state changes
         self.args = args or [] #: The arguments to pass to the action method upon execution
         switch = AppKit.NSSwitch.alloc().init()
-        switch.setFrame_(AppKit.NSMakeRect(0, 0, 160, 35))
+        switch.setFrame_(AppKit.NSMakeRect(0, 0, 100, 32))
         switch.setAction_("run:action:")
         switch.setTarget_(self)
         self.xa_elem = switch
@@ -80,7 +80,7 @@ class XASlider():
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, action: Union[Callable[['XASlider', int, Any], None], None] = None, args: Union[list[Any], None] = None, value: float = 50.0, min_value: float = 0, max_value: float = 100, width: int = 150, height: int = 25):
+    def __init__(self, action: Union[Callable[['XASlider', int, Any], None], None] = None, args: Union[list[Any], None] = None, value: float = 50.0, min_value: float = 0, max_value: float = 100):
         """Initializes a new slider object.
 
         :param action: The method to call when the value of the slider changes, defaults to None
@@ -93,10 +93,6 @@ class XASlider():
         :type min_value: float, optional
         :param max_value: The maximum value of the slider, defaults to 100
         :type max_value: float, optional
-        :param width: The witch of the slider's container, defaults to 150
-        :type width: int, optional
-        :param height: The height of the slider's container, defaults to 25
-        :type height: int, optional
 
         .. versionadded:: 0.1.2
         """
@@ -106,7 +102,7 @@ class XASlider():
         slider.setMinValue_(min_value)
         slider.setMaxValue_(max_value)
         slider.setDoubleValue_(value)
-        slider.setFrameSize_(AppKit.NSMakeSize(width, height))
+        slider.setFrameSize_(AppKit.NSMakeSize(100, 25))
         slider.setAction_("run:action:")
         slider.setTarget_(self)
         self.xa_elem = slider
@@ -146,6 +142,90 @@ class XASlider():
 
         .. versionadded:: 0.1.2
         """
+        button = AppKit.NSApplication.sharedApplication().currentEvent().buttonNumber()
+        if callable(self.action):
+            self.action(self, button, *self.args)
+
+
+
+
+class XASegmentedControl():
+    """A segmented control UI element. Wrapper around AppKit.NSSegmentedControl functionality.
+
+    .. versionadded:: 0.1.2
+    """
+    def __init__(self, segments: Union[list[str], list[XABase.XAImage]], action: Union[Callable[['XASlider', int, Any], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False):
+        """Initializes a new slider object.
+
+        :param segments: The labels or images to display as available options
+        :type segments: Union[list[str], list[XABase.XAImage]]
+        :param action: The method to call when the value of the slider changes, defaults to None
+        :type action: Union[Callable[[XASlider, int, Any], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param multiselect: Controls whether one or multiple options can be selected, defaults to False
+        :type multiselect: bool, optional
+
+        .. versionadded:: 0.1.2
+        """
+        if not isinstance(segments, list):
+            raise TypeError("Must provided a list of segment names (strings) or images (of the XABase.XAImage class).")
+
+        all_strings = all([isinstance(segment, str) for segment in segments])
+        all_images = all(isinstance(segment, XABase.XAImage) for segment in segments)
+        if not all_strings and not all_images:
+            raise TypeError("Segments must be either *all* strings or *all* images.")
+
+        self.__segments = segments
+        self.__state = [False for _ in segments]
+
+        if multiselect:
+            multiselect = AppKit.NSSegmentSwitchTrackingSelectAny
+        else:
+            multiselect = AppKit.NSSegmentSwitchTrackingSelectOne
+
+        if all_strings:
+            control = AppKit.NSSegmentedControl.segmentedControlWithLabels_trackingMode_target_action_(segments, multiselect, self, 'run:action:')
+        else:
+            images = [image.xa_elem for image in segments]
+            control = AppKit.NSSegmentedControl.segmentedControlWithImages_trackingMode_target_action_(images, multiselect, self, 'run:action:')
+
+        self.__multiselect = multiselect
+        self.action = action #: The method to run when the value of the slider changes
+        self.args = args or [] #: The arguments to pass to the action method upon execution
+        self.xa_elem = control
+
+    @property
+    def selection(self) -> Union[list[str], list[XABase.XAImage]]:
+        """The list of currently selected segments.
+
+        .. versionadded:: 0.1.2
+        """
+        selected_segments = []
+        for index, segment in enumerate(self.__segments):
+            if self.__state[index] is True:
+                selected_segments.append(segment)
+
+        return selected_segments
+
+    @selection.setter
+    def selection(self, selection: Union[list[str], list[XABase.XAImage]]):
+        self.xa_elem.setSelectedSegment_(-1)
+        for new_segment in selection:
+            for index, segment in enumerate(self.__segments):
+                if new_segment == segment:
+                    self.xa_elem.setSelected_forSegment_(True, index)
+
+    def run_action_(self, slider, _):
+        """Runs the action method associated with the segmented control.
+
+        .. versionadded:: 0.1.2
+        """
+        index = self.xa_elem.selectedSegment()
+        if not self.__multiselect:
+            self.__state = [False for _ in self.__state]
+        self.__state[index] = not self.__state[index]
+
         button = AppKit.NSApplication.sharedApplication().currentEvent().buttonNumber()
         if callable(self.action):
             self.action(self, button, *self.args)
@@ -390,6 +470,24 @@ class XANotification():
 class XAMenuBar():
     def __init__(self):
         """Creates a new menu bar object for interacting with the system menu bar.
+
+        :Example:
+
+        >>> import PyXA
+        >>> menubar = PyXA.XAMenuBar()
+        >>> menu_icon = PyXA.XAImage.symbol("sparkles")
+        >>> menu = menubar.new_menu(icon=menu_icon)
+        >>> 
+        >>> button_item = menu.new_item("Click me", action=lambda item, button: print(item.text))
+        >>> url_item = menu.new_url_item("www.github.com")
+        >>> image_item = menu.new_image_item("/Users/steven/Desktop/Screenshot 2022-12-06 at 21.40.37.png", tooltip="An image")
+        >>> switch_item = menu.new_switch_item(label="Toggle", action=lambda switch, button: print(switch.state))
+        >>> segmented_control_item = menu.new_segmented_control_item(["A", "B", "C"], multiselect=True, action=lambda control, button: print(control.selection))
+        >>> segmented_control_item = menu.new_segmented_control_item(["1", "2", "3"], action=lambda control, button: print(control.selection))
+        >>> slider_item = menu.new_slider_item(action=lambda slider, button: print(slider.value))
+        >>> menu.new_separator()
+        >>> 
+        >>> menubar.display()
 
         .. versionadded:: 0.0.9
         """
@@ -671,24 +769,30 @@ class XAMenuBar():
             menu = self.menus[menu]
             item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
             menu.xa_elem.addItem_(item)
-
             menu.xa_elem.setDelegate_(self.__delegate)
 
             for item in menu.xa_elem.itemArray():
                 view = item.view()
-                if view is not None:
-                    menu_width = menu.xa_elem.size().width
-                    view_height = view.frame().size.height
-                    view.setFrameSize_((menu_width, view_height))
-                    for subview in view.subviews():
-                        if isinstance(subview, AppKit.NSSwitch):
-                            subview_y = subview.frame().origin.y
-                            subview_height = subview.frame().size.height
-                            subview.setFrame_(AppKit.NSMakeRect(menu_width - menu_width * 0.225, subview_y, menu_width * 0.2, subview_height))
-                        elif not isinstance(subview, AppKit.NSText):
-                            subview_y = subview.frame().origin.y
-                            subview_height = subview.frame().size.height
-                            subview.setFrame_(AppKit.NSMakeRect((menu_width - menu_width * 0.9) / 2, subview_y, menu_width * 0.9, subview_height))
+                if view is None:
+                    continue
+
+                menu_width = max(menu.xa_elem.size().width, 100)
+                view_height = view.frame().size.height
+                view.setFrameSize_((menu_width, view_height))
+
+                if isinstance(view, AppKit.NSImageView):
+                    view.image().setSize_(AppKit.NSMakeSize(menu_width * 0.9, view_height * 0.95))
+
+                for subview in view.subviews():
+                    if isinstance(subview, AppKit.NSSwitch):
+                        subview_height = subview.frame().size.height
+                        subview.sizeToFit()
+                        subview.setFrame_(AppKit.NSMakeRect(menu_width * 0.95 - subview.frame().size.width, 0, subview.frame().size.width, subview_height))
+
+                    elif not isinstance(subview, AppKit.NSText):
+                        subview_y = subview.frame().origin.y
+                        subview_height = subview.frame().size.height
+                        subview.setFrame_(AppKit.NSMakeRect((menu_width - menu_width * 0.9) / 2, subview_y, menu_width * 0.9, subview_height))
 
         try:
             if len(self.menus) > 0:
@@ -697,7 +801,7 @@ class XAMenuBar():
             print(e)
 
 
-    
+
 
 class XAMenuBarMenu():
     def __init__(self, content: Union[str, int, float, XABase.XAObject], icon: Union[XABase.XAImage, None] = None, tooltip: Union[str, None] = None, icon_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1):
@@ -804,7 +908,7 @@ class XAMenuBarMenu():
         self.__tooltip = tooltip
         self._status_item.setToolTip_(tooltip)
 
-    def new_item(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+    def new_item(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
         """Creates a new menu item and adds it to this menu at the current insertion point.
 
         :param content: The title text of the item, defaults to None
@@ -825,6 +929,8 @@ class XAMenuBarMenu():
         :type label: Union[str, None], optional
         :param tooltip: The tooltip text for the menu item, defaults to None
         :type tooltip: Union[str, None], optional
+        :param multiselect: Whether multiple options in a segmented control item can be selected at once, defaults to False
+        :type multiselect: bool, optional
         :return: The newly created menu item object
         :rtype: XAMenuBarMenuItem
 
@@ -861,9 +967,11 @@ class XAMenuBarMenu():
         if content == "separator":
             self.items[id] =  XASeparatorMenuItem(self)
         elif content == "slider":
-            self.items[id] =  XASliderMenuItem(self, action, tooltip, args)
+            self.items[id] =  XASliderMenuItem(self, tooltip, action, args)
         elif content == "switch":
             self.items[id] =  XASwitchMenuItem(self, label, tooltip, action, args)
+        elif isinstance(content, list):
+            self.items[id] =  XASegmentedControlMenuItem(self, content, tooltip, action, args, multiselect)
         elif isinstance(content, XABase.XAImage):
             self.items[id] = XAImageMenuItem(self, content, tooltip)
         elif isinstance(content, XABase.XAURL) or isinstance(content, XABase.XAPath):
@@ -898,27 +1006,127 @@ class XAMenuBarMenu():
         self.xa_elem.addItem_(self.items[id].xa_elem)
         return self.items[id]
 
+    def new_url_item(self, url: Union[str, XABase.XAURL, XABase.XAPath], label: Union[str, None] = None, icon: Union[XABase.XAImage, None] = None, icon_dimensions: tuple[int, int] = (20, 20), tooltip: Union[str, None] = None, action: Union[Callable[['XAURLMenuItem'], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XAURLMenuItem':
+        """Creates a new URL menu item at the specified index or the current insertion point.
+
+        :param url: The URL or file path that the item will link to
+        :type url: Union[str, XABase.XAURL, XABase.XAPath]
+        :param label: The label for the item, or None to use the full URL as the label
+        :type label: Union[str, None]
+        :param icon: The icon to display to the left of the label, defaults to None
+        :type icon: Union[XABase.XAImage, None], optional
+        :param icon_dimensions: The dimensions of the icon, defaults to (20, 20)
+        :type icon_dimensions: tuple[int, int], optional
+        :param tooltip: The tooltip text to display when the cursor hovers over this item, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param action: The method to call when the user clicks this item, or None to open the URL using standard methods, defaults to None
+        :type action: Union[Callable[[XAURLMenuItem], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
+        :type index: int, optional
+        :return: The newly created URL menu item
+        :rtype: XAURLMenuItem
+
+        .. versionadded:: 0.1.2
+        """
+        # Convert string URL to XAURL
+        if isinstance(url, str):
+            url = XABase.XAURL(url)
+        return self.new_item(url, icon, action, args, icon_dimensions, None, index, label, tooltip)
+
+    def new_image_item(self, image: Union[str, XABase.XAImage], tooltip: Union[str, None] = None, index: int = -1) -> 'XAImageMenuItem':
+        """Creates a new image menu item at the specified index or the current insertion point.
+
+        :param image: An image object or the path to an image file to display in the menu
+        :type image: Union[str, XABase.XAImage]
+        :param tooltip: The tooltip text to display when the cursor hovers over the image, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
+        :type index: int, optional
+        :return: The newly created image menu item
+        :rtype: XAImageMenuItem
+
+        .. versionadded:: 0.1.2
+        """
+        # Convert image path to XAImage
+        if isinstance(image, str):
+            image = XABase.XAImage(image)
+        return self.new_item(image, tooltip=tooltip, index=index)
+
+    def new_segmented_control_item(self, segments: Union[list[str], list[XABase.XAImage]], tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False, index: int = -1) -> 'XASegmentedControlMenuItem':
+        """Creates a new segmented control menu item at the specified index or the current insertion point.
+
+        :param segments: The strings or images to display as button options
+        :type segments: Union[list[str], list[XABase.XAImage]]
+        :param tooltip: The tooltip to display when the cursor hovers over the segmented control, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param action: The method to call when the user changes the state of the segmented control (when the user activates/deactivates a button), defaults to None
+        :type action: Union[Callable[[XASlider], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param multiselect: Whether multiple options can be selected at a time, defaults to False
+        :type multiselect: bool optional
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
+        :type index: int, optional
+        :return: The newly created segmented control menu item
+        :rtype: XASegmentedControlMenuItem
+
+        .. versionadded:: 0.1.2
+        """
+        return self.new_item(segments, tooltip=tooltip, action=action, args=args, multiselect=multiselect, index=index)
+
+    def new_switch_item(self, label: Union[str, None] = None, tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XASwitchMenuItem':
+        """Creates a new switch menu item at the specified index or the current insertion point.
+
+        :param label: The label text to display left of the switch, defaults to None
+        :type label: Union[str, None], optional
+        :param tooltip: The tooltip text to display when the cursor hovers over the switch, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param action: The method to call when the user changes the switch's state, defaults to None
+        :type action: Union[Callable[[XASlider], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
+        :type index: int, optional
+        :return: The newly created switch menu item
+        :rtype: XASwitchMenuItem
+
+        .. versionadded:: 0.1.2
+        """
+        return self.new_item("switch", label=label, tooltip=tooltip, action=action, args=args, index=index)
+
+    def new_slider_item(self, tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XASliderMenuItem':
+        """Creates a new slider menu item at the specified index or the current insertion point.
+
+        :param tooltip: The tooltip text to display when the cursor hovers over the item, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param action: The method to call when the user changes the slider's value, defaults to None
+        :type action: Union[Callable[[XASlider], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
+        :type index: int, optional
+        :return: The newly created slider menu item
+        :rtype: XASliderMenuItem
+
+        .. versionadded:: 0.1.2
+        """
+        return self.new_item("slider", tooltip=tooltip, action=action, args=args, index=index)
+
     def new_separator(self, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
         """Adds a separator to the menu at the current insertion point.
 
         :param id: A unique identifier for the separator, defaults to None
         :type id: Union[str, None], optional
-        :param index: The position to insert the separator in the list of menus, defaults to -1
+        :param index: The position to insert the separator in the list of menu items, defaults to -1
         :type index: int, optional
         :return: The newly created separator menu item object
         :rtype: XAMenuBarMenuItem
 
         .. versionadded:: 0.1.1
         """
-        id = id or "separator"
-        while id in self.items:
-            id += "_"
-
-        if index == -1:
-            index = self.xa_elem.numberOfItems()
-        self.items[id] = XAMenuBarMenuItem(self, id)
-        self.xa_elem.insertItem_atIndex_(self.items[id].xa_elem, index)
-        return self.items[id]
+        return self.new_item("separator", index=index)
 
     def _run_action(self, button: int):
         """Runs the action associated with this menu.
@@ -949,7 +1157,7 @@ class XAMenuBarMenu():
 
 
 
-class XAMenuBarMenuItem():
+class XAMenuBarMenuItem(XAMenuBarMenu):
     def __init__(self, parent: XAMenuBarMenu, content: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath], icon: Union['XABase.XAImage', None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, tooltip: Union[str, None] = None):
         """Initializes an item of a menu.
 
@@ -980,10 +1188,21 @@ class XAMenuBarMenuItem():
             new_elem.setView_(self.xa_elem)
             self.xa_elem = new_elem
 
-        self.xa_elem.setToolTip_("Hi")
+        if tooltip is not None:
+            self.xa_elem.setToolTip_(tooltip)
 
         if self.action is None:
             self.action = action
+
+    @property
+    def tooltip(self) -> str:
+        """The tooltip text displayed when the cursor hovers over the menu item.
+        """
+        return self.xa_elem.toolTip()
+
+    @tooltip.setter
+    def tooltip(self, tooltip: str):
+        self.xa_elem.setToolTip_(tooltip)
 
     def _run_action(self, button: int):
         """Runs the action associated with this menu item.
@@ -993,7 +1212,7 @@ class XAMenuBarMenuItem():
         if callable(self.action):
             self.action(self, button, *self.args)
 
-    def new_subitem(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+    def new_item(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
         """Creates a new menu item and places it in a submenu of this item.
 
         This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
@@ -1016,6 +1235,8 @@ class XAMenuBarMenuItem():
         :type label: Union[str, None], optional
         :param tooltip: The tooltip text for the menu item, defaults to None
         :type tooltip: Union[str, None], optional
+        :param multiselect: Controls whether one or multiple options can be selected in a segmented control menu item, defaults to False
+        :type multiselect: bool, optional
         :return: The newly created menu item object
         :rtype: XAMenuBarMenuItem
 
@@ -1030,7 +1251,7 @@ class XAMenuBarMenuItem():
         >>> i4 = i3.new_subitem("Item 1.1.1.1")
         >>> menu_bar.display()
 
-        .. versionadded:: 0.1.1
+        .. versionadded:: 0.1.2
         """
         # If no ID provided, use the title, then make it unique
         content = content or ""
@@ -1050,9 +1271,11 @@ class XAMenuBarMenuItem():
         if content == "separator":
             subitem =  XASeparatorMenuItem(self)
         elif content == "slider":
-            subitem =  XASliderMenuItem(self, action, tooltip, args)
+            subitem =  XASliderMenuItem(self, tooltip, action, args)
         elif content == "switch":
             subitem =  XASwitchMenuItem(self, label, tooltip, action, args)
+        elif isinstance(content, list):
+            subitem =  XASegmentedControlMenuItem(self, content, tooltip, action, args, multiselect)
         elif isinstance(content, XABase.XAImage):
             subitem = XAImageMenuItem(self, content, tooltip)
         elif isinstance(content, XABase.XAURL) or isinstance(content, XABase.XAPath):
@@ -1067,11 +1290,41 @@ class XAMenuBarMenuItem():
         self.items[id] = subitem
         return self.items[id]
 
+    def new_subitem(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
+        """Creates a new menu item and places it in a submenu of this item.
+
+        .. deprecated:: 0.1.2
+        
+           Use :func:`new_item` instead.
+
+        .. versionadded:: 0.1.2
+        """
+        return self.new_item(content, icon, action, args, icon_dimensions, id, index, label, tooltip, multiselect)
+
+    def remove_item(self, id: str):
+        """Removes a subitem from this item's submenu.
+
+        :param id: The ID of the subitem to remove
+        :type id: str
+
+        .. deprecated:: 0.1.2
+        
+           Use :func:`remove_item` instead.
+
+        .. versionadded:: 0.1.1
+        """
+        item = self.items.pop(id)
+        self.xa_elem.submenu().removeItem_(item.xa_elem)
+
     def remove_subitem(self, id: str):
         """Removes a subitem from this item's submenu.
 
         :param id: The ID of the subitem to remove
         :type id: str
+
+        .. deprecated:: 0.1.2
+        
+           Use :func:`remove_item` instead.
 
         .. versionadded:: 0.1.1
         """
@@ -1116,10 +1369,41 @@ class XASliderMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        slider_view = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 160, 30))
+        slider_view = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 30))
         self.slider = XASlider(action, args, value, min_value, max_value)
         slider_view.addSubview_(self.slider.xa_elem)
         self.xa_elem = slider_view
+        super().__init__(parent, None)
+
+
+
+
+class XASegmentedControlMenuItem(XAMenuBarMenuItem):
+    """A menu item containing a segmented control.
+
+    .. versionadded:: 0.1.2
+    """
+    def __init__(self, parent: XAMenuBarMenu, segments: Union[list[str], list[XABase.XAImage]], tooltip: Union[str, None] = None, action: Union[Callable[['XASlider', Any], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False):
+        """Initializes a new segmented control menu item.
+
+        :param parent: The menu containing this item
+        :type parent: XAMenuBarMenu
+        :param segments: The strings or images to display as button options
+        :type segments: Union[list[str], list[XABase.XAImage]]
+        :param tooltip: The tooltip text for this item, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param action: The method to call when the slider's value changes, defaults to None
+        :type action: Union[Callable[[XASlider, Any], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param multiselect: Whether multiple options can be selected at once, defaults to False
+        :type multiselect: bool, optional
+
+        .. versionadded:: 0.1.2
+        """
+        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 25))
+        self.segmented_control = XASegmentedControl(segments, action, args, multiselect)
+        self.xa_elem.addSubview_(self.segmented_control.xa_elem)
         super().__init__(parent, None)
 
 
@@ -1142,6 +1426,7 @@ class XAImageMenuItem(XAMenuBarMenuItem):
         """
         self.xa_elem = AppKit.NSImageView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 200, image.size[1] * 200/image.size[0]))
         rounded_img = AppKit.NSImage.alloc().initWithSize_(image.xa_elem.size())
+        rounded_img.setScalesWhenResized_(True)
         rounded_img.lockFocus()
 
         ctx = AppKit.NSGraphicsContext.currentContext()
@@ -1180,9 +1465,9 @@ class XASwitchMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 160, 35))
+        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 30))
         if label is not None:
-            self.__text = AppKit.NSText.alloc().initWithFrame_(AppKit.NSMakeRect(9, -8, 151, 35))
+            self.__text = AppKit.NSText.alloc().initWithFrame_(AppKit.NSMakeRect(9, -7, 151, 32))
             self.__text.setString_(label)
             self.__text.setDrawsBackground_(False)
 
@@ -1225,6 +1510,7 @@ class XASeparatorMenuItem(XAMenuBarMenuItem):
         .. versionadded:: 0.1.2
         """
         self.xa_elem = AppKit.NSMenuItem.separatorItem()
+        super().__init__(parent, None)
 
 
 
@@ -1451,6 +1737,7 @@ class XAURLMenuItem(XATextMenuItem):
 
     @property
     def location(self) -> Union[XABase.XAURL, XABase.XAPath]:
+        """The URL or path that the menu item refers to."""
         return self.__location
 
     @location.setter

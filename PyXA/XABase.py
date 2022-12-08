@@ -743,7 +743,16 @@ class XAList(XAObject):
         self.xa_elem.removeLastObject()
         return self._new_element(removed, self.xa_ocls)
 
-    def count(self, count_function: Callable[[object], bool]):
+    def count(self, count_function: Callable[[object], bool]) -> int:
+        """Counts the number of entries in the list for which the provided function is True.
+
+        :param count_function: The function to check entries against
+        :type count_function: Callable[[object], bool]
+        :return: The number of entries for which the given function is True.
+        :rtype: int
+
+        .. versionadded:: 0.1.0
+        """
         count = 0
         for index in range(len(self)):
             in_count = False
@@ -2512,10 +2521,11 @@ class XAClipboard(XAObject):
     """
     def __init__(self):
         self.xa_elem = AppKit.NSPasteboard.generalPasteboard()
-        self.content #: The content of the clipboard
 
     @property
     def content(self) -> dict[str, list[Any]]:
+        """The content of the clipboard.
+        """
         info_by_type = {}
         for item in self.xa_elem.pasteboardItems():
             for item_type in item.types():
@@ -2708,8 +2718,7 @@ class XASpotlight(XAObject):
         workspace.showSearchResultsForQueryString_(str(self.query))
 
     def __search_by_strs(self, terms: tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        expanded_terms = [x for y in terms for x in [y]*3]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
         self.__search_with_predicate(format[:-5], *expanded_terms)
 
@@ -2720,15 +2729,13 @@ class XASpotlight(XAObject):
         self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date1, date2]*5)
 
     def __search_by_date_strings(self, date: datetime, terms: tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        expanded_terms = [x for y in terms for x in [y]*3]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
         format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
         self.__search_with_predicate(format, *expanded_terms, *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
 
     def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        expanded_terms = [x for y in terms for x in [y]*3]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
         format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
         self.__search_with_predicate(format, *expanded_terms, *[date1, date2]*5)

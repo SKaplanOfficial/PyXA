@@ -7,7 +7,6 @@ from typing import Literal, Union
 from AppKit import NSPredicate
 
 from PyXA import XABase
-from PyXA import XABaseScriptable
 
 class XAMapsApplication(XABase.XAApplication):
     """A class for managing and interacting with Maps.app.
@@ -23,7 +22,7 @@ class XAMapsApplication(XABase.XAApplication):
     def sidebar_showing(self) -> bool:
         """Whether the sidebar is currently showing.
         """
-        sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
+        sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[1]
         return sidebar.get() is not None
 
     # TODO: This
@@ -63,25 +62,34 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = locations = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[2].actions().filteredArrayUsingPredicate_(predicate)[0]
-        press_action.perform()
+        if self.sidebar_showing:
+            action = self.front_window.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[2].actions().by_name("AXPress")
+            action.perform()
+        else:
+            action = self.front_window.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[4].buttons()[2].actions().by_name("AXPress")
+            action.perform()
 
     def zoom_out(self) -> 'XAMapsApplication':
         """Zoom out on the currently centered location of the map.
 
         .. versionadded:: 0.0.6
         """
-        predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = locations = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[1].actions().filteredArrayUsingPredicate_(predicate)[0]
-        press_action.perform()
+        if self.sidebar_showing:
+            action = self.front_window.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[1].actions().by_name("AXPress")
+            action.perform()
+        else:
+            action = self.front_window.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[4].buttons()[1].actions().by_name("AXPress")
+            action.perform()
 
     def orient_north(self) -> 'XAMapsApplication':
         """Orients the map with North facing upward.
 
         .. versionadded:: 0.0.6
         """
-        self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[0].actions()[0].perform()
+        if self.sidebar_showing:
+            self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[0].actions()[0].perform()
+        else:
+            self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[4].buttons()[0].actions()[0].perform()
 
     def show_address(self, address: str):
         """Centers the map at the specified address.

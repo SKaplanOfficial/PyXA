@@ -35,7 +35,7 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
-VERSION = "0.1.1" #: The installed version of PyXA
+VERSION = "0.1.2" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
 workspace = None
@@ -78,7 +78,6 @@ class XAObject():
     @property
     def xa_sevt(self):
         if XAObject._xa_sevt is None:
-            # XAObject._xa_sevt = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
             XAObject._xa_sevt = Application("System Events")
         return XAObject._xa_sevt
 
@@ -127,9 +126,16 @@ class XAObject():
         :type folder_obj: NSObject
         :return: The PyXA representation of the object.
         :rtype: XAObject
+
+        .. versionchannged:: 0.1.2
+
+           Now returns `None` if no object is provided or if the object itself is `None`.
         
         .. versionadded:: 0.0.1
         """
+        if obj is None:
+            return None
+
         properties = {
             "parent": self,
             "element": obj,
@@ -239,25 +245,6 @@ class XAObject():
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
 
-    # TODO TODO TODO TODO TODO TODO TODO TODO TODO
-    # def set_scriptable_property(self, property_name: str, value: Any) -> 'XAObject':
-    #     """Updates the value of a single scriptable element property of the scripting element associated with this object.
-
-    #     :param property: The name of the property to assign a new value to.
-    #     :type property: str
-    #     :param value: The value to assign to the specified property.
-    #     :type value: Any
-    #     :return: A reference to this PyXA object.
-    #     :rtype: XAObject
-
-    #     .. versionadded:: 0.1.0
-    #     """
-    #     parts = property_name.split("_")
-    #     titled_parts = [part.title() for part in parts[1:]]
-    #     property_name = parts[0] + "".join(titled_parts)
-    #     self.xa_scel.setValue_forKey_(value, property_name)
-    #     return self
-
     def __eq__(self, other: 'XAObject'):
         if other is None:
             return False
@@ -267,8 +254,8 @@ class XAObject():
 
         if isinstance(other, list) or isinstance(other.xa_elem, AppKit.NSArray):
             return len(self.xa_elem) == len(other.xa_elem) and all([x == y for x, y in zip(self.xa_elem, other.xa_elem)])
-        
-        return False
+
+        return self.xa_elem == other.xa_elem
 
 
 
@@ -568,7 +555,7 @@ class XAList(XAObject):
         :type value1: Union[Any, None], optional
         :param value2: The second value to compare each list item's property value against, defaults to None
         :type value2: Union[Any, None], optional
-        :return: The filter XAList object
+        :return: The filtered XAList object
         :rtype: XAList
 
         :Example 1: Get the last file sent by you (via this machine) in Messages.app
@@ -743,6 +730,21 @@ class XAList(XAObject):
         self.xa_elem.removeLastObject()
         return self._new_element(removed, self.xa_ocls)
 
+    def index(self, element: XAObject) -> int:
+        """Returns the index of the first occurrence of the element in the list, or -1 if no such element exists in the list.
+        
+        .. versionadded:: 0.1.2
+        """
+        for index, item in enumerate(self.xa_elem):
+            if item == element.xa_elem:
+                return index
+
+        for index, item in enumerate(self):
+            if item == element:
+                return index
+
+        return -1
+
     def count(self, count_function: Callable[[object], bool]) -> int:
         """Counts the number of entries in the list for which the provided function is True.
 
@@ -868,6 +870,42 @@ class XAApplicationList(XAList):
 
     def process_identifier(self) -> list[str]:
         return [x.get("kCGWindowOwnerPID") for x in self.xa_elem]
+
+    def by_bundle_identifier(self, bundle_identifier: str) -> Union['XAApplication', None]:
+        for app in self:
+            if app.bundle_identifier == bundle_identifier:
+                return app
+
+    def by_bundle_url(self, bundle_url: Union['XAURL', str]) -> Union['XAApplication', None]:
+        if isinstance(bundle_url, str):
+            bundle_url = XAURL(bundle_url)
+
+        for app in self:
+            if app.bundle_url.xa_elem == bundle_url.xa_elem:
+                return app
+
+    def by_executable_url(self, executable_url: Union['XAURL', str]) -> Union['XAApplication', None]:
+        if isinstance(executable_url, str):
+            executable_url = XAURL(executable_url)
+
+        for app in self:
+            if app.executable_url.xa_elem == executable_url.xa_elem:
+                return app
+
+    def by_launch_date(self, launch_date: datetime) -> Union['XAApplication', None]:
+        for app in self:
+            if app.launch_date == launch_date:
+                return app
+
+    def by_localized_name(self, localized_name: str) -> Union['XAApplication', None]:
+        for index, app in enumerate(self.xa_elem):
+            if app.get("kCGWindowOwnerName") == localized_name:
+                return self.__getitem__(index)
+
+    def by_process_identifier(self, process_identifier: str) -> Union['XAApplication', None]:
+        for index, app in enumerate(self.xa_elem):
+            if app.get("kCGWindowOwnerPID") == process_identifier:
+                return self.__getitem__(index)
 
     def hide(self):
         """Hides all applications in the list.
@@ -1421,7 +1459,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         - In iWork: Paste the application name
         - In Safari: Paste the application name
         - In Notes: Attach a copy of the application bundle to the active note
-        The pasted content may different for other applications.
+        The pasted content may be different for other applications.
 
         :return: The clipboard-codable representation
         :rtype: list[Union[str, AppKit.NSURL, AppKit.NSImage]]
@@ -2276,6 +2314,59 @@ class XAPredicate(XAObject, XAClipboardCodable):
 
 
 
+class XAURLList(XAList):
+    """A list of URLs. Supports bulk operations.
+
+    .. versionadded:: 0.1.2
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAURL, filter)
+
+    def base_url(self) -> list[str]:
+        return [url.base_url for url in self]
+
+    def parameters(self) -> list[str]:
+        return [url.parameters for url in self]
+
+    def scheme(self) -> list[str]:
+        return [url.scheme for url in self]
+
+    def fragment(self) -> list[str]:
+        return [url.fragment for url in self]
+
+    def port(self) -> list[int]:
+        return [url.port for url in self]
+
+    def html(self) -> list[element.Tag]:
+        return [url.html for url in self]
+
+    def title(self) -> list[str]:
+        return [url.title for url in self]
+
+    def open(self):
+        """Opens each URL in the list.
+        
+        .. versionadded:: 0.1.2
+        """
+        for url in self:
+            url.open()
+
+    def extract_text(self) -> list[list[str]]:
+        """Extracts the visible text of each URL in the list.
+
+        .. versionadded:: 0.1.2
+        """
+        ls = [url.extract_text() for url in self]
+        return ls
+
+    def extract_images(self) -> list[list['XAImage']]:
+        """Extracts the images of each URL in the list.
+
+        .. versionadded:: 0.1.2
+        """
+        ls = [url.extract_images() for url in self]
+        return ls
+
 class XAURL(XAObject, XAClipboardCodable):
     """A URL using any scheme recognized by the system. This can be a file URL.
 
@@ -2285,6 +2376,18 @@ class XAURL(XAObject, XAClipboardCodable):
         super().__init__()
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
         self.url: str #: The string form of the URL
+
+        if isinstance(url, list):
+            # Elevate to XAURLList
+            new_self = XAURLList({"element": AppKit.NSArray.alloc().initWithArray_(url)})
+            self.__dict__ = new_self.__dict__
+            self.__class__ = new_self.__class__
+            self = new_self
+            return
+
+        if isinstance(url, dict):
+            # Initialized via XAURLList
+            url = url["element"]
 
         if isinstance(url, str):
             # URL-encode spaces
@@ -2309,6 +2412,8 @@ class XAURL(XAObject, XAClipboardCodable):
         elif isinstance(url, XAURL) or isinstance(url, XAPath):
             self.url = url.url
             url = url.xa_elem
+        else:
+            self.url = str(url)
 
         self.xa_elem = url
 
@@ -2410,7 +2515,7 @@ class XAURL(XAObject, XAClipboardCodable):
                 data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(image_src))
                 image = AppKit.NSImage.alloc().initWithData_(data)
                 if image is not None:
-                    image_object = XAImage(image, name = XAURL(image_src).xa_elem.pathComponents()[-1])
+                    image_object = XAImage(image)
                     image_objects.append(image_object)
 
             return image_objects
@@ -3919,7 +4024,6 @@ class XAColor(XAObject, XAClipboardCodable):
 
 
 
-# TODO: Init NSLocation object
 class XALocation(XAObject):
     """A location with a latitude and longitude, along with other data.
 
@@ -4442,56 +4546,56 @@ class XADiskItemList(XAList):
     def volume(self) -> list['str']:
         return list(self.xa_elem.arrayByApplyingSelector_("volume") or [])
 
-    def by_busy_status(self, busy_status: bool) -> 'XADiskItem':
+    def by_busy_status(self, busy_status: bool) -> Union['XADiskItem', None]:
         return self.by_property("busyStatus", busy_status)
 
-    def by_container(self, container: 'XADiskItem') -> 'XADiskItem':
+    def by_container(self, container: 'XADiskItem') -> Union['XADiskItem', None]:
         return self.by_property("container", container.xa_elem)
 
-    def by_creation_date(self, creation_date: datetime) -> 'XADiskItem':
+    def by_creation_date(self, creation_date: datetime) -> Union['XADiskItem', None]:
         return self.by_property("creationDate", creation_date)
 
-    def by_displayed_name(self, displayed_name: str) -> 'XADiskItem':
+    def by_displayed_name(self, displayed_name: str) -> Union['XADiskItem', None]:
         return self.by_property("displayedName", displayed_name)
 
-    def by_id(self, id: str) -> 'XADiskItem':
+    def by_id(self, id: str) -> Union['XADiskItem', None]:
         return self.by_property("id", id)
 
-    def by_modification_date(self, modification_date: datetime) -> 'XADiskItem':
+    def by_modification_date(self, modification_date: datetime) -> Union['XADiskItem', None]:
         return self.by_property("modificationDate", modification_date)
 
-    def by_name(self, name: str) -> 'XADiskItem':
+    def by_name(self, name: str) -> Union['XADiskItem', None]:
         return self.by_property("name", name)
 
-    def by_name_extension(self, name_extension: str) -> 'XADiskItem':
+    def by_name_extension(self, name_extension: str) -> Union['XADiskItem', None]:
         return self.by_property("nameExtension", name_extension)
 
-    def by_package_folder(self, package_folder: bool) -> 'XADiskItem':
+    def by_package_folder(self, package_folder: bool) -> Union['XADiskItem', None]:
         return self.by_property("packageFolder", package_folder)
 
-    def by_path(self, path: Union[XAPath, str]) -> 'XADiskItem':
+    def by_path(self, path: Union[XAPath, str]) -> Union['XADiskItem', None]:
         if isinstance(path, XAPath):
             path = path.path
         return self.by_property("path", path)
 
-    def by_physical_size(self, physical_size: int) -> 'XADiskItem':
+    def by_physical_size(self, physical_size: int) -> Union['XADiskItem', None]:
         return self.by_property("physicalSize", physical_size)
 
-    def by_posix_path(self, posix_path: Union[XAPath, str]) -> 'XADiskItem':
+    def by_posix_path(self, posix_path: Union[XAPath, str]) -> Union['XADiskItem', None]:
         if isinstance(posix_path, XAPath):
             posix_path = posix_path.path
         return self.by_property("POSIXPath", posix_path)
 
-    def by_size(self, size: int) -> 'XADiskItem':
+    def by_size(self, size: int) -> Union['XADiskItem', None]:
         return self.by_property("size", size)
 
-    def by_url(self, url: XAURL) -> 'XADiskItem':
+    def by_url(self, url: XAURL) -> Union['XADiskItem', None]:
         return self.by_property("URL", url.xa_elem)
 
-    def by_visible(self, visible: bool) -> 'XADiskItem':
+    def by_visible(self, visible: bool) -> Union['XADiskItem', None]:
         return self.by_property("visible", visible)
 
-    def by_volume(self, volume: str) -> 'XADiskItem':
+    def by_volume(self, volume: str) -> Union['XADiskItem', None]:
         return self.by_property("volume", volume)
 
     def __repr__(self):
@@ -4692,31 +4796,31 @@ class XAAliasList(XADiskItemList):
     def version(self) -> list['str']:
         return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
-    def by_creator_type(self, creator_type: str) -> 'XAAlias':
+    def by_creator_type(self, creator_type: str) -> Union['XAAlias', None]:
         return self.by_property("creatorType", creator_type)
 
-    def by_default_application(self, default_application: 'XADiskItem') -> 'XAAlias':
+    def by_default_application(self, default_application: 'XADiskItem') -> Union['XAAlias', None]:
         return self.by_property("defaultApplication", default_application.xa_elem)
 
-    def by_file_type(self, file_type: str) -> 'XAAlias':
+    def by_file_type(self, file_type: str) -> Union['XAAlias', None]:
         return self.by_property("fileType", file_type)
 
-    def by_kind(self, kind: str) -> 'XAAlias':
+    def by_kind(self, kind: str) -> Union['XAAlias', None]:
         return self.by_property("kind", kind)
 
-    def by_product_version(self, product_version: str) -> 'XAAlias':
+    def by_product_version(self, product_version: str) -> Union['XAAlias', None]:
         return self.by_property("productVersion", product_version)
 
-    def by_short_version(self, short_version: str) -> 'XAAlias':
+    def by_short_version(self, short_version: str) -> Union['XAAlias', None]:
         return self.by_property("shortVersion", short_version)
 
-    def by_stationery(self, stationery: bool) -> 'XAAlias':
+    def by_stationery(self, stationery: bool) -> Union['XAAlias', None]:
         return self.by_property("stationery", stationery)
 
-    def by_type_identifier(self, type_identifier: str) -> 'XAAlias':
+    def by_type_identifier(self, type_identifier: str) -> Union['XAAlias', None]:
         return self.by_property("typeIdentifier", type_identifier)
 
-    def by_version(self, version: str) -> 'XAAlias':
+    def by_version(self, version: str) -> Union['XAAlias', None]:
         return self.by_property("version", version)
 
 class XAAlias(XADiskItem):
@@ -4875,31 +4979,31 @@ class XADiskList(XADiskItemList):
     def zone(self) -> list['str']:
         return list(self.xa_elem.arrayByApplyingSelector_("zone") or [])
 
-    def by_capacity(self, capacity: float) -> 'XADisk':
+    def by_capacity(self, capacity: float) -> Union['XADisk', None]:
         return self.by_property("capacity", capacity)
 
-    def by_ejectable(self, ejectable: bool) -> 'XADisk':
+    def by_ejectable(self, ejectable: bool) -> Union['XADisk', None]:
         return self.by_property("ejectable", ejectable)
 
-    def by_format(self, format: 'XAEventsApplication.Format') -> 'XADisk':
+    def by_format(self, format: 'XAEventsApplication.Format') -> Union['XADisk', None]:
         return self.by_property("format", format.value)
 
-    def by_free_space(self, free_space: float) -> 'XADisk':
+    def by_free_space(self, free_space: float) -> Union['XADisk', None]:
         return self.by_property("freeSpace", free_space)
 
-    def by_ignore_privileges(self, ignore_privileges: bool) -> 'XADisk':
+    def by_ignore_privileges(self, ignore_privileges: bool) -> Union['XADisk', None]:
         return self.by_property("ignorePrivileges", ignore_privileges)
 
-    def by_local_volume(self, local_volume: bool) -> 'XADisk':
+    def by_local_volume(self, local_volume: bool) -> Union['XADisk', None]:
         return self.by_property("localVolume", local_volume)
 
-    def by_server(self, server: str) -> 'XADisk':
+    def by_server(self, server: str) -> Union['XADisk', None]:
         return self.by_property("server", server)
 
-    def by_startup(self, startup: bool) -> 'XADisk':
+    def by_startup(self, startup: bool) -> Union['XADisk', None]:
         return self.by_property("startup", startup)
 
-    def by_zone(self, zone: str) -> 'XADisk':
+    def by_zone(self, zone: str) -> Union['XADisk', None]:
         return self.by_property("zone", zone)
 
 class XADisk(XADiskItem):
@@ -5036,10 +5140,10 @@ class XADomainList(XAList):
     def name(self) -> list['str']:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_id(self, id: str) -> 'XADomain':
+    def by_id(self, id: str) -> Union['XADomain', None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> 'XADomain':
+    def by_name(self, name: str) -> Union['XADomain', None]:
         return self.by_property("name", name)
 
     def __repr__(self):
@@ -5332,31 +5436,31 @@ class XAFileList(XADiskItemList):
     def version(self) -> list['str']:
         return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
-    def by_creator_type(self, creator_type: str) -> 'XAFile':
+    def by_creator_type(self, creator_type: str) -> Union['XAFile', None]:
         return self.by_property("creatorType", creator_type)
 
-    def by_default_application(self, default_application: 'XADiskItem') -> 'XAFile':
+    def by_default_application(self, default_application: 'XADiskItem') -> Union['XAFile', None]:
         return self.by_property("defaultApplication", default_application.xa_elem)
 
-    def by_file_type(self, file_type: str) -> 'XAFile':
+    def by_file_type(self, file_type: str) -> Union['XAFile', None]:
         return self.by_property("fileType", file_type)
 
-    def by_kind(self, kind: str) -> 'XAFile':
+    def by_kind(self, kind: str) -> Union['XAFile', None]:
         return self.by_property("kind", kind)
 
-    def by_product_version(self, product_version: str) -> 'XAFile':
+    def by_product_version(self, product_version: str) -> Union['XAFile', None]:
         return self.by_property("productVersion", product_version)
 
-    def by_short_version(self, short_version: str) -> 'XAFile':
+    def by_short_version(self, short_version: str) -> Union['XAFile', None]:
         return self.by_property("shortVersion", short_version)
 
-    def by_stationery(self, stationery: bool) -> 'XAFile':
+    def by_stationery(self, stationery: bool) -> Union['XAFile', None]:
         return self.by_property("stationery", stationery)
 
-    def by_type_identifier(self, type_identifier: str) -> 'XAFile':
+    def by_type_identifier(self, type_identifier: str) -> Union['XAFile', None]:
         return self.by_property("typeIdentifier", type_identifier)
 
-    def by_version(self, version: str) -> 'XAFile':
+    def by_version(self, version: str) -> Union['XAFile', None]:
         return self.by_property("version", version)
 
 class XAFile(XADiskItem):
@@ -7974,6 +8078,80 @@ class XASoundList(XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASound, filter)
 
+    def file(self) -> list[XAPath]:
+        return [sound.file for sound in self]
+
+    def num_sample_frames(self) -> list[int]:
+        return [sound.num_sample_frames for sound in self]
+
+    def sample_rate(self) -> list[float]:
+        return [sound.sample_rate for sound in self]
+
+    def duration(self) -> list[float]:
+        return [sound.duration for sound in self]
+
+    def play(self) -> Self:
+        """Plays all sounds in the list simultaneously.
+
+        :return: The list of sounds.
+        :rtype: Self
+        
+        .. versionadded:: 0.1.2
+        """
+        for sound in self:
+            sound.play()
+        return self
+
+    def pause(self) -> Self:
+        """Pauses playback of all sounds in the list.
+
+        :return: The list of sounds.
+        :rtype: Self
+        
+        .. versionadded:: 0.1.2
+        """
+        for sound in self:
+            sound.pause()
+        return self
+
+    def resume(self) -> Self:
+        """Resumes playback of all sounds in the list.
+
+        :return: The list of sounds.
+        :rtype: Self
+        
+        .. versionadded:: 0.1.2
+        """
+        for sound in self:
+            sound.resume()
+        return self
+
+    def stop(self) -> Self:
+        """Stops playback of all sounds in the list.
+
+        :return: The list of sounds.
+        :rtype: Self
+        
+        .. versionadded:: 0.1.2
+        """
+        for sound in self:
+            sound.stop()
+        return self
+
+    def trim(self, start_time: float, end_time: float) -> 'XASoundList':
+        """Trims each sound in the list to the specified start and end time, in seconds.
+
+        :param start_time: The start time in seconds
+        :type start_time: float
+        :param end_time: The end time in seconds
+        :type end_time: float
+        :return: The list of updated sounds
+        :rtype: XASoundList
+
+        .. versionadded:: 0.1.2
+        """
+        return self._new_element([sound.trim(start_time, end_time) for sound in self], XASoundList)
+
     def get_clipboard_representation(self) -> list[Union['AppKit.NSSound', 'AppKit.NSURL', str]]:
         """Gets a clipboard-codable representation of each sound in the list.
 
@@ -7984,7 +8162,7 @@ class XASoundList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
+        return [self.xa_elem, self.file(), [x.path() for x in self.file()]]
 
 class XASound(XAObject, XAClipboardCodable):
     """A class for playing and interacting with audio files and data.
@@ -8006,6 +8184,9 @@ class XASound(XAObject, XAClipboardCodable):
 
             case {"element": str() as ref}:
                 self.file = XASound(ref).file
+
+            case {"element": XASound() as ref}:
+                self.file = ref.file
 
             case XAPath() as ref:
                 self.file = ref

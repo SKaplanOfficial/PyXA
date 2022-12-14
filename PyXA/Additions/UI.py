@@ -796,7 +796,8 @@ class XAMenuBar():
 
         try:
             if len(self.menus) > 0:
-                AppHelper.runEventLoop(installInterrupt=True)
+                AppHelper.installMachInterrupt()
+                AppHelper.runEventLoop()
         except Exception as e:
             print(e)
 

@@ -33,7 +33,7 @@ PyXA can control Safari and interact with its content. In this example, we use P
 ```python
 import PyXA
 from time import sleep
-safari = PyXA.Application("Safari")
+safari = PyXA.Safari()
 safari.open("https://www.apple.com")
 sleep(1)
 safari.current_document.print()

@@ -1,3 +1,0 @@
-Spotify Module Overview
-=======================
-

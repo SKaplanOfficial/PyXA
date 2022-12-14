@@ -15,8 +15,6 @@ from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XAC
 class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """A class for managing and interacting with TextEdit.app.
 
-    .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
-
     .. versionadded:: 0.0.1
     """
 
@@ -213,8 +211,6 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
 class XATextEditWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit windows.
-
-    .. seealso:: :class:`XATextEditApplication`
 
     .. versionadded:: 0.0.1
     """
@@ -424,8 +420,6 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
 
 class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable, XACloseable):
     """A class for managing and interacting with TextEdit documents.
-
-    .. seealso:: :class:`XATextEditApplication`
 
     .. versionchanged:: 0.0.2
 

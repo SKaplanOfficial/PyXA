@@ -79,9 +79,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         >>> app.open("/Users/exampleuser/Documents/WebPage.html")
 
         .. versionadded:: 0.0.1
-        """
-        logger.debug(f"Attempting to open url of type {type(url)}")
-        
+        """        
         if isinstance(url, str):
             url = XABase.XAURL(url)
 
@@ -89,7 +87,6 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         new_tab = self.make("tab", {"URL": url.url})
         tab = self.front_window.tabs().push(new_tab)
         self.front_window.current_tab = tab
-        logger.debug(f"Opened URL")
         return tab
 
     def show_bookmarks(self) -> 'XASafariApplication':

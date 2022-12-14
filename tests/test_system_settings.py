@@ -5,7 +5,7 @@ import unittest
 # Run with python -m unittest discover
 class TestSystemPreferences(unittest.TestCase):
     def setUp(self):
-        self.app = PyXA.Application("System Preferences")
+        self.app = PyXA.Application("System Settings")
         self.panes = self.app.panes()
 
     def test_system_preferences_application_type(self):
@@ -24,6 +24,7 @@ class TestSystemPreferences(unittest.TestCase):
         self.assertIsInstance(names[0], str)
 
     def test_pane_eq(self):
+        print(self.app.panes())
         pane1 = self.app.panes({"name": "Battery"})[0]
         pane2 = self.panes.by_name("Battery")
         self.assertEqual(pane1, pane2)

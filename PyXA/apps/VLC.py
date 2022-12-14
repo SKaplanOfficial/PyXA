@@ -378,7 +378,6 @@ class XAVLCDocument(XABase.XAObject):
     def path(self, path: Union[str, XABase.XAPath]):
         if isinstance(path, str):
             path = XABase.XAPath(path)
-        self.path = path
         self.set_property("path", path.xa_elem)
 
     def __repr__(self):

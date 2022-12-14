@@ -31,19 +31,19 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
     def name(self) -> str:
         """The name of the application.
         """
-        return self.xa_elem.name()
+        return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
         """Whether Reminders is the active application.
         """
-        return self.xa_elem.frontmost()
+        return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
         """The version number of Reminders.app.
         """
-        return self.xa_elem.version()
+        return self.xa_scel.version()
 
     @property
     def default_account(self) -> 'XARemindersAccount':
@@ -157,7 +157,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.1
         """
-        new_reminder = self.make("reminder", {"name": name, "dateDate": due_date})
+        new_reminder = self.make("reminder", {"name": name, "dueDate": due_date})
         if reminder_list is None:
             self.reminders().push(new_reminder)
             return self.reminders()[-1]
@@ -383,7 +383,8 @@ class XARemindersAccountList(XABase.XAList):
         super().__init__(properties, XARemindersAccount, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
+        return [dict(x) for x in ls]
 
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
@@ -392,7 +393,9 @@ class XARemindersAccountList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     def by_properties(self, properties: dict) -> Union['XARemindersAccount', None]:
-        return self.by_property("properties", properties)
+        for account in self.xa_elem:
+            if account.properties() == properties:
+                return self._new_element(account, XARemindersAccount)
 
     def by_id(self, id: str) -> Union['XARemindersAccount', None]:
         return self.by_property("id", id)
@@ -413,7 +416,7 @@ class XARemindersAccount(XABase.XAObject):
     def properties(self) -> dict:
         """All properties of the account.
         """
-        return self.xa_elem.properties()
+        return dict(self.xa_elem.properties())
 
     @property
     def id(self) -> str:
@@ -451,7 +454,8 @@ class XARemindersListList(XABase.XAList):
         super().__init__(properties, XARemindersList, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
+        return [dict(x) for x in ls]
 
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
@@ -466,29 +470,33 @@ class XARemindersListList(XABase.XAList):
     def color(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("color") or [])
 
-    def emblem(self) -> list[dict]:
+    def emblem(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("emblem") or [])
 
     def reminders(self) -> 'XARemindersReminderList':
         ls = self.xa_elem.arrayByApplyingSelector_("reminders") or []
         return self._new_element(ls, XARemindersReminderList)
 
-    def by_properties(self, properties: dict) -> Union['XARemindersListList', None]:
-        return self.by_property("properties", properties)
+    def by_properties(self, properties: dict) -> Union['XARemindersList', None]:
+        for ls in self.xa_elem:
+            if ls.properties() == properties:
+                return self._new_element(ls, XARemindersList)
 
-    def by_id(self, id: str) -> Union['XARemindersListList', None]:
+    def by_id(self, id: str) -> Union['XARemindersList', None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> Union['XARemindersListList', None]:
+    def by_name(self, name: str) -> Union['XARemindersList', None]:
         return self.by_property("name", name)
 
-    def by_container(self, container: 'XARemindersList') -> Union['XARemindersListList', None]:
-        return self.by_property("container", container.xa_elem)
+    def by_container(self, container: 'XARemindersList') -> Union['XARemindersList', None]:
+        for ls in self.xa_elem:
+            if ls.container().get() == container.xa_elem.get():
+                return self._new_element(ls, XARemindersList) 
 
-    def by_color(self, color: str) -> Union['XARemindersListList', None]:
+    def by_color(self, color: str) -> Union['XARemindersList', None]:
         return self.by_property("color", color)
 
-    def by_emblem(self, emblem: str) -> Union['XARemindersListList', None]:
+    def by_emblem(self, emblem: str) -> Union['XARemindersList', None]:
         return self.by_property("emblem", emblem)
 
     def delete(self):
@@ -508,20 +516,21 @@ class XARemindersList(XABase.XAObject):
         super().__init__(properties)
 
         # EventKit Properties
-        lists = XABase.XAPredicate().from_args("calendarIdentifier", self.xa_elem.id()).evaluate(self._xa_estr.allCalendars())
-        if len(lists) > 0:
-            elem = lists[0]
+        if hasattr(self.xa_elem, "id"):
+            lists = XABase.XAPredicate().from_args("calendarIdentifier", self.xa_elem.id()).evaluate(self.xa_estr.calendars())
+            if len(lists) > 0:
+                elem = lists[0]
 
-            self.summary = elem.summary() #: An overview of the list's information
-            self.subscription_url = elem.subscriptionURL() #: The URL of the list used to subscribe to it
-            self.sharing_status: bool = elem.sharingStatus() #: Whether the list is shared
-            self.sharees = elem.sharees() #: A list of individuals with whom the list is shared with
+                self.summary = elem.summary() #: An overview of the list's information
+                self.subscription_url = elem.subscriptionURL() #: The URL of the list used to subscribe to it
+                self.sharing_status: bool = elem.sharingStatus() #: Whether the list is shared
+                self.sharees = elem.sharees() #: A list of individuals with whom the list is shared with
 
     @property
     def properties(self) -> dict:
         """All properties of the list.
         """
-        return self.xa_elem.properties()
+        return dict(self.xa_elem.properties())
 
     @property
     def id(self) -> str:
@@ -610,7 +619,8 @@ class XARemindersReminderList(XABase.XAList):
         super().__init__(properties, XARemindersReminder, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
+        return [dict(x) for x in ls]
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
@@ -655,46 +665,62 @@ class XARemindersReminderList(XABase.XAList):
     def alarms(self) -> list['XARemindersAlarmList']:
         return [x.alarms() for x in self]
 
-    def by_properties(self, properties: dict) -> Union['XARemindersReminderList', None]:
-        return self.by_property("properties", properties)
+    def by_properties(self, properties: dict) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.properties() == properties:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_name(self, name: str) -> Union['XARemindersReminderList', None]:
+    def by_name(self, name: str) -> Union['XARemindersReminder', None]:
         return self.by_property("name", name)
 
-    def by_id(self, id: str) -> Union['XARemindersReminderList', None]:
+    def by_id(self, id: str) -> Union['XARemindersReminder', None]:
         return self.by_property("id", id)
 
-    def by_container(self, container: 'XARemindersList') -> Union['XARemindersReminderList', None]:
-        return self.by_property("container", container.xa_elem)
+    def by_container(self, container: 'XARemindersList') -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.container().get() == container.xa_elem.get():
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_creation_date(self, creation_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("creationDate", creation_date)
+    def by_creation_date(self, creation_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.creationDate() == creation_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_modification_date(self, modification_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("modificationDate", modification_date)
+    def by_modification_date(self, modification_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.modificationDate() == modification_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_body(self, body: str) -> Union['XARemindersReminderList', None]:
+    def by_body(self, body: str) -> Union['XARemindersReminder', None]:
         return self.by_property("body", body)
 
-    def by_completed(self, completed: bool) -> Union['XARemindersReminderList', None]:
+    def by_completed(self, completed: bool) -> Union['XARemindersReminder', None]:
         return self.by_property("completed", completed)
 
-    def by_completion_date(self, completed_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("completedDate", completed_date)
+    def by_completion_date(self, completion_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.completionDate() == completion_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_due_date(self, due_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("dueDate", due_date)
+    def by_due_date(self, due_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.dueDate() == due_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_allday_due_date(self, allday_due_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("alldayDueDate", allday_due_date)
+    def by_allday_due_date(self, allday_due_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.alldayDueDate() == allday_due_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_remind_me_date(self, remind_me_date: datetime) -> Union['XARemindersReminderList', None]:
-        return self.by_property("remindMeDate", remind_me_date)
+    def by_remind_me_date(self, remind_me_date: datetime) -> Union['XARemindersReminder', None]:
+        for reminder in self.xa_elem:
+            if reminder.remindMeDate() == remind_me_date:
+                return self._new_element(reminder, XARemindersReminder)
 
-    def by_priority(self, priority: int) -> Union['XARemindersReminderList', None]:
+    def by_priority(self, priority: int) -> Union['XARemindersReminder', None]:
         return self.by_property("priority", priority)
 
-    def by_flagged(self, flagged: bool) -> Union['XARemindersReminderList', None]:
+    def by_flagged(self, flagged: bool) -> Union['XARemindersReminder', None]:
         return self.by_property("flagged", flagged)
 
     def delete(self):
@@ -734,7 +760,7 @@ class XARemindersReminder(XABase.XAObject):
         """
         if self.__properties is None:
             self.__properties = self.xa_elem.properties()
-        return self.__properties.copy()
+        return dict(self.__properties.copy())
 
     @property
     def name(self) -> str:
@@ -796,7 +822,7 @@ class XARemindersReminder(XABase.XAObject):
         """
         if self.__properties is None:
             self.__properties = self.xa_elem.properties()
-        return self.__properties["body"]
+        return self.__properties["body"] or ""
 
     @body.setter
     def body(self, body: str):
@@ -817,7 +843,7 @@ class XARemindersReminder(XABase.XAObject):
         self.set_property('completed', completed)
 
     @property
-    def completion_date(self) -> datetime:
+    def completion_date(self) -> Union[datetime, None]:
         """The completion date of the reminder.
 
         .. versionadded:: 0.0.6
@@ -831,7 +857,7 @@ class XARemindersReminder(XABase.XAObject):
         self.set_property('completionDate', completion_date)
 
     @property
-    def due_date(self) -> datetime:
+    def due_date(self) -> Union[datetime, None]:
         """The due date of the reminder; will set both date and time.
 
         .. versionadded:: 0.0.6
@@ -846,7 +872,7 @@ class XARemindersReminder(XABase.XAObject):
         self.set_property('dueDate', due_date)
 
     @property
-    def allday_due_date(self) -> datetime:
+    def allday_due_date(self) -> Union[datetime, None]:
         """The all-day due date of the reminder; will only set a date.
 
         .. versionadded:: 0.0.6
@@ -860,7 +886,7 @@ class XARemindersReminder(XABase.XAObject):
         self.set_property('alldayDueDate', allday_due_date)
 
     @property
-    def remind_me_date(self) -> datetime:
+    def remind_me_date(self) -> Union[datetime, None]:
         """The remind date of the reminder.
 
         .. versionadded:: 0.0.6
@@ -939,8 +965,8 @@ class XARemindersReminder(XABase.XAObject):
             return self._new_element(reminder.recurrenceRule(), XARemindersRecurrenceRule)
 
     def __get_ek_reminder(self) -> EventKit.EKReminder:
-        predicate = self._xa_estr.predicateForRemindersInCalendars_(None)
-        reminders = self._xa_estr.remindersMatchingPredicate_(predicate)
+        predicate = self.xa_estr.predicateForRemindersInCalendars_(None)
+        reminders = self.xa_estr.remindersMatchingPredicate_(predicate)
 
         reminder_id = self.xa_elem.properties()["id"] if self.__properties is None else self.__properties["id"]
 
@@ -1044,7 +1070,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
             "yearly": 3,
         }
         self.xa_elem.setFrequency_(freq_ids[frequency])
-        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def set_interval(self, interval: int):
         """Sets the interval of recurrence.
@@ -1055,7 +1081,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setInterval_(interval)
-        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def set_end_date(self, end_date: datetime):
         """Sets the date and time when the recurrence ends.
@@ -1066,7 +1092,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setEndDate_(end_date)
-        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def __repr__(self):
         return "<" + str(type(self)) + f"freq={self.xa_elem.frequencyString()}, interval={self.interval}, end_date={self.end_date}, id={self.id}>"
@@ -1172,7 +1198,7 @@ class XARemindersAlarm(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setAbsoluteDate_(date)
-        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_prnt.xa_elem, True, None)
 
     def set_location(self, location: XABase.XALocation):
         """Sets the location and radius of the alarm.
@@ -1184,7 +1210,7 @@ class XARemindersAlarm(XABase.XAObject):
         """
         location.raw_value = self.location.raw_value
         location.prepare_for_export()
-        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_prnt.xa_elem, True, None)
 
     def __repr__(self):
         return "<" + str(type(self)) + "id=" + self.id + ">"

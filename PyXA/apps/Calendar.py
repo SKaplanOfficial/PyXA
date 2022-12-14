@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from enum import Enum
-from typing import Union
+from typing import Any, Generator, Union
 
 import EventKit
 import AppKit
@@ -56,7 +56,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def properties(self) -> dict:
         """All properties of the application.
         """
-        return self.xa_scel.properties()
+        return dict(self.xa_scel.properties())
 
     @property
     def name(self) -> str:
@@ -84,7 +84,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def default_calendar(self) -> 'XACalendarCalendar':
         """The calendar that events are added to by default.
         """
-        calendar_obj = self._xa_estr.defaultCalendarForNewEvents()
+        calendar_obj = self.xa_estr.defaultCalendarForNewEvents()
         return self.calendars().by_name(calendar_obj.title())
 
     def reload_calendars(self) -> 'XACalendarApplication':
@@ -118,7 +118,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         if view == XACalendarApplication.ViewType.YEAR:
-            self._xa_estr.showDateInCalendar_inView_(0, 3)
+            self.xa_estr.showDateInCalendar_inView_(0, 3)
         else:
             self.xa_scel.switchViewTo_(view.value)
         return self
@@ -142,11 +142,11 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         if view is None:
-            self._xa_estr.showDateInCalendar_inView_(date, 1)
+            self.xa_estr.showDateInCalendar_inView_(date, 1)
         elif view == XACalendarApplication.ViewType.YEAR:
-            self._xa_estr.showDateInCalendar_inView_(date, 3)
+            self.xa_estr.showDateInCalendar_inView_(date, 3)
         else:
-            self._xa_estr.showDateInCalendar_inView_(date, 0)
+            self.xa_estr.showDateInCalendar_inView_(date, 0)
             self.xa_scel.switchViewTo_(view.value)
         return self
 
@@ -226,10 +226,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         new_calendar = self.make("calendar", {"name": name})
         self.calendars().push(new_calendar)
-        
-        desc = new_calendar.xa_elem.description()
-        id = desc[desc.index("id") + 4: desc.index("of app") - 3]
-        return reversed(self.calendars()).by_name(name)
+        return self.calendars()[self.calendars().index(new_calendar)]
 
     def new_event(self, summary: str, start_date: datetime, end_date: datetime, calendar: Union['XACalendarCalendar', None] = None) -> 'XACalendarEvent':
         """Creates a new event with the given name and start/end dates in the specified calendar. If no calendar is specified, the default calendar is used.
@@ -335,7 +332,7 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     def properties(self) -> dict:
         """All properties of the window.
         """
-        return self.xa_elem.properties()
+        return dict(self.xa_elem.properties())
 
     @property
     def document(self) -> 'XACalendarDocument':
@@ -357,7 +354,8 @@ class XACalendarDocumentList(XABase.XAList):
         super().__init__(properties, XACalendarDocument, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+        ls = self.xa_elem.arrayByApplyingSelector_("properties") or []
+        return [dict(x) for x in ls]
         
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
@@ -396,7 +394,7 @@ class XACalendarDocument(XABase.XAObject):
     def properties(self) -> dict:
         """All properties of the document.
         """
-        return self.xa_elem.properties()
+        return dict(self.xa_elem.properties())
 
     @property
     def name(self) -> str:
@@ -430,47 +428,69 @@ class XACalendarCalendarList(XABase.XAList):
         super().__init__(properties, XACalendarCalendar, filter)
 
     def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+        properties_list = []
+        for calendar in self.xa_elem:
+            properties_list.append({
+                "name": calendar.name(),
+                "color": XABase.XAColor(calendar.color()),
+                "writable": calendar.writable(),
+                "description": calendar.description()
+            })
+        return properties_list
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def color(self) -> list[str]:
+    def color(self) -> list[XABase.XAColor]:
         ls = self.xa_elem.arrayByApplyingSelector_("color") or []
         return [XABase.XAColor(x) for x in ls]
 
-    def calendar_identifier(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("calendarIdentifier") or [])
+    # ! BROKEN -- This seems to be a problem with Calendar.app
+    # def calendar_identifier(self) -> list[str]:
+        # return [calendar.get().calendarIdentifier() for calendar in self.xa_elem]
 
     def writable(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("writable") or [])
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
+        return [x.description() for x in self.xa_elem]
 
     def events(self) -> 'XACalendarEventList':
         ls = self.xa_elem.arrayByApplyingSelector_("events") or []
         return self._new_element(ls, XACalendarEventList)
 
     def by_properties(self, properties: dict) -> Union['XACalendarCalendar', None]:
-        return self.by_property("properties", properties)
+        for calendar in self.xa_elem:
+            name = calendar.name()
+            color = calendar.color()
+            writable = calendar.writable()
+            description = calendar.description()
+
+            if (name == properties["name"] and
+                color == properties["color"].xa_elem and
+                writable == properties["writable"] and
+                description[25:] == properties["description"][25:]):
+                return self._new_element(calendar, XACalendarCalendar)
 
     def by_name(self, name: str) -> Union['XACalendarCalendar', None]:
         return self.by_property("name", name)
 
     def by_color(self, color: XABase.XAColor) -> Union['XACalendarCalendar', None]:
-        return self.by_property("color", color.xa_elem)
+        for calendar in self.xa_elem:
+            if calendar.color() == color.xa_elem:
+                return self._new_element(calendar, XACalendarCalendar)
 
-    def by_calendar_identifier(self, calendar_identifier: str) -> Union['XACalendarCalendar', None]:
-        return self.by_property("calendarIdentifier", calendar_identifier)
+    # ! BROKEN -- This seems to be a problem with Calendar.app
+    # def by_calendar_identifier(self, calendar_identifier: str) -> Union['XACalendarCalendar', None]:
+    #     return self.by_property("calendarIdentifier", calendar_identifier)
 
     def by_writable(self, writable: bool) -> Union['XACalendarCalendar', None]:
         return self.by_property("writable", writable)
 
     def by_description(self, description: str) -> Union['XACalendarCalendar', None]:
-        for calendar in self:
-            if calendar.description == description:
-                return calendar
+        for calendar in self.xa_elem:
+            if calendar.description()[25:] == description[25:]:
+                return self._new_element(calendar, XACalendarCalendar)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
@@ -487,17 +507,22 @@ class XACalendarCalendar(XABase.XAObject):
     @property
     def calendar_obj(self) -> EventKit.EKCalendar:
         if self.__calendar_obj is None and hasattr(self.xa_elem, "name"):
-            calendars = self._xa_estr.allCalendars()
+            calendars = self.xa_estr.calendars()
             predicate = XABase.XAPredicate()
             predicate.add_eq_condition("title", self.name)
-            self.__calendar_obj = predicate.evaluate(calendars)
+            self.__calendar_obj = predicate.evaluate(calendars)[0]
         return self.__calendar_obj
 
     @property
     def properties(self) -> dict:
         """All properties of the calendar.
         """
-        return self.xa_elem.properties()
+        return {
+            "name": self.xa_elem.name(),
+            "color": XABase.XAColor(self.xa_elem.color()),
+            "writable": self.xa_elem.writable(),
+            "description": self.xa_elem.description(),
+        }
 
     @property
     def name(self) -> str:
@@ -519,11 +544,12 @@ class XACalendarCalendar(XABase.XAObject):
     def color(self, color: XABase.XAColor):
         self.set_property('color', color.xa_elem)
 
-    @property
-    def calendar_identifier(self) -> str:
-        """The unique identifier for the calendar.
-        """
-        return self.xa_elem.calendarIdentifier()
+    # ! BROKEN -- This seems to be a problem with Calendar.app
+    # @property
+    # def calendar_identifier(self) -> str:
+    #     """The unique identifier for the calendar.
+    #     """
+    #     return self.xa_elem.id()
 
     @property
     def writable(self) -> bool:
@@ -546,9 +572,7 @@ class XACalendarCalendar(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self._xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeEvent, None)
-        self.xa_calendar.markAsDeleted()
-        self._xa_estr.deleteCalendar_forEntityType_error_(self.xa_calendar, EventKit.EKEntityTypeEvent, None)
+        self.xa_elem.delete()
 
     def events_in_range(self, start_date: datetime, end_date: datetime) -> 'XACalendarEventList':
         """Gets a list of events occurring between the specified start and end datetimes.
@@ -604,6 +628,10 @@ class XACalendarCalendar(XABase.XAObject):
         :rtype: XACalendarEventList
 
         .. seealso:: :func:`events_today`
+
+        .. deprecated:: 0.1.2
+        
+           Use :func:`events_in_range` instead.
 
         .. versionadded:: 0.0.2
         """
@@ -839,11 +867,31 @@ class XACalendarEventList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarEvent, filter)
 
-    def properties(self) -> list[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
+    def properties(self) -> Generator[dict[str, Any], None, None]:
+        """Gets the properties of every event in the list.
+
+        :return: A generator that generates a dictionary of element properties.
+        :rtype: Generator[dict[str, Any], None, None]
+        """
+        properties_list = ({
+                "description": event.description()[25:],
+                "start_date": event.startDate(),
+                "end_date": event.endDate(),
+                "allday_event": event.alldayEvent(),
+                "recurrence": event.recurrence(),
+                "sequence": event.sequence(),
+                "stamp_date": event.stampDate(),
+                "excluded_dates": list(event.excludedDates()),
+                "status": XACalendarApplication.EventStatus(event.status()),
+                "summary": event.summary(),
+                "location": event.location(),
+                "uid": event.uid(),
+                "url": XABase.XAURL(event.url())
+            } for event in self.xa_elem)
+        return properties_list
 
     def description(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("description") or [])
+        return [event.description() for event in self.xa_elem]
 
     def start_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("startDate") or [])
@@ -864,7 +912,7 @@ class XACalendarEventList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("stampDate") or [])
 
     def excluded_dates(self) -> list[list[datetime]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("excludedDates") or [])
+        return [list(event.excludedDates() or []) for event in self.xa_elem]
 
     def status(self) -> list[XACalendarApplication.EventStatus]:
         ls = self.xa_elem.arrayByApplyingSelector_("status") or []
@@ -879,14 +927,35 @@ class XACalendarEventList(XABase.XAList):
     def uid(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("uid") or [])
 
-    def url(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
+    def url(self) -> list[XABase.XAURL]:
+        ls = self.xa_elem.arrayByApplyingSelector_("url") or []
+        return [XABase.XAURL(url) for url in ls if url is not None]
 
     def by_properties(self, properties: dict) -> Union['XACalendarEvent', None]:
-        return self.by_property("properties", properties)
+        if "uid" in properties:
+            return self.by_uid(properties["uid"])
+
+        for event in self.xa_elem:
+            event_properties = {
+                "start_date": event.startDate() if "start_date" in properties else None,
+                "end_date": event.endDate() if "end_date" in properties else None,
+                "allday_event": event.alldayEvent() if "allday_event" in properties else None,
+                "recurrence": event.recurrence() if "recurrence" in properties else None,
+                "sequence": event.sequence() if "sequence" in properties else None,
+                "stamp_date": event.stampDate() if "stamp_date" in properties else None,
+                "excluded_dates": list(event.excludedDates()) if "excluded_dates" in properties else None,
+                "status": XACalendarApplication.EventStatus(event.status()) if "status" in properties else None,
+                "summary": event.summary() if "summary" in properties else None,
+                "location": event.location() if "location" in properties else None,
+                "url": XABase.XAURL(event.url()) if "url" in properties else None
+            }
+            if all([event_properties[x] == properties[x] for x in properties]):
+                return self._new_element(event, XACalendarEvent)
 
     def by_description(self, description: str) -> Union['XACalendarEvent', None]:
-        return self.by_property("description", description)
+        for event in self.xa_elem:
+            if event.description()[25:] == description[25:]:
+                return self._new_element(event, XACalendarEvent)
 
     def by_start_date(self, start_date: datetime) -> Union['XACalendarEvent', None]:
         return self.by_property("startDate", start_date)
@@ -910,7 +979,9 @@ class XACalendarEventList(XABase.XAList):
         return self.by_property("excludedDates", excluded_dates)
 
     def by_status(self, status: XACalendarApplication.EventStatus) -> Union['XACalendarEvent', None]:
-        return self.by_property("status", status.value)
+        for event in self.xa_elem:
+            if event.status() == status.value:
+                return self._new_element(event, XACalendarEvent) 
 
     def by_summary(self, summary: str) -> Union['XACalendarEvent', None]:
         return self.by_property("summary", summary)
@@ -921,8 +992,10 @@ class XACalendarEventList(XABase.XAList):
     def by_uid(self, uid: str) -> Union['XACalendarEvent', None]:
         return self.by_property("uid", uid)
 
-    def by_url(self, url: str) -> Union['XACalendarEvent', None]:
-        return self.by_property("URL", url)
+    def by_url(self, url: Union[str, XABase.XAURL]) -> Union['XACalendarEvent', None]:
+        if isinstance(url, XABase.XAURL):
+            url = url.url
+        return self.by_property("url", url)
 
     def __repr__(self):
         return "<" + str(type(self)) + "length: " + str(len(self)) + ">"
@@ -943,8 +1016,8 @@ class XACalendarEvent(XABase.XAObject):
             for year in range(2006, datetime.now().year + 4, 4):
                 start_date = date(year, 1, 1)
                 end_date = start_date + timedelta(days = 365 * 4)
-                predicate = self._xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, None)
-                events.addObjectsFromArray_(self._xa_estr.eventsMatchingPredicate_(predicate))
+                predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, None)
+                events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
             self.__xa_event_obj = XABase.XAPredicate.evaluate_with_dict(events, {"calendarItemIdentifier": self.uid})[0]
         return self.__xa_event_obj
 
@@ -952,7 +1025,21 @@ class XACalendarEvent(XABase.XAObject):
     def properties(self) -> dict:
         """All properties of the event.
         """
-        return self.xa_elem.properties()
+        return {
+            "description": self.xa_elem.description(),
+            "start_date": self.xa_elem.startDate(),
+            "end_date": self.xa_elem.endDate(),
+            "allday_event": self.xa_elem.alldayEvent(),
+            "recurrence": self.xa_elem.recurrence(),
+            "sequence": self.xa_elem.sequence(),
+            "stamp_date": self.xa_elem.stampDate(),
+            "excluded_dates": list(self.xa_elem.excludedDates()),
+            "status": XACalendarApplication.EventStatus(self.xa_elem.status()),
+            "summary": self.xa_elem.summary(),
+            "location": self.xa_elem.location(),
+            "uid": self.xa_elem.uid(),
+            "url": XABase.XAURL(self.xa_elem.url())
+        }
 
     @property
     def description(self) -> str:
@@ -998,7 +1085,7 @@ class XACalendarEvent(XABase.XAObject):
     def recurrence(self) -> str:
         """A string describing the event recurrence.
         """
-        return self.xa_elem.recurrence()
+        return self.xa_elem.recurrence() or ""
 
     @recurrence.setter
     def recurrence(self, recurrence: str):
@@ -1024,7 +1111,7 @@ class XACalendarEvent(XABase.XAObject):
     def excluded_dates(self) -> list[datetime]:
         """The exception dates for the event.
         """
-        return self.xa_elem.excludedDates()
+        return list(self.xa_elem.excludedDates())
 
     @excluded_dates.setter
     def excluded_dates(self, excluded_dates: list[datetime]):
@@ -1034,7 +1121,7 @@ class XACalendarEvent(XABase.XAObject):
     def status(self) -> XACalendarApplication.EventStatus:
         """The status of the event.
         """
-        return XACalendarApplication.EventStatus(XABase.OSType(self.xa_elem.status().stringValue()))
+        return XACalendarApplication.EventStatus(self.xa_elem.status())
 
     @status.setter
     def status(self, status: XACalendarApplication.EventStatus):
@@ -1070,7 +1157,7 @@ class XACalendarEvent(XABase.XAObject):
     def url(self) -> str:
         """The URL associated with the event.
         """
-        return self.xa_elem.URL()
+        return self.xa_elem.url()
 
     @url.setter
     def url(self, url: str):
@@ -1092,7 +1179,7 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self._xa_estr.removeEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
+        self.xa_estr.removeEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
 
     def duplicate(self) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -1103,7 +1190,13 @@ class XACalendarEvent(XABase.XAObject):
         .. versionadded:: 0.0.1
         """
         new_event = self.xa_event_obj.duplicate()
-        self._xa_estr.saveEvent_span_error_(new_event, EventKit.EKSpanThisEvent, None)
+        self.xa_estr.saveEvent_span_commit_error_(new_event, EventKit.EKSpanThisEvent, True, None)
+
+        parent = self.xa_prnt
+        while not hasattr(parent, "events"):
+            parent = parent.xa_prnt
+
+        return parent.events().by_uid(new_event.eventIdentifier())
 
     def duplicate_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -1124,12 +1217,11 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        calendars = self._xa_estr.allCalendars()
+        calendars = self.xa_estr.calendars()
         calendar_obj = XABase.XAPredicate.evaluate_with_dict(calendars, {"title": calendar.name})[0]
-
-        self.xa_event_obj.copyToCalendar_withOptions_(calendar_obj, 1)
-        self._xa_estr.saveCalendar_commit_error_(calendar_obj, True, None)
-        return self
+        new_event = self.xa_event_obj.copyToCalendar_withOptions_(calendar_obj, 1)
+        self.xa_estr.saveEvent_span_commit_error_(new_event, EventKit.EKSpanThisEvent, True, None)
+        return calendar.events().by_uid(new_event.eventIdentifier())
 
     def move_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
         """Moves this event to the specified calendar.
@@ -1152,8 +1244,9 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self.duplicate_to(calendar)
+        new_event = self.duplicate_to(calendar)
         self.delete()
+        return new_event
 
     def add_attachment(self, path: str) -> 'XACalendarEvent':
         """Adds the file at the specified path as an attachment to the event.
@@ -1177,7 +1270,7 @@ class XACalendarEvent(XABase.XAObject):
         file_url = XABase.XAPath(path).xa_elem
         attachment = EventKit.EKAttachment.alloc().initWithFilepath_(file_url)
         self.xa_elem.addAttachment_(attachment)
-        self._xa_estr.saveEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
+        self.xa_estr.saveEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
         return self
 
     def attendees(self, filter: Union[dict, None] = None) -> 'XACalendarAttendeeList':
@@ -1219,13 +1312,13 @@ class XACalendarAttachmentList(XABase.XAList):
         super().__init__(properties, XACalendarAttachment, filter)
 
     def type(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("type") or [])
+        return list(self.xa_elem.arrayByApplyingSelector_("contentType") or [])
 
     def file_name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("filename") or [])
+        return list(self.xa_elem.arrayByApplyingSelector_("fileName") or [])
 
     def file(self) -> list[XABase.XAPath]:
-        ls = self.xa_elem.arrayByApplyingSelector_("file") or []
+        ls = self.xa_elem.arrayByApplyingSelector_("urlOnDisk") or []
         return [XABase.XAPath(x) for x in ls]
 
     def url(self) -> list[XABase.XAURL]:
@@ -1233,22 +1326,26 @@ class XACalendarAttachmentList(XABase.XAList):
         return [XABase.XAURL(x) for x in ls]
 
     def uuid(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("uuid") or [])
+        return list(self.xa_elem.arrayByApplyingSelector_("UUID") or [])
 
     def by_type(self, type: str) -> Union['XACalendarAttachment', None]:
-        return self.by_property("type", type)
+        return self.by_property("contentType", type)
 
     def by_file_name(self, file_name: str) -> Union['XACalendarAttachment', None]:
-        return self.by_property("filename", file_name)
+        return self.by_property("fileName", file_name)
 
-    def by_file(self, file: XABase.XAPath) -> Union['XACalendarAttachment', None]:
-        return self.by_property("file", file.xa_elem)
+    def by_file(self, file: Union[XABase.XAPath, str]) -> Union['XACalendarAttachment', None]:
+        if isinstance(file, str):
+            file = XABase.XAPath(file)
+        return self.by_property("urlOnDisk", file.xa_elem)
 
-    def by_url(self, url: XABase.XAURL) -> Union['XACalendarAttachment', None]:
+    def by_url(self, url: Union[XABase.XAURL, str]) -> Union['XACalendarAttachment', None]:
+        if isinstance(url, str):
+            url = XABase.XAURL(url)
         return self.by_property("URL", url.xa_elem)
 
-    def by_url(self, uuid: str) -> Union['XACalendarAttachment', None]:
-        return self.by_property("uuid", uuid)
+    def by_uuid(self, uuid: str) -> Union['XACalendarAttachment', None]:
+        return self.by_property("UUID", uuid)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.file_name()) + ">"
@@ -1271,7 +1368,7 @@ class XACalendarAttachment(XABase.XAObject):
     def file_name(self) -> str:
         """The filename of the original document.
         """
-        return self.xa_elem.filenameSuggestedByServer()
+        return self.xa_elem.fileName()
 
     @property
     def file(self) -> XABase.XAPath:
@@ -1283,13 +1380,13 @@ class XACalendarAttachment(XABase.XAObject):
     def url(self) -> XABase.XAURL:
         """The iCloud URL of the attachment.
         """
-        return XABase.XAURL(self.xa_elem.urlOnServer())
+        return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def uuid(self) -> str:
         """A unique identifier for the attachment.
         """
-        return self.xa_elem.uuid()
+        return self.xa_elem.UUID()
 
     def open(self) -> 'XACalendarAttachment':
         """Opens the attachment in its default application.

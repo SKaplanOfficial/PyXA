@@ -22,7 +22,7 @@ class TestTextEdit(unittest.TestCase):
                 self.fail("TextEdit did not become active")
 
         self.assertEqual(self.app.name, "TextEdit")
-        self.assertEqual(self.app.version, "1.17")
+        self.assertEqual(self.app.version, "1.18")
 
     def test_textedit_make_documents(self):
         new_doc = self.app.make("document", {"text": "This is a test!"})
@@ -50,6 +50,7 @@ class TestTextEdit(unittest.TestCase):
         time.sleep(0.5)
         self.app.front_window.miniaturized = False
         self.assertEqual(self.app.front_window.miniaturized, False)
+        print("here")
 
     def test_textedit_list_types(self):
         self.assertIsInstance(self.app.windows(), PyXA.XABaseScriptable.XASBWindowList)

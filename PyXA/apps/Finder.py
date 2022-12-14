@@ -350,6 +350,10 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. seealso:: :func:`recycle_item`
 
+        .. deprecated:: 0.1.2
+        
+           Use :func:`recycle_item` instead.
+
         .. versionadded:: 0.0.1
         """
         def recycle(path: Union[str, AppKit.NSURL], index: int, stop: bool):
@@ -419,6 +423,10 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. seealso:: :func:`delete_items`
 
+        .. deprecated:: 0.1.2
+        
+           Use :func:`delete_item` instead.
+
         .. versionadded:: 0.0.1
         """
         def delete(path: Union[str, AppKit.NSURL], index: int, stop: bool):
@@ -482,6 +490,10 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         >>> app.duplicate_items(items)
 
         .. seealso:: :func:`duplicate_item`
+
+        .. deprecated:: 0.1.2
+        
+           Use :func:`duplicate_item` instead.
 
         .. versionadded:: 0.0.1
         """
@@ -1296,12 +1308,18 @@ class XAFinderContainerList(XAFinderItemList):
             object_class = XAFinderContainer
         super().__init__(properties, filter, object_class)
 
-    def entire_contents(self) -> list[XAFinderItemList]:
+    def entire_contents(self) -> 'XAFinderItemList':
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
         return self._new_element(ls, XAFinderItemList)
 
-    def container_window(self) -> list['XAFinderFinderWindow']:
+    def container_window(self) -> 'XAFinderFinderWindowList':
         ls = self.xa_elem.arrayByApplyingSelector_("containerWindow") or []
+
+        parent = self.xa_prnt
+        while not hasattr(parent, "xa_wcls"):
+            parent = parent.xa_prnt
+        self.xa_wcls = parent.xa_wcls
+
         return self._new_element(ls, XAFinderFinderWindowList)
 
     def items(self) -> XAFinderItemList:
@@ -1362,7 +1380,7 @@ class XAFinderContainer(XAFinderItem):
         """The container window for this folder.
         """
         window_obj = self.xa_elem.containerWindow()
-        return self._new_element(window_obj, XABase.XAObject)
+        return self._new_element(window_obj, XAFinderFinderWindow)
 
     def items(self, filter: dict = None) -> 'XAFinderItemList':
         """Returns a list of items matching the filter.
@@ -2030,6 +2048,11 @@ class XAFinderFinderWindowList(XAFinderWindowList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAFinderFinderWindow)
 
+        parent = self.xa_prnt
+        while not hasattr(parent, "xa_wcls"):
+            parent = parent.xa_prnt
+        self.xa_wcls = parent.xa_wcls
+
     def current_view(self) -> list[XAFinderApplication.ViewSetting]:
         return list(self.xa_elem.arrayByApplyingSelector_("currentView") or [])
 
@@ -2625,12 +2648,12 @@ class XAFinderListViewOptions(XABase.XAObject):
     def sort_column(self, sort_column: 'XAFinderColumn'):
         self.set_property('sortColumn', sort_column.xa_elem)
 
-    def columns(self, filter: dict = None) -> 'XAFinderColumn':
+    def columns(self, filter: dict = None) -> 'XAFinderColumnList':
         """Returns a list of columns matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_elem.columns(), XAFinderColumn, filter)
+        return self._new_element(self.xa_elem.columns(), XAFinderColumnList, filter)
 
 
 

@@ -292,7 +292,7 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def body(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("body") or [])
+        return [note.body for note in self]
 
     def plaintext(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("plaintext") or [])
@@ -330,10 +330,14 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         return self.by_property("plaintext", plaintext)
 
     def by_creation_date(self, creation_date: datetime) -> 'XANote':
-        return self.by_property("creationDate", creation_date)
+        for note in self.xa_elem:
+            if note.creationDate() == creation_date:
+                return self._new_element(note, XANote)
 
     def by_modification_date(self, modification_date: datetime) -> 'XANote':
-        return self.by_property("modificationDate", modification_date)
+        for note in self.xa_elem:
+            if note.modificationDate() == modification_date:
+                return self._new_element(note, XANote)
 
     def by_password_protected(self, password_protected: bool) -> 'XANote':
         return self.by_property("passwordProtected", password_protected)
@@ -342,7 +346,9 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         return self.by_property("shared", shared)
 
     def by_container(self, container: 'XANotesFolder') -> 'XANote':
-        return self.by_property("container", container.value)
+        for note in self.xa_elem:
+            if note.container().get() == container.xa_elem.get():
+                return self._new_element(note, XANote)
 
     def show_separately(self) -> 'XANoteList':
         """Shows each note in the list in a separate window.
@@ -456,7 +462,7 @@ class XANotesAccountList(XABase.XAList, XAClipboardCodable):
         return self.by_property("id", id)
 
     def by_default_folder(self, default_folder: 'XANotesFolder') -> 'XANotesAccount':
-        return self.by_property("defaultFolder", default_folder.value)
+        return self.by_property("defaultFolder", default_folder.xa_elem)
 
     def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each account in the list.
@@ -513,7 +519,7 @@ class XANotesFolderList(XABase.XAList, XAClipboardCodable):
         return self.by_property("shared", shared)
 
     def by_container(self, container: 'XANotesAccount') -> 'XANotesFolder':
-        return self.by_property("container", container.value)
+        return self.by_property("container", container.xa_elem)
 
     def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each folder in the list.
@@ -554,8 +560,9 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
     def modification_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
 
-    def url(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
+    def url(self) -> list[XABase.XAURL]:
+        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
+        return [XABase.XAURL(x) for x in ls]
 
     def shared(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("shared") or [])
@@ -564,29 +571,37 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("container") or []
         return self._new_element(ls, XANoteList)
 
-    def by_name(self, name: str) -> 'XANoteAttachment':
+    def by_name(self, name: str) -> Union['XANoteAttachment', None]:
         return self.by_property("name", name)
 
-    def by_id(self, id: str) -> 'XANoteAttachment':
+    def by_id(self, id: str) -> Union['XANoteAttachment', None]:
         return self.by_property("id", id)
 
-    def by_content_identifier(self, content_identifier: str) -> 'XANoteAttachment':
+    def by_content_identifier(self, content_identifier: str) -> Union['XANoteAttachment', None]:
         return self.by_property("contentIdentifier", content_identifier)
 
     def by_creation_date(self, creation_date: datetime) -> 'XANoteAttachment':
-        return self.by_property("creationDate", creation_date)
+        for attachment in self.xa_elem:
+            if attachment.creationDate() == creation_date:
+                return self._new_element(attachment, XANoteAttachment)
 
-    def by_modification_date(self, modification_date: datetime) -> 'XANoteAttachment':
-        return self.by_property("modificationDate", modification_date)
+    def by_modification_date(self, modification_date: datetime) -> Union['XANoteAttachment', None]:
+        for attachment in self.xa_elem:
+            if attachment.modificationDate() == modification_date:
+                return self._new_element(attachment, XANoteAttachment)
 
-    def by_url(self, url: str) -> 'XANoteAttachment':
-        return self.by_property("URL", url)
+    def by_url(self, url: Union[str, XABase.XAURL]) -> Union['XANoteAttachment', None]:
+        if not isinstance(url, XABase.XAURL):
+            url = XABase.XAURL(url)
+        return self.by_property("URL", url.xa_elem)
 
-    def by_shared(self, shared: bool) -> 'XANoteAttachment':
+    def by_shared(self, shared: bool) -> Union['XANoteAttachment', None]:
         return self.by_property("shared", shared)
 
-    def by_container(self, container: 'XANote') -> 'XANoteAttachment':
-        return self.by_property("container", container.value)
+    def by_container(self, container: 'XANote') -> Union['XANoteAttachment', None]:
+        for attachment in self.xa_elem:
+            if attachment.container().get() == container.xa_elem.get():
+                return self._new_element(attachment, XANoteAttachment)
 
     def save(self, directory: str) -> 'XANotesAttachmentList':
         """Saves all attachments in the list in the specified directory.
@@ -969,10 +984,12 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.modificationDate()
 
     @property
-    def url(self) -> str:
+    def url(self) -> Union[XABase.XAURL, None]:
         """The URL that the attachment represents, if any.
         """
-        return self.xa_elem.URL()
+        url = self.xa_elem.URL()
+        if url is not None:
+            return XABase.XAURL(url)
 
     @property
     def shared(self) -> bool:

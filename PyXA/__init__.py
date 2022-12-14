@@ -36,7 +36,7 @@ from .XABase import (
     XAMenu,
 
     # Constants
-    VERSION,
+    VERSION, application_classes,
 
     # XAFinderExtension,
 
@@ -44,6 +44,14 @@ from .XABase import (
     current_application, running_applications,
 )
 
+old_module = sys.modules["PyXA"]
+
+# Adds apps as methods on PyXA module, e.g. PyXA.Calendar() --> XACalendarApplication instance
+for index, app_name in enumerate(application_classes):
+    wrapper_name = app_name.title().replace(" ", "")
+    setattr(old_module, wrapper_name, lambda local_app_name=app_name: Application(local_app_name))
+
+# JIT imports
 module_map = {
     "XACommandDetector": ".Additions.Speech",
     "XASpeech": ".Additions.Speech",
@@ -61,8 +69,6 @@ module_map = {
 
     "RSSFeed": ".Additions.Web",
 }
-
-old_module = sys.modules["PyXA"] 
 
 class module(ModuleType):
     def __getattr__(self, attr):

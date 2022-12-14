@@ -71,7 +71,8 @@ PyXA Additions
 .. toctree::
    :maxdepth: 2
 
-   additions/xalearn
-   additions/xaspeech
-   additions/xautils
-   additions/xaweb
+   additions/learn
+   additions/speech
+   additions/ui
+   additions/utils
+   additions/web

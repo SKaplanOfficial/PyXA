@@ -1177,7 +1177,7 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
 
         .. versionadded:: 0.1.1
         """
-        self.__parent = parent
+        self.parent = parent #: The parent menu or menu item of this item
         self.args = args or [] #: The arguments to pass to the action method upon execution
         self.action = None #: The method to call when this menu item is clicked
 
@@ -1337,10 +1337,10 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
 
         .. versionadded:: 0.1.2
         """
-        if isinstance(self.__parent, XAMenuBarMenu):
-            self.__parent.xa_elem.removeItem_(self.xa_elem)
+        if isinstance(self.parent, XAMenuBarMenu):
+            self.parent.xa_elem.removeItem_(self.xa_elem)
         else:
-            self.__parent.xa_elem.submenu().removeItem_(self.xa_elem)
+            self.parent.xa_elem.submenu().removeItem_(self.xa_elem)
 
 
 
@@ -1376,6 +1376,13 @@ class XASliderMenuItem(XAMenuBarMenuItem):
         self.xa_elem = slider_view
         super().__init__(parent, None)
 
+    @property
+    def value(self) -> float:
+        return self.slider.value
+
+    @value.setter
+    def value(self, value: float):
+        self.slider.value = value
 
 
 

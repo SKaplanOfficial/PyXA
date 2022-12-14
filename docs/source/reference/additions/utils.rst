@@ -1,7 +1,7 @@
-XAWeb Module
+Utils Module
 ============
 
-.. automodule:: PyXA.additions.XAWeb
+.. automodule:: PyXA.Additions.Utils
    :members:
    :undoc-members:
    :show-inheritance:

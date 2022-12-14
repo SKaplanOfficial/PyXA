@@ -1260,7 +1260,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.buttons(), XASystemEventsCheckboxList)
+        return self._new_element(self.xa_elem.buttons(), XASystemEventsButtonList)
 
     def checkboxes(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
         """Returns a list of checkbox elements, as PyXA-wrapped objects, matching the given filter.
@@ -3495,7 +3495,7 @@ class XASystemEventsUIElementList(XABase.XAList):
         return self._new_element(ls, XASystemEventsWindowList)
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
+        return "<" + str(type(self)) + str(self.object_description()) + ">"
 
 class XASystemEventsUIElement(XABase.XAObject, XASelectable):
     """A piece of the user interface of a process.
@@ -3736,7 +3736,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.buttons(), XASystemEventsCheckboxList)
+        return self._new_element(self.xa_elem.buttons(), XASystemEventsButtonList)
 
     def checkboxes(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
         """Returns a list of checkbox elements, as PyXA-wrapped objects, matching the given filter.

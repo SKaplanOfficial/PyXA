@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes Module Overview &mdash; PyXA 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Numbers Module Overview" href="../numbers/index.html" />
+    <link rel="prev" title="Music Module Overview" href="../music/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Application Module Overviews</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#first-party-application-modules-overviews">First-Party Application Modules Overviews</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#third-party-application-module-overviews">Third-Party Application Module Overviews</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../images.html">Working with Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Notes Module Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/notes/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="notes-module-overview">
+<h1>Notes Module Overview<a class="headerlink" href="#notes-module-overview" title="Permalink to this heading"></a></h1>
+<section id="notes-tutorials">
+<h2>Notes Tutorials<a class="headerlink" href="#notes-tutorials" title="Permalink to this heading"></a></h2>
+<section id="tutorial-1-interacting-with-notes">
+<h3>Tutorial 1 - Interacting with Notes<a class="headerlink" href="#tutorial-1-interacting-with-notes" title="Permalink to this heading"></a></h3>
+<section id="accessing-notes-app-objects">
+<h4>Accessing Notes.app Objects<a class="headerlink" href="#accessing-notes-app-objects" title="Permalink to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get top-level lists of objects</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">accounts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">attachments</span><span class="p">())</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANotesAccountList&#39;&gt;[(&#39;iCloud&#39;, &#39;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICAccount/p3&#39;), ...]&gt;</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANotesFolderList&#39;&gt;[(&#39;COS 573 - Computer Vision&#39;, &#39;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICFolder/p4176&#39;), ...]&gt;</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANoteList&#39;&gt;[&#39;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p5232&#39;, ...]&gt;</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANotesAttachmentList&#39;&gt;[(&#39;hello, world&#39;, &#39;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICAttachment/p4122&#39;), ...]&gt;</span>
+
+<span class="c1"># Use chaining to get objects organized by container</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span><span class="o">.</span><span class="n">notes</span><span class="p">())</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANoteList&#39;&gt;[(</span>
+<span class="c1">#     &quot;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p4174&quot;</span>
+<span class="c1"># ), (</span>
+<span class="c1">#     &quot;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p4175&quot;</span>
+<span class="c1"># ), (</span>
+<span class="c1">#     &quot;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p5232&quot;,</span>
+<span class="c1">#     &quot;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p4827&quot;,</span>
+<span class="c1">#     &quot;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p4935&quot;,</span>
+<span class="c1">#     ...</span>
+<span class="c1"># )]&gt;</span>
+
+<span class="c1"># Get attachments organized per note, per folder, per account</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">accounts</span><span class="p">()</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">attachments</span><span class="p">())</span>
+
+<span class="c1"># Get notes by attributes</span>
+<span class="n">note1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;PyXA Ideas&quot;</span><span class="p">)</span>
+<span class="n">note2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">containing</span><span class="p">(</span><span class="s2">&quot;plaintext&quot;</span><span class="p">,</span> <span class="s2">&quot;random note text&quot;</span><span class="p">)</span>
+<span class="n">recently_edited</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">greater_than</span><span class="p">(</span><span class="s2">&quot;modificationDate&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Get attachments on a specific notes</span>
+<span class="n">note1_attachments</span> <span class="o">=</span> <span class="n">note1</span><span class="o">.</span><span class="n">attachments</span><span class="p">()</span>
+
+<span class="c1"># Get notes in a specific folder</span>
+<span class="n">fnotes</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="accessing-attributes-of-notes-app-objects">
+<h4>Accessing Attributes of Notes.app Objects<a class="headerlink" href="#accessing-attributes-of-notes-app-objects" title="Permalink to this heading"></a></h4>
+<p>Access individual attributes</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="n">notes</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
+
+<span class="c1"># Access attributes of accounts</span>
+<span class="n">account</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">accounts</span><span class="p">()</span><span class="o">.</span><span class="n">first</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">default_folder</span><span class="p">)</span>
+<span class="c1"># iCloud</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANotesFolder&#39;&gt;Notes, x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICFolder/p1&gt;</span>
+
+<span class="c1"># Access attributes of folders</span>
+<span class="n">folder</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1"># COS 573 - Computer Vision</span>
+<span class="c1"># x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICFolder/p4176</span>
+
+<span class="c1"># Access attributes of notes</span>
+<span class="n">note</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Important Note&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Body:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Plaintext:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">plaintext</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Creation Date:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">creation_date</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Modification Date:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">modification_date</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ID:&quot;</span><span class="p">,</span> <span class="n">note</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="c1"># Name: Important Note</span>
+<span class="c1">#</span>
+<span class="c1"># Body: &lt;div&gt;&lt;b&gt;&lt;span style=&quot;font-size: 24px&quot;&gt;Important Note&lt;/span&gt;&lt;/b&gt;&lt;/div&gt;</span>
+<span class="c1"># &lt;div&gt;&lt;br&gt;&lt;/div&gt;</span>
+<span class="c1"># &lt;div&gt;Important note text&lt;/div&gt;</span>
+<span class="c1"># &lt;div&gt;&lt;br&gt;&lt;/div&gt;</span>
+<span class="c1"># &lt;div&gt;&lt;img style=&quot;max-width: 100%; max-height: 100%;&quot; src=&quot;data:image/png;base64,</span>
+<span class="c1"># ...</span>
+<span class="c1">#</span>
+<span class="c1"># Plaintext: Important Note</span>
+<span class="c1">#</span>
+<span class="c1"># Important note text</span>
+<span class="c1"># ...</span>
+<span class="c1">#</span>
+<span class="c1"># Creation Date: 2022-10-25 09:32:00 +0000</span>
+<span class="c1"># Modification Date: 2022-10-25 10:38:16 +0000</span>
+<span class="c1">#</span>
+<span class="c1"># ID: x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICNote/p5303</span>
+
+<span class="c1"># Access attributes of attachments</span>
+<span class="n">attachment</span> <span class="o">=</span> <span class="n">note</span><span class="o">.</span><span class="n">attachments</span><span class="p">()</span><span class="o">.</span><span class="n">last</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">content_identifier</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
+<span class="c1"># Owl.png</span>
+<span class="c1"># cid:64D2B218-576E-405F-A147-34D2C8B86E6B@icloud.apple.com</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.apps.Notes.XANote&#39;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Access attributes in bulk</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PyXA</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+
+<span class="n">accounts</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">accounts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accounts</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accounts</span><span class="o">.</span><span class="n">upgraded</span><span class="p">())</span>
+<span class="c1"># [&#39;iCloud&#39;]</span>
+<span class="c1"># [True]</span>
+
+<span class="n">folders</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">folders</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">folders</span><span class="o">.</span><span class="n">shared</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">folders</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
+<span class="c1"># [&#39;COS 573 - Computer Vision&#39;, &#39;COS 598 - NLP&#39;, &#39;Imported Notes&#39;, &#39;Notes&#39;, &#39;Quick Notes&#39;, &#39;Raycast&#39;, &#39;Recently Deleted&#39;]</span>
+<span class="c1"># [False, False, False, False, False, True, False]</span>
+<span class="c1"># [&#39;x-coredata://234D909C-B445-42A0-967L-380DF21392D2/ICFolder/p4176&#39;, ...]</span>
+
+<span class="n">notes</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">notes</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">notes</span><span class="o">.</span><span class="n">plaintext</span><span class="p">())</span>
+<span class="c1"># [&#39;Important Note&#39;, &#39;PyXA 0.1.0&#39;, &#39;Lecture 12&#39;, &#39;Random Python Notes&#39;, ...]</span>
+<span class="c1"># [&#39;Important Note\n\nImportant note text\n\n\n&#39;, &#39;PyXA 0.1.0\n\nSupport for New Applications\nAdobe Acrobat Reader\nAmphetamine\nBike\nFlow\nImage Events\niTerm\nRStudio\nSpotify\nSystem Events\n\n\nAdditions\nXALSM — A class for convenient text classification...&#39;, ...]</span>
+
+<span class="n">attachments</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">attachments</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attachments</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attachments</span><span class="o">.</span><span class="n">url</span><span class="p">())</span>
+<span class="c1"># [&#39;Pasted Graphic 1.tiff&#39;, &#39;Pasted Graphic 2.tiff&#39;, &#39;Pasted Graphic 3.tiff&#39;, &#39;Owl.png&#39;, ...]</span>
+<span class="c1"># [&#39;https://books.apple.com/us/book/applescript/id383961702&#39;, &#39;https://books.apple.com/us/book/applescript-questions-and-answers-2020-edition/id1491304822&#39;, ...]</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-new-folders-notes-and-attachments">
+<h4>Creating New Folders, Notes, and Attachments<a class="headerlink" href="#creating-new-folders-notes-and-attachments" title="Permalink to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add a folder via push() method</span>
+<span class="n">new_folder_1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;folder&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;New Folder 3&quot;</span><span class="p">})</span>
+<span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_folder_1</span><span class="p">)</span>
+
+<span class="c1"># Add a folder via new_folder() method</span>
+<span class="n">new_folder_2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_folder</span><span class="p">(</span><span class="s2">&quot;New Folder 4&quot;</span><span class="p">,</span> <span class="n">account</span><span class="o">=</span><span class="n">app</span><span class="o">.</span><span class="n">accounts</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Add a note via push() method</span>
+<span class="n">new_note_1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;h1&gt;New Note!&lt;/h1&gt;&lt;br/&gt;Hello, world!&quot;</span><span class="p">})</span>
+<span class="n">app</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;New Folder 3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_note_1</span><span class="p">)</span>
+
+<span class="c1"># Add a note via new_note() method</span>
+<span class="n">new_note_2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="s2">&quot;New Note Title&quot;</span><span class="p">,</span> <span class="s2">&quot;New note text&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="n">new_folder_2</span><span class="p">)</span>
+
+<span class="c1"># Add an attachment to a note</span>
+<span class="n">note</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Important Note&quot;</span><span class="p">)</span>
+<span class="n">new_attachment</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;attachment&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;/Users/steven/Downloads/Important Document.pdf&quot;</span><span class="p">)</span>
+<span class="n">note</span><span class="o">.</span><span class="n">attachments</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_attachment</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="notes-examples">
+<h2>Notes Examples<a class="headerlink" href="#notes-examples" title="Permalink to this heading"></a></h2>
+<p>The examples below show some simple use cases for the Notes module that might help you spark an idea. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#notes-tutorials"><span class="std std-ref">Notes Tutorials</span></a>).</p>
+<section id="example-1-saving-safari-tab-text-to-a-note">
+<h3>Example 1 - Saving Safari Tab Text to a Note<a class="headerlink" href="#example-1-saving-safari-tab-text-to-a-note" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">safari</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="n">current_tab</span> <span class="o">=</span> <span class="n">safari</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
+<span class="n">tab_name</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">name</span>
+<span class="n">tab_text</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">text</span>
+
+<span class="n">notes</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="n">folder</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">folders</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Saved Websites&quot;</span><span class="p">)</span>
+<span class="n">notes</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">tab_name</span><span class="p">,</span> <span class="n">tab_text</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For all classes, methods, and inherited members of the Notes module, see the <a class="reference internal" href="../../../reference/apps/notes.html#module-PyXA.apps.Notes"><span class="std std-ref">Notes Module Reference</span></a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../music/index.html" class="btn btn-neutral float-left" title="Music Module Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../numbers/index.html" class="btn btn-neutral float-right" title="Numbers Module Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

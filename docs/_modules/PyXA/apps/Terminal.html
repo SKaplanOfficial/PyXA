@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.Terminal &mdash; PyXA 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.Terminal</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.Terminal</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.1</span>
+
+<span class="sd">Control the macOS Terminal application using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span>
+
+<div class="viewcode-block" id="XATerminalApplication"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication">[docs]</a><span class="k">class</span> <span class="nc">XATerminalApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Messages.app</span>
+
+<span class="sd">    .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XATerminalWindow</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether Terminal is the active application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The version of Terminal.app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The settings set used for new windows.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">defaultSettings</span><span class="p">(),</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span>
+
+    <span class="nd">@default_settings</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">default_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_settings</span><span class="p">:</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;defaultSettings&quot;</span><span class="p">,</span> <span class="n">default_settings</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">startup_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The settings set used for the window created on application startup.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">startupSettings</span><span class="p">(),</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span>
+
+    <span class="nd">@startup_settings</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">startup_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startup_settings</span><span class="p">:</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;startupSettings&quot;</span><span class="p">,</span> <span class="n">startup_settings</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The currently active Terminal tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">selected_tab</span>
+
+    <span class="nd">@current_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_tab</span><span class="p">:</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">selected_tab</span> <span class="o">=</span> <span class="n">current_tab</span>
+
+<div class="viewcode-block" id="XATerminalApplication.do_script"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.do_script">[docs]</a>    <span class="k">def</span> <span class="nf">do_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">window_tab</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalWindow&#39;</span><span class="p">,</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">return_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalApplication&#39;</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Executes a Terminal script in the specified window or tab.</span>
+
+<span class="sd">        If no window or tab is provided, the script will run in a new tab of the frontmost window. If return_result is True, the script will be run in a new tab no regardless of the value of window_tab.</span>
+
+<span class="sd">        :param script: The script to execute.</span>
+<span class="sd">        :type script: str</span>
+<span class="sd">        :param window_tab: The window or tab to execute the script in, defaults to None</span>
+<span class="sd">        :type window_tab: Union[XATerminalWindow, XATerminalTab], optional</span>
+<span class="sd">        :param return_result: Whether to return the result of script execution, defaults to False</span>
+<span class="sd">        :type return_result: bool, optional</span>
+<span class="sd">        :return: A reference to the Terminal application object, or the result of script execution.</span>
+<span class="sd">        :rtype: Union[XATerminalApplication, Dict[str, str]]</span>
+
+<span class="sd">        .. versionchanged:: 0.0.9</span>
+
+<span class="sd">           Now optionally returns the script execution result.</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">window_tab</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">window_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span>
+
+        <span class="k">if</span> <span class="n">return_result</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">script</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;stdout&quot;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>
+                <span class="s2">&quot;stderr&quot;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">doScript_in_</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">window_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.settings_sets"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.settings_sets">[docs]</a>    <span class="k">def</span> <span class="nf">settings_sets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSetList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned settings sets will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of settings sets</span>
+<span class="sd">        :rtype: XATerminalSettingsSetList</span>
+
+<span class="sd">        .. versionadded:: 0.0.7</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">settingsSets</span><span class="p">(),</span> <span class="n">XATerminalSettingsSetList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XATerminalWindow"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow">[docs]</a><span class="k">class</span> <span class="nc">XATerminalWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window is currently the frontmost Terminal window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selected_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The Terminal tab currently displayed in the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selectedTab</span><span class="p">(),</span> <span class="n">XATerminalTab</span><span class="p">)</span>
+
+    <span class="nd">@selected_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">selected_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_tab</span><span class="p">:</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;selectedTab&quot;</span><span class="p">,</span> <span class="n">selected_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+
+    <span class="nd">@position</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;The position of the top-left corner of the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalWindow.tabs"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.tabs">[docs]</a>    <span class="k">def</span> <span class="nf">tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTabList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned tabs will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of tabs</span>
+<span class="sd">        :rtype: XATerminalTabList</span>
+
+<span class="sd">        .. versionadded:: 0.0.7</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tabs</span><span class="p">(),</span> <span class="n">XATerminalTabList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XATerminalTabList"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList">[docs]</a><span class="k">class</span> <span class="nc">XATerminalTabList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A wrapper around lists of Terminal tabs that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.0.7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalTabList.number_of_rows"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.number_of_rows">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.number_of_columns"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.number_of_columns">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.contents"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.contents">[docs]</a>    <span class="k">def</span> <span class="nf">contents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;contents&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.history"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.history">[docs]</a>    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;history&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.busy"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.busy">[docs]</a>    <span class="k">def</span> <span class="nf">busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;busy&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.processes"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.processes">[docs]</a>    <span class="k">def</span> <span class="nf">processes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;processes&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.selected"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.selected">[docs]</a>    <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.title_displays_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.tty"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.tty">[docs]</a>    <span class="k">def</span> <span class="nf">tty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.current_settings"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.current_settings">[docs]</a>    <span class="k">def</span> <span class="nf">current_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSetList&#39;</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;currentSettings&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XATerminalSettingsSetList</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_number_of_rows"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows">[docs]</a>    <span class="k">def</span> <span class="nf">by_number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_number_of_columns"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns">[docs]</a>    <span class="k">def</span> <span class="nf">by_number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_contents"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_contents">[docs]</a>    <span class="k">def</span> <span class="nf">by_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;contents&quot;</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_history"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_history">[docs]</a>    <span class="k">def</span> <span class="nf">by_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">history</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;history&quot;</span><span class="p">,</span> <span class="n">history</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_busy"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_busy">[docs]</a>    <span class="k">def</span> <span class="nf">by_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">busy</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;busy&quot;</span><span class="p">,</span> <span class="n">busy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_processes"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_processes">[docs]</a>    <span class="k">def</span> <span class="nf">by_processes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;processes&quot;</span><span class="p">,</span> <span class="n">processes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_selected"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_selected">[docs]</a>    <span class="k">def</span> <span class="nf">by_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_title_displays_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">by_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_tty"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_tty">[docs]</a>    <span class="k">def</span> <span class="nf">by_tty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tty</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;tty&quot;</span><span class="p">,</span> <span class="n">tty</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.by_current_settings"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.by_current_settings">[docs]</a>    <span class="k">def</span> <span class="nf">by_current_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_settings</span><span class="p">:</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;currentSettings&quot;</span><span class="p">,</span> <span class="n">current_settings</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalTabList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each tab in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of Terminal tabs, each tab&#39;s custom title and history are added to the clipboard.</span>
+
+<span class="sd">        :return: The list of each tab&#39;s custom title and history</span>
+<span class="sd">        :rtype: list[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">titles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span><span class="p">()</span>
+        <span class="n">histories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">histories</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">items</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+<div class="viewcode-block" id="XATerminalTab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTab">[docs]</a><span class="k">class</span> <span class="nc">XATerminalTab</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with tabs in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The number of rows displayed in the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">numberOfRows</span><span class="p">()</span>
+
+    <span class="nd">@number_of_rows</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The number of columns displayed in the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">numberOfColumns</span><span class="p">()</span>
+
+    <span class="nd">@number_of_columns</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The currently visible contents of the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">contents</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The contents of the entire scrolling buffer of the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">history</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the tab is currently busy running a process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">busy</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">processes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The processes currently running in the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">processes</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the tab is currently selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selected</span><span class="p">()</span>
+
+    <span class="nd">@selected</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the tab&#39;s title contains a custom title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysCustomTitle</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_custom_title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The tab&#39;s custom title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">customTitle</span><span class="p">()</span>
+
+    <span class="nd">@custom_title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The tab&#39;s TTY device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tty</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The set of settings which control the tab&#39;s behavior and appearance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentSettings</span><span class="p">(),</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span>
+
+    <span class="nd">@current_settings</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_settings</span><span class="p">:</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentSettings&quot;</span><span class="p">,</span> <span class="n">current_settings</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalTab.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the tab.</span>
+
+<span class="sd">        When the clipboard content is set to a Terminal tab, the tab&#39;s custom title and its history are added to the clipboard.</span>
+
+<span class="sd">        :return: The tab&#39;s custom title and history</span>
+<span class="sd">        :rtype: list[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_title</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XATerminalSettingsSetList"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList">[docs]</a><span class="k">class</span> <span class="nc">XATerminalSettingsSetList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A wrapper around lists of Terminal settings sets that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of settings sets can be called as methods on the wrapped list, returning a list containing each settings set&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.0.7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.id"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.number_of_rows"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.number_of_columns"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.cursor_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color">[docs]</a>    <span class="k">def</span> <span class="nf">cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;cursorColor&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.background_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.background_color">[docs]</a>    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.normal_text_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color">[docs]</a>    <span class="k">def</span> <span class="nf">normal_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;normalTextColor&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.bold_text_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color">[docs]</a>    <span class="k">def</span> <span class="nf">bold_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;boldTextColor&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.font_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.font_name">[docs]</a>    <span class="k">def</span> <span class="nf">font_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fontName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.font_size"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.font_size">[docs]</a>    <span class="k">def</span> <span class="nf">font_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fontSize&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.font_antialiasing"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing">[docs]</a>    <span class="k">def</span> <span class="nf">font_antialiasing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fontAntialiasing&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.clean_commands"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands">[docs]</a>    <span class="k">def</span> <span class="nf">clean_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;cleanCommands&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.title_displays_device_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_device_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysDeviceName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.title_displays_shell_path"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_shell_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysShellPath&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.title_displays_window_size"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysWindowSize&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.title_displays_settings_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_settings_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysSettingsName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.title_displays_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_id"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_number_of_rows"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows">[docs]</a>    <span class="k">def</span> <span class="nf">by_number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_number_of_columns"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns">[docs]</a>    <span class="k">def</span> <span class="nf">by_number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_cursor_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;cursorColor&quot;</span><span class="p">,</span> <span class="n">cursor_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_background_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">,</span> <span class="n">background_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_normal_text_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_normal_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;normalTextColor&quot;</span><span class="p">,</span> <span class="n">normal_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_bold_text_color"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_bold_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bold_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;boldTextColor&quot;</span><span class="p">,</span> <span class="n">bold_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_font_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_font_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;fontName&quot;</span><span class="p">,</span> <span class="n">font_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_font_size"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size">[docs]</a>    <span class="k">def</span> <span class="nf">by_font_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;fontSize&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_font_antialiasing"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing">[docs]</a>    <span class="k">def</span> <span class="nf">by_font_antialiasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_antialiasing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;fontAntialiasing&quot;</span><span class="p">,</span> <span class="n">font_antialiasing</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_clean_commands"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands">[docs]</a>    <span class="k">def</span> <span class="nf">by_clean_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_commands</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;cleanCommands&quot;</span><span class="p">,</span> <span class="n">clean_commands</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_title_displays_device_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_device_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_device_name</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysDeviceName&quot;</span><span class="p">,</span> <span class="n">title_displays_device_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_title_displays_shell_path"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_shell_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_shell_path</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysShellPath&quot;</span><span class="p">,</span> <span class="n">title_displays_shell_path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_title_displays_windows_size"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_windows_size">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_windows_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_windows_size</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysWindowSize&quot;</span><span class="p">,</span> <span class="n">title_displays_windows_size</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_title_displays_settings_name"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_settings_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_settings_name</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysSettingsName&quot;</span><span class="p">,</span> <span class="n">title_displays_settings_name</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_title_displays_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">by_title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.by_custom_title"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title">[docs]</a>    <span class="k">def</span> <span class="nf">by_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSetList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each settings set in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of settings sets, each setting set&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The list of setting set names</span>
+<span class="sd">        :rtype: list[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSet"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSet">[docs]</a><span class="k">class</span> <span class="nc">XATerminalSettingsSet</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with settings sets in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier of the settings set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the settings set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The number of rows displayed in the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">numberOfRows</span><span class="p">()</span>
+    
+    <span class="nd">@number_of_rows</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">number_of_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;numberOfRows&quot;</span><span class="p">,</span> <span class="n">number_of_rows</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The number of columns displayed in the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">numberOfColumns</span><span class="p">()</span>
+
+    <span class="nd">@number_of_columns</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">number_of_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">,</span> <span class="n">number_of_columns</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The cursor color for the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">cursorColor</span><span class="p">())</span>
+
+    <span class="nd">@cursor_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;cursorColor&quot;</span><span class="p">,</span> <span class="n">cursor_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The background color for the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">backgroundColor</span><span class="p">())</span>
+
+    <span class="nd">@background_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">,</span> <span class="n">background_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">normal_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The normal text color for the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">normalTextColor</span><span class="p">())</span>
+
+    <span class="nd">@normal_text_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">normal_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;normalTextColor&quot;</span><span class="p">,</span> <span class="n">normal_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bold_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The bold text color for the tab.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">boldTextColor</span><span class="p">())</span>
+
+    <span class="nd">@bold_text_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bold_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bold_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;boldTextColor&quot;</span><span class="p">,</span> <span class="n">bold_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">font_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the font used to display the tab&#39;s contents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fontName</span><span class="p">()</span>
+
+    <span class="nd">@font_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">font_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;fontName&quot;</span><span class="p">,</span> <span class="n">font_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">font_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The size of the font used to display the tab&#39;s contents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fontSize</span><span class="p">()</span>
+
+    <span class="nd">@font_size</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">font_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;fontSize&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">font_antialiasing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the font used to display the tab&#39;s contents is antialiased.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fontAntialiasing</span><span class="p">()</span>
+
+    <span class="nd">@font_antialiasing</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">font_antialiasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font_antialiasing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;fontAntialiasing&quot;</span><span class="p">,</span> <span class="n">font_antialiasing</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">clean_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The processes which will be ignored when checking whether a tab can be closed without showing a prompt.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">cleanCommands</span><span class="p">()</span>
+
+    <span class="nd">@clean_commands</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">clean_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clean_commands</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;cleanCommands&quot;</span><span class="p">,</span> <span class="n">clean_commands</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_device_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the title contains the device name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysDeviceName</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_device_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_device_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_device_name</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysDeviceName&quot;</span><span class="p">,</span> <span class="n">title_displays_device_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_shell_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the title contains the shell path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysShellPath</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_shell_path</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_shell_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_shell_path</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysShellPath&quot;</span><span class="p">,</span> <span class="n">title_displays_shell_path</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the title contains the tab&#39;s size, in rows and columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysWindowSize</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_window_size</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_window_size</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysWindowSize&quot;</span><span class="p">,</span> <span class="n">title_displays_window_size</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_settings_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the title contains the settings set name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysSettingsName</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_settings_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_settings_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_settings_name</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysSettingsName&quot;</span><span class="p">,</span> <span class="n">title_displays_settings_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the title contains a custom title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titleDisplaysCustomTitle</span><span class="p">()</span>
+
+    <span class="nd">@title_displays_custom_title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title_displays_custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;titleDisplaysCustomTitle&quot;</span><span class="p">,</span> <span class="n">title_displays_custom_title</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The tab&#39;s custom title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">customTitle</span><span class="p">()</span>
+
+    <span class="nd">@custom_title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">custom_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;customTitle&quot;</span><span class="p">,</span> <span class="n">custom_title</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalSettingsSet.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSet.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the settings set.</span>
+
+<span class="sd">        When the clipboard content is set to a settings set, the setting set&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The setting set&#39;s name</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

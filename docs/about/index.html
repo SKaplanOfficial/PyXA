@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Overview &mdash; PyXA 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorial" href="../tutorial/index.html" />
+    <link rel="prev" title="PyXA Documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-pyxa">What is PyXA?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#is-pyxa-for-me">Is PyXA for Me?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Project Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/about/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="project-overview">
+<h1>Project Overview<a class="headerlink" href="#project-overview" title="Permalink to this heading"></a></h1>
+<section id="what-is-pyxa">
+<h2>What is PyXA?<a class="headerlink" href="#what-is-pyxa" title="Permalink to this heading"></a></h2>
+<p>Python for Automation, or PyXA for short, is a wrapper around several macOS frameworks that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA’s objects and methods are based on applications’ scripting dictionaries and coupled with additional automation features supported by Apple’s macOS APIs.</p>
+<p>PyXA was created with the goals of:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Simplifying the way automation tasks can be accomplished via Python</p></li>
+<li><p>Introducing new features to macOS application scripting by simplifying complex procedures into simple, declarative methods</p></li>
+<li><p>Disambiguating the capabilities of application scripting on macOS by providing easy-to-follow documentation throughout the entire project</p></li>
+</ol>
+</div></blockquote>
+<p>PyXA fills a gap where currently available frameworks ultimately fall short: it aims to be easy to learn for users accustomed to Python (or users who _must_ use Python). To that end, the package’s documentation contains numerous examples of how to use just about every method, and additional examples are provided covering specific use cases. PyXA’s code also serves as a source of examples for how to use <a class="reference external" href="https://pyobjc.readthedocs.io/en/latest/">PyObjC</a> to interact with various macOS frameworks.</p>
+</section>
+<section id="is-pyxa-for-me">
+<h2>Is PyXA for Me?<a class="headerlink" href="#is-pyxa-for-me" title="Permalink to this heading"></a></h2>
+<p>PyXA is not intended to replace AppleScript or even to cover 100% of AppleScript’s capabilities. Instead, PyXA is meant to provide general convenience in accomplishing AppleScript and other automation tasks via Python, for the most commonly used applications. If you need a complete Apple Event bridge, or if you find that PyXA cannot handle your particular use case, consider using <a class="reference external" href="https://appscript.sourceforge.io">appscript</a> or one of its derivatives. If you just need something that works in most circumstances, that has abundant examples for you to reference, and supports some additional automation features (such as opening Maps to a specific address), then PyXA might be a good fit for you.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="PyXA Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial/index.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

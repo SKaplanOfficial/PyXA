@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dictionary Module Reference &mdash; PyXA 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Finder Module Reference" href="finder.html" />
+    <link rel="prev" title="Contacts Module Reference" href="contacts.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Console Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Dictionary Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Dictionary.DCSCopyTextDefinition"><code class="docutils literal notranslate"><span class="pre">DCSCopyTextDefinition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication"><code class="docutils literal notranslate"><span class="pre">XADictionaryApplication</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quicktimeplayer.html">QuickTime Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Dictionary Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/dictionary.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Dictionary">
+<span id="dictionary-module-reference"></span><h1>Dictionary Module Reference<a class="headerlink" href="#module-PyXA.apps.Dictionary" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p>Control the macOS Dictionary application using JXA-like syntax.</p>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.DCSCopyTextDefinition" title="PyXA.apps.Dictionary.DCSCopyTextDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DCSCopyTextDefinition</span></code></a>(arg0, arg1, arg2, /)</p></td>
+<td><p>CFStringRef DCSCopyTextDefinition(DCSDictionaryRef arg0, CFStringRef arg1, CoreFoundation.CFRange arg2);</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication" title="PyXA.apps.Dictionary.XADictionaryApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADictionaryApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Dictionary.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.DCSCopyTextDefinition">
+<span class="sig-prename descclassname"><span class="pre">PyXA.apps.Dictionary.</span></span><span class="sig-name descname"><span class="pre">DCSCopyTextDefinition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.apps.Dictionary.DCSCopyTextDefinition" title="Permalink to this definition"></a></dt>
+<dd><p>CFStringRef DCSCopyTextDefinition(DCSDictionaryRef arg0, CFStringRef arg1, CoreFoundation.CFRange arg2);</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Dictionary.</span></span><span class="sig-name descname"><span class="pre">XADictionaryApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAApplication</span></code></a></p>
+<p>A class for managing and interacting with Dictionary.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">XADictionaryDefinition</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.define" title="PyXA.apps.Dictionary.XADictionaryApplication.define"><code class="xref py py-obj docutils literal notranslate"><span class="pre">define</span></code></a>(word)</p></td>
+<td><p>Gets the definition of a word in raw text form.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.fullscreen" title="PyXA.apps.Dictionary.XADictionaryApplication.fullscreen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullscreen</span></code></a>()</p></td>
+<td><p>Toggles fullscreen for the current Dictionary window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.go_back" title="PyXA.apps.Dictionary.XADictionaryApplication.go_back"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go_back</span></code></a>()</p></td>
+<td><p>Goes to the previous page/definition.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.go_forward" title="PyXA.apps.Dictionary.XADictionaryApplication.go_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go_forward</span></code></a>()</p></td>
+<td><p>Goes to the next page/definition.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.new_tab" title="PyXA.apps.Dictionary.XADictionaryApplication.new_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_tab</span></code></a>()</p></td>
+<td><p>Opens a new Dictionary tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.new_window" title="PyXA.apps.Dictionary.XADictionaryApplication.new_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_window</span></code></a>()</p></td>
+<td><p>Opens a new Dictionary window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_about_panel" title="PyXA.apps.Dictionary.XADictionaryApplication.open_about_panel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_about_panel</span></code></a>()</p></td>
+<td><p>Opens the &quot;About Dictionary&quot; panel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_dictionaries_folder" title="PyXA.apps.Dictionary.XADictionaryApplication.open_dictionaries_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_dictionaries_folder</span></code></a>()</p></td>
+<td><p>Opens the folder containing custom/downloaded dictionaries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_preferences" title="PyXA.apps.Dictionary.XADictionaryApplication.open_preferences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_preferences</span></code></a>()</p></td>
+<td><p>Opens the preferences window for the Dictionary application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.paste" title="PyXA.apps.Dictionary.XADictionaryApplication.paste"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paste</span></code></a>()</p></td>
+<td><p>Pastes the current contents of the clipboard into the selected item, if there is one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.print" title="PyXA.apps.Dictionary.XADictionaryApplication.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>()</p></td>
+<td><p>Opens the dictionary app's print dialog.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search" title="PyXA.apps.Dictionary.XADictionaryApplication.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(term)</p></td>
+<td><p>Searches the currently selected dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_all" title="PyXA.apps.Dictionary.XADictionaryApplication.search_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_all</span></code></a>(term)</p></td>
+<td><p>Searches the provided term in all dictionaries</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_apple_dictionary" title="PyXA.apps.Dictionary.XADictionaryApplication.search_apple_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_apple_dictionary</span></code></a>(term)</p></td>
+<td><p>Searches the provided term in the Apple Dictionary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_new_oxford" title="PyXA.apps.Dictionary.XADictionaryApplication.search_new_oxford"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_new_oxford</span></code></a>(term)</p></td>
+<td><p>Searches the provided term in the New Oxford American Dictionary</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_oxford_thesaurus" title="PyXA.apps.Dictionary.XADictionaryApplication.search_oxford_thesaurus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_oxford_thesaurus</span></code></a>(term)</p></td>
+<td><p>Searches the provided term in the Oxford American Writer's Thesaurus</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_wikipedia" title="PyXA.apps.Dictionary.XADictionaryApplication.search_wikipedia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_wikipedia</span></code></a>(term)</p></td>
+<td><p>Searches the provided term in Wikipedia</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.show_help" title="PyXA.apps.Dictionary.XADictionaryApplication.show_help"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_help</span></code></a>()</p></td>
+<td><p>Displays the help window for Dictionary.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.start_dictation" title="PyXA.apps.Dictionary.XADictionaryApplication.start_dictation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_dictation</span></code></a>()</p></td>
+<td><p>Begins dictation to fill the selected item, if there is one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_all" title="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_to_all</span></code></a>()</p></td>
+<td><p>Switches to searching all installed dictionaries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_apple_dictionary" title="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_apple_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_to_apple_dictionary</span></code></a>()</p></td>
+<td><p>Switches to searching the Apple Dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_new_oxford" title="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_new_oxford"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_to_new_oxford</span></code></a>()</p></td>
+<td><p>Switches to searching the New Oxford American Dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_oxford_thesaurus" title="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_oxford_thesaurus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_to_oxford_thesaurus</span></code></a>()</p></td>
+<td><p>Switches to searching the Oxford American Writer's Thesaurus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_wikipedia" title="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_wikipedia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_to_wikipedia</span></code></a>()</p></td>
+<td><p>Switches to searching Wikipedia.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.view_front_back_matter" title="PyXA.apps.Dictionary.XADictionaryApplication.view_front_back_matter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view_front_back_matter</span></code></a>()</p></td>
+<td><p>Displays the front/back matter of the selected dictionary.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.define">
+<span class="sig-name descname"><span class="pre">define</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.define"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.define" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the definition of a word in raw text form.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – The word to define</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The definition of the word</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.fullscreen">
+<span class="sig-name descname"><span class="pre">fullscreen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.fullscreen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.fullscreen" title="Permalink to this definition"></a></dt>
+<dd><p>Toggles fullscreen for the current Dictionary window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.go_back">
+<span class="sig-name descname"><span class="pre">go_back</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.go_back"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.go_back" title="Permalink to this definition"></a></dt>
+<dd><p>Goes to the previous page/definition.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.go_forward">
+<span class="sig-name descname"><span class="pre">go_forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.go_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.go_forward" title="Permalink to this definition"></a></dt>
+<dd><p>Goes to the next page/definition.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.new_tab">
+<span class="sig-name descname"><span class="pre">new_tab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.new_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.new_tab" title="Permalink to this definition"></a></dt>
+<dd><p>Opens a new Dictionary tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.new_window">
+<span class="sig-name descname"><span class="pre">new_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.new_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.new_window" title="Permalink to this definition"></a></dt>
+<dd><p>Opens a new Dictionary window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.open_about_panel">
+<span class="sig-name descname"><span class="pre">open_about_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.open_about_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_about_panel" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the “About Dictionary” panel. Mimics clicking File-&gt;About Dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.open_dictionaries_folder">
+<span class="sig-name descname"><span class="pre">open_dictionaries_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.open_dictionaries_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_dictionaries_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the folder containing custom/downloaded dictionaries.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.open_preferences">
+<span class="sig-name descname"><span class="pre">open_preferences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.open_preferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.open_preferences" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the preferences window for the Dictionary application. Mimics clicking File-&gt;Preferences…</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.paste">
+<span class="sig-name descname"><span class="pre">paste</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.paste"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.paste" title="Permalink to this definition"></a></dt>
+<dd><p>Pastes the current contents of the clipboard into the selected item, if there is one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.print" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the dictionary app’s print dialog.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the currently selected dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search_all">
+<span class="sig-name descname"><span class="pre">search_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_all" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the provided term in all dictionaries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search_apple_dictionary">
+<span class="sig-name descname"><span class="pre">search_apple_dictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_apple_dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_apple_dictionary" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the provided term in the Apple Dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search_new_oxford">
+<span class="sig-name descname"><span class="pre">search_new_oxford</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_new_oxford"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_new_oxford" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the provided term in the New Oxford American Dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search_oxford_thesaurus">
+<span class="sig-name descname"><span class="pre">search_oxford_thesaurus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_oxford_thesaurus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_oxford_thesaurus" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the provided term in the Oxford American Writer’s Thesaurus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.search_wikipedia">
+<span class="sig-name descname"><span class="pre">search_wikipedia</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_wikipedia"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_wikipedia" title="Permalink to this definition"></a></dt>
+<dd><p>Searches the provided term in Wikipedia</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.show_help">
+<span class="sig-name descname"><span class="pre">show_help</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.show_help"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.show_help" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the help window for Dictionary.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.start_dictation">
+<span class="sig-name descname"><span class="pre">start_dictation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.start_dictation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.start_dictation" title="Permalink to this definition"></a></dt>
+<dd><p>Begins dictation to fill the selected item, if there is one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_all">
+<span class="sig-name descname"><span class="pre">switch_to_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.switch_to_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_all" title="Permalink to this definition"></a></dt>
+<dd><p>Switches to searching all installed dictionaries.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_apple_dictionary">
+<span class="sig-name descname"><span class="pre">switch_to_apple_dictionary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.switch_to_apple_dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_apple_dictionary" title="Permalink to this definition"></a></dt>
+<dd><p>Switches to searching the Apple Dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_new_oxford">
+<span class="sig-name descname"><span class="pre">switch_to_new_oxford</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.switch_to_new_oxford"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_new_oxford" title="Permalink to this definition"></a></dt>
+<dd><p>Switches to searching the New Oxford American Dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_oxford_thesaurus">
+<span class="sig-name descname"><span class="pre">switch_to_oxford_thesaurus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.switch_to_oxford_thesaurus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_oxford_thesaurus" title="Permalink to this definition"></a></dt>
+<dd><p>Switches to searching the Oxford American Writer’s Thesaurus.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.switch_to_wikipedia">
+<span class="sig-name descname"><span class="pre">switch_to_wikipedia</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.switch_to_wikipedia"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.switch_to_wikipedia" title="Permalink to this definition"></a></dt>
+<dd><p>Switches to searching Wikipedia.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Dictionary.XADictionaryApplication.view_front_back_matter">
+<span class="sig-name descname"><span class="pre">view_front_back_matter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.view_front_back_matter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.view_front_back_matter" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the front/back matter of the selected dictionary.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="contacts.html" class="btn btn-neutral float-left" title="Contacts Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="finder.html" class="btn btn-neutral float-right" title="Finder Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

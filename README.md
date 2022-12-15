@@ -138,7 +138,7 @@ python -m pip install mac-pyxa
 ```
 
 # Documentation
-The best way to learn about PyXA is to read the [documentation](https://pyxa.readthedocs.io/en/latest/). From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.
+The best way to learn about PyXA is to read the [documentation](http://skaplanofficial.github.io/pyxa/). From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.
 
 For further help, consider joining the (PyXA Discord Server](https://discord.gg/Crypg65dxK) and asking your questions there.
 

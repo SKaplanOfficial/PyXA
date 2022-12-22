@@ -2134,30 +2134,6 @@ class XAMediaWindow(XABaseScriptable.XASBWindow, XAMediaItem):
         super().__init__(properties)
 
     @property
-    def collapseable(self) -> bool:
-        """Whether the window can be minimized.
-
-        .. deprecated:: 0.1.1
-
-           Use :attr:`XAMediaWindow.miniaturizable` instead.
-        """
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def collapsed(self) -> bool:
-        """Whether the window is currently minimized.
-
-        .. deprecated:: 0.1.1
-
-           Use :attr:`XAMediaWindow.miniaturized` instead.
-        """
-        return self.xa_elem.miniaturized()
-
-    @collapsed.setter
-    def collapsed(self, collapsed: bool):
-        self.set_property('collapsed', collapsed)
-
-    @property
     def full_screen(self) -> bool:
         """Whether the window is currently full screen.
         """

@@ -163,50 +163,6 @@ class XAObject():
         new_thread.start()
         return new_thread
 
-    def has_element(self) -> bool:
-        """Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.
-
-        :return: True if this object's element attribute is set, False otherwise.
-        :rtype: bool
-
-        .. deprecated:: 0.0.9
-        
-           Perform this check manually instead.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem is not None
-
-    def has_element_properties(self) -> bool:
-        """Whether the scripting element associated with this object has properties attached to it.
-
-        :return: True if this object's properties attribute is set, False otherwise.
-        :rtype: bool
-
-        .. deprecated:: 0.0.8
-           All elements now have a properties dictionary, even if it is empty.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.element_properties != None
-
-    def set_element(self, element: 'XAObject') -> 'XAObject':
-        """Sets the element attribute to the supplied element and updates the properties attribute accordingly.
-
-        :param element: The new scripting element to reference via the element attribute.
-        :type element: XAObject
-        :return: A reference to this PyXA object.
-        :rtype: XAObject
-
-        .. deprecated:: 0.0.9
-        
-           Set the element attribute directly instead.
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem = element
-        return self
-
     def set_properties(self, properties: dict) -> 'XAObject':
         """Updates the value of multiple properties of the scripting element associated with this object.
 
@@ -3379,7 +3335,7 @@ class XAText(XAObject):
                 label = sentiment_scale[int(scaled)]
                 tagged_sentiments.append((paragraph, label))
 
-        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(self.xa_elem)), unit, NaturalLanguage.NLTagSchemeSentimentScore, 0, apply_tags)
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeSentimentScore, 0, apply_tags)
         return tagged_sentiments
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
@@ -6904,7 +6860,7 @@ class XAImage(XAObject, XAClipboardCodable):
     .. versionadded:: 0.0.2
     """
 
-    def __init__(self, image_reference: Union[str, XAPath, 'AppKit.NSURL', 'AppKit.NSImage', None] = None, data: Union['AppKit.NSData', None] = None):
+    def __init__(self, image_reference: Union[str, XAPath, 'AppKit.NSURL', 'AppKit.NSImage', None] = None):
         self.size: tuple[int, int] #: The dimensions of the image
         self.file: Union[XAPath, None] = None #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
@@ -6920,77 +6876,72 @@ class XAImage(XAObject, XAClipboardCodable):
         self.__highlight = None
         self.__shadow = None
 
-        if data is not None:
-            # Deprecated as of 0.1.0 -- Pass data as the image_reference instead
-            AppKit.NSLog("Warning: Setting the data parameter when initalizing an XAImage is deprecated functionality and will be removed in a future release")
-            self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
-        else:
-            self.file = image_reference
-            match image_reference:
-                case None:
-                    self.xa_elem = AppKit.NSImage.alloc().init()
+        self.file = image_reference
+        match image_reference:
+            case None:
+                self.xa_elem = AppKit.NSImage.alloc().init()
 
-                case {"element": str(ref)}:
-                    self.file = ref
-                    self.xa_elem = XAImage(ref).xa_elem
+            case {"element": str(ref)}:
+                self.file = ref
+                self.xa_elem = XAImage(ref).xa_elem
 
-                case {"element": XAImage() as image}:
-                    self.file = image.file
-                    self.xa_elem = image.xa_elem
+            case {"element": XAImage() as image}:
+                self.file = image.file
+                self.xa_elem = image.xa_elem
 
-                case {"element": AppKit.NSImage() as image}:
-                    self.xa_elem = image
+            case {"element": AppKit.NSImage() as image}:
+                self.xa_elem = image
 
-                case str() as ref if "://" in ref:
-                    url = XAURL(ref).xa_elem
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url)
+            case str() as ref if "://" in ref:
+                url = XAURL(ref).xa_elem
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url)
 
-                case str() as ref if os.path.exists(ref) or os.path.exists(os.getcwd() + "/" + ref):
-                    path = XAPath(ref).xa_elem
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path)
+            case str() as ref if os.path.exists(ref) or os.path.exists(os.getcwd() + "/" + ref):
+                path = XAPath(ref).xa_elem
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path)
 
-                case XAPath() as path:
-                    self.file = path.path
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path.xa_elem)
+            case XAPath() as path:
+                self.file = path.path
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path.xa_elem)
 
-                case XAURL() as url:
-                    self.file = url.url
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url.xa_elem)
+            case XAURL() as url:
+                self.file = url.url
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url.xa_elem)
 
-                case str() as raw_string:
-                    font = AppKit.NSFont.monospacedSystemFontOfSize_weight_(15, AppKit.NSFontWeightMedium)
-                    text = AppKit.NSString.alloc().initWithString_(raw_string)
-                    attributes = {
-                        AppKit.NSFontAttributeName: font,
-                        AppKit.NSForegroundColorAttributeName: XAColor.black().xa_elem
-                    }
-                    text_size = text.sizeWithAttributes_(attributes)
+            case str() as raw_string:
+                font = AppKit.NSFont.monospacedSystemFontOfSize_weight_(15, AppKit.NSFontWeightMedium)
+                text = AppKit.NSString.alloc().initWithString_(raw_string)
+                attributes = {
+                    AppKit.NSFontAttributeName: font,
+                    AppKit.NSForegroundColorAttributeName: XAColor.black().xa_elem
+                }
+                text_size = text.sizeWithAttributes_(attributes)
 
-                    # Make a white background to overlay the text on
-                    swatch = XAColor.white().make_swatch(text_size.width + 20, text_size.height + 20)
-                    text_rect = AppKit.NSMakeRect(10, 10, text_size.width, text_size.height)
+                # Make a white background to overlay the text on
+                swatch = XAColor.white().make_swatch(text_size.width + 20, text_size.height + 20)
+                text_rect = AppKit.NSMakeRect(10, 10, text_size.width, text_size.height)
 
-                    # Overlay the text
-                    swatch.xa_elem.lockFocus()                        
-                    text.drawInRect_withAttributes_(text_rect, attributes)
-                    swatch.xa_elem.unlockFocus()
-                    self.xa_elem = swatch.xa_elem
+                # Overlay the text
+                swatch.xa_elem.lockFocus()                        
+                text.drawInRect_withAttributes_(text_rect, attributes)
+                swatch.xa_elem.unlockFocus()
+                self.xa_elem = swatch.xa_elem
 
-                case XAImage() as image:
-                    self.file = image.file
-                    self.xa_elem = image.xa_elem
+            case XAImage() as image:
+                self.file = image.file
+                self.xa_elem = image.xa_elem
 
-                case XAObject():
-                    self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
+            case XAObject():
+                self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
 
-                case AppKit.NSData() as data:
-                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
+            case AppKit.NSData() as data:
+                self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
 
-                case AppKit.NSImage() as image:
-                    self.xa_elem = image
+            case AppKit.NSImage() as image:
+                self.xa_elem = image
 
-                case _:
-                    raise TypeError(f"Error: Cannot initialize XAImage using {type(image_reference)} type.")
+            case _:
+                raise TypeError(f"Error: Cannot initialize XAImage using {type(image_reference)} type.")
 
     def __update_image(self, modified_image: 'Quartz.CIImage') -> 'XAImage':
         # Crop the result to the original image size

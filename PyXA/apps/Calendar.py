@@ -621,24 +621,6 @@ class XACalendarCalendar(XABase.XAObject):
         end_date = start_date + timedelta(days = 1)
         return self.events_in_range(start_date, end_date)
 
-    def week_events(self) -> 'XACalendarEventList':
-        """Gets a list of events occurring in the next 7 days.
-
-        :return: The list of events.
-        :rtype: XACalendarEventList
-
-        .. seealso:: :func:`events_today`
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`events_in_range` instead.
-
-        .. versionadded:: 0.0.2
-        """
-        start_date = datetime.now()
-        end_date = start_date + timedelta(days = 7)
-        return self.events_in_range(start_date, end_date)
-
     def new_event(self, name: str, start_date: datetime, end_date: datetime) -> 'XACalendarEvent':
         """Creates a new event and pushes it onto this calendar's events array.
 

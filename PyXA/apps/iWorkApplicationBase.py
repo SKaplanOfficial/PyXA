@@ -1134,23 +1134,6 @@ class XAiWorkImage(XAiWorkiWorkItem):
     def rotation(self, rotation: int):
         self.set_property('rotation', rotation)
 
-    def rotate(self, degrees: int) -> 'XAiWorkImage':
-        """Rotates the image by the specified number of degrees.
-
-        :param degrees: The amount to rotate the image, in degrees, from -359 to 359
-        :type degrees: int
-        :return: The image.
-        :rtype: XAiWorkImage
-
-        .. deprecated:: 0.1.1
-
-           Set the :attr:`rotation` attribute directly instead.
-
-        .. versionadded:: 0.1.1
-        """
-        self.set_property("rotation", self.rotation + degrees)
-        return self
-
     def replace_with(self, img_path: Union[str, XABase.XAPath, XABase.XAURL]) -> 'XAiWorkImage':
         """Removes the image and inserts another in its place with the same width and height.
 
@@ -1438,23 +1421,6 @@ class XAiWorkShape(XAiWorkiWorkItem):
     @rotation.setter
     def rotation(self, rotation: int):
         self.set_property('rotation', rotation)
-
-    def rotate(self, degrees: int) -> 'XAiWorkShape':
-        """Rotates the shape by the specified number of degrees.
-
-        :param degrees: The amount to rotate the shape, in degrees, from -359 to 359
-        :type degrees: int
-        :return: The shape.
-        :rtype: XAiWorkShape
-
-        .. deprecated:: 0.1.1
-
-           Set the :attr:`rotation` attribute directly instead.
-
-        .. versionadded:: 0.1.1
-        """
-        self.set_property("rotation", self.rotation + degrees)
-        return self
 
     def set_property(self, property_name: str, value: Any):
         if isinstance(value, tuple):

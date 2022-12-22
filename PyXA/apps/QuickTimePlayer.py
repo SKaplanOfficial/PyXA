@@ -213,23 +213,6 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
         """
         return self._new_element(self.xa_elem.document(), XAQuickTimeDocument)
 
-    def set_property(self, property_name: str, value: Any):
-        """Sets the specified property to the given value.
-
-        .. deprecated:: 0.1.1
-        
-           Set the desired attribute directly instead.
-        """
-        if isinstance(value, tuple):
-            if isinstance(value[0], tuple):
-                # Value is a rectangle boundary
-                x = value[0][0]
-                y = value[0][1]
-                w = value[1][0]
-                h = value[1][1]
-                value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        super().set_property(property_name, value)
-
 
 
 

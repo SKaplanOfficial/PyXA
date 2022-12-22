@@ -331,36 +331,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_fmgr.trashItemAtURL_resultingItemURL_error_(path, None, None)
         return self
 
-    def recycle_items(self, paths: list[Union[str, AppKit.NSURL]]) -> 'XAFinderApplication':
-        """Moves the files or folders at the specified paths to the trash.
-
-        This method utilizes fast enumeration methods from Objective-C to improve the performance of recycling large amounts of files. As such, it is preferred over calling :func:`recycle_item` repeatedly, especially when dealing with large lists of paths.
-
-        :param path: The paths of the file and/or folders to recycle.
-        :type path: list[Union[str, AppKit.NSURL]]
-        :return: A reference to the Finder application object.
-        :rtype: XAFinderApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> app = PyXA.Application("Finder")
-        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
-        >>> app.recycle_items(items)
-
-        .. seealso:: :func:`recycle_item`
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`recycle_item` instead.
-
-        .. versionadded:: 0.0.1
-        """
-        def recycle(path: Union[str, AppKit.NSURL], index: int, stop: bool):
-            self.recycle_item(path)
-        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(recycle)
-        return self
-
     def empty_trash(self) -> 'XAFinderApplication':
         """Empties the trash.
 
@@ -404,36 +374,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_fmgr.removeItemAtURL_error_(path, None)
         return self
 
-    def delete_items(self, paths: list[Union[str, AppKit.NSURL]]) -> 'XAFinderApplication':
-        """Permanently deletes the files or folders at the specified paths.
-
-        This method utilizes fast enumeration methods from Objective-C to improve the performance of deleting large amounts of files. As such, it is preferred over calling :func:`delete_item` repeatedly, especially when dealing with large lists of paths.
-
-        :param path: The paths of the files and/or folders to delete.
-        :type path: Union[str, AppKit.NSURL]
-        :return: A reference to the Finder application object.
-        :rtype: XAFinderApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> app = PyXA.Application("Finder")
-        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
-        >>> app.delete_items(items)
-
-        .. seealso:: :func:`delete_items`
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`delete_item` instead.
-
-        .. versionadded:: 0.0.1
-        """
-        def delete(path: Union[str, AppKit.NSURL], index: int, stop: bool):
-            self.delete_item(path)
-        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(delete)
-        return self
-
     def duplicate_item(self, path: str) -> 'XAFinderApplication':
         """Duplicates the specified file or folder in its containing folder.
 
@@ -470,40 +410,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             new_path = AppKit.NSURL.alloc().initFileURLWithPath_(new_path)
             copy_num += 1
         self.xa_fmgr.copyItemAtURL_toURL_error_(path, new_path, None)
-        return self
-
-    def duplicate_items(self, paths: list[str]) -> 'XAFinderApplication':
-        """Duplicates the specified files or folders in their containing folder.
-
-        The duplicated items will have the name of the original with " 2" added to the end. This method utilizes fast enumeration methods from Objective-C to improve the performance of duplicating large amounts of files. As such, it is preferred over calling :func:`duplicate_item` repeatedly, especially when dealing with large lists of paths.
-
-        :param path: The paths of the files and/or folders to duplicate.
-        :type path: str
-        :return: A reference to the Finder application object.
-        :rtype: XAFinderApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> app = PyXA.Application("Finder")
-        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
-        >>> app.duplicate_items(items)
-
-        .. seealso:: :func:`duplicate_item`
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`duplicate_item` instead.
-
-        .. versionadded:: 0.0.1
-        """
-        def duplicate(path: Union[str, AppKit.NSURL], index: int, stop: bool):
-            self.duplicate_item(path)
-        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(duplicate)
-        return self
-
-        for path in paths:
-            self.duplicate_item(path)
         return self
 
     def search(self, query: str) -> 'XAFinderApplication':

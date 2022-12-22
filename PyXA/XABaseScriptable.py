@@ -397,22 +397,6 @@ class XASBWindow(XABase.XAObject, XACloseable):
                 self.set_property("collapsed", False)
         return self
 
-    def toggle_zoom(self) -> Self:
-        """Uncollapses (unminimizes/expands) the window.
-
-        :return: A reference to the uncollapsed window object.
-        :rtype: Self
-
-        .. deprecated:: 0.1.0.2
-
-           Set the :attr:`zoomed` attribute instead.
-
-        .. versionadded:: 0.0.4
-        """
-        self.zoomed = not self.zoomed
-        self.set_property("zoomed", self.zoomed)
-        return self
-
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the window.
 

@@ -69,4 +69,3 @@ todo_include_todos = True
 #todo_link_only = True
 
 autodoc_default_options = {"autosummary": True}
-numpydoc_show_class_members = False

@@ -149,7 +149,7 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
 
     @property
     def position(self) -> tuple[int, int]:
-        return self.xa_elem.position()
+        return tuple(self.xa_elem.position())
 
     @position.setter
     def position(self, position: tuple[int, int]):
@@ -198,7 +198,7 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         return list(self.xa_elem.arrayByApplyingSelector_("busy") or [])
 
     def processes(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("processes") or [])
+        return [list(x) for x in self.xa_elem.arrayByApplyingSelector_("processes") or []]
 
     def selected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
@@ -320,7 +320,7 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     def processes(self) -> list[str]:
         """The processes currently running in the tab.
         """
-        return self.xa_elem.processes()
+        return list(self.xa_elem.processes())
 
     @property
     def selected(self) -> bool:
@@ -434,7 +434,7 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         return list(self.xa_elem.arrayByApplyingSelector_("fontAntialiasing") or [])
 
     def clean_commands(self) -> list[list[str]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("cleanCommands") or [])
+        return [list(x) for x in self.xa_elem.arrayByApplyingSelector_("cleanCommands") or []]
 
     def title_displays_device_name(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysDeviceName") or [])
@@ -467,16 +467,24 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         return self.by_property("numberOfColumns", number_of_columns)
 
     def by_cursor_color(self, cursor_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        return self.by_property("cursorColor", cursor_color.xa_elem)
+        for settings_set in self.xa_elem:
+            if settings_set.cursorColor() == cursor_color.xa_elem:
+                return self._new_element(settings_set, XATerminalSettingsSet)
 
     def by_background_color(self, background_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        return self.by_property("backgroundColor", background_color.xa_elem)
+        for settings_set in self.xa_elem:
+            if settings_set.backgroundColor() == background_color.xa_elem:
+                return self._new_element(settings_set, XATerminalSettingsSet)
 
     def by_normal_text_color(self, normal_text_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        return self.by_property("normalTextColor", normal_text_color.xa_elem)
+        for settings_set in self.xa_elem:
+            if settings_set.normalTextColor() == normal_text_color.xa_elem:
+                return self._new_element(settings_set, XATerminalSettingsSet)
 
     def by_bold_text_color(self, bold_text_color: XABase.XAColor) -> Union['XATerminalSettingsSet', None]:
-        return self.by_property("boldTextColor", bold_text_color.xa_elem)
+        for settings_set in self.xa_elem:
+            if settings_set.boldTextColor() == bold_text_color.xa_elem:
+                return self._new_element(settings_set, XATerminalSettingsSet)
 
     def by_font_name(self, font_name: str) -> Union['XATerminalSettingsSet', None]:
         return self.by_property("fontName", font_name)
@@ -496,8 +504,8 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
     def by_title_displays_shell_path(self, title_displays_shell_path: bool) -> Union['XATerminalSettingsSet', None]:
         return self.by_property("titleDisplaysShellPath", title_displays_shell_path)
 
-    def by_title_displays_windows_size(self, title_displays_windows_size: bool) -> Union['XATerminalSettingsSet', None]:
-        return self.by_property("titleDisplaysWindowSize", title_displays_windows_size)
+    def by_title_displays_window_size(self, title_displays_window_size: bool) -> Union['XATerminalSettingsSet', None]:
+        return self.by_property("titleDisplaysWindowSize", title_displays_window_size)
 
     def by_title_displays_settings_name(self, title_displays_settings_name: bool) -> Union['XATerminalSettingsSet', None]:
         return self.by_property("titleDisplaysSettingsName", title_displays_settings_name)
@@ -641,7 +649,7 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
     def clean_commands(self) -> list[str]:
         """The processes which will be ignored when checking whether a tab can be closed without showing a prompt.
         """
-        return self.xa_elem.cleanCommands()
+        return list(self.xa_elem.cleanCommands())
 
     @clean_commands.setter
     def clean_commands(self, clean_commands: list[str]):

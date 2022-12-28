@@ -195,13 +195,22 @@ class TestNotes(unittest.TestCase):
         self.assertIsInstance(account.folders(), PyXA.apps.Notes.XANotesFolderList)
 
     def test_notes_folder(self):
-        folder = self.app.folders()[0]
+        folder = self.app.folders().by_name("Test")
 
         self.assertIsInstance(folder.name, str)
         self.assertIsInstance(folder.id, str)
         self.assertIsInstance(folder.shared, bool)
         self.assertIsInstance(folder.container, PyXA.apps.Notes.XANotesAccount)
+
+        self.assertIsInstance(folder.folders(), PyXA.apps.Notes.XANotesFolderList)
         self.assertIsInstance(folder.notes(), PyXA.apps.Notes.XANoteList)
+        self.assertIsInstance(folder.folders()[0], PyXA.apps.Notes.XANotesFolder)
+        self.assertIsInstance(folder.notes()[0], PyXA.apps.Notes.XANote)
+        self.assertIsInstance(folder.folders()[0].xa_elem.get(), ScriptingBridge.SBObject)
+        self.assertIsInstance(folder.notes()[0].xa_elem.get(), ScriptingBridge.SBObject)
+
+        self.assertIsInstance(folder.folders()[0].folders()[0].notes()[0], PyXA.apps.Notes.XANote)
+        self.assertIsInstance(folder.folders()[0].folders()[0].notes()[0].xa_elem, ScriptingBridge.SBObject)
 
     def test_notes_attachment(self):
         attachment = self.app.attachments()[0]

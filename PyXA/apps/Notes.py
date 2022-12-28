@@ -676,7 +676,7 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
     def id(self) -> str:
         """The unique identifier for the folder.
         """
-        return self.xa_elem.id()
+        return str(self.xa_elem.id())
 
     @property
     def shared(self) -> bool:
@@ -692,11 +692,43 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
 
     def show(self) -> 'XANotesFolder':
         """Shows the folder in the main Notes window.
+
+        :return: The folder object.
+        :rtype: XANotesFolder
         
         .. versionadded:: 0.0.3
         """
         self.xa_elem.showSeparately_(False)
         return self
+
+    def move_to(self, destination: Union['XANotesFolder', 'XANotesAccount']) -> 'XANotesFolder':
+        """Moves the folder to the specified container.
+
+        :return: The folder object.
+        :rtype: XANotesFolder
+
+        .. versionadded:: 0.2.0
+        """
+        self.xa_elem.moveTo_(destination.xa_elem)
+
+    def delete(self):
+        """Permanently deletes the folder.
+
+        .. versionadded:: 0.2.0
+        """
+        self.xa_elem.delete()
+
+    def folders(self, filter: Union[dict, None] = None) -> 'XANotesFolderList':
+        """Returns a list of folders, as PyXA objects, matching the given filter.
+
+        :param filter: Keys and values to filter folders by, defaults to None
+        :type filter: dict, optional
+        :return: A PyXA list object wrapping a list of folders
+        :rtype: XANotesFolderList
+
+        .. versionadded:: 0.2.0
+        """
+        return self._new_element(self.xa_elem.folders(), XANotesFolderList, filter)
 
     def notes(self, filter: Union[dict, None] = None) -> 'XANoteList':
         """Returns a list of notes, as PyXA objects, matching the given filter.
@@ -713,13 +745,6 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_elem.notes(), XANoteList, filter)
-
-    def delete(self):
-        """Permanently deletes the folder.
-
-        .. versionadded:: 0.0.4
-        """
-        self.xa_elem.delete()
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the folder.
@@ -807,7 +832,7 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
     def id(self) -> str:
         """The unique identifier for the note.
         """
-        return self.xa_elem.id()
+        return str(self.xa_elem.id())
 
     @property
     def body(self) -> str:
@@ -963,7 +988,7 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
     def id(self) -> str:
         """The unique identifier for the attachment.
         """
-        return self.xa_elem.id()
+        return str(self.xa_elem.id())
 
     @property
     def content_identifier(self) -> str:
@@ -1096,7 +1121,7 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
     def id(self) -> str:
         """The unique identifier of the account.
         """
-        return self.xa_elem.id()
+        return str(self.xa_elem.id())
 
     @property
     def default_folder(self) -> 'XANotesFolder':

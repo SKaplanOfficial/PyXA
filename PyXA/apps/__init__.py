@@ -1,6 +1,7 @@
 application_classes = {
     # "invocation": ("module_name", "application_object_name")
     ### First Party Scriptable Apps
+    'database events': ("DatabaseEvents", "XADatabaseEventsApplication"),
     "finder": ("Finder", "XAFinderApplication"),
     "safari": ("Safari", "XASafariApplication"),
     "music": ("Music", "XAMusicApplication"),

@@ -3,11 +3,11 @@
 ## Report Issues
 If you have a problem with PyXA, let us know! We might be able to help you get around the problem while we work toward a more permanent fix. Before you submit an issue, please check to see if it has already been reported -- if so, leave a comment on the existing issue to let us know that you're experiencing it too.
 
-If you've identified a new problem, go ahead and [create a new issue](https://github.com/SKaplanOfficial/PyXA/issues/new) on the PyXA GitHub repository. Make sure to fill out each part of the issue template to the best of your abilities.
+If you've identified a new problem, go ahead and [create a new issue](https://github.com/SKaplanOfficial/PyXA/issues/new) on the PyXA GitHub repository. Provide as much detail as possible about the problem, your environment (e.g. operating system, Python version), and the steps required to reproduce any errors you encounter.
 
 
 ## Guidelines for Contributing to PyXA's Code
-<a id="code" />
+<a id="code"></a>
 
 ### Getting Started
 1. Fork the project, create a new branch in your fork, and make changes associated with a reported issue.
@@ -18,7 +18,7 @@ If you've identified a new problem, go ahead and [create a new issue](https://gi
 
 
 ## Guidelines for Contributing to PyXA's Documentation
-<a id="documentation" />
+<a id="documentation"></a>
 
 ### Comment on an Issue
 Since we want PyXA's documentation to maintain coherence and consistency, we ask that non-trivial changes to the documentation be discussed in the issue comments before any pull requests are made. Pull requests submitted prior to discussion on a documentation-related issue might not be approved.

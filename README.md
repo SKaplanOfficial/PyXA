@@ -150,7 +150,7 @@ For further help, consider joining the (PyXA Discord Server](https://discord.gg/
 Limitations of specific applications and methods are noted in their respective reference documents.
 
 # Contributing
-Contributions are welcome, big or small. Please refer to the [Contributing Guidelines](./docs/about/contributing_guidelines.html) for any contributions larger than a spelling correction. For small fixes such as spelling corrections, no issue needs to be created; you can go right to making a pull request. Other small issues include general grammar fixes, short comment additions, and formatting (whitespace) changes.
+Contributions are welcome, big or small. Please refer to the [Contributing Guidelines](./CONTRIBUTING.md) for any contributions larger than a spelling correction. For small fixes such as spelling corrections, no issue needs to be created; you can go right to making a pull request. Other small issues include general grammar fixes, short comment additions, and formatting (whitespace) changes.
 
 # Contact
 If you have any questions about PyXA that are not addressed in the documentation, or if you just want to talk, feel free to email [stephen.kaplan@maine.edu](mailto:stephen.kaplan@maine.edu).

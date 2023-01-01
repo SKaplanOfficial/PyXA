@@ -1226,389 +1226,389 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         """
         return self._new_element(self.xa_elem.attributes(), XASystemEventsAttributeList)
 
-    def browsers(self, filter: dict = None) -> Union['XASystemEventsBrowserList', None]:
+    def browsers(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of browser elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of browsers
-        :rtype: XASystemEventsBrowserList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.browsers(), XASystemEventsBrowserList)
+        return self._new_element(self.xa_elem.browsers(), XASystemEventsUIElementList)
 
-    def busy_indicators(self, filter: dict = None) -> Union['XASystemEventsBusyIndicatorList', None]:
+    def busy_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of busy indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of busy indicators
-        :rtype: XASystemEventsBusyIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsBusyIndicatorList)
+        return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsUIElementList)
 
-    def buttons(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
+    def buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of buttons
-        :rtype: XASystemEventsButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.buttons(), XASystemEventsButtonList)
+        return self._new_element(self.xa_elem.buttons(), XASystemEventsUIElementList)
 
-    def checkboxes(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
+    def checkboxes(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of checkbox elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of checkboxes
-        :rtype: XASystemEventsCheckboxList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.checkboxes(), XASystemEventsCheckboxList)
+        return self._new_element(self.xa_elem.checkboxes(), XASystemEventsUIElementList)
 
-    def color_wells(self, filter: dict = None) -> Union['XASystemEventsColorWellList', None]:
+    def color_wells(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of color well elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of color wells
-        :rtype: XASystemEventsColorWellList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.colorWells(), XASystemEventsColorWellList)
+        return self._new_element(self.xa_elem.colorWells(), XASystemEventsUIElementList)
 
-    def combo_boxes(self, filter: dict = None) -> Union['XASystemEventsComboBoxList', None]:
+    def combo_boxes(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of combo box elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of combo boxes
-        :rtype: XASystemEventsComboBoxList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsComboBoxList)
+        return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsUIElementList)
 
-    def drawers(self, filter: dict = None) -> Union['XASystemEventsDrawerList', None]:
+    def drawers(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of drawer elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of drawers
-        :rtype: XASystemEventsDrawerList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.drawers(), XASystemEventsDrawerList)
+        return self._new_element(self.xa_elem.drawers(), XASystemEventsUIElementList)
 
-    def groups(self, filter: dict = None) -> Union['XASystemEventsGroupList', None]:
+    def groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of groups
-        :rtype: XASystemEventsGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.groups(), XASystemEventsGroupList)
+        return self._new_element(self.xa_elem.groups(), XASystemEventsUIElementList)
 
-    def grow_areas(self, filter: dict = None) -> Union['XASystemEventsGrowAreaList', None]:
+    def grow_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of grow area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of grow areas
-        :rtype: XASystemEventsGrowAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.growAreas(), XASystemEventsGrowAreaList)
+        return self._new_element(self.xa_elem.growAreas(), XASystemEventsUIElementList)
 
-    def images(self, filter: dict = None) -> Union['XASystemEventsImageList', None]:
+    def images(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of image elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of images
-        :rtype: XASystemEventsImageList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.images(), XASystemEventsImageList)
+        return self._new_element(self.xa_elem.images(), XASystemEventsUIElementList)
 
-    def incrementors(self, filter: dict = None) -> Union['XASystemEventsIncrementorList', None]:
+    def incrementors(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of incrementor elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of incrementors
-        :rtype: XASystemEventsIncrementorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.incrementors(), XASystemEventsIncrementorList)
+        return self._new_element(self.xa_elem.incrementors(), XASystemEventsUIElementList)
 
-    def lists(self, filter: dict = None) -> Union['XASystemEventsListList', None]:
+    def lists(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of list elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of lists
-        :rtype: XASystemEventsListList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.lists(), XASystemEventsListList)
+        return self._new_element(self.xa_elem.lists(), XASystemEventsUIElementList)
 
-    def menu_buttons(self, filter: dict = None) -> Union['XASystemEventsMenuButtonList', None]:
+    def menu_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menu buttons
-        :rtype: XASystemEventsMenuButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menuButtons(), XASystemEventsMenuButtonList)
+        return self._new_element(self.xa_elem.menuButtons(), XASystemEventsUIElementList)
 
-    def outlines(self, filter: dict = None) -> Union['XASystemEventsOutlineList', None]:
+    def outlines(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of outline elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of outlines
-        :rtype: XASystemEventsOutlineList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.outlines(), XASystemEventsOutlineList)
+        return self._new_element(self.xa_elem.outlines(), XASystemEventsUIElementList)
 
-    def pop_overs(self, filter: dict = None) -> Union['XASystemEventsPopOverList', None]:
+    def pop_overs(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of pop-over elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of pop-overs
-        :rtype: XASystemEventsPopOverList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.popOvers(), XASystemEventsPopOverList)
+        return self._new_element(self.xa_elem.popOvers(), XASystemEventsUIElementList)
 
-    def pop_up_buttons(self, filter: dict = None) -> Union['XASystemEventsPopUpButtonList', None]:
+    def pop_up_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of pop-up button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of pop-up buttons
-        :rtype: XASystemEventsPopUpButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsPopUpButtonList)
+        return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsUIElementList)
 
-    def progress_indicators(self, filter: dict = None) -> Union['XASystemEventsProgressIndicatorList', None]:
+    def progress_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of progress indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of progress indicators
-        :rtype: XASystemEventsProgressIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsProgressIndicatorList)
+        return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsUIElementList)
 
-    def radio_buttons(self, filter: dict = None) -> Union['XASystemEventsRadioButtonList', None]:
+    def radio_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of radio button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of radio buttons
-        :rtype: XASystemEventsRadioButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.radioButtons(), XASystemEventsRadioButtonList)
+        return self._new_element(self.xa_elem.radioButtons(), XASystemEventsUIElementList)
 
-    def radio_groups(self, filter: dict = None) -> Union['XASystemEventsRadioGroupList', None]:
+    def radio_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of radio group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of radio groups
-        :rtype: XASystemEventsRadioGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.radioGroups(), XASystemEventsRadioGroupList)
+        return self._new_element(self.xa_elem.radioGroups(), XASystemEventsUIElementList)
 
-    def relevance_indicators(self, filter: dict = None) -> Union['XASystemEventsRelevanceIndicatorList', None]:
+    def relevance_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of relevance indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of relevance indicators
-        :rtype: XASystemEventsRelevanceIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsRelevanceIndicatorList)
+        return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsUIElementList)
 
-    def scroll_areas(self, filter: dict = None) -> Union['XASystemEventsScrollAreaList', None]:
+    def scroll_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of scroll area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of scroll areas
-        :rtype: XASystemEventsScrollAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsScrollAreaList)
+        return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsUIElementList)
 
-    def scroll_bars(self, filter: dict = None) -> Union['XASystemEventsScrollBarList', None]:
+    def scroll_bars(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of scroll bar elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of scroll bars
-        :rtype: XASystemEventsScrollBarList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.scrollBars(), XASystemEventsScrollBarList)
+        return self._new_element(self.xa_elem.scrollBars(), XASystemEventsUIElementList)
 
-    def sheets(self, filter: dict = None) -> Union['XASystemEventsSheetList', None]:
+    def sheets(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of sheet elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of sheets
-        :rtype: XASystemEventsSheetList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.sheets(), XASystemEventsSheetList)
+        return self._new_element(self.xa_elem.sheets(), XASystemEventsUIElementList)
 
-    def sliders(self, filter: dict = None) -> Union['XASystemEventsSliderList', None]:
+    def sliders(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of slider elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of sliders
-        :rtype: XASystemEventsSliderList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.sliders(), XASystemEventsSliderList)
+        return self._new_element(self.xa_elem.sliders(), XASystemEventsUIElementList)
 
-    def splitters(self, filter: dict = None) -> Union['XASystemEventsSplitterList', None]:
+    def splitters(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of splitter elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of splitters
-        :rtype: XASystemEventsSplitterList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.splitters(), XASystemEventsSplitterList)
+        return self._new_element(self.xa_elem.splitters(), XASystemEventsUIElementList)
 
-    def splitter_groups(self, filter: dict = None) -> Union['XASystemEventsSplitterGroupList', None]:
+    def splitter_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of splitter group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of splitter groups
-        :rtype: XASystemEventsSplitterGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsSplitterGroupList)
+        return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsUIElementList)
 
-    def static_texts(self, filter: dict = None) -> Union['XASystemEventsStaticTextList', None]:
+    def static_texts(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of static text elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of static texts
-        :rtype: XASystemEventsStaticTextList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.staticTexts(), XASystemEventsStaticTextList)
+        return self._new_element(self.xa_elem.staticTexts(), XASystemEventsUIElementList)
 
-    def tab_groups(self, filter: dict = None) -> Union['XASystemEventsTabGroupList', None]:
+    def tab_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of tab group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of tab groups
-        :rtype: XASystemEventsTabGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.tabGroups(), XASystemEventsTabGroupList)
+        return self._new_element(self.xa_elem.tabGroups(), XASystemEventsUIElementList)
 
-    def tables(self, filter: dict = None) -> Union['XASystemEventsTableList', None]:
+    def tables(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of table elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of tables
-        :rtype: XASystemEventsTableList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.tables(), XASystemEventsTableList)
+        return self._new_element(self.xa_elem.tables(), XASystemEventsUIElementList)
 
-    def text_areas(self, filter: dict = None) -> Union['XASystemEventsTextAreaList', None]:
+    def text_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of text area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of text areas
-        :rtype: XASystemEventsTextAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.textAreas(), XASystemEventsTextAreaList)
+        return self._new_element(self.xa_elem.textAreas(), XASystemEventsUIElementList)
 
-    def text_fields(self, filter: dict = None) -> Union['XASystemEventsTextFieldList', None]:
+    def text_fields(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of text fields elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of text fields
-        :rtype: XASystemEventsTextFieldList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.textFields(), XASystemEventsTextFieldList)
+        return self._new_element(self.xa_elem.textFields(), XASystemEventsUIElementList)
 
-    def toolbars(self, filter: dict = None) -> Union['XASystemEventsToolbarList', None]:
+    def toolbars(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of toolbar elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of outlines
-        :rtype: XASystemEventsToolbarList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.toolbars(), XASystemEventsToolbarList)
+        return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
 
     def ui_elements(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of UI elements, as PyXA-wrapped objects, matching the given filter.
@@ -3702,461 +3702,461 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         """
         return self._new_element(self.xa_elem.attributes(), XASystemEventsAttributeList)
 
-    def browsers(self, filter: dict = None) -> Union['XASystemEventsBrowserList', None]:
+    def browsers(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of browser elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of browsers
-        :rtype: XASystemEventsBrowserList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.browsers(), XASystemEventsBrowserList)
+        return self._new_element(self.xa_elem.browsers(), XASystemEventsUIElementList)
 
-    def busy_indicators(self, filter: dict = None) -> Union['XASystemEventsBusyIndicatorList', None]:
+    def busy_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of busy indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of busy indicators
-        :rtype: XASystemEventsBusyIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsBusyIndicatorList)
+        return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsUIElementList)
 
-    def buttons(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
+    def buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of buttons
-        :rtype: XASystemEventsButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.buttons(), XASystemEventsButtonList)
+        return self._new_element(self.xa_elem.buttons(), XASystemEventsUIElementList)
 
-    def checkboxes(self, filter: dict = None) -> Union['XASystemEventsButtonList', None]:
+    def checkboxes(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of checkbox elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of checkboxes
-        :rtype: XASystemEventsCheckboxList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.checkboxes(), XASystemEventsCheckboxList)
+        return self._new_element(self.xa_elem.checkboxes(), XASystemEventsUIElementList)
 
-    def color_wells(self, filter: dict = None) -> Union['XASystemEventsColorWellList', None]:
+    def color_wells(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of color well elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of color wells
-        :rtype: XASystemEventsColorWellList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.colorWells(), XASystemEventsColorWellList)
+        return self._new_element(self.xa_elem.colorWells(), XASystemEventsUIElementList)
 
-    def columns(self, filter: dict = None) -> Union['XASystemEventsColumnList', None]:
+    def columns(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of table column elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of columns
-        :rtype: XASystemEventsColumnList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.columns(), XASystemEventsColumnList)
+        return self._new_element(self.xa_elem.columns(), XASystemEventsUIElementList)
 
-    def combo_boxes(self, filter: dict = None) -> Union['XASystemEventsComboBoxList', None]:
+    def combo_boxes(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of combo box elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of combo boxes
-        :rtype: XASystemEventsComboBoxList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsComboBoxList)
+        return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsUIElementList)
 
-    def drawers(self, filter: dict = None) -> Union['XASystemEventsDrawerList', None]:
+    def drawers(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of drawer elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of drawers
-        :rtype: XASystemEventsDrawerList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.drawers(), XASystemEventsDrawerList)
+        return self._new_element(self.xa_elem.drawers(), XASystemEventsUIElementList)
 
-    def groups(self, filter: dict = None) -> Union['XASystemEventsGroupList', None]:
+    def groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of groups
-        :rtype: XASystemEventsGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.groups(), XASystemEventsGroupList)
+        return self._new_element(self.xa_elem.groups(), XASystemEventsUIElementList)
 
-    def grow_areas(self, filter: dict = None) -> Union['XASystemEventsGrowAreaList', None]:
+    def grow_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of grow area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of grow areas
-        :rtype: XASystemEventsGrowAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.growAreas(), XASystemEventsGrowAreaList)
+        return self._new_element(self.xa_elem.growAreas(), XASystemEventsUIElementList)
 
-    def images(self, filter: dict = None) -> Union['XASystemEventsImageList', None]:
+    def images(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of image elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of images
-        :rtype: XASystemEventsImageList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.images(), XASystemEventsImageList)
+        return self._new_element(self.xa_elem.images(), XASystemEventsUIElementList)
 
-    def incrementors(self, filter: dict = None) -> Union['XASystemEventsIncrementorList', None]:
+    def incrementors(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of incrementor elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of incrementors
-        :rtype: XASystemEventsIncrementorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.incrementors(), XASystemEventsIncrementorList)
+        return self._new_element(self.xa_elem.incrementors(), XASystemEventsUIElementList)
 
-    def lists(self, filter: dict = None) -> Union['XASystemEventsListList', None]:
+    def lists(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of list elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of lists
-        :rtype: XASystemEventsListList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.lists(), XASystemEventsListList)
+        return self._new_element(self.xa_elem.lists(), XASystemEventsUIElementList)
 
-    def menus(self, filter: dict = None) -> Union['XASystemEventsMenuList', None]:
+    def menus(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menus
-        :rtype: XASystemEventsMenuList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menus(), XASystemEventsMenuList)
+        return self._new_element(self.xa_elem.menus(), XASystemEventsUIElementList)
 
-    def menu_bars(self, filter: dict = None) -> Union['XASystemEventsMenuBarList', None]:
+    def menu_bars(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu bar elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menu bars
-        :rtype: XASystemEventsMenuBarList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menuBars(), XASystemEventsMenuBarList)
+        return self._new_element(self.xa_elem.menuBars(), XASystemEventsUIElementList)
 
-    def menu_bar_items(self, filter: dict = None) -> Union['XASystemEventsMenuBarItemList', None]:
+    def menu_bar_items(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu bar item elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menu bar items
-        :rtype: XASystemEventsMenuBarItemList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menuBarItems(), XASystemEventsMenuBarItemList)
+        return self._new_element(self.xa_elem.menuBarItems(), XASystemEventsUIElementList)
 
-    def menu_buttons(self, filter: dict = None) -> Union['XASystemEventsMenuButtonList', None]:
+    def menu_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menu buttons
-        :rtype: XASystemEventsMenuButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menuButtons(), XASystemEventsMenuButtonList)
+        return self._new_element(self.xa_elem.menuButtons(), XASystemEventsUIElementList)
 
-    def menu_items(self, filter: dict = None) -> Union['XASystemEventsMenuItemList', None]:
+    def menu_items(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of menu item elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of menu items
-        :rtype: XASystemEventsMenuItemList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.menuItems(), XASystemEventsMenuItemList)
+        return self._new_element(self.xa_elem.menuItems(), XASystemEventsUIElementList)
 
-    def outlines(self, filter: dict = None) -> Union['XASystemEventsOutlineList', None]:
+    def outlines(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of outline elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of outlines
-        :rtype: XASystemEventsOutlineList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.outlines(), XASystemEventsOutlineList)
+        return self._new_element(self.xa_elem.outlines(), XASystemEventsUIElementList)
 
-    def pop_overs(self, filter: dict = None) -> Union['XASystemEventsPopOverList', None]:
+    def pop_overs(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of pop-over elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of pop-overs
-        :rtype: XASystemEventsPopOverList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.popOvers(), XASystemEventsPopOverList)
+        return self._new_element(self.xa_elem.popOvers(), XASystemEventsUIElementList)
 
-    def pop_up_buttons(self, filter: dict = None) -> Union['XASystemEventsPopUpButtonList', None]:
+    def pop_up_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of pop-up button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of pop-up buttons
-        :rtype: XASystemEventsPopUpButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsPopUpButtonList)
+        return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsUIElementList)
 
-    def progress_indicators(self, filter: dict = None) -> Union['XASystemEventsProgressIndicatorList', None]:
+    def progress_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of progress indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of progress indicators
-        :rtype: XASystemEventsProgressIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsProgressIndicatorList)
+        return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsUIElementList)
 
-    def radio_buttons(self, filter: dict = None) -> Union['XASystemEventsRadioButtonList', None]:
+    def radio_buttons(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of radio button elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of radio buttons
-        :rtype: XASystemEventsRadioButtonList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.radioButtons(), XASystemEventsRadioButtonList)
+        return self._new_element(self.xa_elem.radioButtons(), XASystemEventsUIElementList)
 
-    def radio_groups(self, filter: dict = None) -> Union['XASystemEventsRadioGroupList', None]:
+    def radio_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of radio group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of radio groups
-        :rtype: XASystemEventsRadioGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.radioGroups(), XASystemEventsRadioGroupList)
+        return self._new_element(self.xa_elem.radioGroups(), XASystemEventsUIElementList)
 
-    def relevance_indicators(self, filter: dict = None) -> Union['XASystemEventsRelevanceIndicatorList', None]:
+    def relevance_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of relevance indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of relevance indicators
-        :rtype: XASystemEventsRelevanceIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsRelevanceIndicatorList)
+        return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsUIElementList)
 
-    def rows(self, filter: dict = None) -> Union['XASystemEventsRowList', None]:
+    def rows(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of table row elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of rows
-        :rtype: XASystemEventsRowList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.rows(), XASystemEventsRowList)
+        return self._new_element(self.xa_elem.rows(), XASystemEventsUIElementList)
 
-    def scroll_areas(self, filter: dict = None) -> Union['XASystemEventsScrollAreaList', None]:
+    def scroll_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of scroll area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of scroll areas
-        :rtype: XASystemEventsScrollAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsScrollAreaList)
+        return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsUIElementList)
 
-    def scroll_bars(self, filter: dict = None) -> Union['XASystemEventsScrollBarList', None]:
+    def scroll_bars(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of scroll bar elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of scroll bars
-        :rtype: XASystemEventsScrollBarList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.scrollBars(), XASystemEventsScrollBarList)
+        return self._new_element(self.xa_elem.scrollBars(), XASystemEventsUIElementList)
 
-    def sheets(self, filter: dict = None) -> Union['XASystemEventsSheetList', None]:
+    def sheets(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of sheet elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of sheets
-        :rtype: XASystemEventsSheetList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.sheets(), XASystemEventsSheetList)
+        return self._new_element(self.xa_elem.sheets(), XASystemEventsUIElementList)
 
-    def sliders(self, filter: dict = None) -> Union['XASystemEventsSliderList', None]:
+    def sliders(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of slider elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of sliders
-        :rtype: XASystemEventsSliderList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.sliders(), XASystemEventsSliderList)
+        return self._new_element(self.xa_elem.sliders(), XASystemEventsUIElementList)
 
-    def splitters(self, filter: dict = None) -> Union['XASystemEventsSplitterList', None]:
+    def splitters(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of splitter elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of splitters
-        :rtype: XASystemEventsSplitterList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.splitters(), XASystemEventsSplitterList)
+        return self._new_element(self.xa_elem.splitters(), XASystemEventsUIElementList)
 
-    def splitter_groups(self, filter: dict = None) -> Union['XASystemEventsSplitterGroupList', None]:
+    def splitter_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of splitter group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of splitter groups
-        :rtype: XASystemEventsSplitterGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsSplitterGroupList)
+        return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsUIElementList)
 
-    def static_texts(self, filter: dict = None) -> Union['XASystemEventsStaticTextList', None]:
+    def static_texts(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of static text elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of static texts
-        :rtype: XASystemEventsStaticTextList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.staticTexts(), XASystemEventsStaticTextList)
+        return self._new_element(self.xa_elem.staticTexts(), XASystemEventsUIElementList)
 
-    def tab_groups(self, filter: dict = None) -> Union['XASystemEventsTabGroupList', None]:
+    def tab_groups(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of tab group elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of tab groups
-        :rtype: XASystemEventsTabGroupList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.tabGroups(), XASystemEventsTabGroupList)
+        return self._new_element(self.xa_elem.tabGroups(), XASystemEventsUIElementList)
 
-    def tables(self, filter: dict = None) -> Union['XASystemEventsTableList', None]:
+    def tables(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of table elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of tables
-        :rtype: XASystemEventsTableList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.tables(), XASystemEventsTableList)
+        return self._new_element(self.xa_elem.tables(), XASystemEventsUIElementList)
 
-    def text_areas(self, filter: dict = None) -> Union['XASystemEventsTextAreaList', None]:
+    def text_areas(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of text area elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of text areas
-        :rtype: XASystemEventsTextAreaList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.textAreas(), XASystemEventsTextAreaList)
+        return self._new_element(self.xa_elem.textAreas(), XASystemEventsUIElementList)
 
-    def text_fields(self, filter: dict = None) -> Union['XASystemEventsTextFieldList', None]:
+    def text_fields(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of text fields elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of text fields
-        :rtype: XASystemEventsTextFieldList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.textFields(), XASystemEventsTextFieldList)
+        return self._new_element(self.xa_elem.textFields(), XASystemEventsUIElementList)
 
-    def toolbars(self, filter: dict = None) -> Union['XASystemEventsToolbarList', None]:
+    def toolbars(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of toolbar elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of outlines
-        :rtype: XASystemEventsToolbarList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.toolbars(), XASystemEventsToolbarList)
+        return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
 
     def ui_elements(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of UI elements, as PyXA-wrapped objects, matching the given filter.
@@ -4170,473 +4170,32 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         """
         return self._new_element(self.xa_elem.UIElements(), XASystemEventsUIElementList)
 
-    def value_indicators(self, filter: dict = None) -> Union['XASystemEventsValueIndicatorList', None]:
+    def value_indicators(self, filter: dict = None) -> Union['XASystemEventsUIElementList', None]:
         """Returns a list of value indicator elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of value indicators
-        :rtype: XASystemEventsValueIndicatorList
+        :rtype: XASystemEventsUIElementList
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.valueIndicators(), XASystemEventsValueIndicatorList)
+        return self._new_element(self.xa_elem.valueIndicators(), XASystemEventsUIElementList)
 
-    def windows(self, filter: dict = None) -> Union['XASystemEventsToolbarList', None]:
+    def windows(self, filter: dict = None) -> Union['XASystemEventsWindowList', None]:
         """Returns a list of window elements, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned elements will have, or None
         :type filter: Union[dict, None]
         :return: The list of windows
-        :rtype: XASystemEventsToolbarList
+        :rtype: XASystemEventsWindowList
 
         .. versionadded:: 0.1.0
         """
         self.xa_wcls = XASystemEventsWindow
         return self._new_element(self.xa_elem.windows(), XASystemEventsWindowList)
     
-
-
-
-class XASystemEventsBrowserList(XASystemEventsUIElementList):
-    """A wrapper around lists of browser elements that employs fast enumeration techniques.
-
-    All properties of browser elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsBrowser)
-
-class XASystemEventsBrowser(XASystemEventsUIElement):
-    """A browser belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
         
-
-
-
-class XASystemEventsBusyIndicatorList(XASystemEventsUIElementList):
-    """A wrapper around lists of busy indicator elements that employs fast enumeration techniques.
-
-    All properties of busy indicator elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsBusyIndicator)
-
-class XASystemEventsBusyIndicator(XASystemEventsUIElement):
-    """A busy indicator belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsButtonList(XASystemEventsUIElementList):
-    """A wrapper around lists of button elements that employs fast enumeration techniques.
-
-    All properties of button elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsButton)
-
-class XASystemEventsButton(XASystemEventsUIElement):
-    """A button belonging to a window or scroll bar.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsCheckboxList(XASystemEventsUIElementList):
-    """A wrapper around lists of checkbox elements that employs fast enumeration techniques.
-
-    All properties of checkbox elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsCheckbox)
-
-class XASystemEventsCheckbox(XASystemEventsUIElement):
-    """A checkbox belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsColorWellList(XASystemEventsUIElementList):
-    """A wrapper around lists of color well elements that employs fast enumeration techniques.
-
-    All properties of color well elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsColorWell)
-
-class XASystemEventsColorWell(XASystemEventsUIElement):
-    """A color well belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsColumnList(XASystemEventsUIElementList):
-    """A wrapper around lists of table column elements that employs fast enumeration techniques.
-
-    All properties of table column elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsColumn)
-
-class XASystemEventsColumn(XASystemEventsUIElement):
-    """A column belonging to a table.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsComboBoxList(XASystemEventsUIElementList):
-    """A wrapper around lists of combo box elements that employs fast enumeration techniques.
-
-    All properties of combo box elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsComboBox)
-
-class XASystemEventsComboBox(XASystemEventsUIElement):
-    """A combo box belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsDrawerList(XASystemEventsUIElementList):
-    """A wrapper around lists of drawer elements that employs fast enumeration techniques.
-
-    All properties of drawer elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsDrawer)
-
-class XASystemEventsDrawer(XASystemEventsUIElement):
-    """A drawer that may be extended from a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsGroupList(XASystemEventsUIElementList):
-    """A wrapper around lists of group elements that employs fast enumeration techniques.
-
-    All properties of group elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsGroup)
-
-class XASystemEventsGroup(XASystemEventsUIElement):
-    """A group belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsGrowAreaList(XASystemEventsUIElementList):
-    """A wrapper around lists of grow area elements that employs fast enumeration techniques.
-
-    All properties of grow area elements can be called as methods on the wrapped list, returning a list containing each button's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsGrowArea)
-
-class XASystemEventsGrowArea(XASystemEventsUIElement):
-    """A grow area belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsImageList(XASystemEventsUIElementList):
-    """A wrapper around lists of image elements that employs fast enumeration techniques.
-
-    All properties of image elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsImage)
-
-class XASystemEventsImage(XASystemEventsUIElement):
-    """An image belonging to a static text field.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsIncrementorList(XASystemEventsUIElementList):
-    """A wrapper around lists of incrementor elements that employs fast enumeration techniques.
-
-    All properties of incrementor elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsIncrementor)
-
-class XASystemEventsIncrementor(XASystemEventsUIElement):
-    """A incrementor belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsListList(XASystemEventsUIElementList):
-    """A wrapper around lists of list UI elements that employs fast enumeration techniques.
-
-    All properties of list elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsList)
-
-class XASystemEventsList(XASystemEventsUIElement):
-    """A list belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsMenuList(XASystemEventsUIElementList):
-    """A wrapper around lists of menu elements that employs fast enumeration techniques.
-
-    All properties of menu elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsMenu)
-
-class XASystemEventsMenu(XASystemEventsUIElement):
-    """A menu belonging to a menu bar item.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsMenuBarList(XASystemEventsUIElementList):
-    """A wrapper around lists of menu bar elements that employs fast enumeration techniques.
-
-    All properties of menu bar elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsMenuBar)
-
-class XASystemEventsMenuBar(XASystemEventsUIElement):
-    """A menu bar belonging to a process.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsMenuBarItemList(XASystemEventsUIElementList):
-    """A wrapper around lists of menu bar item elements that employs fast enumeration techniques.
-
-    All properties of menu bar item elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsMenuBarItem)
-
-class XASystemEventsMenuBarItem(XASystemEventsUIElement):
-    """A menu bar item belonging to a menu bar.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsMenuButtonList(XASystemEventsUIElementList):
-    """A wrapper around lists of menu button elements that employs fast enumeration techniques.
-
-    All properties of menu button elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsMenuButton)
-
-class XASystemEventsMenuButton(XASystemEventsUIElement):
-    """A menu button belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsMenuItemList(XASystemEventsUIElementList):
-    """A wrapper around lists of menu item elements that employs fast enumeration techniques.
-
-    All properties of menu item elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsMenuItem)
-
-class XASystemEventsMenuItem(XASystemEventsUIElement):
-    """A menu item belonging to a menu.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsOutlineList(XASystemEventsUIElementList):
-    """A wrapper around lists of outline elements that employs fast enumeration techniques.
-
-    All properties of outline elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsOutline)
-
-class XASystemEventsOutline(XASystemEventsUIElement):
-    """An outline belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsPopOverList(XASystemEventsUIElementList):
-    """A wrapper around lists of popover elements that employs fast enumeration techniques.
-
-    All properties of outline popover can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsPopOver)
-
-class XASystemEventsPopOver(XASystemEventsUIElement):
-    """A pop over belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsPopUpButtonList(XASystemEventsUIElementList):
-    """A wrapper around lists of popup button elements that employs fast enumeration techniques.
-
-    All properties of popup button elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsPopUpButton)
-
-class XASystemEventsPopUpButton(XASystemEventsUIElement):
-    """A pop up button belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
 
 
 class XASystemEventsProcessList(XASystemEventsUIElementList):
@@ -4966,384 +4525,6 @@ class XASystemEventsDeskAccessoryProcess(XASystemEventsProcess):
         """A reference to the desk accessory file from which this process was launched.
         """
         return self._new_element(self.xa_elem.deskAccessoryFile(), XABase.XAAlias)
-
-
-
-
-class XASystemEventsProgressIndicatorList(XASystemEventsUIElementList):
-    """A wrapper around lists of progress indicator elements that employs fast enumeration techniques.
-
-    All properties of progress indicator elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsProgressIndicator)
-
-class XASystemEventsProgressIndicator(XASystemEventsUIElement):
-    """A progress indicator belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsRadioButtonList(XASystemEventsUIElementList):
-    """A wrapper around lists of radio button elements that employs fast enumeration techniques.
-
-    All properties of radio button elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsRadioButton)
-
-class XASystemEventsRadioButton(XASystemEventsUIElement):
-    """A radio button belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsRadioGroupList(XASystemEventsUIElementList):
-    """A wrapper around lists of radio button group elements that employs fast enumeration techniques.
-
-    All properties of radio button group elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsRadioGroup)
-
-class XASystemEventsRadioGroup(XASystemEventsUIElement):
-    """A radio button group belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsRelevanceIndicatorList(XASystemEventsUIElementList):
-    """A wrapper around lists of relevance indicator elements that employs fast enumeration techniques.
-
-    All properties of relevance indicator elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsRelevanceIndicator)
-
-class XASystemEventsRelevanceIndicator(XASystemEventsUIElement):
-    """A relevance indicator belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsRowList(XASystemEventsUIElementList):
-    """A wrapper around lists of table row elements that employs fast enumeration techniques.
-
-    All properties of table row elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsRow)
-
-class XASystemEventsRow(XASystemEventsUIElement):
-    """A row belonging to a table.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsScrollAreaList(XASystemEventsUIElementList):
-    """A wrapper around lists of scroll area elements that employs fast enumeration techniques.
-
-    All properties of scroll area elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsScrollArea)
-
-class XASystemEventsScrollArea(XASystemEventsUIElement):
-    """A scroll area belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsScrollBarList(XASystemEventsUIElementList):
-    """A wrapper around lists of scroll bar elements that employs fast enumeration techniques.
-
-    All properties of scroll bar elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsScrollBar)
-
-class XASystemEventsScrollBar(XASystemEventsUIElement):
-    """A scroll bar belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsSheetList(XASystemEventsUIElementList):
-    """A wrapper around lists of sheet elements that employs fast enumeration techniques.
-
-    All properties of sheet elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsSheet)
-
-class XASystemEventsSheet(XASystemEventsUIElement):
-    """A sheet displayed over a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsSliderList(XASystemEventsUIElementList):
-    """A wrapper around lists of slider elements that employs fast enumeration techniques.
-
-    All properties of slider elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsSlider)
-
-class XASystemEventsSlider(XASystemEventsUIElement):
-    """A slider belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsSplitterList(XASystemEventsUIElementList):
-    """A wrapper around lists of splitter elements that employs fast enumeration techniques.
-
-    All properties of splitter elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsSplitter)
-
-class XASystemEventsSplitter(XASystemEventsUIElement):
-    """A splitter belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsSplitterGroupList(XASystemEventsUIElementList):
-    """A wrapper around lists of splitter group elements that employs fast enumeration techniques.
-
-    All properties of splitter group elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsSplitterGroup)
-
-class XASystemEventsSplitterGroup(XASystemEventsUIElement):
-    """A splitter group belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsStaticTextList(XASystemEventsUIElementList):
-    """A wrapper around lists of static text elements that employs fast enumeration techniques.
-
-    All properties of static text elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsStaticText)
-
-class XASystemEventsStaticText(XASystemEventsUIElement):
-    """A static text field belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsTabGroupList(XASystemEventsUIElementList):
-    """A wrapper around lists of tab group elements that employs fast enumeration techniques.
-
-    All properties of tab group elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsTabGroup)
-
-class XASystemEventsTabGroup(XASystemEventsUIElement):
-    """A tab group belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsTableList(XASystemEventsUIElementList):
-    """A wrapper around lists of table elements that employs fast enumeration techniques.
-
-    All properties of table elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsTable)
-
-class XASystemEventsTable(XASystemEventsUIElement):
-    """A table belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsTextAreaList(XASystemEventsUIElementList):
-    """A wrapper around lists of text area elements that employs fast enumeration techniques.
-
-    All properties of text area elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsTextArea)
-
-class XASystemEventsTextArea(XASystemEventsUIElement):
-    """A text area belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsTextFieldList(XASystemEventsUIElementList):
-    """A wrapper around lists of text field elements that employs fast enumeration techniques.
-
-    All properties of text field elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsTextField)
-
-class XASystemEventsTextField(XASystemEventsUIElement):
-    """A text field belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsToolbarList(XASystemEventsUIElementList):
-    """A wrapper around lists of toolbar elements that employs fast enumeration techniques.
-
-    All properties of toolbar elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsToolbar)
-
-class XASystemEventsToolbar(XASystemEventsUIElement):
-    """A toolbar belonging to a window.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsValueIndicatorList(XASystemEventsUIElementList):
-    """A wrapper around lists of value indicator elements that employs fast enumeration techniques.
-
-    All properties of value indicator elements can be called as methods on the wrapped list, returning a list containing each element's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsValueIndicator)
-
-class XASystemEventsValueIndicator(XASystemEventsUIElement):
-    """A value indicator ( thumb or slider ) belonging to a scroll bar.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
         
 
 
@@ -5409,7 +4590,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
     def text(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("text") or [])
 
-    def value(self) -> list[Union[int, bool, datetime, 'XASystemEventsList', dict, str, bytes]]:
+    def value(self) -> list[Union[int, bool, datetime, dict, str, bytes]]:
         # TODO: SPECIALIZE TYPE
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 

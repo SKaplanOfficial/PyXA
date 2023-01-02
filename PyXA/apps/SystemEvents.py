@@ -8,7 +8,6 @@ from pprint import pprint
 from time import sleep
 from typing import Any, Union
 
-import AppKit
 import Quartz
 
 from PyXA import XABase

@@ -17,7 +17,6 @@ from AppKit import NSImage, NSURL, NSFileManager
 
 import AppKit
 import Photos
-import PhotosUI
 import Quartz
 
 from PyObjCTools import AppHelper

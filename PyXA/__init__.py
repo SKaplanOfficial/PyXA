@@ -2,12 +2,7 @@ import importlib
 import sys
 from types import ModuleType
 
-import PyXA.Additions
-import PyXA.XABase
-
-from .PyXA import (
-    application,
-)
+from PyXA import XABase, XABaseScriptable, XAEvents, Additions
 
 from .XABase import (
     # Base Types

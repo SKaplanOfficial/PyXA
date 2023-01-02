@@ -3,7 +3,7 @@
 Control the macOS Preview application using JXA-like syntax.
 """
 
-from typing import Union, Self
+from typing import Union
 
 import AppKit
 
@@ -221,7 +221,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         """
         return self.xa_elem.modified()
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPreviewDocument':
         """Prints the document.
 
         :param print_properties: Properties to set for printing, defaults to None
@@ -229,7 +229,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
         :return: The document object
-        :rtype: Self
+        :rtype: XAPreviewDocument
 
         .. versionadded:: 0.0.4
         """

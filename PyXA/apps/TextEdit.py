@@ -4,7 +4,7 @@ Control the macOS TextEdit application using JXA-like syntax.
 """
 
 from time import sleep
-from typing import Any, Union, Self
+from typing import Any, Union
 
 import AppKit
 
@@ -487,7 +487,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         """
         return self.xa_elem.modified()
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
         """Prints the document.
 
         :param print_properties: Properties to set for printing, defaults to None
@@ -495,7 +495,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
         :return: The document object
-        :rtype: Self
+        :rtype: XATextEditDocument
 
         .. versionadded:: 0.0.8
         """

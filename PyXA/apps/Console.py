@@ -4,7 +4,6 @@ Control the macOS Console application using JXA-like syntax.
 """
 
 from enum import Enum
-from typing import Self
 from AppKit import NSFileManager, NSURL
 
 from PyXA import XABase
@@ -17,13 +16,13 @@ class XAConsoleApplication(XABaseScriptable.XASBApplication):
 
     .. versionadded:: 0.0.5
     """
-    def select_device(self, uuid: str) -> Self:
+    def select_device(self, uuid: str) -> 'XAConsoleApplication':
         """Select a device.
 
         :param uuid: The UUID of the device to select
         :type uuid: str
         :return: The application ject
-        :rtype: Self
+        :rtype: XAConsoleApplication
 
         .. versionadded:: 0.0.5
         """

@@ -3,8 +3,7 @@
 Control Safari using JXA-like syntax.
 """
 
-from enum import Enum
-from typing import Any, Union, Self
+from typing import Any, Union
 import threading
 
 import AppKit
@@ -341,24 +340,24 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def search(self, term: str) -> Self:
+    def search(self, term: str) -> 'XASafariGeneric':
         """Searches for the specified term in the current tab or document.
 
         :param term: The term to search
         :type term: str
         :return: A reference to the object that called this method
-        :rtype: Self
+        :rtype: XASafariGeneric
 
         .. versionadded:: 0.0.1
         """
         self.xa_elem.searchTheWebIn_for_(self.xa_elem, term)
         return self
 
-    def add_to_reading_list(self) -> Self:
+    def add_to_reading_list(self) -> 'XASafariGeneric':
         """Adds the URL of a tab or document to the reading list.
 
         :return: A reference to the object that called this method.
-        :rtype: Self
+        :rtype: XASafariGeneric
 
         .. versionadded:: 0.0.1
         """
@@ -375,24 +374,24 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
         """
         return self.xa_elem.doJavaScript_in_(script, self.xa_elem)
 
-    def email(self) -> Self:
+    def email(self) -> 'XASafariGeneric':
         """Opens a new email draft with the content of a tab or document.
 
         :param item: The object to email
         :type item: Union[XASafariDocument, XASafariTab]
         :return: A reference to the object that called this method.
-        :rtype: Self
+        :rtype: XASafariGeneric
 
         .. versionadded:: 0.0.4
         """
         self.xa_elem.emailContentsOf_(self.xa_elem)
         return self
 
-    def reload(self) -> Self:
+    def reload(self) -> 'XASafariGeneric':
         """Reloads the tab or document.
 
         :return: A reference to the object that called this method.
-        :rtype: Self
+        :rtype: XASafariGeneric
 
         .. versionadded:: 0.0.4
         """
@@ -454,11 +453,11 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
             if doc.text() == str(text):
                 return self._new_element(doc, XASafariDocument)
 
-    def reload(self) -> Self:
+    def reload(self) -> 'XASafariDocumentList':
         """Reloads all documents in the list.
 
         :return: A reference to the document list object.
-        :rtype: Self
+        :rtype: XASafariDocumentList
         
         .. versionadded:: 0.0.4
         """
@@ -466,11 +465,11 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
             document.setValue_forKey_(document.URL(), "URL")
         return self
 
-    def add_to_reading_list(self) -> Self:
+    def add_to_reading_list(self) -> 'XASafariDocumentList':
         """Adds the URL of all documents in the list to the reading list.
 
         :return: A reference to the document list object.
-        :rtype: Self
+        :rtype: XASafariDocumentList
         
         .. versionadded:: 0.0.5
         """
@@ -478,11 +477,11 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
             document.add_to_reading_list()
         return self
 
-    def email(self) -> Self:
+    def email(self) -> 'XASafariDocumentList':
         """Opens a new email draft with embedded links to the URL of each document in the list.
 
         :return: A reference to the document list object.
-        :rtype: Self
+        :rtype: XASafariDocumentList
         
         .. versionadded:: 0.0.5
         """
@@ -490,11 +489,11 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
             document.email()
         return self
 
-    def do_javascript(self, script: str) -> Self:
+    def do_javascript(self, script: str) -> 'XASafariDocumentList':
         """Runs a given JavaScript script in each document in the list.
 
         :return: A reference to the document list object.
-        :rtype: Self
+        :rtype: XASafariDocumentList
         
         .. versionadded:: 0.0.5
         """
@@ -502,11 +501,11 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
             document.do_javascript(script)
         return self
 
-    def search(self, term: str) -> Self:
+    def search(self, term: str) -> 'XASafariDocumentList':
         """Searches for the given term in each document in the list, using the default search engine.
 
         :return: A reference to the document list object.
-        :rtype: Self
+        :rtype: XASafariDocumentList
         
         .. versionadded:: 0.0.5
         """
@@ -709,11 +708,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
     def by_name(self, name: str) -> Union['XASafariTab', None]:
         return self.by_property("name", name)
 
-    def reload(self) -> Self:
+    def reload(self) -> 'XASafariTabList':
         """Reloads all tabs in the list.
 
         :return: A reference to the tab list object.
-        :rtype: Self
+        :rtype: XASafariTabList
         
         .. versionadded:: 0.0.4
         """
@@ -721,11 +720,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.setValue_forKey_(tab.URL(), "URL")
         return self
 
-    def add_to_reading_list(self) -> Self:
+    def add_to_reading_list(self) -> 'XASafariTabList':
         """Adds the URL of all tabs in the list to the reading list.
 
         :return: A reference to the tab list object.
-        :rtype: Self
+        :rtype: XASafariTabList
         
         .. versionadded:: 0.0.5
         """
@@ -733,11 +732,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.add_to_reading_list()
         return self
 
-    def email(self) -> Self:
+    def email(self) -> 'XASafariTabList':
         """Opens a new email draft with embedded links to the URL of each tab in the list.
 
         :return: A reference to the tab list object.
-        :rtype: Self
+        :rtype: XASafariTabList
         
         .. versionadded:: 0.0.5
         """
@@ -745,11 +744,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.email()
         return self
 
-    def do_javascript(self, script: str) -> Self:
+    def do_javascript(self, script: str) -> 'XASafariTabList':
         """Runs a given JavaScript script in each tab in the list.
 
         :return: A reference to the tab list object.
-        :rtype: Self
+        :rtype: XASafariTabList
         
         .. versionadded:: 0.0.5
         """
@@ -757,11 +756,11 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.do_javascript(script)
         return self
 
-    def search(self, term: str) -> Self:
+    def search(self, term: str) -> 'XASafariTabList':
         """Searches for the given term in each tab in the list, using the default search engine.
 
         :return: A reference to the tab list object.
-        :rtype: Self
+        :rtype: XASafariTabList
         
         .. versionadded:: 0.0.5
         """
@@ -769,13 +768,13 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.search(term)
         return self
 
-    def move_to(self, window: XASafariWindow) -> Self:
+    def move_to(self, window: XASafariWindow) -> 'XASafariTabList':
         """Moves all tabs in the list to the specified window.
 
         :param window: The window to move tabs to
         :type window: XASafariWindow
         :return: The tab list object
-        :rtype: Self
+        :rtype: XASafariTabList
 
         .. seealso:: :func:`duplicate_to`
 
@@ -786,13 +785,13 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.close()
         return self
 
-    def duplicate_to(self, window: XASafariWindow) -> Self:
+    def duplicate_to(self, window: XASafariWindow) -> 'XASafariTabList':
         """Duplicate all tabs in the list in the specified window.
 
         :param window: The window to duplicate tabs in
         :type window: XASafariWindow
         :return: The tab list object
-        :rtype: Self
+        :rtype: XASafariTabList
 
         .. seealso:: :func:`move_to`
 
@@ -879,13 +878,13 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         """
         return self.xa_elem.name()
 
-    def move_to(self, window: 'XASafariWindow') -> Self:
+    def move_to(self, window: 'XASafariWindow') -> 'XASafariTab':
         """Moves the tab to the specified window. After, the tab will exist in only one location.
 
         :param window: The window to move the tab to.
         :type window: XASafariWindow
         :return: A reference to the tab object.
-        :rtype: Self
+        :rtype: XASafariTab
 
         :Example:
 
@@ -903,13 +902,13 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         self.close()
         return self
 
-    def duplicate_to(self, window: 'XASafariWindow') -> Self:
+    def duplicate_to(self, window: 'XASafariWindow') -> 'XASafariTab':
         """Duplicates the tab in the specified window. The tab will then exist in two locations.
 
         :param window: The window to duplicate the tab in.
         :type window: XASafariWindow
         :return: A reference to the tab object.
-        :rtype: Self
+        :rtype: XASafariTab
 
         :Example:
 

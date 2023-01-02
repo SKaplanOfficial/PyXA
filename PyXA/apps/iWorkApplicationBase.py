@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 from pprint import pprint
 from time import sleep
-from typing import Any, Union, Self
+from typing import Any, Union
 
 import AppKit, ScriptingBridge
 
@@ -156,7 +156,7 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self.front_window.document
 
-    def print(self, item: Union['XAiWorkDocument', XABaseScriptable.XASBWindow], print_properties: dict = None, show_dialog: bool = True) -> Self:
+    def print(self, item: Union['XAiWorkDocument', XABaseScriptable.XASBWindow], print_properties: dict = None, show_dialog: bool = True) -> 'XAiWorkApplication':
         """Prints a document or window.
 
         :param item: The document or window to print
@@ -166,7 +166,7 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :param show_dialog: Whether to show the print dialog or skip right to printing, defaults to True
         :type show_dialog: bool, optional
         :return: A reference to the PyXA application object
-        :rtype: Self
+        :rtype: XAiWorkApplication
 
         .. versionadded:: 0.1.1
         """
@@ -190,7 +190,7 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self.documents()[0]
 
-    def set_password(self, document: 'XAiWorkDocument', password: str, hint: str, save_in_keychain: bool = True) -> Self:
+    def set_password(self, document: 'XAiWorkDocument', password: str, hint: str, save_in_keychain: bool = True) -> 'XAiWorkApplication':
         """Sets the password of an unencrypted document, optionally storing the password in the user's keychain.
 
         :param document: The document to set the password for
@@ -202,14 +202,14 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :param save_in_keychain: Whether to save the password in the user's keychain, defaults to True
         :type save_in_keychain: bool, optional
         :return: A reference to the PyXA application object
-        :rtype: Self
+        :rtype: XAiWorkApplication
 
         .. versionadded:: 0.1.1
         """
         self.xa_scel.setPassword_to_hint_savingInKeychain_(password, document.xa_elem, hint, save_in_keychain)
         return self
 
-    def remove_password(self, document: 'XAiWorkDocument', password: str) -> Self:
+    def remove_password(self, document: 'XAiWorkDocument', password: str) -> 'XAiWorkApplication':
         """Removes the password from a document.
 
         :param document: The document to remove the password to
@@ -217,7 +217,7 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :param password: The current password
         :type password: str
         :return: A reference to the PyXA application object
-        :rtype: Self
+        :rtype: XAiWorkApplication
 
         .. versionadded:: 0.1.1
         """
@@ -1956,7 +1956,7 @@ class XAiWorkTable(XAiWorkiWorkItem):
     def selection_range(self, selection_range: 'XAiWorkRange'):
         self.set_property('selectionRange', selection_range.xa_elem)
 
-    def sort(self, by_column: 'XAiWorkColumn', in_rows: Union[list['XAiWorkRow'], 'XAiWorkRowList', None] = None, direction: XAiWorkApplication.SortDirection = XAiWorkApplication.SortDirection.ASCENDING) -> Self:
+    def sort(self, by_column: 'XAiWorkColumn', in_rows: Union[list['XAiWorkRow'], 'XAiWorkRowList', None] = None, direction: XAiWorkApplication.SortDirection = XAiWorkApplication.SortDirection.ASCENDING) -> 'XAiWorkTable':
         """Sorts the table according to the specified column, in the specified sorting direction.
 
         :param by_column: The column to sort by
@@ -1966,7 +1966,7 @@ class XAiWorkTable(XAiWorkiWorkItem):
         :param direction: The direction to sort in, defaults to XAiWorkApplication.SortDirection.ASCENDING
         :type direction: XAiWorkApplication.SortDirection, optional
         :return: The table object
-        :rtype: Self
+        :rtype: XAiWorkTable
 
         .. versionadded:: 0.1.1
         """
@@ -2280,11 +2280,11 @@ class XAiWorkRange(XABase.XAObject):
     def vertical_alignment(self, vertical_alignment: XAiWorkApplication.Alignment):
         self.set_property('verticalAlignment', vertical_alignment.value)
 
-    def clear(self) -> Self:
+    def clear(self) -> 'XAiWorkRange':
         """Clears the content of every cell in the range.
 
         :return: The range object
-        :rtype: Self
+        :rtype: XAiWorkRange
 
         :Example 1: Clear all cells in a table
 
@@ -2307,11 +2307,11 @@ class XAiWorkRange(XABase.XAObject):
         self.xa_elem.clear()
         return self
 
-    def merge(self) -> Self:
+    def merge(self) -> 'XAiWorkRange':
         """Merges all cells in the range.
 
         :return: The range object
-        :rtype: Self
+        :rtype: XAiWorkRange
 
         :Example 1: Merge all cells in the first row of a table
 
@@ -2338,11 +2338,11 @@ class XAiWorkRange(XABase.XAObject):
         self.xa_elem.merge()
         return self
 
-    def unmerge(self) -> Self:
+    def unmerge(self) -> 'XAiWorkRange':
         """Unmerges all cells in the range.
 
         :return: The range object
-        :rtype: Self
+        :rtype: XAiWorkRange
 
         :Example 1: Unmerge all merged cells
 

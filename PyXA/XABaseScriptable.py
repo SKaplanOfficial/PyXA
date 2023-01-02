@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Union, Self
+from typing import Union
 import threading
 import AppKit
 import ScriptingBridge
@@ -91,11 +91,11 @@ class XASBApplication(XABase.XAApplication):
         """
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
-    def activate(self) -> Self:
+    def activate(self) -> 'XASBApplication':
         """Activates the application.
 
         :return: The application object
-        :rtype: Self
+        :rtype: XASBApplication
 
         .. versionadded:: 0.1.0.2
         """
@@ -363,11 +363,11 @@ class XASBWindow(XABase.XAObject, XACloseable):
         except Exception as e:
             print(e)
 
-    def collapse(self) -> Self:
+    def collapse(self) -> 'XASBWindow':
         """Collapses (minimizes) the window.
 
         :return: A reference to the now-collapsed window object.
-        :rtype: Self
+        :rtype: XASBWindow
 
         .. versionadded:: 0.0.4
         """
@@ -380,11 +380,11 @@ class XASBWindow(XABase.XAObject, XACloseable):
                 self.set_property("collapsed", True)
         return self
 
-    def uncollapse(self) -> Self:
+    def uncollapse(self) -> 'XASBWindow':
         """Uncollapses (unminimizes/expands) the window.
 
         :return: A reference to the uncollapsed window object.
-        :rtype: Self
+        :rtype: XASBWindow
 
         .. versionadded:: 0.0.4
         """

@@ -3,15 +3,10 @@
 
 Control the macOS Database Events application using JXA-like syntax.
 """
-from datetime import datetime
 from enum import Enum
 from typing import Any, Union
 
-import AppKit
-import CoreServices
-from time import sleep
-
-from PyXA import XABase, XAEvents
+from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath
 

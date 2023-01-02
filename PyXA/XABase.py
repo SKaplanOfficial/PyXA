@@ -8,18 +8,16 @@ import math
 import os
 import random
 import sys
-import tempfile
 import threading
 import time
 from datetime import datetime, timedelta
 from enum import Enum
 from pprint import pprint
-from typing import Any, Callable, Literal, Self, Union
+from typing import Any, Callable, Literal, Union
 
 import macimg, macimg.filters, macimg.distortions, macimg.transforms, macimg.compositions
 
 import AppKit
-import ImageCaptureCore
 import Quartz
 import requests
 import ScriptingBridge
@@ -279,8 +277,7 @@ class XAList(XAObject):
         if len(ls) == 0:
             return None
 
-        obj = ls.firstObject()
-
+        obj = ls.get().firstObject()
         return self._new_element(obj, self.xa_ocls)
 
     def equalling(self, property: str, value: str) -> XAObject:
@@ -742,7 +739,7 @@ class XAList(XAObject):
             return self._new_element(arr, self.__class__)
         if key < 0:
             key = self.xa_elem.count() + key
-        return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
+        return self._new_element(self.xa_elem.get().objectAtIndex_(key), self.xa_ocls)
 
     def __len__(self):
         return len(self.xa_elem)
@@ -1229,11 +1226,11 @@ class XAApplication(XAObject, XAClipboardCodable):
         """
         return XAImage(self.xa_elem.icon())
 
-    def launch(self) -> Self:
+    def launch(self) -> 'XAApplication':
         """Launches the application.
 
         :return: The application object.
-        :rtype: Self
+        :rtype: XAApplication
 
         .. versionadded:: 0.1.1
         """
@@ -4702,12 +4699,11 @@ class XADiskItem(XAObject, XAPathLike):
         """
         return self.xa_elem.volume()
 
-    def open(self) -> Self:
+    def open(self) -> 'XADiskItem':
         """Opens the item in its default application.
 
-
         :return: The item object
-        :rtype: Self
+        :rtype: XADiskItem
 
         .. versionadded:: 0.1.1
         """
@@ -6587,7 +6583,7 @@ class XAImageList(XAList, XAClipboardCodable):
         self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(scaled_images)
         return self
 
-    def resize(self, width: int, height: Union[int, None] = None) -> Self:
+    def resize(self, width: int, height: Union[int, None] = None) -> 'XAImageList':
         """Resizes each image in the list to the specified width and height.
 
         :param width: The width of the resulting images
@@ -6595,7 +6591,7 @@ class XAImageList(XAList, XAClipboardCodable):
         :param height: The height of the resulting images, or None to maintain width:height proportions, defaults to None
         :type height: Union[int, None]
         :return: The list of scaled images
-        :rtype: Self
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.1
         """
@@ -7229,7 +7225,7 @@ class XAImage(macimg.Image, XAObject, XAClipboardCodable):
         """
         return macimg.transforms.Scale(scale_factor_x, scale_factor_y).apply_to(self)
 
-    def resize(self, width: int, height: Union[int, None] = None) -> Self:
+    def resize(self, width: int, height: Union[int, None] = None) -> 'XAImage':
         """Resizes the image to the specified width and height.
 
         :param width: The width of the resulting image, in pixels
@@ -7237,7 +7233,7 @@ class XAImage(macimg.Image, XAObject, XAClipboardCodable):
         :param height: The height of the resulting image, in pixels, or None to maintain width:height proportions, defaults to None
         :type height: Union[int, None]
         :return: The image object, modifications included
-        :rtype: Self
+        :rtype: XAImage
 
         .. versionadded:: 0.1.1
         """
@@ -7293,11 +7289,11 @@ class XASoundList(XAList, XAClipboardCodable):
     def duration(self) -> list[float]:
         return [sound.duration for sound in self]
 
-    def play(self) -> Self:
+    def play(self) -> 'XASoundList':
         """Plays all sounds in the list simultaneously.
 
         :return: The list of sounds.
-        :rtype: Self
+        :rtype: XASoundList
         
         .. versionadded:: 0.1.2
         """
@@ -7305,11 +7301,11 @@ class XASoundList(XAList, XAClipboardCodable):
             sound.play()
         return self
 
-    def pause(self) -> Self:
+    def pause(self) -> 'XASoundList':
         """Pauses playback of all sounds in the list.
 
         :return: The list of sounds.
-        :rtype: Self
+        :rtype: XASoundList
         
         .. versionadded:: 0.1.2
         """
@@ -7317,11 +7313,11 @@ class XASoundList(XAList, XAClipboardCodable):
             sound.pause()
         return self
 
-    def resume(self) -> Self:
+    def resume(self) -> 'XASoundList':
         """Resumes playback of all sounds in the list.
 
         :return: The list of sounds.
-        :rtype: Self
+        :rtype: XASoundList
         
         .. versionadded:: 0.1.2
         """
@@ -7329,11 +7325,11 @@ class XASoundList(XAList, XAClipboardCodable):
             sound.resume()
         return self
 
-    def stop(self) -> Self:
+    def stop(self) -> 'XASoundList':
         """Stops playback of all sounds in the list.
 
         :return: The list of sounds.
-        :rtype: Self
+        :rtype: XASoundList
         
         .. versionadded:: 0.1.2
         """
@@ -7468,13 +7464,13 @@ class XASound(XAObject, XAClipboardCodable):
             delay 0.5
         """).run()
 
-    def play(self) -> Self:
+    def play(self) -> 'XASound':
         """Plays the sound from the beginning.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
-        :rtype: Self
+        :rtype: XASound
 
         :Example:
 
@@ -7498,11 +7494,11 @@ class XASound(XAObject, XAClipboardCodable):
         self._spawn_thread(play_sound, [self])
         return self
 
-    def pause(self) -> Self:
+    def pause(self) -> 'XASound':
         """Pauses the sound.
 
         :return: A reference to this sound object.
-        :rtype: Self
+        :rtype: XASound
 
         :Example:
 
@@ -7517,13 +7513,13 @@ class XASound(XAObject, XAClipboardCodable):
         self.__player_node.pause()
         return self
 
-    def resume(self) -> Self:
+    def resume(self) -> 'XASound':
         """Plays the sound starting from the time it was last paused at.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
-        :rtype: Self
+        :rtype: XASound
 
         :Example:
 
@@ -7564,13 +7560,13 @@ class XASound(XAObject, XAClipboardCodable):
         self.__audio_engine.stop()
         return self
 
-    def set_volume(self, volume: float) -> Self:
+    def set_volume(self, volume: float) -> 'XASound':
         """Sets the volume of the sound.
 
         :param volume: The desired volume of the sound in the range [0.0, 1.0].
         :type volume: int
         :return: A reference to this sound object.
-        :rtype: Self
+        :rtype: XASound
 
         :Example:
 
@@ -7604,7 +7600,7 @@ class XASound(XAObject, XAClipboardCodable):
         """
         return self.__audio_engine.mainMixerNode().volume()
 
-    def loop(self, times: int) -> Self:
+    def loop(self, times: int) -> 'XASound':
         """Plays the sound the specified number of times.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
@@ -7612,7 +7608,7 @@ class XASound(XAObject, XAClipboardCodable):
         :param times: The number of times to loop the sound.
         :type times: int
         :return: A reference to this sound object.
-        :rtype: Self
+        :rtype: XASound
 
         :Example:
 
@@ -7635,7 +7631,7 @@ class XASound(XAObject, XAClipboardCodable):
         self._spawn_thread(play_sound)
         return self
 
-    def trim(self, start_time: float, end_time: float) -> Self:
+    def trim(self, start_time: float, end_time: float) -> 'XASound':
         """Trims the sound to the specified start and end time, in seconds.
 
         This will create a momentary sound data file in the current working directory for storing the intermediary trimmed sound data.
@@ -7645,7 +7641,7 @@ class XASound(XAObject, XAClipboardCodable):
         :param end_time: The end time in seconds
         :type end_time: float
         :return: The updated sound object
-        :rtype: Self
+        :rtype: XASound
 
         .. versionadded:: 0.1.0
         """

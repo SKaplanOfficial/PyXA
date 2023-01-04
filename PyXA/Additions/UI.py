@@ -287,27 +287,18 @@ class XAHUD():
 
 
 
-class XAAlertStyle(Enum):
-    """Options for which alert style an alert should display with.
-    """
-    INFORMATIONAL   = AppKit.NSAlertStyleInformational
-    WARNING         = AppKit.NSAlertStyleWarning
-    CRITICAL        = AppKit.NSAlertStyleCritical
-
 class XAAlert():
     """A class for creating and interacting with an alert dialog window.
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, title: str = "Alert!", message: str = "", style: XAAlertStyle = XAAlertStyle.INFORMATIONAL, buttons = ["Ok", "Cancel"], icon: Union['XABase.XAImage', None] = None):
+    def __init__(self, title: str = "Alert!", message: str = "", buttons = ["Ok", "Cancel"], icon: Union['XABase.XAImage', None] = None):
         """Initializes an alert object.
 
         :param title: The title text of the alert
         :type title: str
         :param message: The detail message text of the alert, defaults to ""
         :type message: str, optional
-        :param style: The style of the alert (i.e. informational, warning, or critical), deprecated as of PyXA 0.1.2
-        :type style: XAAlertStyle, optional
         :param buttons: A list specifying the buttons available for the user to click
         :type buttons: list[str]
         :param icon: The icon displayed in the alert window
@@ -315,14 +306,6 @@ class XAAlert():
         """
         self.title: str = title #: The title text of the alert
         self.message: str = message #: The detail message text of the alert
-        self.style: XAAlertStyle = style
-        """The style of the alert.
-
-        .. deprecated:: 0.1.2
-        
-           To customize the icon, set the :attr:`icon` attribute instead.
-        """
-
         self.buttons: list[str] = buttons #: A list specifying the buttons available for the user to click
         self.icon = icon #: The icon displayed in the alert window
         self.__return_value = None
@@ -538,36 +521,6 @@ class XAMenuBar():
         app.setDelegate_(self.__delegate)
         app.setActivationPolicy_(AppKit.NSApplicationActivationPolicyAccessory)
 
-    def add_menu(self, title: str, image: Union['XABase.XAImage', None] = None, tool_tip: Union[str, None] = None, img_width: int = 30, img_height: int = 30):
-        """Adds a new menu to be displayed in the system menu bar.
-
-        :param title: The name of the menu
-        :type title: str
-        :param image: The image to display for the menu, defaults to None
-        :type image: Union[XABase.XAImage, None], optional
-        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None
-        :type tool_tip: Union[str, None], optional
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> img = PyXA.XAImage("/Users/steven/Downloads/Blackness.jpg")
-        >>> menu_bar.add_menu("Menu 1", image=img, img_width=100, img_height=100)
-        >>> menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Use :func:`new_menu` instead.
-
-        .. versionadded:: 0.0.9
-        """
-        self.new_menu(title, image, tool_tip, (img_width, img_height))
-
     def new_menu(self, content: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath, None] = None, icon: Union[XABase.XAImage, None] = None, tooltip: Union[str, None] = None, icon_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenu':
         """Adds a new menu to be displayed in the system menu bar.
 
@@ -617,127 +570,6 @@ class XAMenuBar():
 
         self.menus[id] = XAMenuBarMenu(content, icon, tooltip, icon_dimensions, action, id, index)
         return self.menus[id]
-        
-    def add_item(self, menu: str, item_name: str, action: Union[Callable[[], None], None] = None, image: Union['XABase.XAImage', None] = None, img_width: int = 20, img_height: int = 20):
-        """Adds an item to a menu, creating the menu if necessary.
-
-        :param menu: The name of the menu to add an item to, or the name of the menu to create
-        :type menu: str
-        :param item_name: The name of the item
-        :type item_name: str
-        :param action: The method to associate with the item (the method called when the item is clicked)
-        :type action: Callable[[], None]
-        :param image: The image for the item, defaults to None
-        :type image: Union[XABase.XAImage, None], optional
-        :param img_width: The width of image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> 
-        >>> menu_bar.add_menu("Menu 1")
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 2", method=lambda : print("Action 2"))
-        >>> 
-        >>> menu_bar.add_item(menu="Menu 2", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> img = PyXA.XAImage("/Users/exampleUser/Downloads/example.jpg")
-        >>> menu_bar.add_item("Menu 2", "Item 1", lambda : print("Action 1"), image=img, img_width=100)
-        >>> menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Use :func:`XAMenuBarMenu.new_item` instead.
-
-        .. versionadded:: 0.0.9
-        """
-        if menu not in self.menus:
-            self.add_menu(menu)
-            
-        menu = self.menus[menu]
-        menu.new_item(item_name, action, [], image, (img_width, img_height))
-
-    def set_image(self, item_name: str, image: 'XABase.XAImage', img_width: int = 30, img_height: int = 30):
-        """Sets the image displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param image: The image to display
-        :type image: XAImage
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example: Set Image on State Change
-
-        >>> import PyXA
-        >>> current_state = True # On
-        >>> img_on = PyXA.XAImage("/Users/exampleUser/Documents/on.jpg")
-        >>> img_off = PyXA.XAImage("/Users/exampleUser/Documents/off.jpg")
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.add_menu("Status", image=img_on)
-        >>> 
-        >>> def update_state():
-        >>>     global current_state
-        >>>     if current_state is True:
-        >>>         # ... (Actions for turning off)
-        >>>         menu_bar.set_text("Turn off", "Turn on")
-        >>>         menu_bar.set_image("Status", img_off)
-        >>>         current_state = False
-        >>>     else:
-        >>>         # ... (Actions for turning on)
-        >>>         menu_bar.set_text("Turn off", "Turn off")
-        >>>         menu_bar.set_image("Status", img_on)
-        >>>         current_state = True
-
-        menu_bar.add_item("Status", "Turn off", update_state)
-        menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Set the :attr:`XAMenuBarMenu.image` and :attr:`XAMenuBarMenuItem.image` attributes directly instead.
-
-        .. versionadded:: 0.0.9
-        """
-        img = image.xa_elem.copy()
-        img.setScalesWhenResized_(True)
-        img.setSize_((img_width, img_height))
-
-        for menu_key, menu in self.menus.items():
-            if menu_key == item_name:
-                menu._status_item.button().setImage_(img)
-
-            else:
-                for item_key, item in menu.items.items():
-                    if item_key == item_name:
-                        item.xa_elem.setImage_(img)
-
-    def set_text(self, item_name: str, text: str):
-        """Sets the text displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param text: The new text to display
-        :type text: str
-
-        .. deprecated:: 0.1.1
-        
-           Set the :attr:`XAMenuBarMenu.title` and :attr:`XAMenuBarMenuItem.title` attributes directly instead.
-
-        .. versionadded:: 0.0.9
-        """
-        for menu_key, menu in self.menus.items():
-            if menu_key == item_name:
-                menu._status_item.button().setTitle_(item_name)
-
-            else:
-                for item_key, item in menu.items.items():
-                    if item_key == item_name:
-                        item.xa_elem.setTitle_(item_name)
 
     def remove_menu(self, id):
         """Removes a menu from the status bar.
@@ -971,6 +803,8 @@ class XAMenuBarMenu():
             self.items[id] =  XASliderMenuItem(self, tooltip, action, args)
         elif content == "switch":
             self.items[id] =  XASwitchMenuItem(self, label, tooltip, action, args)
+        elif content == "header":
+            self.items[id] =  XAHeaderMenuItem(self, label)
         elif isinstance(content, list):
             self.items[id] =  XASegmentedControlMenuItem(self, content, tooltip, action, args, multiselect)
         elif isinstance(content, XABase.XAImage):
@@ -983,28 +817,6 @@ class XAMenuBarMenu():
             self.items[id] = XAMenuBarMenuItem(self, content, icon, action, args, icon_dimensions, id, index, label, tooltip)
 
         self.xa_elem.insertItem_atIndex_(self.items[id].xa_elem, index)
-        return self.items[id]
-
-    def add_separator(self, id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
-        """Adds a separator to the menu at the current insertion point.
-
-        :param id: A unique identifier for the separator, defaults to None
-        :type id: Union[str, None], optional
-        :return: The newly created separator menu item object
-        :rtype: XAMenuBarMenuItem
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`new_separator` instead.
-
-        .. versionadded:: 0.1.1
-        """
-        id = id or "separator"
-        while id in self.items:
-            id += "_"
-
-        self.items[id] = XAMenuBarMenuItem(self, id)
-        self.xa_elem.addItem_(self.items[id].xa_elem)
         return self.items[id]
 
     def new_url_item(self, url: Union[str, XABase.XAURL, XABase.XAPath], label: Union[str, None] = None, icon: Union[XABase.XAImage, None] = None, icon_dimensions: tuple[int, int] = (20, 20), tooltip: Union[str, None] = None, action: Union[Callable[['XAURLMenuItem'], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XAURLMenuItem':
@@ -1114,6 +926,9 @@ class XAMenuBarMenu():
         .. versionadded:: 0.1.2
         """
         return self.new_item("slider", tooltip=tooltip, action=action, args=args, index=index)
+
+    def new_header(self, text: str, index: int = -1):
+        return self.new_item("header", label=text, index=index)
 
     def new_separator(self, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
         """Adds a separator to the menu at the current insertion point.
@@ -1291,41 +1106,11 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
         self.items[id] = subitem
         return self.items[id]
 
-    def new_subitem(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
-        """Creates a new menu item and places it in a submenu of this item.
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`new_item` instead.
-
-        .. versionadded:: 0.1.2
-        """
-        return self.new_item(content, icon, action, args, icon_dimensions, id, index, label, tooltip, multiselect)
-
     def remove_item(self, id: str):
         """Removes a subitem from this item's submenu.
 
         :param id: The ID of the subitem to remove
         :type id: str
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`remove_item` instead.
-
-        .. versionadded:: 0.1.1
-        """
-        item = self.items.pop(id)
-        self.xa_elem.submenu().removeItem_(item.xa_elem)
-
-    def remove_subitem(self, id: str):
-        """Removes a subitem from this item's submenu.
-
-        :param id: The ID of the subitem to remove
-        :type id: str
-
-        .. deprecated:: 0.1.2
-        
-           Use :func:`remove_item` instead.
 
         .. versionadded:: 0.1.1
         """
@@ -1760,3 +1545,28 @@ class XAURLMenuItem(XATextMenuItem):
     @label.setter
     def label(self, label: Union[str, None]):
         self.xa_elem.setTitle_(label or str(self.content.xa_elem))
+
+
+
+
+class XAHeaderMenuItem(XAMenuBarMenuItem):
+    """A section header within a menu.
+    
+    .. versionadded:: 0.2.0
+    """
+    def __init__(self, parent: XAMenuBarMenu, label: str):
+        """Initializes a URL menu item.
+
+        :param parent: The menu containing this item
+        :type parent: XAMenuBarMenu
+        :param url: The URL or path to display
+        :param label: The text displayed for the item
+        :type label: str
+
+        .. versionadded:: 0.2.0
+        """
+        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(label, None, '')
+        font = AppKit.NSFont.systemFontOfSize_weight_(10, AppKit.NSFontWeightSemibold)
+        self.xa_elem.setFont_(font)
+        self.xa_elem.setEnabled_(False)
+        super().__init__(parent, None)

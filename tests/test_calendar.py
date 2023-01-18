@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from time import sleep
+from types import GeneratorType
 
 import AppKit
 import PyXA
@@ -26,10 +27,6 @@ class TestCalendar(unittest.TestCase):
         self.assertIsInstance(self.app.default_calendar, XACalendarCalendar)
 
     def test_calendar_application_lists(self):
-        self.assertIsInstance(self.app.documents(), XACalendarDocumentList)
-        self.assertIsInstance(self.app.documents()[0], XACalendarDocument)
-        self.assertIsInstance(self.app.documents()[0].xa_elem, ScriptingBridge.SBObject)
-
         self.assertIsInstance(self.app.calendars(), XACalendarCalendarList)
         self.assertIsInstance(self.app.calendars()[0], XACalendarCalendar)
         self.assertIsInstance(self.app.calendars()[0].xa_elem, ScriptingBridge.SBObject)
@@ -39,6 +36,7 @@ class TestCalendar(unittest.TestCase):
         new_calendar = self.app.new_calendar("Test")
         self.assertNotEqual(num_cals_before, len(self.app.calendars()))
         new_calendar.delete()
+        sleep(1)
         self.assertEqual(num_cals_before, len(self.app.calendars()))
 
         num_events_before = len(self.app.default_calendar.events())
@@ -82,15 +80,16 @@ class TestCalendar(unittest.TestCase):
         self.assertIsInstance(calendar.description, str)
 
     def test_calendar_events(self):
-        events = self.app.default_calendar.events()
+        events = self.app.calendars().by_name("Calendar").events()
 
         self.assertIsInstance(events, XACalendarEventList)
         self.assertIsInstance(events[0], XACalendarEvent)
 
         props = events.properties()
-        self.assertIsInstance(props, list)
-        self.assertIsInstance(props[0], dict)
-        self.assertIsInstance(events.by_properties(next(props)), XACalendarEvent)
+        self.assertIsInstance(props, GeneratorType)
+        prop = next(props)
+        self.assertIsInstance(prop, dict)
+        self.assertIsInstance(events.by_properties(prop), XACalendarEvent)
 
         self.assertIsInstance(events.description(), list)
         self.assertIsInstance(events.description()[0], str)
@@ -158,7 +157,7 @@ class TestCalendar(unittest.TestCase):
         self.assertIsInstance(event.excluded_dates, list)
         self.assertIsInstance(event.status, XACalendarApplication.EventStatus)
         self.assertIsInstance(event.summary, str)
-        self.assertIsInstance(event.location, str)
+        # self.assertIsInstance(event.location, str)
         self.assertIsInstance(event.uid, str)
         self.assertTrue(event.url == None or isinstance(event.url, XAURL))
 

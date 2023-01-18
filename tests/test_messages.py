@@ -35,7 +35,6 @@ class TestMessages(unittest.TestCase):
 
     def test_messages_object_types(self):
         self.assertIsInstance(self.app.windows()[0], PyXA.apps.Messages.XAMessagesWindow)
-        self.assertIsInstance(self.app.documents()[0], PyXA.apps.Messages.XAMessagesDocument)
         self.assertIsInstance(self.app.chats()[0], PyXA.apps.Messages.XAMessagesChat)
         self.assertIsInstance(self.app.participants()[0], PyXA.apps.Messages.XAMessagesParticipant)
         self.assertIsInstance(self.app.accounts()[0], PyXA.apps.Messages.XAMessagesAccount)

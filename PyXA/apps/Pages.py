@@ -3,7 +3,7 @@
 Control the macOS Pages application using JXA-like syntax.
 """
 from enum import Enum
-from typing import Any, Union, Self
+from typing import Any, Union
 
 import AppKit, ScriptingBridge
 

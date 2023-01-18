@@ -222,7 +222,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.fileTransfers(), XAMessagesFileTransferList, filter)
+        return self._new_element([x for x in self.xa_scel.fileTransfers()], XAMessagesFileTransferList, filter)
 
 
 
@@ -583,8 +583,8 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         return [XABase.XAPath(x) for x in ls]
 
     def direction(self) -> list[XAMessagesApplication.MessageDirection]:
-        ls = self.xa_elem.arrayByApplyingSelector_("direction") or []
-        return [XAMessagesApplication.MessageDirection(XABase.OSType(x.stringValue())) for x in ls]
+        ls = [x.direction() for x in self.xa_elem]
+        return [XAMessagesApplication.MessageDirection(x) for x in ls]
 
     def account(self) -> 'XAMessagesAccountList':
         ls = [x.account() for x in self.xa_elem]
@@ -595,13 +595,13 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         return self._new_element(ls, XAMessagesParticipantList)
 
     def file_size(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileSize") or [])
+        return [x.fileSize() for x in self.xa_elem]
 
     def file_progress(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("fileProgress") or [])
+        return [x.fileProgress() for x in self.xa_elem]
 
     def transfer_status(self) -> list[XAMessagesApplication.TransferStatus]:
-        ls = list(self.xa_elem.arrayByApplyingSelector_("transferStatus") or [])
+        ls = [x.transferStatus() for x in self.xa_elem]
         try:
             return [XAMessagesApplication.TransferStatus(x) for x in ls]
         except ValueError:

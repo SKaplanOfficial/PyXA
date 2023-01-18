@@ -23,13 +23,8 @@ class TestDatabaseEvents(unittest.TestCase):
         self.assertIsInstance(self.app.databases()[0], XADatabaseEventsDatabase)
         self.assertIsInstance(self.app.databases()[0].xa_elem, ScriptingBridge.SBObject)
 
-
-
     def test_database_events_database(self):
         dbs = self.app.databases()
-
-        print(dbs)
-
 
         self.assertIsInstance(dbs.location(), list)
         self.assertIsInstance(dbs.location()[0], XAPath)

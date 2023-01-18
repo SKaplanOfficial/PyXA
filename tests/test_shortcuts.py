@@ -52,7 +52,7 @@ class TestShortcuts(unittest.TestCase):
     def test_shortcuts_quit(self):
         self.app.quit()
         time.sleep(0.5)
-        running_apps = PyXA.PyXA.running_applications()
+        running_apps = PyXA.running_applications()
         self.assertNotIn(self.app, running_apps)
 
 if __name__ == '__main__':

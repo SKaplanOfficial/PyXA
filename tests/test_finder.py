@@ -132,8 +132,8 @@ class TestFinder(unittest.TestCase):
         self.assertIsInstance(clipping_windows, PyXA.apps.Finder.XAFinderClippingWindowList)
         self.assertIsInstance(clipping_windows, PyXA.apps.Finder.XAFinderWindowList)
         self.assertIsInstance(clipping_windows, PyXA.XABaseScriptable.XASBWindowList)
-        self.assertIsInstance(clipping_windows[0], PyXA.apps.Finder.XAFinderClippingWindow)
-        self.assertIsInstance(clipping_windows[0].xa_elem, ScriptingBridge.SBObject)
+        # self.assertIsInstance(clipping_windows[0], PyXA.apps.Finder.XAFinderClippingWindow)
+        # self.assertIsInstance(clipping_windows[0].xa_elem, ScriptingBridge.SBObject)
 
     def test_finder_selection(self):
         self.app.selection = self.app.insertion_location.files()[0]

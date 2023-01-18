@@ -572,7 +572,9 @@ class XACalendarCalendar(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self.xa_elem.delete()
+        # self.calendar_obj.delete()
+        # print(self.xa_elem.lastError())
+        self.xa_estr.removeCalendar_commit_error_(self.calendar_obj, True, None)
 
     def events_in_range(self, start_date: datetime, end_date: datetime) -> 'XACalendarEventList':
         """Gets a list of events occurring between the specified start and end datetimes.
@@ -1178,7 +1180,7 @@ class XACalendarEvent(XABase.XAObject):
         while not hasattr(parent, "events"):
             parent = parent.xa_prnt
 
-        return parent.events().by_uid(new_event.eventIdentifier())
+        return parent.events().by_uid(new_event.calendarItemIdentifier())
 
     def duplicate_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -1203,7 +1205,7 @@ class XACalendarEvent(XABase.XAObject):
         calendar_obj = XABase.XAPredicate.evaluate_with_dict(calendars, {"title": calendar.name})[0]
         new_event = self.xa_event_obj.copyToCalendar_withOptions_(calendar_obj, 1)
         self.xa_estr.saveEvent_span_commit_error_(new_event, EventKit.EKSpanThisEvent, True, None)
-        return calendar.events().by_uid(new_event.eventIdentifier())
+        return calendar.events().by_uid(new_event.calendarItemIdentifier())
 
     def move_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
         """Moves this event to the specified calendar.

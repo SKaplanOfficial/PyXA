@@ -277,7 +277,12 @@ class XAList(XAObject):
         if len(ls) == 0:
             return None
 
-        obj = ls.get().firstObject()
+        try:
+            obj = ls.get().firstObject()
+        except AttributeError:
+            # List object has no get method
+            obj = ls.firstObject()
+
         return self._new_element(obj, self.xa_ocls)
 
     def equalling(self, property: str, value: str) -> XAObject:
@@ -739,7 +744,12 @@ class XAList(XAObject):
             return self._new_element(arr, self.__class__)
         if key < 0:
             key = self.xa_elem.count() + key
-        return self._new_element(self.xa_elem.get().objectAtIndex_(key), self.xa_ocls)
+        
+        try:
+            return self._new_element(self.xa_elem.get().objectAtIndex_(key), self.xa_ocls)
+        except AttributeError:
+            # List object has no get method
+            return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
 
     def __len__(self):
         return len(self.xa_elem)
@@ -1811,8 +1821,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
 
         ls = []
         predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
-
-        ids = target_list.arrayByApplyingSelector_("id")
 
         try:
             # Not sure why this is necessary sometimes, but it is.
@@ -3633,340 +3641,10 @@ class XAColorList(XATextList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAColor, filter)
 
-class XAColor(XAObject, XAClipboardCodable):
+class XAColor(macimg.Color, XAObject, XAClipboardCodable):
     def __init__(self, *args):
-        if len(args) == 0:
-            # No color specified -- default to white
-            self.xa_elem = XAColor.white_color().xa_elem
-        elif len(args) == 1 and isinstance(args[0], AppKit.NSColor):
-            # Initialize copy of non-mutable NSColor object
-            self.copy_color(args[0])
-        elif len(args) == 1 and isinstance(args[0], XAColor):
-            # Initialize copy of another XAColor object
-            self.copy_color(args[0].xa_elem)
-        else:
-            # Initialize from provided RGBA values
-            red = args[0] if len(args) >= 0 else 255
-            green = args[1] if len(args) >= 1 else 255
-            blue = args[2] if len(args) >= 3 else 255
-            alpha = args[3] if len(args) == 4 else 1.0
-            self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
-
-    def red() -> 'XAColor':
-        """Initializes and returns a pure red :class:`XAColor` object.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(65535, 0, 0)
-
-    def orange() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 0.5, 0.0).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.orangeColor())
-
-    def yellow() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 1.0, 0.0).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.yellowColor())
-
-    def green() -> 'XAColor':
-        """Initializes and returns a pure green :class:`XAColor` object.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(0, 65535, 0)
-
-    def cyan() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.0, 1.0, 1.0).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.cyanColor())
-
-    def blue() -> 'XAColor':
-        """Initializes and returns a pure blue :class:`XAColor` object.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(0, 0, 65535)
-
-    def magenta() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 0.0, 1.0).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.magentaColor())
-
-    def purple() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.5, 0.0, 0.5).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.purpleColor())
-
-    def brown() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.6, 0.4, 0.2).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(AppKit.NSColor.brownColor())
-
-    def white() -> 'XAColor':
-        """Initializes and returns a pure white :class:`XAColor` object.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(65535, 65535, 65535)
-
-    def gray() -> 'XAColor':
-        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.5, 0.5, 0.5).
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(0.5, 0.5, 0.5)
-
-    def black() -> 'XAColor':
-        """Initializes and returns a pure black :class:`XAColor` object.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(0, 0, 0)
-
-    def clear() -> 'XAColor':
-        """Initializes and returns a an :class:`XAColor` object whose alpha value is 0.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAColor(0, 0, 0, 0)
-
-    @property
-    def hex_value(self) -> str:
-        """The HEX representation of the color.
-        
-        .. versionadded:: 0.1.1
-        """
-        return f"{hex(int(self.red_value * 255))[2:]}{hex(int(self.green_value * 255))[2:]}{hex(int(self.blue_value * 255))[2:]}".upper()
-
-    @property
-    def red_value(self) -> float:
-        """The red value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.redComponent()
-
-    @red_value.setter
-    def red_value(self, red_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red_value, self.green_value, self.blue_value, self.alpha_value)
-
-    @property
-    def green_value(self) -> float:
-        """The green value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.greenComponent()
-
-    @green_value.setter
-    def green_value(self, green_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, green_value, self.blue_value, self.alpha_value)
-
-    @property
-    def blue_value(self) -> float:
-        """The blue value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.blueComponent()
-
-    @blue_value.setter
-    def blue_value(self, blue_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, self.green_value, blue_value, self.alpha_value)
-
-    @property
-    def alpha_value(self) -> float:
-        """The alpha value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.alphaComponent()
-
-    @alpha_value.setter
-    def alpha_value(self, alpha_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, self.green_value, self.blue_value, alpha_value)
-
-    @property
-    def hue_value(self):
-        """The hue value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.hueComponent()
-
-    @hue_value.setter
-    def hue_value(self, hue_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue_value, self.saturation_value, self.brightness_value, self.alpha_value)
-
-    @property
-    def saturation_value(self):
-        """The staturation value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.saturationComponent()
-
-    @saturation_value.setter
-    def saturation_value(self, saturation_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(self.hue_value, saturation_value, self.brightness_value, self.alpha_value)
-
-    @property
-    def brightness_value(self):
-        """The brightness value of the color on the scale of 0.0 to 1.0.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.brightnessComponent()
-
-    @brightness_value.setter
-    def brightness_value(self, brightness_value: float):
-        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(self.hue_value, self.saturation_value, brightness_value, self.alpha_value)
-
-    def copy_color(self, color: 'AppKit.NSColor') -> 'XAColor':
-        """Initializes a XAColor copy of an NSColor object.
-
-        :param color: The NSColor to copy
-        :type color: AppKit.NSColor
-        :return: The newly created XAColor object
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(
-            color.redComponent(),
-            color.greenComponent(),
-            color.blueComponent(),
-            color.alphaComponent()
-        )
-        return self
-    
-    def set_rgba(self, red: float, green: float, blue: float, alpha: float) -> 'XAColor':
-        """Sets the RGBA values of the color.
-
-        :param red: The red value of the color, from 0.0 to 1.0
-        :type red: float
-        :param green: The green value of the color, from 0.0 to 1.0
-        :type green: float
-        :param blue: The blue value of the color, from 0.0 to 1.0
-        :type blue: float
-        :param alpha: The opacity of the color, from 0.0 to 1.0
-        :type alpha: float
-        :return: The XAColor object
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
-        return self
-
-    def set_hsla(self, hue: float, saturation: float, brightness: float, alpha: float) -> 'XAColor':
-        """Sets the HSLA values of the color.
-
-        :param hue: The hue value of the color, from 0.0 to 1.0
-        :type hue: float
-        :param saturation: The saturation value of the color, from 0.0 to 1.0
-        :type saturation: float
-        :param brightness: The brightness value of the color, from 0.0 to 1.0
-        :type brightness: float
-        :param alpha: The opacity of the color, from 0.0 to 1.0
-        :type alpha: float
-        :return: The XAColor object
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue, saturation, brightness, alpha)
-        return self
-
-    def mix_with(self, color: 'XAColor', fraction: int = 0.5) -> 'XAColor':
-        """Blends this color with the specified fraction of another.
-
-        :param color: The color to blend this color with
-        :type color: XAColor
-        :param fraction: The fraction of the other color to mix into this color, from 0.0 to 1.0, defaults to 0.5
-        :type fraction: int, optional
-        :return: The resulting color after mixing
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        new_color = self.xa_elem.blendedColorWithFraction_ofColor_(fraction, color.xa_elem)
-        return XAColor(new_color.redComponent(), new_color.greenComponent(), new_color.blueComponent(), new_color.alphaComponent())
-
-    def brighten(self, fraction: float = 0.5) -> 'XAColor':
-        """Brightens the color by mixing the specified fraction of the system white color into it.
-
-        :param fraction: The amount (fraction) of white to mix into the color, defaults to 0.5
-        :type fraction: float, optional
-        :return: The resulting color after brightening
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem = self.xa_elem.highlightWithLevel_(fraction)
-        return self
-
-    def darken(self, fraction: float = 0.5) -> 'XAColor':
-        """Darkens the color by mixing the specified fraction of the system black color into it.
-
-        :param fraction: The amount (fraction) of black to mix into the color, defaults to 0.5
-        :type fraction: float, optional
-        :return: The resulting color after darkening
-        :rtype: XAColor
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem = self.xa_elem.shadowWithLevel_(fraction)
-        return self
-
-    def make_swatch(self, width: int = 100, height: int = 100) -> 'XAImage':
-        """Creates an image swatch of the color with the specified dimensions.
-
-        :param width: The width of the swatch image, in pixels, defaults to 100
-        :type width: int, optional
-        :param height: The height of the swatch image, in pixels, defaults to 100
-        :type height: int, optional
-        :return: The image swatch as an XAImage object
-        :rtype: XAImage
-
-        :Example: View swatches in Preview
-
-        >>> import PyXA
-        >>> from time import sleep
-        >>> 
-        >>> blue = PyXA.XAColor.blue()
-        >>> red = PyXA.XAColor.red()
-        >>> 
-        >>> swatches = [
-        >>>     blue.make_swatch(),
-        >>>     blue.darken(0.5).make_swatch(),
-        >>>     blue.mix_with(red).make_swatch()
-        >>> ]
-        >>> 
-        >>> for swatch in swatches:
-        >>>     swatch.show_in_preview()
-        >>>     sleep(0.2)
-
-        .. versionadded:: 0.1.0
-        """
-        img = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(width, height))
-        img.lockFocus()
-        self.xa_elem.drawSwatchInRect_(AppKit.NSMakeRect(0, 0, width, height))
-        img.unlockFocus()
-        return XAImage(img)
+        super().__init__(*args)
+        self.xa_elem = self._nscolor
 
     def get_clipboard_representation(self) -> 'AppKit.NSColor':
         """Gets a clipboard-codable representation of the color.
@@ -3979,9 +3657,6 @@ class XAColor(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         return self.xa_elem
-
-    def __repr__(self):
-        return f"<{str(type(self))}r={str(self.red_value)}, g={self.green_value}, b={self.blue_value}, a={self.alpha_value}>"
 
 
 
@@ -5766,6 +5441,10 @@ class XAUserDomainObject(XADomain):
 class XAImageList(XAList, XAClipboardCodable):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
+    .. deprecated:: 0.2.0
+    
+       Use :class:`XAImage` and its methods instead.
+
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
@@ -6877,7 +6556,10 @@ class XAImage(macimg.Image, XAObject, XAClipboardCodable):
                 image_reference = image
 
             case XAObject():
-                image_reference = image_reference.get_image_representation().xa_elem
+                try:
+                    image_reference = image_reference.get_image_representation().xa_elem
+                except AttributeError:
+                    raise TypeError(f"{str(type(image_reference))} does not implement the XAImageLike protocol.")
 
         super().__init__(image_reference)
 
@@ -7197,19 +6879,19 @@ class XAImage(macimg.Image, XAObject, XAClipboardCodable):
         """
         return macimg.transforms.Rotate(degrees).apply_to(self)
 
-    # def crop(self, size: tuple[int, int], corner: Union[tuple[int, int], None] = None) -> 'XAImage':
-    #     """Crops the image to the specified dimensions.
+    def crop(self, size: tuple[int, int], corner: tuple[int, int] = (0, 0)) -> 'XAImage':
+        """Crops the image to the specified dimensions.
 
-    #     :param size: The width and height of the resulting image
-    #     :type size: tuple[int, int]
-    #     :param corner: The bottom-left corner location from which to crop the image, or None to use (0, 0), defaults to None
-    #     :type corner: Union[tuple[int, int], None]
-    #     :return: The image object, modifications included
-    #     :rtype: XAImage
+        :param size: The width and height of the resulting image
+        :type size: tuple[int, int]
+        :param corner: The bottom-left corner location from which to crop the image, defaults to (0, 0)
+        :type corner: tuple[int, int], optional
+        :return: The image object, modifications included
+        :rtype: XAImage
 
-    #     .. versionadded:: 0.1.0
-    #     """
-    #     return macimg.transforms.Crop
+        .. versionadded:: 0.1.0
+        """
+        return macimg.transforms.Crop(size, corner).apply_to(self)
 
     def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> 'XAImage':
         """Scales the image by the specified horizontal and vertical factors.

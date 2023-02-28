@@ -5,10 +5,8 @@ A base set of classes for media applications such as Music.app and TV.app.
 
 from datetime import datetime
 from enum import Enum
-import time
 from typing import Literal, Union
 
-import AppKit
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
@@ -875,7 +873,7 @@ class XAMediaPlaylist(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.tracks(), XAMediaTrackList, filter)
+        return self._new_element(self.xa_elem.tracks(), XAMediaTrackList, filter)
 
     def artworks(self, filter: Union[dict, None] = None) -> 'XAMediaArtworkList':
         """Returns a list of artworks, as PyXA objects, matching the given filter.
@@ -887,7 +885,7 @@ class XAMediaPlaylist(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.artworks(), XAMediaArtworkList, filter)
+        return self._new_element(self.xa_elem.artworks(), XAMediaArtworkList, filter)
 
 
 
@@ -919,7 +917,7 @@ class XAMediaLibraryPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), XAMediaFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), XAMediaFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -931,7 +929,7 @@ class XAMediaLibraryPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), XAMediaURLTrackList, filter)
 
     def shared_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaSharedTrackList':
         """Returns a list of shared tracks, as PyXA objects, matching the given filter.
@@ -943,7 +941,7 @@ class XAMediaLibraryPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sharedTracks(), XAMediaSharedTrackList, filter)
+        return self._new_element(self.xa_elem.sharedTracks(), XAMediaSharedTrackList, filter)
 
 
 
@@ -1016,7 +1014,7 @@ class XAMediaSource(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.libraryPlaylists(), XAMediaLibraryPlaylistList, filter)
+        return self._new_element(self.xa_elem.libraryPlaylists(), XAMediaLibraryPlaylistList, filter)
 
     def playlists(self, filter: Union[dict, None] = None) -> 'XAMediaPlaylistList':
         """Returns a list of playlists, as PyXA objects, matching the given filter.
@@ -1028,7 +1026,7 @@ class XAMediaSource(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.playlists(), XAMediaPlaylistList, filter)
+        return self._new_element(self.xa_elem.playlists(), XAMediaPlaylistList, filter)
 
     def user_playlists(self, filter: Union[dict, None] = None) -> 'XAMediaUserPlaylistList':
         """Returns a list of user playlists, as PyXA objects, matching the given filter.
@@ -1040,7 +1038,7 @@ class XAMediaSource(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.userPlaylists(), XAMediaUserPlaylistList, filter)
+        return self._new_element(self.xa_elem.userPlaylists(), XAMediaUserPlaylistList, filter)
 
 
 
@@ -1838,7 +1836,7 @@ class XAMediaTrack(XAMediaItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.artworks(), XAMediaArtworkList, filter)
+        return self._new_element(self.xa_elem.artworks(), XAMediaArtworkList, filter)
 
 
 
@@ -1999,7 +1997,7 @@ class XAMediaUserPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), XAMediaFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), XAMediaFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -2011,7 +2009,7 @@ class XAMediaUserPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), XAMediaURLTrackList, filter)
 
     def shared_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaSharedTrackList':
         """Returns a list of shared tracks, as PyXA objects, matching the given filter.
@@ -2023,7 +2021,7 @@ class XAMediaUserPlaylist(XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sharedTracks(), XAMediaSharedTrackList, filter)
+        return self._new_element(self.xa_elem.sharedTracks(), XAMediaSharedTrackList, filter)
 
 
 

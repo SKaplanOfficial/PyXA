@@ -264,6 +264,18 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         .. versionadded:: 0.0.7
         """
         return self._new_element(self.xa_scel.miniplayerWindows(), XAMusicMiniplayerWindowList, filter)
+    
+    def sources(self, filter: Union[dict, None] = None) -> 'XAMusicSourceList':
+        """Returns a list of sources, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned sources will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of sources
+        :rtype: XAMediaSourceList
+
+        .. versionadded:: 0.0.1
+        """
+        return self._new_element(self.xa_scel.sources(), XAMusicSourceList, filter)
 
     def tracks(self, filter: Union[dict, None] = None) -> 'XAMusicTrackList':
         """Returns a list of tracks, as PyXA objects, matching the given filter.
@@ -287,7 +299,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sources(), XAMusicVisualList, filter)
+        return self._new_element(self.xa_scel.visuals(), XAMusicVisualList, filter)
 
 
 
@@ -780,7 +792,7 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.tracks(), XAMusicTrackList, filter)
+        return self._new_element(self.xa_elem.tracks(), XAMusicTrackList, filter)
 
 
 
@@ -927,7 +939,7 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.audioCDTracks(), XAMusicAudioCDTrackList, filter)
+        return self._new_element(self.xa_elem.audioCDTracks(), XAMusicAudioCDTrackList, filter)
 
 
 
@@ -960,7 +972,7 @@ class XAMusicRadioTunerPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 
@@ -993,7 +1005,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.audioCDPlaylists(), XAMusicAudioCDPlaylistList, filter)
+        return self._new_element(self.xa_elem.audioCDPlaylists(), XAMusicAudioCDPlaylistList, filter)
 
     def radio_tuner_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicRadioTunerPlaylistList':
         """Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.
@@ -1005,7 +1017,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.radioTunerPlaylists(), XAMusicRadioTunerPlaylistList, filter)
+        return self._new_element(self.xa_elem.radioTunerPlaylists(), XAMusicRadioTunerPlaylistList, filter)
 
     def subscription_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicSubscriptionPlaylistList':
         """Returns a list of subscription playlists, as PyXA objects, matching the given filter.
@@ -1017,7 +1029,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.subscriptionPlaylists(), XAMusicSubscriptionPlaylistList, filter)
+        return self._new_element(self.xa_elem.subscriptionPlaylists(), XAMusicSubscriptionPlaylistList, filter)
 
 
 
@@ -1050,7 +1062,7 @@ class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), MediaApplicationBase.XAMediaFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), MediaApplicationBase.XAMediaFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'MediaApplicationBase.XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -1062,7 +1074,7 @@ class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 

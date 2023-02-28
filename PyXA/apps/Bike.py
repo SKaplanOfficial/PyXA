@@ -10,8 +10,9 @@ import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XADeletable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XADeletable, XAPrintable
 from ..XAErrors import UnconstructableClassError
+from ..XAEvents import event_from_str
 
 class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Bike.app.
@@ -22,6 +23,10 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         BIKE        = XABase.OSType("BKff")
         OPML        = XABase.OSType("OPml")
         PLAINTEXT   = XABase.OSType("PTfm")
+
+    class EditMode(Enum):
+        TEXT    = XABase.OSType('Btmd')
+        OUTLINE = XABase.OSType('Bomd')
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -63,7 +68,7 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @background_color.setter
     def background_color(self, background_color: XABase.XAColor):
-        self.set_property('backgroundColor', background_color.xa_elem)
+        self.set_property('backgroundColor', background_color._nscolor)
 
     @property
     def foreground_color(self) -> XABase.XAColor:
@@ -73,7 +78,7 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @foreground_color.setter
     def foreground_color(self, foreground_color: XABase.XAColor):
-        self.set_property('foregroundColor', foreground_color.xa_elem)
+        self.set_property('foregroundColor', foreground_color._nscolor)
 
     def documents(self, filter: dict = None) -> Union['XABikeDocumentList', None]:
         """Returns a list of documents, as PyXA-wrapped objects, matching the given filter.
@@ -203,6 +208,10 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
     def hoisted_row(self) -> 'XABikeRowList':
         ls = self.xa_elem.arrayByApplyingSelector_("hoistedRow") or []
         return self._new_element(ls, XABikeRowList)
+    
+    def edit_mode(self) -> list[XABikeApplication.EditMode]:
+        ls = self.xa_elem.arrayByApplyingSelector_("editMode") or []
+        return [XABikeApplication.EditMode(XABase.OSType(x.stringValue())) for x in ls]
 
     def selected_text(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("selectedText") or [])
@@ -250,6 +259,9 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     def by_hoisted_row(self, hoisted_row: 'XABikeRow') -> Union['XABikeDocument', None]:
         return self.by_property("hoistedRow", hoisted_row.xa_elem)
+    
+    def by_edit_mode(self, edit_mode: XABikeApplication.EditMode) -> Union['XABikeDocument', None]:
+        return self.by_property("editMode", event_from_str(XABase.unOSType(edit_mode.value)))
 
     def by_selected_text(self, selected_text: str) -> Union['XABikeDocument', None]:
         return self.by_property("selectedText", selected_text)
@@ -283,7 +295,7 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XABikeDocument(XABase.XAObject, XACloseable):
+class XABikeDocument(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A document of Bike.app.
 
     .. versionadded:: 0.1.0
@@ -355,6 +367,16 @@ class XABikeDocument(XABase.XAObject, XACloseable):
         self.set_property('hoistedRow', hoisted_row.xa_elem)
 
     @property
+    def edit_mode(self) -> XABikeApplication.EditMode:
+        """The document's edit mode.
+        """
+        return XABikeApplication.EditMode(self.xa_elem.editMode())
+    
+    @edit_mode.setter
+    def edit_mode(self, edit_mode: XABikeApplication.EditMode):
+        self.set_property('editMode', edit_mode.value)
+
+    @property
     def selected_text(self) -> str:
         """The currently selected text.
         """
@@ -394,6 +416,49 @@ class XABikeDocument(XABase.XAObject, XACloseable):
         elif isinstance(path, str):
             path = XABase.XAPath(path).xa_elem
         self.xa_elem.saveIn_as_(path, format.value)
+
+    def import_rows(self, text: Union[str, XABase.XAText], format: XABikeApplication.FileFormat = XABikeApplication.FileFormat.PLAINTEXT, parent: Union['XABikeRow', None] = None) -> 'XABikeRowList':
+        """Imports rows into the document.
+
+        :param text: The text to import
+        :type text: Union[str, XABase.XAText]
+        :param format: The texts format, defaults to XABikeApplication.FileFormat.PLAINTEXT
+        :type format: XABikeApplication.FileFormat, optional
+        :param parent: The location to insert the new row(s), or None to import at the end of the document, defaults to None
+        :type parent: Union['XABikeRow', None], optional
+        :return: The imported row(s)
+        :rtype: XABikeRowList
+
+        .. versionadded:: 0.2.1
+        """
+        if isinstance(text, XABase.XAText):
+            text = text.xa_elem
+
+        if parent is None:
+            parent = self
+
+        new_rows = self.xa_elem.importFrom_as_to_(text, format.value, parent.xa_elem.rows()[-1].positionAfter())
+        return self._new_element(new_rows, XABikeRowList)
+    
+    def export(self, rows: Union[list['XABikeRow'], 'XABikeRowList', None] = None, format: XABikeApplication.FileFormat = XABikeApplication.FileFormat.PLAINTEXT, all: bool = True) -> str:
+        """Exports rows from the document.
+
+        :param rows: The rows to export, or None to export the entire document, defaults to None
+        :type rows: Union[list['XABikeRow'], 'XABikeRowList', None], optional
+        :param format: The file fort to export rows as, defaults to XABikeApplication.FileFormat.PLAINTEXT
+        :type format: XABikeApplication.FileFormat, optional
+        :param all: Export all contained rows (true) or only the given rows (false), defaults to True
+        :type all: bool, optional
+        :return: The formatted text of the exported rows
+        :rtype: str
+
+        .. versionadded:: 0.2.1
+        """
+        if isinstance(rows, XABikeRowList):
+            rows = rows.xa_elem
+        elif isinstance(rows, list):
+            rows = [x.xa_elem for x in rows]
+        return self.xa_elem.exportFrom_as_all_(rows, format.value, all)
 
     def rows(self, filter: dict = None) -> Union['XABikeRowList', None]:
         """Returns a list of rows, as PyXA-wrapped objects, matching the given filter.
@@ -449,6 +514,10 @@ class XABikeRowList(XABase.XAList):
 
     def container(self) -> list[Union[XABikeDocument, 'XABikeRow']]:
         return [x.container for x in self]
+    
+    def container_document(self) -> XABikeDocument:
+        ls = self.xa_elem.arrayByApplyingSelector_("containerDocument") or []
+        return self._new_element(ls, XABikeDocumentList)
 
     def container_row(self) -> 'XABikeRowList':
         ls = self.xa_elem.arrayByApplyingSelector_("containerRow") or []
@@ -580,6 +649,16 @@ class XABikeRow(XABase.XAObject, XADeletable):
         """The indentation level for the row in the outline.
         """
         return self.xa_elem.level()
+    
+    @property
+    def text_content(self) -> type:
+        return self.xa_elem.textContent()
+    
+    @text_content.setter
+    def text_content(self, text_content: Union[str, XABase.XAText]):
+        if isinstance(text_content, XABase.XAText):
+            text_content = text_content.xa_elem
+        self.set_property('textContent', text_content)
 
     @property
     def contains_rows(self) -> bool:
@@ -702,21 +781,21 @@ class XABikeRow(XABase.XAObject, XADeletable):
         """
         self.xa_elem.moveTo_(location.xa_elem)
 
-    # def duplicate(self, location: Union[XABikeDocument, 'XABikeRow', None] = None, properties: Union[dict, None] = None):
-    #     """Duplicates the row either in-place or at a specified location.
+    def duplicate(self, location: Union[XABikeDocument, 'XABikeRow', None] = None, properties: Union[dict, None] = None):
+        """Duplicates the row either in-place or at a specified location.
 
-    #     :param location: The document or row to create a duplicate of this row in, defaults to None (duplicate in-place)
-    #     :type location: Union[XABikeDocument, XABikeRow, None], optional
-    #     :param properties: Properties to set in the new copy right away, defaults to None (no properties changed)
-    #     :type properties: Union[dict, None], options
-    #     """
-    #     if properties is None:
-    #         properties = {}
+        :param location: The document or row to create a duplicate of this row in, defaults to None (duplicate in-place)
+        :type location: Union[XABikeDocument, XABikeRow, None], optional
+        :param properties: Properties to set in the new copy right away, defaults to None (no properties changed)
+        :type properties: Union[dict, None], options
+        """
+        if properties is None:
+            properties = {}
 
-    #     if location is None:
-    #         self.xa_elem.duplicateTo_withProperties_(self.xa_elem.containerDocument(), properties)
-    #     else:
-    #         self.xa_elem.duplicateTo_withProperties_(location.xa_elem, properties)
+        if location is None:
+            self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), properties)
+        else:
+            self.xa_elem.duplicateTo_withProperties_(location.xa_elem.rows().lastObject().positionAfter(), properties)
 
     def rows(self, filter: dict = None) -> Union['XABikeRowList', None]:
         """Returns a list of rows, as PyXA-wrapped objects, matching the given filter.

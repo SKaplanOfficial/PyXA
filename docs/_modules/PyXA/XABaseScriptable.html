@@ -71,7 +71,7 @@
              
   <h1>Source code for PyXA.XABaseScriptable</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">AppKit</span>
 <span class="kn">import</span> <span class="nn">ScriptingBridge</span>
@@ -163,11 +163,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">windows</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASBApplication.activate"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XASBApplication.activate"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASBApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Activates the application.</span>
 
 <span class="sd">        :return: The application object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XASBApplication</span>
 
 <span class="sd">        .. versionadded:: 0.1.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -435,11 +435,11 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASBWindow.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XASBWindow.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASBWindow&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Collapses (minimizes) the window.</span>
 
 <span class="sd">        :return: A reference to the now-collapsed window object.</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XASBWindow</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -452,11 +452,11 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;collapsed&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASBWindow.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XASBWindow.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASBWindow&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Uncollapses (unminimizes/expands) the window.</span>
 
 <span class="sd">        :return: A reference to the uncollapsed window object.</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XASBWindow</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -467,22 +467,6 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;minimized&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;collapsed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="XASBWindow.toggle_zoom"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.toggle_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Uncollapses (unminimizes/expands) the window.</span>
-
-<span class="sd">        :return: A reference to the uncollapsed window object.</span>
-<span class="sd">        :rtype: Self</span>
-
-<span class="sd">        .. deprecated:: 0.1.0.2</span>
-
-<span class="sd">           Set the :attr:`zoomed` attribute instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.4</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XASBWindow.get_clipboard_representation"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

@@ -26,7 +26,7 @@ Now, let's design our first PyXA automation workflow. Suppose we want to write a
 .. code-block:: Python
 
    import PyXA
-   print(PyXA.application("Safari").front_window.current_tab.url)
+   print(PyXA.Application("Safari").front_window.current_tab.url)
 
 Save this script to `basics.py`. To test the workflow, open `https://www.google.com` in a new Safari tab, then run `basics.py` in your Terminal. You should see the following:
 
@@ -60,17 +60,17 @@ Like AppleScript and JXA, PyXA's syntax is often flexible, allowing multiple way
 .. code-block:: Python
 
    import PyXA
-   print(PyXA.application("Safari").windows()[0].current_tab.url)
+   print(PyXA.Application("Safari").windows()[0].current_tab.url)
 
 .. code-block:: Python
 
    import PyXA
-   print(PyXA.application("Safari").current_document.url)
+   print(PyXA.Application("Safari").current_document.url)
 
 .. code-block:: Python
 
    import PyXA
-   print(PyXA.application("Safari").documents()[0].url)
+   print(PyXA.Application("Safari").documents()[0].url)
 
 The approach you use will depend one your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.
 
@@ -79,26 +79,26 @@ Let's make our workflow more useful by having it save the URL to a new note. To 
 .. code-block:: Python
 
    import PyXA
-   current_url = PyXA.application("Safari").front_window.current_tab.url
-   PyXA.application("Notes").new_note(current_url)
+   current_url = PyXA.Application("Safari").front_window.current_tab.url
+   PyXA.Application("Notes").new_note(current_url)
 
 If you run this workflow and go to the Notes app, you'll see that a new note has been created containing the current tab's URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object's :func:`~PyXA.apps.Notes.XANote.show()` method:
 
 .. code-block:: Python
 
    import PyXA
-   current_url = PyXA.application("Safari").front_window.current_tab.url
-   PyXA.application("Notes").new_note(current_url).show()
+   current_url = PyXA.Application("Safari").front_window.current_tab.url
+   PyXA.Application("Notes").new_note(current_url).show()
 
 When you run this, the Notes app will open to newly created note containing the current Safari tab's URL. Cool! Let's make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We'll retrieve the `URL` property of the current tab as we did before, and now we'll also retrieve the `name` property. We can then specify the title and content of the new note by passing two arguments to the :func:`~PyXA.app.Notes.XANotesApplication.new_note()` method. Another improvement we'll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:
 
 .. code-block:: Python
 
    import PyXA
-   current_tab = PyXA.application("Safari").front_window.current_tab
+   current_tab = PyXA.Application("Safari").front_window.current_tab
    current_url = "<a href=" + current_tab.url + ">" + current_tab.url + "</a>"
    current_name = current_tab.name
-   PyXA.application("Notes").new_note(current_name, current_url).show()
+   PyXA.Application("Notes").new_note(current_name, current_url).show()
 
 With that, our script is complete! You can run the script from your Terminal at any time, but you might want to save the workflow as an executable for greater convenience. The easiest way to do this is to add a `shebang` to the top of the script that instructs the Terminal to run the code using the Python interpreter:
 
@@ -107,10 +107,10 @@ With that, our script is complete! You can run the script from your Terminal at 
    #!/usr/bin/env python
 
    import PyXA
-   current_tab = PyXA.application("Safari").front_window.current_tab
+   current_tab = PyXA.Application("Safari").front_window.current_tab
    current_url = "<a href=" + current_tab.url + ">" + current_tab.url + "</a>"
    current_name = current_tab.name
-   PyXA.application("Notes").new_note(current_name, current_url).show()
+   PyXA.Application("Notes").new_note(current_name, current_url).show()
 
 You then need to remove the .py extension from the script and grant the file execution privileges. Both these actions can be accomplished using the following Terminal command:
 

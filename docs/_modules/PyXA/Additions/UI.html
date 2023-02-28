@@ -359,27 +359,18 @@
 
 
 
-<div class="viewcode-block" id="XAAlertStyle"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAAlertStyle">[docs]</a><span class="k">class</span> <span class="nc">XAAlertStyle</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Options for which alert style an alert should display with.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">INFORMATIONAL</span>   <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSAlertStyleInformational</span>
-    <span class="n">WARNING</span>         <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSAlertStyleWarning</span>
-    <span class="n">CRITICAL</span>        <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSAlertStyleCritical</span></div>
-
 <div class="viewcode-block" id="XAAlert"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAAlert">[docs]</a><span class="k">class</span> <span class="nc">XAAlert</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;A class for creating and interacting with an alert dialog window.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Alert!&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="n">XAAlertStyle</span> <span class="o">=</span> <span class="n">XAAlertStyle</span><span class="o">.</span><span class="n">INFORMATIONAL</span><span class="p">,</span> <span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ok&quot;</span><span class="p">,</span> <span class="s2">&quot;Cancel&quot;</span><span class="p">],</span> <span class="n">icon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Alert!&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ok&quot;</span><span class="p">,</span> <span class="s2">&quot;Cancel&quot;</span><span class="p">],</span> <span class="n">icon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initializes an alert object.</span>
 
 <span class="sd">        :param title: The title text of the alert</span>
 <span class="sd">        :type title: str</span>
 <span class="sd">        :param message: The detail message text of the alert, defaults to &quot;&quot;</span>
 <span class="sd">        :type message: str, optional</span>
-<span class="sd">        :param style: The style of the alert (i.e. informational, warning, or critical), deprecated as of PyXA 0.1.2</span>
-<span class="sd">        :type style: XAAlertStyle, optional</span>
 <span class="sd">        :param buttons: A list specifying the buttons available for the user to click</span>
 <span class="sd">        :type buttons: list[str]</span>
 <span class="sd">        :param icon: The icon displayed in the alert window</span>
@@ -387,14 +378,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">title</span> <span class="c1">#: The title text of the alert</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">message</span> <span class="c1">#: The detail message text of the alert</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAAlertStyle</span> <span class="o">=</span> <span class="n">style</span>
-        <span class="sd">&quot;&quot;&quot;The style of the alert.</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           To customize the icon, set the :attr:`icon` attribute instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">buttons</span> <span class="c1">#: A list specifying the buttons available for the user to click</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span> <span class="c1">#: The icon displayed in the alert window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__return_value</span> <span class="o">=</span> <span class="kc">None</span>
@@ -610,36 +593,6 @@
         <span class="n">app</span><span class="o">.</span><span class="n">setDelegate_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__delegate</span><span class="p">)</span>
         <span class="n">app</span><span class="o">.</span><span class="n">setActivationPolicy_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSApplicationActivationPolicyAccessory</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAMenuBar.add_menu"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.add_menu">[docs]</a>    <span class="k">def</span> <span class="nf">add_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tool_tip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Adds a new menu to be displayed in the system menu bar.</span>
-
-<span class="sd">        :param title: The name of the menu</span>
-<span class="sd">        :type title: str</span>
-<span class="sd">        :param image: The image to display for the menu, defaults to None</span>
-<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
-<span class="sd">        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None</span>
-<span class="sd">        :type tool_tip: Union[str, None], optional</span>
-<span class="sd">        :param img_width: The width of the image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_width: int, optional</span>
-<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_height: int, optional</span>
-
-<span class="sd">        :Example:</span>
-
-<span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
-<span class="sd">        &gt;&gt;&gt; img = PyXA.XAImage(&quot;/Users/steven/Downloads/Blackness.jpg&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Menu 1&quot;, image=img, img_width=100, img_height=100)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`new_menu` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.9</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">tool_tip</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span></div>
-
 <div class="viewcode-block" id="XAMenuBar.new_menu"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.new_menu">[docs]</a>    <span class="k">def</span> <span class="nf">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAMenuBarMenu&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenu&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds a new menu to be displayed in the system menu bar.</span>
 
@@ -689,127 +642,6 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenu</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
-        
-<div class="viewcode-block" id="XAMenuBar.add_item"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.add_item">[docs]</a>    <span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Adds an item to a menu, creating the menu if necessary.</span>
-
-<span class="sd">        :param menu: The name of the menu to add an item to, or the name of the menu to create</span>
-<span class="sd">        :type menu: str</span>
-<span class="sd">        :param item_name: The name of the item</span>
-<span class="sd">        :type item_name: str</span>
-<span class="sd">        :param action: The method to associate with the item (the method called when the item is clicked)</span>
-<span class="sd">        :type action: Callable[[], None]</span>
-<span class="sd">        :param image: The image for the item, defaults to None</span>
-<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
-<span class="sd">        :param img_width: The width of image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_width: int, optional</span>
-<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_height: int, optional</span>
-
-<span class="sd">        :Example:</span>
-
-<span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
-<span class="sd">        &gt;&gt;&gt; </span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Menu 1&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 1&quot;, item_name=&quot;Item 1&quot;, method=lambda : print(&quot;Action 1&quot;))</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 1&quot;, item_name=&quot;Item 2&quot;, method=lambda : print(&quot;Action 2&quot;))</span>
-<span class="sd">        &gt;&gt;&gt; </span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 2&quot;, item_name=&quot;Item 1&quot;, method=lambda : print(&quot;Action 1&quot;))</span>
-<span class="sd">        &gt;&gt;&gt; img = PyXA.XAImage(&quot;/Users/exampleUser/Downloads/example.jpg&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(&quot;Menu 2&quot;, &quot;Item 1&quot;, lambda : print(&quot;Action 1&quot;), image=img, img_width=100)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`XAMenuBarMenu.new_item` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.9</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">menu</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_menu</span><span class="p">(</span><span class="n">menu</span><span class="p">)</span>
-            
-        <span class="n">menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="n">menu</span><span class="p">]</span>
-        <span class="n">menu</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="n">item_name</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="p">[],</span> <span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="XAMenuBar.set_image"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.set_image">[docs]</a>    <span class="k">def</span> <span class="nf">set_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the image displayed for a menu or menu item.</span>
-
-<span class="sd">        :param item_name: The name of the item to update</span>
-<span class="sd">        :type item_name: str</span>
-<span class="sd">        :param image: The image to display</span>
-<span class="sd">        :type image: XAImage</span>
-<span class="sd">        :param img_width: The width of the image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_width: int, optional</span>
-<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
-<span class="sd">        :type img_height: int, optional</span>
-
-<span class="sd">        :Example: Set Image on State Change</span>
-
-<span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; current_state = True # On</span>
-<span class="sd">        &gt;&gt;&gt; img_on = PyXA.XAImage(&quot;/Users/exampleUser/Documents/on.jpg&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; img_off = PyXA.XAImage(&quot;/Users/exampleUser/Documents/off.jpg&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
-<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Status&quot;, image=img_on)</span>
-<span class="sd">        &gt;&gt;&gt; </span>
-<span class="sd">        &gt;&gt;&gt; def update_state():</span>
-<span class="sd">        &gt;&gt;&gt;     global current_state</span>
-<span class="sd">        &gt;&gt;&gt;     if current_state is True:</span>
-<span class="sd">        &gt;&gt;&gt;         # ... (Actions for turning off)</span>
-<span class="sd">        &gt;&gt;&gt;         menu_bar.set_text(&quot;Turn off&quot;, &quot;Turn on&quot;)</span>
-<span class="sd">        &gt;&gt;&gt;         menu_bar.set_image(&quot;Status&quot;, img_off)</span>
-<span class="sd">        &gt;&gt;&gt;         current_state = False</span>
-<span class="sd">        &gt;&gt;&gt;     else:</span>
-<span class="sd">        &gt;&gt;&gt;         # ... (Actions for turning on)</span>
-<span class="sd">        &gt;&gt;&gt;         menu_bar.set_text(&quot;Turn off&quot;, &quot;Turn off&quot;)</span>
-<span class="sd">        &gt;&gt;&gt;         menu_bar.set_image(&quot;Status&quot;, img_on)</span>
-<span class="sd">        &gt;&gt;&gt;         current_state = True</span>
-
-<span class="sd">        menu_bar.add_item(&quot;Status&quot;, &quot;Turn off&quot;, update_state)</span>
-<span class="sd">        menu_bar.display()</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-<span class="sd">        </span>
-<span class="sd">           Set the :attr:`XAMenuBarMenu.image` and :attr:`XAMenuBarMenuItem.image` attributes directly instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.9</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">((</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">menu_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
-                <span class="n">menu</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">item_key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">menu</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">item_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
-                        <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="XAMenuBar.set_text"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.set_text">[docs]</a>    <span class="k">def</span> <span class="nf">set_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the text displayed for a menu or menu item.</span>
-
-<span class="sd">        :param item_name: The name of the item to update</span>
-<span class="sd">        :type item_name: str</span>
-<span class="sd">        :param text: The new text to display</span>
-<span class="sd">        :type text: str</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-<span class="sd">        </span>
-<span class="sd">           Set the :attr:`XAMenuBarMenu.title` and :attr:`XAMenuBarMenuItem.title` attributes directly instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.9</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">menu_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
-                <span class="n">menu</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">item_name</span><span class="p">)</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">item_key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">menu</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">item_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
-                        <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">item_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMenuBar.remove_menu"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBar.remove_menu">[docs]</a>    <span class="k">def</span> <span class="nf">remove_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Removes a menu from the status bar.</span>
@@ -1043,6 +875,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span>  <span class="n">XASliderMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">content</span> <span class="o">==</span> <span class="s2">&quot;switch&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span>  <span class="n">XASwitchMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">content</span> <span class="o">==</span> <span class="s2">&quot;header&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span>  <span class="n">XAHeaderMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span>  <span class="n">XASegmentedControlMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">multiselect</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">):</span>
@@ -1055,28 +889,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">insertItem_atIndex_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="XAMenuBarMenu.add_separator"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenu.add_separator">[docs]</a>    <span class="k">def</span> <span class="nf">add_separator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Adds a separator to the menu at the current insertion point.</span>
-
-<span class="sd">        :param id: A unique identifier for the separator, defaults to None</span>
-<span class="sd">        :type id: Union[str, None], optional</span>
-<span class="sd">        :return: The newly created separator menu item object</span>
-<span class="sd">        :rtype: XAMenuBarMenuItem</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`new_separator` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.1.1</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="s2">&quot;separator&quot;</span>
-        <span class="k">while</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
-            <span class="nb">id</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenuItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addItem_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="XAMenuBarMenu.new_url_item"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenu.new_url_item">[docs]</a>    <span class="k">def</span> <span class="nf">new_url_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">],</span> <span class="n">label</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">tooltip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAURLMenuItem&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAURLMenuItem&#39;</span><span class="p">:</span>
@@ -1186,6 +998,9 @@
 <span class="sd">        .. versionadded:: 0.1.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;slider&quot;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMenuBarMenu.new_header"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenu.new_header">[docs]</a>    <span class="k">def</span> <span class="nf">new_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMenuBarMenu.new_separator"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenu.new_separator">[docs]</a>    <span class="k">def</span> <span class="nf">new_separator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds a separator to the menu at the current insertion point.</span>
@@ -1363,41 +1178,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">subitem</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAMenuBarMenuItem.new_subitem"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenuItem.new_subitem">[docs]</a>    <span class="k">def</span> <span class="nf">new_subitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">multiselect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Creates a new menu item and places it in a submenu of this item.</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`new_item` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.1.2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">icon_dimensions</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">multiselect</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="XAMenuBarMenuItem.remove_item"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenuItem.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Removes a subitem from this item&#39;s submenu.</span>
 
 <span class="sd">        :param id: The ID of the subitem to remove</span>
 <span class="sd">        :type id: str</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`remove_item` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.1.1</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">submenu</span><span class="p">()</span><span class="o">.</span><span class="n">removeItem_</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="XAMenuBarMenuItem.remove_subitem"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAMenuBarMenuItem.remove_subitem">[docs]</a>    <span class="k">def</span> <span class="nf">remove_subitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Removes a subitem from this item&#39;s submenu.</span>
-
-<span class="sd">        :param id: The ID of the subitem to remove</span>
-<span class="sd">        :type id: str</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`remove_item` instead.</span>
 
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1832,6 +1617,31 @@
     <span class="nd">@label</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">label</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">))</span></div>
+
+
+
+
+<div class="viewcode-block" id="XAHeaderMenuItem"><a class="viewcode-back" href="../../../reference/additions/ui.html#PyXA.Additions.UI.XAHeaderMenuItem">[docs]</a><span class="k">class</span> <span class="nc">XAHeaderMenuItem</span><span class="p">(</span><span class="n">XAMenuBarMenuItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A section header within a menu.</span>
+<span class="sd">    </span>
+<span class="sd">    .. versionadded:: 0.2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">XAMenuBarMenu</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a URL menu item.</span>
+
+<span class="sd">        :param parent: The menu containing this item</span>
+<span class="sd">        :type parent: XAMenuBarMenu</span>
+<span class="sd">        :param url: The URL or path to display</span>
+<span class="sd">        :param label: The text displayed for the item</span>
+<span class="sd">        :type label: str</span>
+
+<span class="sd">        .. versionadded:: 0.2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenuItem</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithTitle_action_keyEquivalent_</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSFont</span><span class="o">.</span><span class="n">systemFontOfSize_weight_</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSFontWeightSemibold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setFont_</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setEnabled_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -75,7 +75,7 @@
 <span class="sd">Control the macOS Preview application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">AppKit</span>
 
@@ -293,7 +293,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XAPreviewDocument.print"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAPreviewDocument.print"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Prints the document.</span>
 
 <span class="sd">        :param print_properties: Properties to set for printing, defaults to None</span>
@@ -301,7 +301,7 @@
 <span class="sd">        :param show_dialog: Whether to show the print dialog, defaults to True</span>
 <span class="sd">        :type show_dialog: bool, optional</span>
 <span class="sd">        :return: The document object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAPreviewDocument</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>

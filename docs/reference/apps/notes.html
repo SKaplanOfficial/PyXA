@@ -1825,8 +1825,14 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.delete" title="PyXA.apps.Notes.XANotesFolder.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
 <td><p>Permanently deletes the folder.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.get_clipboard_representation" title="PyXA.apps.Notes.XANotesFolder.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.folders" title="PyXA.apps.Notes.XANotesFolder.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>([filter])</p></td>
+<td><p>Returns a list of folders, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.get_clipboard_representation" title="PyXA.apps.Notes.XANotesFolder.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the folder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.move_to" title="PyXA.apps.Notes.XANotesFolder.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(destination)</p></td>
+<td><p>Moves the folder to the specified container.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder.notes" title="PyXA.apps.Notes.XANotesFolder.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a>([filter])</p></td>
 <td><p>Returns a list of notes, as PyXA objects, matching the given filter.</p></td>
@@ -1847,7 +1853,27 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.delete" title="Permalink to this definition"></a></dt>
 <dd><p>Permanently deletes the folder.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.folders">
+<span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolderList" title="PyXA.apps.Notes.XANotesFolderList"><span class="pre">XANotesFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.folders" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of folders, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter folders by, defaults to None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PyXA list object wrapping a list of folders</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolderList" title="PyXA.apps.Notes.XANotesFolderList">XANotesFolderList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
 </div>
 </dd></dl>
 
@@ -1873,6 +1899,23 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.id" title="Permalink to this definition"></a></dt>
 <dd><p>The unique identifier for the folder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.move_to">
+<span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><span class="pre">XANotesAccount</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.move_to" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the folder to the specified container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The folder object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder">XANotesFolder</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -1914,6 +1957,14 @@ If no folder is provided, the note is created in the default Notes folder.</p>
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.show">
 <span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.show" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the folder in the main Notes window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The folder object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder">XANotesFolder</a></p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>

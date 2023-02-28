@@ -30,7 +30,7 @@ You can also modify :class:`~PyXA.XABase.AppleScript` objects after instantiatio
 .. code-block:: Python
 
    import PyXA
-   app = PyXA.application("Notes")
+   app = PyXA.Application("Notes")
    script = PyXA.AppleScript()
    script.add("tell application \"Notes\"")
    script.add("end tell")
@@ -108,7 +108,7 @@ When dealing with other forms of data, such as a list of Safari tab names or the
 .. code-block:: Python
 
    import PyXA
-   app = PyXA.application("Messages")
+   app = PyXA.Application("Messages")
    script = PyXA.AppleScript("""tell application "Messages"
       get chats
    end tell
@@ -124,7 +124,7 @@ The example above are not particularly useful, as PyXA already provides faster a
 .. code-block:: Python
 
    import PyXA
-   app = PyXA.application("Messages")
+   app = PyXA.Application("Messages")
    print([x for x in app.chats()])
 
 Still, the ability to convert between AppleScript return values and PyXA object types may be useful in some situations.

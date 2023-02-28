@@ -276,7 +276,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAFolderPicker" title="PyXA.XABase.XAFolderPicker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAFolderPicker</span></code></a>([prompt, default_location, ...])</p></td>
 <td><p>A folder selection window.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImage</span></code></a>([image_reference, data])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImage</span></code></a>([image_reference])</p></td>
 <td><p>A wrapper around NSImage with specialized automation methods.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImageList</span></code></a>(properties[, filter, obj_class])</p></td>
@@ -820,7 +820,7 @@
 
 <dl class="py data">
 <dt class="sig sig-object py" id="PyXA.XABase.VERSION">
-<span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">VERSION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.1.2'</span></em><a class="headerlink" href="#PyXA.XABase.VERSION" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">VERSION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.2.0'</span></em><a class="headerlink" href="#PyXA.XABase.VERSION" title="Permalink to this definition"></a></dt>
 <dd><p>The installed version of PyXA</p>
 </dd></dl>
 
@@ -1542,14 +1542,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAApplication.launch">
-<span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAApplication.launch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAApplication.launch" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">XAApplication</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAApplication.launch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAApplication.launch" title="Permalink to this definition"></a></dt>
 <dd><p>Launches the application.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The application object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication">XAApplication</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -2910,7 +2910,7 @@ The pasted content may be different for other applications.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAColor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Color</span></code>, <a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
@@ -2920,30 +2920,6 @@ The pasted content may be different for other applications.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.__module__" title="PyXA.XABase.XAColor.__module__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__module__</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.alpha_value" title="PyXA.XABase.XAColor.alpha_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alpha_value</span></code></a></p></td>
-<td><p>The alpha value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.blue_value" title="PyXA.XABase.XAColor.blue_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blue_value</span></code></a></p></td>
-<td><p>The blue value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.brightness_value" title="PyXA.XABase.XAColor.brightness_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brightness_value</span></code></a></p></td>
-<td><p>The brightness value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.green_value" title="PyXA.XABase.XAColor.green_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">green_value</span></code></a></p></td>
-<td><p>The green value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.hex_value" title="PyXA.XABase.XAColor.hex_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hex_value</span></code></a></p></td>
-<td><p>The HEX representation of the color.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.hue_value" title="PyXA.XABase.XAColor.hue_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hue_value</span></code></a></p></td>
-<td><p>The hue value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.red_value" title="PyXA.XABase.XAColor.red_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">red_value</span></code></a></p></td>
-<td><p>The red value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.saturation_value" title="PyXA.XABase.XAColor.saturation_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">saturation_value</span></code></a></p></td>
-<td><p>The staturation value of the color on the scale of 0.0 to 1.0.</p></td>
-</tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
@@ -2952,71 +2928,8 @@ The pasted content may be different for other applications.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.__init__" title="PyXA.XABase.XAColor.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args)</p></td>
 <td><p>Instantiates a PyXA scripting object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.__repr__" title="PyXA.XABase.XAColor.__repr__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__repr__</span></code></a>()</p></td>
-<td><p>Return repr(self).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.black" title="PyXA.XABase.XAColor.black"><code class="xref py py-obj docutils literal notranslate"><span class="pre">black</span></code></a>()</p></td>
-<td><p>Initializes and returns a pure black <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.blue" title="PyXA.XABase.XAColor.blue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blue</span></code></a>()</p></td>
-<td><p>Initializes and returns a pure blue <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.brighten" title="PyXA.XABase.XAColor.brighten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brighten</span></code></a>([fraction])</p></td>
-<td><p>Brightens the color by mixing the specified fraction of the system white color into it.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.brown" title="PyXA.XABase.XAColor.brown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brown</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.6, 0.4, 0.2).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.clear" title="PyXA.XABase.XAColor.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
-<td><p>Initializes and returns a an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose alpha value is 0.0.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.copy_color" title="PyXA.XABase.XAColor.copy_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy_color</span></code></a>(color)</p></td>
-<td><p>Initializes a XAColor copy of an NSColor object.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.cyan" title="PyXA.XABase.XAColor.cyan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cyan</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.0, 1.0, 1.0).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.darken" title="PyXA.XABase.XAColor.darken"><code class="xref py py-obj docutils literal notranslate"><span class="pre">darken</span></code></a>([fraction])</p></td>
-<td><p>Darkens the color by mixing the specified fraction of the system black color into it.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.get_clipboard_representation" title="PyXA.XABase.XAColor.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.get_clipboard_representation" title="PyXA.XABase.XAColor.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the color.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.gray" title="PyXA.XABase.XAColor.gray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gray</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.5, 0.5, 0.5).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.green" title="PyXA.XABase.XAColor.green"><code class="xref py py-obj docutils literal notranslate"><span class="pre">green</span></code></a>()</p></td>
-<td><p>Initializes and returns a pure green <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.magenta" title="PyXA.XABase.XAColor.magenta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magenta</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 0.0, 1.0).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.make_swatch" title="PyXA.XABase.XAColor.make_swatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_swatch</span></code></a>([width, height])</p></td>
-<td><p>Creates an image swatch of the color with the specified dimensions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.mix_with" title="PyXA.XABase.XAColor.mix_with"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mix_with</span></code></a>(color[, fraction])</p></td>
-<td><p>Blends this color with the specified fraction of another.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.orange" title="PyXA.XABase.XAColor.orange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orange</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 0.5, 0.0).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.purple" title="PyXA.XABase.XAColor.purple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purple</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.5, 0.0, 0.5).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.red" title="PyXA.XABase.XAColor.red"><code class="xref py py-obj docutils literal notranslate"><span class="pre">red</span></code></a>()</p></td>
-<td><p>Initializes and returns a pure red <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.set_hsla" title="PyXA.XABase.XAColor.set_hsla"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_hsla</span></code></a>(hue, saturation, brightness, alpha)</p></td>
-<td><p>Sets the HSLA values of the color.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.set_rgba" title="PyXA.XABase.XAColor.set_rgba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_rgba</span></code></a>(red, green, blue, alpha)</p></td>
-<td><p>Sets the RGBA values of the color.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.white" title="PyXA.XABase.XAColor.white"><code class="xref py py-obj docutils literal notranslate"><span class="pre">white</span></code></a>()</p></td>
-<td><p>Initializes and returns a pure white <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor.yellow" title="PyXA.XABase.XAColor.yellow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yellow</span></code></a>()</p></td>
-<td><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 1.0, 0.0).</p></td>
 </tr>
 </tbody>
 </table>
@@ -3048,144 +2961,6 @@ The pasted content may be different for other applications.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.__repr__" title="Permalink to this definition"></a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.alpha_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAColor.alpha_value" title="Permalink to this definition"></a></dt>
-<dd><p>The alpha value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.black">
-<span class="sig-name descname"><span class="pre">black</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.black"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.black" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a pure black <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.blue">
-<span class="sig-name descname"><span class="pre">blue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.blue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.blue" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a pure blue <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.blue_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">blue_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAColor.blue_value" title="Permalink to this definition"></a></dt>
-<dd><p>The blue value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.brighten">
-<span class="sig-name descname"><span class="pre">brighten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.brighten"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.brighten" title="Permalink to this definition"></a></dt>
-<dd><p>Brightens the color by mixing the specified fraction of the system white color into it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>fraction</strong> (<em>float</em><em>, </em><em>optional</em>) – The amount (fraction) of white to mix into the color, defaults to 0.5</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting color after brightening</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.brightness_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">brightness_value</span></span><a class="headerlink" href="#PyXA.XABase.XAColor.brightness_value" title="Permalink to this definition"></a></dt>
-<dd><p>The brightness value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.brown">
-<span class="sig-name descname"><span class="pre">brown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.brown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.brown" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.6, 0.4, 0.2).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.clear" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose alpha value is 0.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.copy_color">
-<span class="sig-name descname"><span class="pre">copy_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NSColor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.copy_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.copy_color" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes a XAColor copy of an NSColor object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>color</strong> (<em>AppKit.NSColor</em>) – The NSColor to copy</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created XAColor object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.cyan">
-<span class="sig-name descname"><span class="pre">cyan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.cyan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.cyan" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.0, 1.0, 1.0).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.darken">
-<span class="sig-name descname"><span class="pre">darken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.darken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.darken" title="Permalink to this definition"></a></dt>
-<dd><p>Darkens the color by mixing the specified fraction of the system black color into it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>fraction</strong> (<em>float</em><em>, </em><em>optional</em>) – The amount (fraction) of black to mix into the color, defaults to 0.5</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting color after darkening</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAColor.get_clipboard_representation">
 <span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NSColor</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.get_clipboard_representation" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a clipboard-codable representation of the color.</p>
@@ -3198,239 +2973,6 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>AppKit.NSColor</p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.gray">
-<span class="sig-name descname"><span class="pre">gray</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.gray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.gray" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.5, 0.5, 0.5).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.green">
-<span class="sig-name descname"><span class="pre">green</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.green"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.green" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a pure green <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.green_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">green_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAColor.green_value" title="Permalink to this definition"></a></dt>
-<dd><p>The green value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.hex_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hex_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABase.XAColor.hex_value" title="Permalink to this definition"></a></dt>
-<dd><p>The HEX representation of the color.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.hue_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hue_value</span></span><a class="headerlink" href="#PyXA.XABase.XAColor.hue_value" title="Permalink to this definition"></a></dt>
-<dd><p>The hue value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.magenta">
-<span class="sig-name descname"><span class="pre">magenta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.magenta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.magenta" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 0.0, 1.0).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.make_swatch">
-<span class="sig-name descname"><span class="pre">make_swatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.make_swatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.make_swatch" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an image swatch of the color with the specified dimensions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>width</strong> (<em>int</em><em>, </em><em>optional</em>) – The width of the swatch image, in pixels, defaults to 100</p></li>
-<li><p><strong>height</strong> (<em>int</em><em>, </em><em>optional</em>) – The height of the swatch image, in pixels, defaults to 100</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The image swatch as an XAImage object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
-</dd>
-<dt class="field-even">Example<span class="colon">:</span></dt>
-<dd class="field-even"><p>View swatches in Preview</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">blue</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="o">.</span><span class="n">blue</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">red</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="o">.</span><span class="n">red</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">swatches</span> <span class="o">=</span> <span class="p">[</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">blue</span><span class="o">.</span><span class="n">make_swatch</span><span class="p">(),</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">blue</span><span class="o">.</span><span class="n">darken</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">make_swatch</span><span class="p">(),</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">blue</span><span class="o">.</span><span class="n">mix_with</span><span class="p">(</span><span class="n">red</span><span class="p">)</span><span class="o">.</span><span class="n">make_swatch</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">swatch</span> <span class="ow">in</span> <span class="n">swatches</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">swatch</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.mix_with">
-<span class="sig-name descname"><span class="pre">mix_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fraction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.mix_with"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.mix_with" title="Permalink to this definition"></a></dt>
-<dd><p>Blends this color with the specified fraction of another.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>color</strong> (<a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><em>XAColor</em></a>) – The color to blend this color with</p></li>
-<li><p><strong>fraction</strong> (<em>int</em><em>, </em><em>optional</em>) – The fraction of the other color to mix into this color, from 0.0 to 1.0, defaults to 0.5</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting color after mixing</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.orange">
-<span class="sig-name descname"><span class="pre">orange</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.orange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.orange" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 0.5, 0.0).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.purple">
-<span class="sig-name descname"><span class="pre">purple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.purple"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.purple" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (0.5, 0.0, 0.5).</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.red">
-<span class="sig-name descname"><span class="pre">red</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.red"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.red" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a pure red <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.red_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">red_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAColor.red_value" title="Permalink to this definition"></a></dt>
-<dd><p>The red value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.saturation_value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">saturation_value</span></span><a class="headerlink" href="#PyXA.XABase.XAColor.saturation_value" title="Permalink to this definition"></a></dt>
-<dd><p>The staturation value of the color on the scale of 0.0 to 1.0.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.set_hsla">
-<span class="sig-name descname"><span class="pre">set_hsla</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saturation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brightness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.set_hsla"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.set_hsla" title="Permalink to this definition"></a></dt>
-<dd><p>Sets the HSLA values of the color.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>hue</strong> (<em>float</em>) – The hue value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>saturation</strong> (<em>float</em>) – The saturation value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>brightness</strong> (<em>float</em>) – The brightness value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the color, from 0.0 to 1.0</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The XAColor object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.set_rgba">
-<span class="sig-name descname"><span class="pre">set_rgba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">green</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.set_rgba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.set_rgba" title="Permalink to this definition"></a></dt>
-<dd><p>Sets the RGBA values of the color.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>red</strong> (<em>float</em>) – The red value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>green</strong> (<em>float</em>) – The green value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>blue</strong> (<em>float</em>) – The blue value of the color, from 0.0 to 1.0</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the color, from 0.0 to 1.0</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The XAColor object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XAColor</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.white">
-<span class="sig-name descname"><span class="pre">white</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.white"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.white" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns a pure white <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAColor.yellow">
-<span class="sig-name descname"><span class="pre">yellow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColor.yellow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColor.yellow" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes and returns an <a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAColor</span></code></a> object whose RGB values are (1.0, 1.0, 0.0).</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
@@ -4204,14 +3746,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XADiskItem.open">
-<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XADiskItem.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XADiskItem.open" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem"><span class="pre">XADiskItem</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XADiskItem.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XADiskItem.open" title="Permalink to this definition"></a></dt>
 <dd><p>Opens the item in its default application.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The item object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem">XADiskItem</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -6452,8 +5994,8 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">NSData</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Image</span></code>, <a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around NSImage with specialized automation methods.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
@@ -6470,47 +6012,8 @@ The pasted content may be different for other applications.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.__module__" title="PyXA.XABase.XAImage.__module__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__module__</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.color_space_name" title="PyXA.XABase.XAImage.color_space_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color_space_name</span></code></a></p></td>
-<td><p>The name of the color space that the image currently uses.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.data" title="PyXA.XABase.XAImage.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>The TIFF representation of the image</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.file" title="PyXA.XABase.XAImage.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
-<td><p>The path to the image file, if one exists</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.gamma" title="PyXA.XABase.XAImage.gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gamma</span></code></a></p></td>
-<td><p>The gamma value for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.has_alpha_channel" title="PyXA.XABase.XAImage.has_alpha_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_alpha_channel</span></code></a></p></td>
-<td><p>Whether the image has an alpha channel or not.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.highlight" title="PyXA.XABase.XAImage.highlight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">highlight</span></code></a></p></td>
-<td><p>The highlight setting for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.is_opaque" title="PyXA.XABase.XAImage.is_opaque"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_opaque</span></code></a></p></td>
-<td><p>Whether the image contains transparent pixels or not.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.modified" title="PyXA.XABase.XAImage.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
-<td><p>Whether the image data has been modified since the object was originally created</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.shadow" title="PyXA.XABase.XAImage.shadow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shadow</span></code></a></p></td>
-<td><p>The shadow setting for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.size" title="PyXA.XABase.XAImage.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
-<td><p>The dimensions of the image</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.temperature" title="PyXA.XABase.XAImage.temperature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temperature</span></code></a></p></td>
-<td><p>The temperature setting for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.tint" title="PyXA.XABase.XAImage.tint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tint</span></code></a></p></td>
-<td><p>The tint setting for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.vibrance" title="PyXA.XABase.XAImage.vibrance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vibrance</span></code></a></p></td>
-<td><p>The vibrance value for the image, once it has been manually set.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.white_point" title="PyXA.XABase.XAImage.white_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">white_point</span></code></a></p></td>
-<td><p>The white point setting for the image, once it has been manually set.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.xa_elem" title="PyXA.XABase.XAImage.xa_elem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xa_elem</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -6520,7 +6023,7 @@ The pasted content may be different for other applications.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.__eq__" title="PyXA.XABase.XAImage.__eq__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__eq__</span></code></a>(other)</p></td>
 <td><p>Return self==value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.__init__" title="PyXA.XABase.XAImage.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([image_reference, data])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.__init__" title="PyXA.XABase.XAImage.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([image_reference])</p></td>
 <td><p>Instantiates a PyXA scripting object.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.auto_enhance" title="PyXA.XABase.XAImage.auto_enhance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_enhance</span></code></a>([correct_red_eye, ...])</p></td>
@@ -6547,26 +6050,20 @@ The pasted content may be different for other applications.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.edges" title="PyXA.XABase.XAImage.edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges</span></code></a>([intensity])</p></td>
 <td><p>Detects the edges in the image and highlights them colorfully, blackening other areas of the image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.extract_text" title="PyXA.XABase.XAImage.extract_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_text</span></code></a>()</p></td>
-<td><p>Extracts and returns all visible text in the image.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_horizontally</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_horizontally</span></code></a>()</p></td>
 <td><p>Flips the image horizontally.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.flip_vertically" title="PyXA.XABase.XAImage.flip_vertically"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_vertically</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.flip_vertically" title="PyXA.XABase.XAImage.flip_vertically"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_vertically</span></code></a>()</p></td>
 <td><p>Flips the image vertically.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.gaussian_blur" title="PyXA.XABase.XAImage.gaussian_blur"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_blur</span></code></a>([intensity])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.gaussian_blur" title="PyXA.XABase.XAImage.gaussian_blur"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_blur</span></code></a>([intensity])</p></td>
 <td><p>Blurs the image using a Gaussian filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.get_clipboard_representation" title="PyXA.XABase.XAImage.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.get_clipboard_representation" title="PyXA.XABase.XAImage.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the iimage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.horizontal_stitch" title="PyXA.XABase.XAImage.horizontal_stitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">horizontal_stitch</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.horizontal_stitch" title="PyXA.XABase.XAImage.horizontal_stitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">horizontal_stitch</span></code></a>()</p></td>
 <td><p>Horizontally stacks two or more images.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.image_from_text" title="PyXA.XABase.XAImage.image_from_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image_from_text</span></code></a>(text[, font_size, ...])</p></td>
-<td><p>Initializes an image of the provided text overlaid on the specified background color.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.invert" title="PyXA.XABase.XAImage.invert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert</span></code></a>()</p></td>
 <td><p>Inverts the color of the image.</p></td>
@@ -6580,62 +6077,47 @@ The pasted content may be different for other applications.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.outline" title="PyXA.XABase.XAImage.outline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outline</span></code></a>([threshold])</p></td>
 <td><p>Outlines detected edges within the image in black, leaving the rest transparent.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.overlay_image" title="PyXA.XABase.XAImage.overlay_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">overlay_image</span></code></a>(image[, location, size])</p></td>
-<td><p>Overlays an image on top of this image, at the specified location, with the specified size.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.overlay_text" title="PyXA.XABase.XAImage.overlay_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">overlay_text</span></code></a>(text[, location, font_size, ...])</p></td>
-<td><p>Overlays text of the specified size and color at the provided location within the image.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pad" title="PyXA.XABase.XAImage.pad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pad</span></code></a>([horizontal_border_width, ...])</p></td>
-<td><p>Pads the image with the specified color; adds a border around the image with the specified vertical and horizontal width.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pinch" title="PyXA.XABase.XAImage.pinch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pinch</span></code></a>([center, intensity])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pinch" title="PyXA.XABase.XAImage.pinch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pinch</span></code></a>([center, intensity])</p></td>
 <td><p>Creates an inward pinch distortion at the specified location within the image.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pixellate" title="PyXA.XABase.XAImage.pixellate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pixellate</span></code></a>([pixel_size])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pixellate" title="PyXA.XABase.XAImage.pixellate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pixellate</span></code></a>([pixel_size])</p></td>
 <td><p>Pixellates the image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pointillize" title="PyXA.XABase.XAImage.pointillize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointillize</span></code></a>([point_size])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.pointillize" title="PyXA.XABase.XAImage.pointillize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointillize</span></code></a>([point_size])</p></td>
 <td><p>Applies a pointillization filter to the image.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.reduce_noise" title="PyXA.XABase.XAImage.reduce_noise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_noise</span></code></a>([noise_level, sharpness])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.reduce_noise" title="PyXA.XABase.XAImage.reduce_noise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_noise</span></code></a>([noise_level, sharpness])</p></td>
 <td><p>Reduces noise in the image by sharpening areas with a luminance delta below the specified noise level threshold.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.resize" title="PyXA.XABase.XAImage.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(width[, height])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.resize" title="PyXA.XABase.XAImage.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(width[, height])</p></td>
 <td><p>Resizes the image to the specified width and height.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.rotate" title="PyXA.XABase.XAImage.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(degrees)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.rotate" title="PyXA.XABase.XAImage.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(degrees)</p></td>
 <td><p>Rotates the image clockwise by the specified number of degrees.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.save" title="PyXA.XABase.XAImage.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([file_path])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.save" title="PyXA.XABase.XAImage.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([file_path])</p></td>
 <td><p>Saves the image to a file on the disk.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.scale" title="PyXA.XABase.XAImage.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a>(scale_factor_x[, scale_factor_y])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.scale" title="PyXA.XABase.XAImage.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a>(scale_factor_x[, scale_factor_y])</p></td>
 <td><p>Scales the image by the specified horizontal and vertical factors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.sepia" title="PyXA.XABase.XAImage.sepia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sepia</span></code></a>([intensity])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.sepia" title="PyXA.XABase.XAImage.sepia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sepia</span></code></a>([intensity])</p></td>
 <td><p>Applies a sepia filter to the image; maps all colors of the image to shades of brown.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.show_in_preview" title="PyXA.XABase.XAImage.show_in_preview"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_in_preview</span></code></a>()</p></td>
-<td><p>Opens the image in preview.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.symbol" title="PyXA.XABase.XAImage.symbol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symbol</span></code></a>()</p></td>
-<td><p>Initializes an image from the SF symbol with the specified name, if such a symbol exists.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.twirl" title="PyXA.XABase.XAImage.twirl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">twirl</span></code></a>([center, radius, angle])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.twirl" title="PyXA.XABase.XAImage.twirl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">twirl</span></code></a>([center, radius, angle])</p></td>
 <td><p>Creates a twirl distortion by rotating pixels around the specified location within the image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.vertical_stitch" title="PyXA.XABase.XAImage.vertical_stitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vertical_stitch</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.vertical_stitch" title="PyXA.XABase.XAImage.vertical_stitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vertical_stitch</span></code></a>()</p></td>
 <td><p>Vertically stacks two or more images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.vignette" title="PyXA.XABase.XAImage.vignette"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vignette</span></code></a>([intensity])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage.vignette" title="PyXA.XABase.XAImage.vignette"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vignette</span></code></a>([intensity])</p></td>
 <td><p>Applies vignette shading to the corners of the image.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'data':</span> <span class="pre">'str',</span> <span class="pre">'file':</span> <span class="pre">'Union[XAPath,</span> <span class="pre">None]',</span> <span class="pre">'modified':</span> <span class="pre">'bool',</span> <span class="pre">'size':</span> <span class="pre">'tuple[int,</span> <span class="pre">int]'}</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.__annotations__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'file':</span> <span class="pre">'str',</span> <span class="pre">'modified':</span> <span class="pre">'bool'}</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.__annotations__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -6651,7 +6133,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">NSData</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Instantiates a PyXA scripting object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6739,15 +6221,6 @@ The pasted content may be different for other applications.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.color_space_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color_space_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.color_space_name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the color space that the image currently uses.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.comic">
 <span class="sig-name descname"><span class="pre">comic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.comic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.comic" title="Permalink to this definition"></a></dt>
@@ -6767,13 +6240,13 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.crop">
-<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.crop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.crop" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">crop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.crop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.crop" title="Permalink to this definition"></a></dt>
 <dd><p>Crops the image to the specified dimensions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>size</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – The width and height of the resulting image</p></li>
-<li><p><strong>corner</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The bottom-left corner location from which to crop the image, or None to use (0, 0), defaults to None</p></li>
+<li><p><strong>corner</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The bottom-left corner location from which to crop the image, defaults to (0, 0)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -6806,12 +6279,6 @@ The pasted content may be different for other applications.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NSData</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.data" title="Permalink to this definition"></a></dt>
-<dd><p>The TIFF representation of the image</p>
 </dd></dl>
 
 <dl class="py method">
@@ -6858,34 +6325,9 @@ The pasted content may be different for other applications.</p>
 </div>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.extract_text">
-<span class="sig-name descname"><span class="pre">extract_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.extract_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.extract_text" title="Permalink to this definition"></a></dt>
-<dd><p>Extracts and returns all visible text in the image.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The array of extracted text strings</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list[str]</p>
-</dd>
-<dt class="field-odd">Example<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">test</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/ExampleUser/Downloads/Example.jpg&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">extract_text</span><span class="p">())</span>
-<span class="go">[&quot;HERE&#39;S TO THE&quot;, &#39;CRAZY ONES&#39;, &#39;the MISFITS the REBELS&#39;, &#39;THE TROUBLEMAKERS&#39;, ...]</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.file">
-<span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.file" title="Permalink to this definition"></a></dt>
 <dd><p>The path to the image file, if one exists</p>
 </dd></dl>
 
@@ -6918,15 +6360,6 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.gamma">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gamma</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.gamma" title="Permalink to this definition"></a></dt>
-<dd><p>The gamma value for the image, once it has been manually set. Otherwise, the value is None.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
@@ -6970,24 +6403,6 @@ The pasted content may be different for other applications.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.has_alpha_channel">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_alpha_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.has_alpha_channel" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the image has an alpha channel or not.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.highlight">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">highlight</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.highlight" title="Permalink to this definition"></a></dt>
-<dd><p>The highlight setting for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.horizontal_stitch">
 <span class="sig-name descname"><span class="pre">horizontal_stitch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.horizontal_stitch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.horizontal_stitch" title="Permalink to this definition"></a></dt>
@@ -7010,33 +6425,6 @@ The pasted content may be different for other applications.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.image_from_text">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">image_from_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Menlo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.image_from_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.image_from_text" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes an image of the provided text overlaid on the specified background color.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The text to create an image of</p></li>
-<li><p><strong>font_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The font size of the text, defaults to 15</p></li>
-<li><p><strong>font_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The color of the text, defaults to XAColor.black()</p></li>
-<li><p><strong>font_color</strong> (<a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><em>XAColor</em></a><em>, </em><em>optional</em>) – The name of the font to use for the text, defaults to “.SF NS Mono Light Medium”</p></li>
-<li><p><strong>background_color</strong> (<a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><em>XAColor</em></a><em>, </em><em>optional</em>) – The color to overlay the text on top of, defaults to XAColor.white()</p></li>
-<li><p><strong>inset</strong> (<em>int</em><em>, </em><em>optional</em>) – The width of the space between the text and the edge of the background color in the resulting image, defaults to 10</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>XAImage</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The resulting image object</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.invert">
 <span class="sig-name descname"><span class="pre">invert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.invert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.invert" title="Permalink to this definition"></a></dt>
 <dd><p>Inverts the color of the image.</p>
@@ -7048,15 +6436,6 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.is_opaque">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_opaque</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.is_opaque" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the image contains transparent pixels or not.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
@@ -7121,79 +6500,6 @@ The pasted content may be different for other applications.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The resulting image after applying the filter</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.overlay_image">
-<span class="sig-name descname"><span class="pre">overlay_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.overlay_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.overlay_image" title="Permalink to this definition"></a></dt>
-<dd><p>Overlays an image on top of this image, at the specified location, with the specified size.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>image</strong> (<a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><em>XAImage</em></a>) – The image to overlay on top of this image</p></li>
-<li><p><strong>location</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The bottom-left point of the overlaid image in the result, or None to use the bottom-left point of the background image, defaults to None</p></li>
-<li><p><strong>size</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The width and height of the overlaid image, or None to use the overlaid’s images existing width and height, or (-1, -1) to use the dimensions of the background image, defaults to None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The image object, modifications included</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.overlay_text">
-<span class="sig-name descname"><span class="pre">overlay_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.overlay_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.overlay_text" title="Permalink to this definition"></a></dt>
-<dd><p>Overlays text of the specified size and color at the provided location within the image.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The text to overlay onto the image</p></li>
-<li><p><strong>location</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – The bottom-left point of the start of the text, or None to use (5, 5), defaults to None</p></li>
-<li><p><strong>font_size</strong> (<em>float</em>) – The font size, in pixels, of the text, defaults to 12</p></li>
-<li><p><strong>font_color</strong> (<a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><em>XAColor</em></a>) – The color of the text, or None to use black, defaults to None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The image object, modifications included</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.pad">
-<span class="sig-name descname"><span class="pre">pad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">horizontal_border_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_border_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.pad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.pad" title="Permalink to this definition"></a></dt>
-<dd><p>Pads the image with the specified color; adds a border around the image with the specified vertical and horizontal width.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>horizontal_border_width</strong> (<em>int</em>) – The border width, in pixels, in the x-dimension, defaults to 50</p></li>
-<li><p><strong>vertical_border_width</strong> (<em>int</em>) – The border width, in pixels, in the y-dimension, defaults to 50</p></li>
-<li><p><strong>pad_color</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><em>XAColor</em></a><em>, </em><em>None</em><em>]</em>) – The color of the border, or None for a white border, defaults to None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The image object, modifications included</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
@@ -7292,7 +6598,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.resize">
-<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.resize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.resize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.resize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.resize" title="Permalink to this definition"></a></dt>
 <dd><p>Resizes the image to the specified width and height.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -7305,7 +6611,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>The image object, modifications included</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -7390,62 +6696,6 @@ The pasted content may be different for other applications.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.shadow">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shadow</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.XABase.XAImage.shadow" title="Permalink to this definition"></a></dt>
-<dd><p>The shadow setting for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.show_in_preview">
-<span class="sig-name descname"><span class="pre">show_in_preview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.show_in_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.show_in_preview" title="Permalink to this definition"></a></dt>
-<dd><p>Opens the image in preview.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.8.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.size" title="Permalink to this definition"></a></dt>
-<dd><p>The dimensions of the image</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.symbol">
-<span class="sig-name descname"><span class="pre">symbol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.symbol" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes an image from the SF symbol with the specified name, if such a symbol exists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The system symbol to create an image of; the name of an SF Symbol symbol.</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.temperature">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.temperature" title="Permalink to this definition"></a></dt>
-<dd><p>The temperature setting for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.tint">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.tint" title="Permalink to this definition"></a></dt>
-<dd><p>The tint setting for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.twirl">
 <span class="sig-name descname"><span class="pre">twirl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3.14</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.twirl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.twirl" title="Permalink to this definition"></a></dt>
@@ -7491,15 +6741,6 @@ The pasted content may be different for other applications.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.vibrance">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vibrance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.vibrance" title="Permalink to this definition"></a></dt>
-<dd><p>The vibrance value for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImage.vignette">
 <span class="sig-name descname"><span class="pre">vignette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImage.vignette"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImage.vignette" title="Permalink to this definition"></a></dt>
@@ -7521,13 +6762,9 @@ The pasted content may be different for other applications.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABase.XAImage.white_point">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">white_point</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.XABase.XAImage.white_point" title="Permalink to this definition"></a></dt>
-<dd><p>The white point setting for the image, once it has been manually set. Otherwise, the value is None.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.1.0.</span></p>
-</div>
-</dd></dl>
+<dt class="sig sig-object py" id="PyXA.XABase.XAImage.xa_elem">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xa_elem</span></span><a class="headerlink" href="#PyXA.XABase.XAImage.xa_elem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -7536,6 +6773,9 @@ The pasted content may be different for other applications.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAImageList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImageList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImageList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around lists of images that employs fast enumeration techniques.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.2.0: </span>Use <a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> and its methods instead.</p>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
 </div>
@@ -8239,7 +7479,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAImageList.resize">
-<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImageList.resize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImageList.resize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">XAImageList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAImageList.resize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAImageList.resize" title="Permalink to this definition"></a></dt>
 <dd><p>Resizes each image in the list to the specified width and height.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -8252,7 +7492,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>The list of scaled images</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList">XAImageList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -9613,19 +8853,10 @@ The pasted content may be different for other applications.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.__init__" title="PyXA.XABase.XAObject.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([properties])</p></td>
 <td><p>Instantiates a PyXA scripting object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.has_element" title="PyXA.XABase.XAObject.has_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_element</span></code></a>()</p></td>
-<td><p>Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.has_element_properties" title="PyXA.XABase.XAObject.has_element_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_element_properties</span></code></a>()</p></td>
-<td><p>Whether the scripting element associated with this object has properties attached to it.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.set_element" title="PyXA.XABase.XAObject.set_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_element</span></code></a>(element)</p></td>
-<td><p>Sets the element attribute to the supplied element and updates the properties attribute accordingly.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.set_properties" title="PyXA.XABase.XAObject.set_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_properties</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.set_properties" title="PyXA.XABase.XAObject.set_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_properties</span></code></a>(properties)</p></td>
 <td><p>Updates the value of multiple properties of the scripting element associated with this object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.set_property" title="PyXA.XABase.XAObject.set_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_property</span></code></a>(property_name, value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject.set_property" title="PyXA.XABase.XAObject.set_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_property</span></code></a>(property_name, value)</p></td>
 <td><p>Updates the value of a single property of the scripting element associated with this object.</p></td>
 </tr>
 </tbody>
@@ -9637,7 +8868,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.XABase.XAObject.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'PyXA.XABase',</span> <span class="pre">'__doc__':</span> <span class="pre">'A</span> <span class="pre">general</span> <span class="pre">class</span> <span class="pre">for</span> <span class="pre">PyXA</span> <span class="pre">scripting</span> <span class="pre">objects.\n\n</span>&#160;&#160;&#160; <span class="pre">..</span> <span class="pre">seealso::</span> <span class="pre">:class:`XABaseScriptable.XASBObject`\n\n</span>&#160;&#160;&#160; <span class="pre">..</span> <span class="pre">versionadded::</span> <span class="pre">0.0.1\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'_xa_sevt':</span> <span class="pre">None,</span> <span class="pre">'_xa_estr':</span> <span class="pre">None,</span> <span class="pre">'_xa_wksp':</span> <span class="pre">None,</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.__init__&gt;,</span> <span class="pre">'xa_wksp':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'xa_sevt':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'xa_estr':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'_exec_suppresed':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._exec_suppresed&gt;,</span> <span class="pre">'_new_element':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._new_element&gt;,</span> <span class="pre">'_spawn_thread':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._spawn_thread&gt;,</span> <span class="pre">'has_element':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.has_element&gt;,</span> <span class="pre">'has_element_properties':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.has_element_properties&gt;,</span> <span class="pre">'set_element':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.set_element&gt;,</span> <span class="pre">'set_properties':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.set_properties&gt;,</span> <span class="pre">'set_property':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.set_property&gt;,</span> <span class="pre">'__eq__':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.__eq__&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'XAObject'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'XAObject'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__hash__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#PyXA.XABase.XAObject.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'PyXA.XABase',</span> <span class="pre">'__doc__':</span> <span class="pre">'A</span> <span class="pre">general</span> <span class="pre">class</span> <span class="pre">for</span> <span class="pre">PyXA</span> <span class="pre">scripting</span> <span class="pre">objects.\n\n</span>&#160;&#160;&#160; <span class="pre">..</span> <span class="pre">seealso::</span> <span class="pre">:class:`XABaseScriptable.XASBObject`\n\n</span>&#160;&#160;&#160; <span class="pre">..</span> <span class="pre">versionadded::</span> <span class="pre">0.0.1\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'_xa_sevt':</span> <span class="pre">None,</span> <span class="pre">'_xa_estr':</span> <span class="pre">None,</span> <span class="pre">'_xa_wksp':</span> <span class="pre">None,</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.__init__&gt;,</span> <span class="pre">'xa_wksp':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'xa_sevt':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'xa_estr':</span> <span class="pre">&lt;property</span> <span class="pre">object&gt;,</span> <span class="pre">'_exec_suppresed':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._exec_suppresed&gt;,</span> <span class="pre">'_new_element':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._new_element&gt;,</span> <span class="pre">'_spawn_thread':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject._spawn_thread&gt;,</span> <span class="pre">'set_properties':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.set_properties&gt;,</span> <span class="pre">'set_property':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.set_property&gt;,</span> <span class="pre">'__eq__':</span> <span class="pre">&lt;function</span> <span class="pre">XAObject.__eq__&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'XAObject'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'XAObject'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__hash__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#PyXA.XABase.XAObject.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -9680,69 +8911,6 @@ The pasted content may be different for other applications.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAObject.has_element">
-<span class="sig-name descname"><span class="pre">has_element</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAObject.has_element"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAObject.has_element" title="Permalink to this definition"></a></dt>
-<dd><p>Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>True if this object’s element attribute is set, False otherwise.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>bool</p>
-</dd>
-</dl>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.0.9: </span>Perform this check manually instead.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAObject.has_element_properties">
-<span class="sig-name descname"><span class="pre">has_element_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAObject.has_element_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAObject.has_element_properties" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the scripting element associated with this object has properties attached to it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>True if this object’s properties attribute is set, False otherwise.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>bool</p>
-</dd>
-</dl>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.0.8: </span>All elements now have a properties dictionary, even if it is empty.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAObject.set_element">
-<span class="sig-name descname"><span class="pre">set_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">XAObject</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAObject.set_element"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAObject.set_element" title="Permalink to this definition"></a></dt>
-<dd><p>Sets the element attribute to the supplied element and updates the properties attribute accordingly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>element</strong> (<a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><em>XAObject</em></a>) – The new scripting element to reference via the element attribute.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A reference to this PyXA object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
-</dd>
-</dl>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.0.9: </span>Set the element attribute directly instead.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAObject.set_properties">
 <span class="sig-name descname"><span class="pre">set_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAObject.set_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAObject.set_properties" title="Permalink to this definition"></a></dt>
 <dd><p>Updates the value of multiple properties of the scripting element associated with this object.</p>
@@ -9757,6 +8925,9 @@ The pasted content may be different for other applications.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
 </dd>
 </dl>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.2.0: </span>Use <a class="reference internal" href="#PyXA.XABase.XAObject.set_property" title="PyXA.XABase.XAObject.set_property"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_property()</span></code></a> instead.</p>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -10996,7 +10167,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.loop">
-<span class="sig-name descname"><span class="pre">loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.loop" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.loop" title="Permalink to this definition"></a></dt>
 <dd><p>Plays the sound the specified number of times.</p>
 <p>Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.</p>
 <dl class="field-list simple">
@@ -11007,7 +10178,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>A reference to this sound object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 <dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
@@ -11055,14 +10226,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.pause">
-<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.pause" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.pause" title="Permalink to this definition"></a></dt>
 <dd><p>Pauses the sound.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A reference to this sound object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
@@ -11083,7 +10254,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.play">
-<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.play" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.play" title="Permalink to this definition"></a></dt>
 <dd><p>Plays the sound from the beginning.</p>
 <p>Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.</p>
 <dl class="field-list simple">
@@ -11091,7 +10262,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-odd"><p>A reference to this sound object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
@@ -11114,7 +10285,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.resume">
-<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.resume" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.resume" title="Permalink to this definition"></a></dt>
 <dd><p>Plays the sound starting from the time it was last paused at.</p>
 <p>Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.</p>
 <dl class="field-list simple">
@@ -11122,7 +10293,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-odd"><p>A reference to this sound object.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
@@ -11166,7 +10337,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.set_volume">
-<span class="sig-name descname"><span class="pre">set_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.set_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.set_volume" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.set_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.set_volume" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the volume of the sound.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -11176,7 +10347,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>A reference to this sound object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 <dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
@@ -11225,7 +10396,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASound.trim">
-<span class="sig-name descname"><span class="pre">trim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.trim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.trim" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">trim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASound.trim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASound.trim" title="Permalink to this definition"></a></dt>
 <dd><p>Trims the sound to the specified start and end time, in seconds.</p>
 <p>This will create a momentary sound data file in the current working directory for storing the intermediary trimmed sound data.</p>
 <dl class="field-list simple">
@@ -11239,7 +10410,7 @@ The pasted content may be different for other applications.</p>
 <dd class="field-even"><p>The updated sound object</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Self</p>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -11401,14 +10572,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASoundList.pause">
-<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.pause" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList"><span class="pre">XASoundList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.pause" title="Permalink to this definition"></a></dt>
 <dd><p>Pauses playback of all sounds in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of sounds.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList">XASoundList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -11418,14 +10589,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASoundList.play">
-<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.play" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList"><span class="pre">XASoundList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.play" title="Permalink to this definition"></a></dt>
 <dd><p>Plays all sounds in the list simultaneously.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of sounds.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList">XASoundList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -11435,14 +10606,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASoundList.resume">
-<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.resume" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList"><span class="pre">XASoundList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.resume" title="Permalink to this definition"></a></dt>
 <dd><p>Resumes playback of all sounds in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of sounds.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList">XASoundList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -11457,14 +10628,14 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XASoundList.stop">
-<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.stop" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList"><span class="pre">XASoundList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XASoundList.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XASoundList.stop" title="Permalink to this definition"></a></dt>
 <dd><p>Stops playback of all sounds in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of sounds.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Self</p>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XASoundList" title="PyXA.XABase.XASoundList">XASoundList</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -13518,7 +12689,7 @@ The pasted content may be different for other applications.</p>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="PyXA.XABase.supported_applications">
-<span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">supported_applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['finder',</span> <span class="pre">'safari',</span> <span class="pre">'music',</span> <span class="pre">'reminders',</span> <span class="pre">'notes',</span> <span class="pre">'messages',</span> <span class="pre">'calendar',</span> <span class="pre">'textedit',</span> <span class="pre">'pages',</span> <span class="pre">'terminal',</span> <span class="pre">'preview',</span> <span class="pre">'tv',</span> <span class="pre">'contacts',</span> <span class="pre">'shortcuts',</span> <span class="pre">'shortcuts</span> <span class="pre">events',</span> <span class="pre">'photos',</span> <span class="pre">'system</span> <span class="pre">preferences',</span> <span class="pre">'system</span> <span class="pre">settings',</span> <span class="pre">'keynote',</span> <span class="pre">'mail',</span> <span class="pre">'automator',</span> <span class="pre">'console',</span> <span class="pre">'font</span> <span class="pre">book',</span> <span class="pre">'quicktime</span> <span class="pre">player',</span> <span class="pre">'numbers',</span> <span class="pre">'script</span> <span class="pre">editor',</span> <span class="pre">'system</span> <span class="pre">events',</span> <span class="pre">'image</span> <span class="pre">events',</span> <span class="pre">'calculator',</span> <span class="pre">'dictionary',</span> <span class="pre">'maps',</span> <span class="pre">'podcasts',</span> <span class="pre">'stocks',</span> <span class="pre">'chromium',</span> <span class="pre">'brave</span> <span class="pre">browser',</span> <span class="pre">'microsoft</span> <span class="pre">edge',</span> <span class="pre">'google</span> <span class="pre">chrome',</span> <span class="pre">'opera',</span> <span class="pre">'vivaldi',</span> <span class="pre">'blisk',</span> <span class="pre">'iridium',</span> <span class="pre">'alfred',</span> <span class="pre">'drafts',</span> <span class="pre">'hammerspoon',</span> <span class="pre">'rstudio',</span> <span class="pre">'iterm',</span> <span class="pre">'vlc',</span> <span class="pre">'fantastical',</span> <span class="pre">'omnioutliner',</span> <span class="pre">'spotify',</span> <span class="pre">'flow',</span> <span class="pre">'bike',</span> <span class="pre">'adobe</span> <span class="pre">acrobat</span> <span class="pre">reader',</span> <span class="pre">'cardhop',</span> <span class="pre">'amphetamine']</span></em><a class="headerlink" href="#PyXA.XABase.supported_applications" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">supported_applications</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['database</span> <span class="pre">events',</span> <span class="pre">'finder',</span> <span class="pre">'safari',</span> <span class="pre">'music',</span> <span class="pre">'reminders',</span> <span class="pre">'notes',</span> <span class="pre">'messages',</span> <span class="pre">'calendar',</span> <span class="pre">'textedit',</span> <span class="pre">'pages',</span> <span class="pre">'terminal',</span> <span class="pre">'preview',</span> <span class="pre">'tv',</span> <span class="pre">'contacts',</span> <span class="pre">'shortcuts',</span> <span class="pre">'shortcuts</span> <span class="pre">events',</span> <span class="pre">'photos',</span> <span class="pre">'system</span> <span class="pre">preferences',</span> <span class="pre">'system</span> <span class="pre">settings',</span> <span class="pre">'keynote',</span> <span class="pre">'mail',</span> <span class="pre">'automator',</span> <span class="pre">'console',</span> <span class="pre">'font</span> <span class="pre">book',</span> <span class="pre">'quicktime</span> <span class="pre">player',</span> <span class="pre">'numbers',</span> <span class="pre">'script</span> <span class="pre">editor',</span> <span class="pre">'system</span> <span class="pre">events',</span> <span class="pre">'image</span> <span class="pre">events',</span> <span class="pre">'calculator',</span> <span class="pre">'dictionary',</span> <span class="pre">'maps',</span> <span class="pre">'stocks',</span> <span class="pre">'chromium',</span> <span class="pre">'brave</span> <span class="pre">browser',</span> <span class="pre">'microsoft</span> <span class="pre">edge',</span> <span class="pre">'google</span> <span class="pre">chrome',</span> <span class="pre">'opera',</span> <span class="pre">'vivaldi',</span> <span class="pre">'blisk',</span> <span class="pre">'iridium',</span> <span class="pre">'alfred',</span> <span class="pre">'drafts',</span> <span class="pre">'hammerspoon',</span> <span class="pre">'rstudio',</span> <span class="pre">'iterm',</span> <span class="pre">'vlc',</span> <span class="pre">'fantastical',</span> <span class="pre">'omnioutliner',</span> <span class="pre">'spotify',</span> <span class="pre">'flow',</span> <span class="pre">'bike',</span> <span class="pre">'adobe</span> <span class="pre">acrobat</span> <span class="pre">reader',</span> <span class="pre">'cardhop',</span> <span class="pre">'amphetamine']</span></em><a class="headerlink" href="#PyXA.XABase.supported_applications" title="Permalink to this definition"></a></dt>
 <dd><p>A list of names of supported scriptable applications</p>
 </dd></dl>
 

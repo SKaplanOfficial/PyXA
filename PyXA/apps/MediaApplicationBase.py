@@ -5,11 +5,12 @@ A base set of classes for media applications such as Music.app and TV.app.
 
 from datetime import datetime
 from enum import Enum
-from typing import Literal, Union
+from typing import Any, Literal, Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
+from PyXA.XAEvents import event_from_str
 
 
 class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
@@ -752,13 +753,19 @@ class XAMediaPlaylistList(XAMediaItemList):
         return self.by_property("size", size)
 
     def by_special_kind(self, special_kind: XAMediaApplication.PlaylistKind) -> Union['XAMediaPlaylist', None]:
-        return self.by_property("specialKind", special_kind.value)
+        return self.by_property("specialKind", event_from_str(XABase.unOSType(special_kind.value)))
 
     def by_time(self, time: str) -> Union['XAMediaPlaylist', None]:
         return self.by_property("time", time)
 
     def by_visible(self, visible: bool) -> Union['XAMediaPlaylist', None]:
         return self.by_property("visible", visible)
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter == "special_kind" or filter == "specialKind":
+            if isinstance(value1, XAMediaApplication.PlaylistKind):
+                value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XAMediaPlaylist(XAMediaItem):
     """A playlist in media apps.

@@ -77,7 +77,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     def airplay_enabled(self) -> bool:
         """Whether AirPlay is currently enabled.
         """
-        return self.xa_scel.airplayEnabled()
+        return self.xa_scel.AirPlayEnabled()
 
     @property
     def converting(self) -> bool:
@@ -134,7 +134,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     def eq_enabled(self) -> bool:
         """Whether the equalizer is enabled.
         """
-        return self.xa_scel.eqEnabled()
+        return self.xa_scel.EQEnabled()
 
     @eq_enabled.setter
     def eq_enabled(self, eq_enabled: bool):

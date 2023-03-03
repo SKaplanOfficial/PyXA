@@ -54,6 +54,7 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """Types of special playlists.
         """
         NONE            = XABase.OSType('kNon') #: An unknown playlist kind
+        UNKNOWN         = 0 #: An unknown playlist kind
         FOLDER          = XABase.OSType('kSpF') #: A folder
         GENIUS          = XABase.OSType('kSpG') #: A smart playlist
         LIBRARY         = XABase.OSType('kSpL') #: The system library playlist
@@ -187,7 +188,7 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self.xa_scel.version()
 
-    def play(self, item: 'XAMediaItem' = None) -> 'XAMediaApplication':
+    def play(self, item: 'XAMediaItem' = None, play_once: bool = True) -> 'XAMediaApplication':
         """Plays the specified TV item (e.g. track, playlist, etc.). If no item is provided, this plays the current track from its current player position.
 
         :param item: The track, playlist, or video to play, defaults to None
@@ -199,7 +200,10 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_scel.playOnce_(item)
+        if item is None:
+            self.xa_scel.playOnce_(play_once)
+        else:
+            self.xa_scel.play_once_(item.xa_elem, play_once)
         return self
 
     def playpause(self) -> 'XAMediaApplication':
@@ -848,6 +852,9 @@ class XAMediaPlaylist(XAMediaItem):
 
     def move_to(self, parent_playlist):
         self.xa_elem.moveTo_(parent_playlist.xa_elem)
+
+    def play(self):
+        self.xa_elem.playOnce_(True)
 
     def search(self, query: str, type: Literal["all", "artists", "albums", "displayed", "tracks"] = "displayed"):
         search_ids = {

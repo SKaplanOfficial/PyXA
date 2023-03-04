@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Mail &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.apps.Mail &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -1134,6 +1134,10 @@
 <div class="viewcode-block" id="XAMailAccountList.by_uses_ssl"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAccountList.by_uses_ssl">[docs]</a>    <span class="k">def</span> <span class="nf">by_uses_ssl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uses_ssl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAMailAccount&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;usesSsl&quot;</span><span class="p">,</span> <span class="n">uses_ssl</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAMailAccountList.mailboxes"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAccountList.mailboxes">[docs]</a>    <span class="k">def</span> <span class="nf">mailboxes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;mailboxes&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAMailboxList</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
@@ -1826,6 +1830,10 @@
 
 <div class="viewcode-block" id="XAMailboxList.by_container"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailboxList.by_container">[docs]</a>    <span class="k">def</span> <span class="nf">by_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="s1">&#39;XAMailContainer&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailbox&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">,</span> <span class="n">container</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMailboxList.messages"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailboxList.messages">[docs]</a>    <span class="k">def</span> <span class="nf">messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAMailMessageList</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
@@ -3186,7 +3194,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

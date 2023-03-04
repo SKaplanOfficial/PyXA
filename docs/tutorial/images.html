@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working with Images &mdash; PyXA 0.1.2 documentation</title>
+  <title>Working with Images &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -197,13 +197,13 @@
 <h2>Modifying Image Attributes<a class="headerlink" href="#modifying-image-attributes" title="Permalink to this heading"></a></h2>
 <p>In addition to accessing information attributes, you can use PyXA to concisely set image attributes such as the vibrance, tint, and temperature of an image. The mutable attributes are:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.gamma" title="PyXA.XABase.XAImage.gamma"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gamma</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.vibrance" title="PyXA.XABase.XAImage.vibrance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">vibrance</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.tint" title="PyXA.XABase.XAImage.tint"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tint</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.temperature" title="PyXA.XABase.XAImage.temperature"><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.white_point" title="PyXA.XABase.XAImage.white_point"><code class="xref py py-attr docutils literal notranslate"><span class="pre">white_point</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.highlight" title="PyXA.XABase.XAImage.highlight"><code class="xref py py-attr docutils literal notranslate"><span class="pre">highlight</span></code></a></p></li>
-<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.shadow" title="PyXA.XABase.XAImage.shadow"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shadow</span></code></a></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">gamma</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">vibrance</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">tint</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">white_point</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">highlight</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">shadow</span></code></p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Owl.png&quot;</span><span class="p">)</span>
@@ -219,7 +219,7 @@
 </section>
 <section id="basics-of-image-manipulation">
 <h2>Basics of Image Manipulation<a class="headerlink" href="#basics-of-image-manipulation" title="Permalink to this heading"></a></h2>
-<p>In addition to modifiable attributes, PyXA provides several method for basic image manipulation, including: <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_horizontally()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_vertically" title="PyXA.XABase.XAImage.flip_vertically"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_vertically()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.rotate" title="PyXA.XABase.XAImage.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.scale" title="PyXA.XABase.XAImage.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.crop" title="PyXA.XABase.XAImage.crop"><code class="xref py py-func docutils literal notranslate"><span class="pre">crop()</span></code></a>, and <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.pad" title="PyXA.XABase.XAImage.pad"><code class="xref py py-func docutils literal notranslate"><span class="pre">pad()</span></code></a>.</p>
+<p>In addition to modifiable attributes, PyXA provides several method for basic image manipulation, including: <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_horizontally()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_vertically" title="PyXA.XABase.XAImage.flip_vertically"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_vertically()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.rotate" title="PyXA.XABase.XAImage.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.scale" title="PyXA.XABase.XAImage.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.crop" title="PyXA.XABase.XAImage.crop"><code class="xref py py-func docutils literal notranslate"><span class="pre">crop()</span></code></a>, and <code class="xref py py-func docutils literal notranslate"><span class="pre">pad()</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 
 <span class="c1"># Apply individual modifications</span>
@@ -284,7 +284,7 @@
 </section>
 <section id="text-extraction">
 <h2>Text Extraction<a class="headerlink" href="#text-extraction" title="Permalink to this heading"></a></h2>
-<p>With PyXA, you can extract text from images using just one method call. When working with a single <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object , calling the object’s <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.extract_text" title="PyXA.XABase.XAImage.extract_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code></a> method will return a list of all text contained within the image, separated by newline characters. Likewise, when calling <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.extract_text" title="PyXA.XABase.XAImageList.extract_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code></a> on an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> object, you will get a list of lists of strings, with each image’s text organized into its own entry.</p>
+<p>With PyXA, you can extract text from images using just one method call. When working with a single <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object , calling the object’s <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code> method will return a list of all text contained within the image, separated by newline characters. Likewise, when calling <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.extract_text" title="PyXA.XABase.XAImageList.extract_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code></a> on an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> object, you will get a list of lists of strings, with each image’s text organized into its own entry.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="c1"># Extract text from one image</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/handwritingImage.png&quot;</span><span class="p">)</span>
@@ -376,7 +376,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

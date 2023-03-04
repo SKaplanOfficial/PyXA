@@ -284,6 +284,16 @@ class XAList(XAObject):
             obj = ls.firstObject()
 
         return self._new_element(obj, self.xa_ocls)
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if "_" in filter and " " not in filter:
+            parts = filter.split("_")
+            filter = parts[0]
+            if len(parts) > 1:
+                for part in parts[1:]:
+                    filter += part.title()
+
+        return (filter, value1, value2)
 
     def equalling(self, property: str, value: str) -> XAObject:
         """Retrieves all elements whose property value equals the given value.
@@ -304,6 +314,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -328,6 +339,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_neq_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -352,6 +364,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.0.6
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_contains_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -376,6 +389,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         ls = XAPredicate.evaluate_with_format(self.xa_elem, f"NOT {property} CONTAINS \"{value}\"")
         return self._new_element(ls, self.__class__)
 
@@ -398,6 +412,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_begins_with_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -422,6 +437,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_ends_with_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -446,6 +462,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_gt_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -470,6 +487,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value, _ = self._format_for_filter(property, value)
         predicate = XAPredicate()
         predicate.add_lt_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
@@ -500,6 +518,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        property, value1, value2 = self._format_for_filter(property, value1, value2)
         predicate = XAPredicate()
         predicate.add_gt_condition(property, value1)
         predicate.add_lt_condition(property, value2)
@@ -552,6 +571,7 @@ class XAList(XAObject):
 
         .. versionadded:: 0.0.8
         """
+        filter, value1, value2 = self._format_for_filter(filter, value1, value2)
         if comparison_operation is not None and value1 is not None:
             predicate = XAPredicate()
             if comparison_operation in ["=", "==", "eq", "EQ", "equals", "EQUALS"]:
@@ -627,8 +647,13 @@ class XAList(XAObject):
         """
         try:
             self.xa_elem = self.xa_elem.shuffledArray()
-        except AttributeError:
-            random.shuffle(self.xa_elem)
+        except AttributeError as e:
+            try:
+                random.shuffle(self.xa_elem)
+            except TypeError:
+                self.xa_elem = [x for x in self.xa_elem]
+                random.shuffle(self.xa_elem)
+                self.xa_elem = AppKit.NSArray.alloc().initWithArray_(self.xa_elem)
         return self
 
     def extend(self, ls: Union['XAList', list]):
@@ -4235,6 +4260,25 @@ class XADiskItemList(XAList):
     def by_volume(self, volume: str) -> Union['XADiskItem', None]:
         return self.by_property("volume", volume)
 
+    def move_to(self, folder: Union[str, XAPath, 'XAFolder']) -> 'XADiskItem':
+        """Moves all disk items in the list to the specified location.
+
+        :param folder: The folder location to move the items to
+        :type folder: Union[str, XAPath, XAFolder]
+        :return: The list of disk items
+        :rtype: XADiskItem
+
+        .. versionadded:: 0.2.1
+        """
+        if isinstance(folder, XAFolder):
+            folder = folder.posix_path
+        elif isinstance(folder, str):
+            folder = XAPath(folder)
+
+        for item in self.xa_elem.get():
+            item.moveTo_(folder.xa_elem)
+        return self
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
@@ -4383,6 +4427,25 @@ class XADiskItem(XAObject, XAPathLike):
         .. versionadded:: 0.1.1
         """
         self.xa_elem.open()
+        return self
+
+    def move_to(self, folder: Union[str, XAPath, 'XAFolder']) -> 'XADiskItem':
+        """Moves the disk item to the specified location.
+
+        :param folder: The folder location to move the item to
+        :type folder: Union[str, XAPath, XAFolder]
+        :return: The disk item object
+        :rtype: XADiskItem
+
+        .. versionadded:: 0.2.1
+        """
+        if isinstance(folder, XAFolder):
+            folder = folder.posix_path
+        elif isinstance(folder, str):
+            folder = XAPath(folder)
+
+        print(folder.xa_elem)
+        self.xa_elem.moveTo_(folder.xa_elem)
         return self
 
     def get_path_representation(self) -> XAPath:
@@ -4544,35 +4607,35 @@ class XAAlias(XADiskItem):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
+        return self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
 
     def disk_items(self, filter: Union[dict, None] = None) -> 'XADiskItemList':
         """Returns a list of disk items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
+        return self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
 
     def files(self, filter: Union[dict, None] = None) -> 'XAFileList':
         """Returns a list of files, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.files(), XAFileList, filter)
+        return self._new_element(self.xa_elem.files(), XAFileList, filter)
 
     def file_packages(self, filter: Union[dict, None] = None) -> 'XAFilePackageList':
         """Returns a list of file packages, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
+        return self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
 
     def folders(self, filter: Union[dict, None] = None) -> 'XAFolderList':
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
 
 
@@ -4727,35 +4790,35 @@ class XADisk(XADiskItem):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
+        return self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
 
     def disk_items(self, filter: Union[dict, None] = None) -> 'XADiskItemList':
         """Returns a list of disk items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
+        return self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
 
     def files(self, filter: Union[dict, None] = None) -> 'XAFileList':
         """Returns a list of files, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.files(), XAFileList, filter)
+        return self._new_element(self.xa_elem.files(), XAFileList, filter)
 
     def file_packages(self, filter: Union[dict, None] = None) -> 'XAFilePackageList':
         """Returns a list of file packages, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.fileOackages(), XAFilePackageList, filter)
+        return self._new_element(self.xa_elem.fileOackages(), XAFilePackageList, filter)
 
     def folders(self, filter: Union[dict, None] = None) -> 'XAFolderList':
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
 
 
@@ -4918,7 +4981,7 @@ class XADomain(XAObject):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
@@ -5027,7 +5090,7 @@ class XAClassicDomainObject(XADomain):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
 
 
@@ -5209,35 +5272,35 @@ class XAFilePackage(XAFile):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
+        return self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
 
     def disk_items(self, filter: Union[dict, None] = None) -> 'XADiskItemList':
         """Returns a list of disk items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
+        return self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
 
     def files(self, filter: Union[dict, None] = None) -> 'XAFileList':
         """Returns a list of files, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.files(), XAFileList, filter)
+        return self._new_element(self.xa_elem.files(), XAFileList, filter)
 
     def file_packages(self, filter: Union[dict, None] = None) -> 'XAFilePackageList':
         """Returns a list of file packages, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
+        return self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
 
     def folders(self, filter: Union[dict, None] = None) -> 'XAFolderList':
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
 
 
@@ -5265,28 +5328,28 @@ class XAFolder(XADiskItem):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
+        return self._new_element(self.xa_elem.aliases(), XAAliasList, filter)
 
     def disk_items(self, filter: Union[dict, None] = None) -> 'XADiskItemList':
         """Returns a list of disk items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
+        return self._new_element(self.xa_elem.diskItems(), XADiskItemList, filter)
 
     def files(self, filter: Union[dict, None] = None) -> 'XAFileList':
         """Returns a list of files, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.files(), XAFileList, filter)
+        return self._new_element(self.xa_elem.files(), XAFileList, filter)
 
     def file_packages(self, filter: Union[dict, None] = None) -> 'XAFilePackageList':
         """Returns a list of file packages, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
+        return self._new_element(self.xa_elem.filePackages(), XAFilePackageList, filter)
 
     def folders(self, filter: Union[dict, None] = None) -> 'XAFolderList':
         """Returns a list of folders, as PyXA objects, matching the given filter.
@@ -5298,7 +5361,7 @@ class XAFolder(XADiskItem):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.folders(), XAFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFolderList, filter)
 
 
 
@@ -6555,9 +6618,15 @@ class XAImage(macimg.Image, XAObject, XAClipboardCodable):
             case {"element": AppKit.NSImage() as image}:
                 image_reference = image
 
+            case XAPath() as path:
+                image_reference = path.path
+
+            case XAURL() as url:
+                image_reference = url.url
+
             case XAObject():
                 try:
-                    image_reference = image_reference.get_image_representation().xa_elem
+                    image_reference = image_reference.get_image_representation()
                 except AttributeError:
                     raise TypeError(f"{str(type(image_reference))} does not implement the XAImageLike protocol.")
 

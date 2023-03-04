@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Bike &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.apps.Bike &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -82,8 +82,9 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
-<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XADeletable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">,</span> <span class="n">XAPrintable</span>
 <span class="kn">from</span> <span class="nn">..XAErrors</span> <span class="kn">import</span> <span class="n">UnconstructableClassError</span>
+<span class="kn">from</span> <span class="nn">..XAEvents</span> <span class="kn">import</span> <span class="n">event_from_str</span>
 
 <div class="viewcode-block" id="XABikeApplication"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeApplication">[docs]</a><span class="k">class</span> <span class="nc">XABikeApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Bike.app.</span>
@@ -94,6 +95,10 @@
         <span class="n">BIKE</span>        <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s2">&quot;BKff&quot;</span><span class="p">)</span>
         <span class="n">OPML</span>        <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s2">&quot;OPml&quot;</span><span class="p">)</span>
         <span class="n">PLAINTEXT</span>   <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s2">&quot;PTfm&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XABikeApplication.EditMode"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeApplication.EditMode">[docs]</a>    <span class="k">class</span> <span class="nc">EditMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="n">TEXT</span>    <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Btmd&#39;</span><span class="p">)</span>
+        <span class="n">OUTLINE</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Bomd&#39;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
@@ -135,7 +140,7 @@
 
     <span class="nd">@background_color</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;backgroundColor&#39;</span><span class="p">,</span> <span class="n">background_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;backgroundColor&#39;</span><span class="p">,</span> <span class="n">background_color</span><span class="o">.</span><span class="n">_nscolor</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">foreground_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
@@ -145,7 +150,7 @@
 
     <span class="nd">@foreground_color</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">foreground_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">foreground_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;foregroundColor&#39;</span><span class="p">,</span> <span class="n">foreground_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;foregroundColor&#39;</span><span class="p">,</span> <span class="n">foreground_color</span><span class="o">.</span><span class="n">_nscolor</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XABikeApplication.documents"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeApplication.documents">[docs]</a>    <span class="k">def</span> <span class="nf">documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeDocumentList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of documents, as PyXA-wrapped objects, matching the given filter.</span>
@@ -275,6 +280,10 @@
 <div class="viewcode-block" id="XABikeDocumentList.hoisted_row"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.hoisted_row">[docs]</a>    <span class="k">def</span> <span class="nf">hoisted_row</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABikeRowList&#39;</span><span class="p">:</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;hoistedRow&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABikeRowList</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XABikeDocumentList.edit_mode"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.edit_mode">[docs]</a>    <span class="k">def</span> <span class="nf">edit_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;editMode&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="XABikeDocumentList.selected_text"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.selected_text">[docs]</a>    <span class="k">def</span> <span class="nf">selected_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;selectedText&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
@@ -322,6 +331,9 @@
 
 <div class="viewcode-block" id="XABikeDocumentList.by_hoisted_row"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.by_hoisted_row">[docs]</a>    <span class="k">def</span> <span class="nf">by_hoisted_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hoisted_row</span><span class="p">:</span> <span class="s1">&#39;XABikeRow&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;hoistedRow&quot;</span><span class="p">,</span> <span class="n">hoisted_row</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XABikeDocumentList.by_edit_mode"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.by_edit_mode">[docs]</a>    <span class="k">def</span> <span class="nf">by_edit_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edit_mode</span><span class="p">:</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;editMode&quot;</span><span class="p">,</span> <span class="n">event_from_str</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">unOSType</span><span class="p">(</span><span class="n">edit_mode</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="XABikeDocumentList.by_selected_text"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocumentList.by_selected_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_selected_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;selectedText&quot;</span><span class="p">,</span> <span class="n">selected_text</span><span class="p">)</span></div>
@@ -355,7 +367,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XABikeDocument"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocument">[docs]</a><span class="k">class</span> <span class="nc">XABikeDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">):</span>
+<div class="viewcode-block" id="XABikeDocument"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocument">[docs]</a><span class="k">class</span> <span class="nc">XABikeDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A document of Bike.app.</span>
 
 <span class="sd">    .. versionadded:: 0.1.0</span>
@@ -427,6 +439,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;hoistedRow&#39;</span><span class="p">,</span> <span class="n">hoisted_row</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">edit_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document&#39;s edit mode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">editMode</span><span class="p">())</span>
+    
+    <span class="nd">@edit_mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">edit_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edit_mode</span><span class="p">:</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">EditMode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;editMode&#39;</span><span class="p">,</span> <span class="n">edit_mode</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">selected_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The currently selected text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -466,6 +488,49 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">xa_elem</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveIn_as_</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">format</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XABikeDocument.import_rows"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocument.import_rows">[docs]</a>    <span class="k">def</span> <span class="nf">import_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">],</span> <span class="nb">format</span><span class="p">:</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">FileFormat</span> <span class="o">=</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">FileFormat</span><span class="o">.</span><span class="n">PLAINTEXT</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeRow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABikeRowList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Imports rows into the document.</span>
+
+<span class="sd">        :param text: The text to import</span>
+<span class="sd">        :type text: Union[str, XABase.XAText]</span>
+<span class="sd">        :param format: The texts format, defaults to XABikeApplication.FileFormat.PLAINTEXT</span>
+<span class="sd">        :type format: XABikeApplication.FileFormat, optional</span>
+<span class="sd">        :param parent: The location to insert the new row(s), or None to import at the end of the document, defaults to None</span>
+<span class="sd">        :type parent: Union[&#39;XABikeRow&#39;, None], optional</span>
+<span class="sd">        :return: The imported row(s)</span>
+<span class="sd">        :rtype: XABikeRowList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">xa_elem</span>
+
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="n">new_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">importFrom_as_to_</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">format</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">parent</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rows</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">positionAfter</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">new_rows</span><span class="p">,</span> <span class="n">XABikeRowList</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XABikeDocument.export"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocument.export">[docs]</a>    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XABikeRow&#39;</span><span class="p">],</span> <span class="s1">&#39;XABikeRowList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">FileFormat</span> <span class="o">=</span> <span class="n">XABikeApplication</span><span class="o">.</span><span class="n">FileFormat</span><span class="o">.</span><span class="n">PLAINTEXT</span><span class="p">,</span> <span class="nb">all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Exports rows from the document.</span>
+
+<span class="sd">        :param rows: The rows to export, or None to export the entire document, defaults to None</span>
+<span class="sd">        :type rows: Union[list[&#39;XABikeRow&#39;], &#39;XABikeRowList&#39;, None], optional</span>
+<span class="sd">        :param format: The file fort to export rows as, defaults to XABikeApplication.FileFormat.PLAINTEXT</span>
+<span class="sd">        :type format: XABikeApplication.FileFormat, optional</span>
+<span class="sd">        :param all: Export all contained rows (true) or only the given rows (false), defaults to True</span>
+<span class="sd">        :type all: bool, optional</span>
+<span class="sd">        :return: The formatted text of the exported rows</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">XABikeRowList</span><span class="p">):</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">xa_elem</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">exportFrom_as_all_</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="nb">format</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">all</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XABikeDocument.rows"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeDocument.rows">[docs]</a>    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeRowList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of rows, as PyXA-wrapped objects, matching the given filter.</span>
@@ -521,6 +586,10 @@
 
 <div class="viewcode-block" id="XABikeRowList.container"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeRowList.container">[docs]</a>    <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">XABikeDocument</span><span class="p">,</span> <span class="s1">&#39;XABikeRow&#39;</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">container</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+    
+<div class="viewcode-block" id="XABikeRowList.container_document"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeRowList.container_document">[docs]</a>    <span class="k">def</span> <span class="nf">container_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABikeDocument</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;containerDocument&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABikeDocumentList</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XABikeRowList.container_row"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeRowList.container_row">[docs]</a>    <span class="k">def</span> <span class="nf">container_row</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABikeRowList&#39;</span><span class="p">:</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;containerRow&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -652,6 +721,16 @@
         <span class="sd">&quot;&quot;&quot;The indentation level for the row in the outline.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">level</span><span class="p">()</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">text_content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">textContent</span><span class="p">()</span>
+    
+    <span class="nd">@text_content</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">text_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_content</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text_content</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">text_content</span> <span class="o">=</span> <span class="n">text_content</span><span class="o">.</span><span class="n">xa_elem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;textContent&#39;</span><span class="p">,</span> <span class="n">text_content</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">contains_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -774,21 +853,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-    <span class="c1"># def duplicate(self, location: Union[XABikeDocument, &#39;XABikeRow&#39;, None] = None, properties: Union[dict, None] = None):</span>
-    <span class="c1">#     &quot;&quot;&quot;Duplicates the row either in-place or at a specified location.</span>
+<div class="viewcode-block" id="XABikeRow.duplicate"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeRow.duplicate">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABikeDocument</span><span class="p">,</span> <span class="s1">&#39;XABikeRow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Duplicates the row either in-place or at a specified location.</span>
 
-    <span class="c1">#     :param location: The document or row to create a duplicate of this row in, defaults to None (duplicate in-place)</span>
-    <span class="c1">#     :type location: Union[XABikeDocument, XABikeRow, None], optional</span>
-    <span class="c1">#     :param properties: Properties to set in the new copy right away, defaults to None (no properties changed)</span>
-    <span class="c1">#     :type properties: Union[dict, None], options</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     if properties is None:</span>
-    <span class="c1">#         properties = {}</span>
+<span class="sd">        :param location: The document or row to create a duplicate of this row in, defaults to None (duplicate in-place)</span>
+<span class="sd">        :type location: Union[XABikeDocument, XABikeRow, None], optional</span>
+<span class="sd">        :param properties: Properties to set in the new copy right away, defaults to None (no properties changed)</span>
+<span class="sd">        :type properties: Union[dict, None], options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1">#     if location is None:</span>
-    <span class="c1">#         self.xa_elem.duplicateTo_withProperties_(self.xa_elem.containerDocument(), properties)</span>
-    <span class="c1">#     else:</span>
-    <span class="c1">#         self.xa_elem.duplicateTo_withProperties_(location.xa_elem, properties)</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">duplicateTo_withProperties_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">positionAfter</span><span class="p">(),</span> <span class="n">properties</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">duplicateTo_withProperties_</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rows</span><span class="p">()</span><span class="o">.</span><span class="n">lastObject</span><span class="p">()</span><span class="o">.</span><span class="n">positionAfter</span><span class="p">(),</span> <span class="n">properties</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XABikeRow.rows"><a class="viewcode-back" href="../../../reference/apps/bike.html#PyXA.apps.Bike.XABikeRow.rows">[docs]</a>    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABikeRowList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of rows, as PyXA-wrapped objects, matching the given filter.</span>
@@ -901,7 +980,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

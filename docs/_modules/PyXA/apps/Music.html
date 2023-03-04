@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Music &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.apps.Music &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -81,6 +81,7 @@
 
 <span class="kn">import</span> <span class="nn">AppKit</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span><span class="p">,</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAEvents</span> <span class="kn">import</span> <span class="n">event_from_str</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">MediaApplicationBase</span>
 
@@ -149,7 +150,7 @@
     <span class="k">def</span> <span class="nf">airplay_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Whether AirPlay is currently enabled.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">airplayEnabled</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">AirPlayEnabled</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">converting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -206,7 +207,7 @@
     <span class="k">def</span> <span class="nf">eq_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Whether the equalizer is enabled.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">eqEnabled</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">EQEnabled</span><span class="p">()</span>
 
     <span class="nd">@eq_enabled</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">eq_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eq_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
@@ -267,7 +268,6 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">url</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">add_to_</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">playlist</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.airplay_devices"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.airplay_devices">[docs]</a>    <span class="k">def</span> <span class="nf">airplay_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicAirPlayDeviceList&#39;</span><span class="p">:</span>
@@ -336,6 +336,66 @@
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">miniplayerWindows</span><span class="p">(),</span> <span class="n">XAMusicMiniplayerWindowList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.sources"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.sources">[docs]</a>    <span class="k">def</span> <span class="nf">sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicSourceList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of sources, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned sources will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of sources</span>
+<span class="sd">        :rtype: XAMediaSourceList</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">sources</span><span class="p">(),</span> <span class="n">XAMusicSourceList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.user_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.user_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">user_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicUserPlaylistList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of user playlists, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of user playlists</span>
+<span class="sd">        :rtype: XAMusicUserPlaylistList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">userPlaylists</span><span class="p">(),</span> <span class="n">XAMusicUserPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.subscription_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.subscription_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">subscription_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicSubscriptionPlaylistList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of subscription playlists, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of subscription playlists</span>
+<span class="sd">        :rtype: XAMusicSubscriptionPlaylistList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">subscriptionPlaylists</span><span class="p">(),</span> <span class="n">XAMusicSubscriptionPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.radio_tuner_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.radio_tuner_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">radio_tuner_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicRadioTunerPlaylistList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of radio tuner playlists</span>
+<span class="sd">        :rtype: XAMusicRadioTunerPlaylistList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">radioTunerPlaylists</span><span class="p">(),</span> <span class="n">XAMusicRadioTunerPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.audio_cd_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.audio_cd_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">audio_cd_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicAudioCDPlaylistList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of audio CD playlists, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of audio CD playlists</span>
+<span class="sd">        :rtype: XAMusicAudioCDPlaylistList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">audioCDPlaylists</span><span class="p">(),</span> <span class="n">XAMusicAudioCDPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.tracks">[docs]</a>    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of tracks, as PyXA objects, matching the given filter.</span>
@@ -348,6 +408,18 @@
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">tracks</span><span class="p">(),</span> <span class="n">XAMusicTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="XAMusicApplication.audio_cd_tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.audio_cd_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">audio_cd_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicAudioCDTrackList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of audio CD tracks, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of audio CD tracks</span>
+<span class="sd">        :rtype: XAMusicAudioCDTrackList</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">audioCDTracks</span><span class="p">(),</span> <span class="n">XAMusicAudioCDTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.visuals"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.visuals">[docs]</a>    <span class="k">def</span> <span class="nf">visuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicVisualList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of visuals, as PyXA objects, matching the given filter.</span>
@@ -359,7 +431,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">sources</span><span class="p">(),</span> <span class="n">XAMusicVisualList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">visuals</span><span class="p">(),</span> <span class="n">XAMusicVisualList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -392,10 +464,10 @@
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.selected"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.selected">[docs]</a>    <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-    <span class="k">def</span> <span class="nf">supports_audio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;supportsAudio&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
-
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.supports_audio"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_audio">[docs]</a>    <span class="k">def</span> <span class="nf">supports_audio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;supportsAudio&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XAMusicAirPlayDeviceList.supports_video"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_video">[docs]</a>    <span class="k">def</span> <span class="nf">supports_video</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;supportsVideo&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.sound_volume"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.sound_volume">[docs]</a>    <span class="k">def</span> <span class="nf">sound_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -408,8 +480,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;available&quot;</span><span class="p">,</span> <span class="n">available</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.by_kind"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.by_kind">[docs]</a>    <span class="k">def</span> <span class="nf">by_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n">XAMusicApplication</span><span class="o">.</span><span class="n">DeviceKind</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAMusicAirPlayDevice&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="c1"># TODO</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="n">event_from_str</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">unOSType</span><span class="p">(</span><span class="n">kind</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.by_network_address"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.by_network_address">[docs]</a>    <span class="k">def</span> <span class="nf">by_network_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAMusicAirPlayDevice&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;networkAddress&quot;</span><span class="p">,</span> <span class="n">network_address</span><span class="p">)</span></div>
@@ -427,7 +498,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;supportsVideo&quot;</span><span class="p">,</span> <span class="n">supports_video</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicAirPlayDeviceList.by_sound_volume"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDeviceList.by_sound_volume">[docs]</a>    <span class="k">def</span> <span class="nf">by_sound_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sound_volume</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAMusicAirPlayDevice&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;soundVolume&quot;</span><span class="p">,</span> <span class="n">sound_volume</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;soundVolume&quot;</span><span class="p">,</span> <span class="n">sound_volume</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_format_for_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">filter</span> <span class="o">==</span> <span class="s2">&quot;kind&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">XAMusicApplication</span><span class="o">.</span><span class="n">DeviceKind</span><span class="p">):</span>
+                <span class="n">value1</span> <span class="o">=</span> <span class="n">event_from_str</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">unOSType</span><span class="p">(</span><span class="n">value1</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicAirPlayDevice"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicAirPlayDevice">[docs]</a><span class="k">class</span> <span class="nc">XAMusicAirPlayDevice</span><span class="p">(</span><span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaItem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An AirPlay device.</span>
@@ -575,13 +652,13 @@
 <div class="viewcode-block" id="XAMusicEQPresetList.band10"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.band10">[docs]</a>    <span class="k">def</span> <span class="nf">band10</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;band10&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAMusicEQPresetList.modifiable"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.modifiable">[docs]</a>    <span class="k">def</span> <span class="nf">modifiable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAMusicEQPresetList.modifiable"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.modifiable">[docs]</a>    <span class="k">def</span> <span class="nf">modifiable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modifiable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
 <div class="viewcode-block" id="XAMusicEQPresetList.preamp"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.preamp">[docs]</a>    <span class="k">def</span> <span class="nf">preamp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;preamp&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAMusicEQPresetList.update_tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.update_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">update_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAMusicEQPresetList.update_tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.update_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">update_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;updateTracks&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
 <div class="viewcode-block" id="XAMusicEQPresetList.by_band1"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicEQPresetList.by_band1">[docs]</a>    <span class="k">def</span> <span class="nf">by_band1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">band1</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAMusicEQPreset&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
@@ -852,7 +929,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">tracks</span><span class="p">(),</span> <span class="n">XAMusicTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tracks</span><span class="p">(),</span> <span class="n">XAMusicTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -999,7 +1076,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">audioCDTracks</span><span class="p">(),</span> <span class="n">XAMusicAudioCDTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">audioCDTracks</span><span class="p">(),</span> <span class="n">XAMusicAudioCDTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1032,7 +1109,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1065,7 +1142,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">audioCDPlaylists</span><span class="p">(),</span> <span class="n">XAMusicAudioCDPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">audioCDPlaylists</span><span class="p">(),</span> <span class="n">XAMusicAudioCDPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicSource.radio_tuner_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicSource.radio_tuner_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">radio_tuner_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicRadioTunerPlaylistList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.</span>
@@ -1077,7 +1154,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">radioTunerPlaylists</span><span class="p">(),</span> <span class="n">XAMusicRadioTunerPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">radioTunerPlaylists</span><span class="p">(),</span> <span class="n">XAMusicRadioTunerPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicSource.subscription_playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicSource.subscription_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">subscription_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMusicSubscriptionPlaylistList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of subscription playlists, as PyXA objects, matching the given filter.</span>
@@ -1089,7 +1166,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">subscriptionPlaylists</span><span class="p">(),</span> <span class="n">XAMusicSubscriptionPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">subscriptionPlaylists</span><span class="p">(),</span> <span class="n">XAMusicSubscriptionPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1122,7 +1199,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicSubscriptionPlaylist.url_tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicSubscriptionPlaylist.url_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">url_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MediaApplicationBase.XAMediaURLTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of URL tracks, as PyXA objects, matching the given filter.</span>
@@ -1134,7 +1211,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1624,19 +1701,25 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
         <span class="n">obj_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectClass</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;xa_specialized&quot;</span><span class="p">):</span>
+            <span class="n">new_self</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;WrBc&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaBrowserWindow</span>
+                <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaBrowserWindow</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;WlPc&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaPlaylistWindow</span>
+                <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaPlaylistWindow</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;niwc&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaVideoWindow</span>
+                <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">MediaApplicationBase</span><span class="o">.</span><span class="n">XAMediaVideoWindow</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;WPMc&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XAMusicMiniplayerWindow</span>
+                <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">XAMusicMiniplayerWindow</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;WQEc&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XAMusicEQWindow</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">xa_specialized</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+                <span class="n">new_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">XAMusicEQWindow</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">new_self</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">new_self</span><span class="o">.</span><span class="vm">__class__</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_specialized</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 
@@ -1688,7 +1771,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

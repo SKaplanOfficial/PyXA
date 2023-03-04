@@ -256,6 +256,25 @@ class XASBWindow(XABase.XAObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
 
+        if self.xa_scel is None:
+            parent = self.xa_prnt
+            while not hasattr(parent, "xa_prcs"):
+                parent = parent.xa_prnt
+
+            if (len(parent.xa_prcs.windows()) > 0):
+                self.xa_scel = parent.xa_prcs.windows()[self.index - 1]
+
+    def __getattr__(self, attr):
+        attributes = [x for y in [cls.__dict__.keys() for cls in self.__class__.__mro__ if cls.__name__ != "object"] for x in y]
+        if attr in attributes:
+            # If possible, use PyXA attribute
+            return super().__getattribute__(attr)
+        else:
+            try:
+                return self.xa_scel.__getattribute__(attr)
+            except Exception as e:
+                raise e
+
     @property
     def name(self) -> str:
         """The title of the window.

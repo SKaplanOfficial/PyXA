@@ -9,6 +9,7 @@ from typing import Literal, Union
 
 import AppKit
 from PyXA import XABase, XABaseScriptable
+from ..XAEvents import event_from_str
 
 from . import MediaApplicationBase
 
@@ -77,7 +78,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     def airplay_enabled(self) -> bool:
         """Whether AirPlay is currently enabled.
         """
-        return self.xa_scel.airplayEnabled()
+        return self.xa_scel.AirPlayEnabled()
 
     @property
     def converting(self) -> bool:
@@ -134,7 +135,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     def eq_enabled(self) -> bool:
         """Whether the equalizer is enabled.
         """
-        return self.xa_scel.eqEnabled()
+        return self.xa_scel.EQEnabled()
 
     @eq_enabled.setter
     def eq_enabled(self, eq_enabled: bool):
@@ -195,7 +196,6 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
             if isinstance(url, str):
                 url = AppKit.NSURL.alloc().initFileURLWithPath_(url)
             items.append(url)
-        print(items)
         self.xa_scel.add_to_(items, playlist.xa_elem)
 
     def airplay_devices(self, filter: Union[dict, None] = None) -> 'XAMusicAirPlayDeviceList':
@@ -264,6 +264,66 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         .. versionadded:: 0.0.7
         """
         return self._new_element(self.xa_scel.miniplayerWindows(), XAMusicMiniplayerWindowList, filter)
+    
+    def sources(self, filter: Union[dict, None] = None) -> 'XAMusicSourceList':
+        """Returns a list of sources, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned sources will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of sources
+        :rtype: XAMediaSourceList
+
+        .. versionadded:: 0.0.1
+        """
+        return self._new_element(self.xa_scel.sources(), XAMusicSourceList, filter)
+    
+    def user_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicUserPlaylistList':
+        """Returns a list of user playlists, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of user playlists
+        :rtype: XAMusicUserPlaylistList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.userPlaylists(), XAMusicUserPlaylistList, filter)
+    
+    def subscription_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicSubscriptionPlaylistList':
+        """Returns a list of subscription playlists, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of subscription playlists
+        :rtype: XAMusicSubscriptionPlaylistList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.subscriptionPlaylists(), XAMusicSubscriptionPlaylistList, filter)
+    
+    def radio_tuner_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicRadioTunerPlaylistList':
+        """Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of radio tuner playlists
+        :rtype: XAMusicRadioTunerPlaylistList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.radioTunerPlaylists(), XAMusicRadioTunerPlaylistList, filter)
+    
+    def audio_cd_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicAudioCDPlaylistList':
+        """Returns a list of audio CD playlists, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of audio CD playlists
+        :rtype: XAMusicAudioCDPlaylistList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.audioCDPlaylists(), XAMusicAudioCDPlaylistList, filter)
 
     def tracks(self, filter: Union[dict, None] = None) -> 'XAMusicTrackList':
         """Returns a list of tracks, as PyXA objects, matching the given filter.
@@ -276,6 +336,18 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.tracks(), XAMusicTrackList, filter)
+    
+    def audio_cd_tracks(self, filter: Union[dict, None] = None) -> 'XAMusicAudioCDTrackList':
+        """Returns a list of audio CD tracks, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of audio CD tracks
+        :rtype: XAMusicAudioCDTrackList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.audioCDTracks(), XAMusicAudioCDTrackList, filter)
 
     def visuals(self, filter: Union[dict, None] = None) -> 'XAMusicVisualList':
         """Returns a list of visuals, as PyXA objects, matching the given filter.
@@ -287,7 +359,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sources(), XAMusicVisualList, filter)
+        return self._new_element(self.xa_scel.visuals(), XAMusicVisualList, filter)
 
 
 
@@ -323,7 +395,7 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
     def supports_audio(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("supportsAudio") or [])
 
-    def supports_audio(self) -> list[bool]:
+    def supports_video(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("supportsVideo") or [])
 
     def sound_volume(self) -> list[int]:
@@ -336,8 +408,7 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
         return self.by_property("available", available)
 
     def by_kind(self, kind: XAMusicApplication.DeviceKind) -> Union['XAMusicAirPlayDevice', None]:
-        # TODO
-        return self.by_property("kind", kind.value)
+        return self.by_property("kind", event_from_str(XABase.unOSType(kind.value)))
 
     def by_network_address(self, network_address: str) -> Union['XAMusicAirPlayDevice', None]:
         return self.by_property("networkAddress", network_address)
@@ -356,6 +427,12 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
 
     def by_sound_volume(self, sound_volume: int) -> Union['XAMusicAirPlayDevice', None]:
         return self.by_property("soundVolume", sound_volume)
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter == "kind":
+            if isinstance(value1, XAMusicApplication.DeviceKind):
+                value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
     """An AirPlay device.
@@ -503,13 +580,13 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
     def band10(self) -> list[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("band10") or [])
 
-    def modifiable(self) -> list[float]:
+    def modifiable(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modifiable") or [])
 
     def preamp(self) -> list[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("preamp") or [])
 
-    def update_tracks(self) -> list[float]:
+    def update_tracks(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("updateTracks") or [])
 
     def by_band1(self, band1: float) -> Union['XAMusicEQPreset', None]:
@@ -780,7 +857,7 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.tracks(), XAMusicTrackList, filter)
+        return self._new_element(self.xa_elem.tracks(), XAMusicTrackList, filter)
 
 
 
@@ -927,7 +1004,7 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.audioCDTracks(), XAMusicAudioCDTrackList, filter)
+        return self._new_element(self.xa_elem.audioCDTracks(), XAMusicAudioCDTrackList, filter)
 
 
 
@@ -960,7 +1037,7 @@ class XAMusicRadioTunerPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 
@@ -993,7 +1070,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.audioCDPlaylists(), XAMusicAudioCDPlaylistList, filter)
+        return self._new_element(self.xa_elem.audioCDPlaylists(), XAMusicAudioCDPlaylistList, filter)
 
     def radio_tuner_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicRadioTunerPlaylistList':
         """Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.
@@ -1005,7 +1082,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.radioTunerPlaylists(), XAMusicRadioTunerPlaylistList, filter)
+        return self._new_element(self.xa_elem.radioTunerPlaylists(), XAMusicRadioTunerPlaylistList, filter)
 
     def subscription_playlists(self, filter: Union[dict, None] = None) -> 'XAMusicSubscriptionPlaylistList':
         """Returns a list of subscription playlists, as PyXA objects, matching the given filter.
@@ -1017,7 +1094,7 @@ class XAMusicSource(MediaApplicationBase.XAMediaSource):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.subscriptionPlaylists(), XAMusicSubscriptionPlaylistList, filter)
+        return self._new_element(self.xa_elem.subscriptionPlaylists(), XAMusicSubscriptionPlaylistList, filter)
 
 
 
@@ -1050,7 +1127,7 @@ class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), MediaApplicationBase.XAMediaFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), MediaApplicationBase.XAMediaFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'MediaApplicationBase.XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -1062,7 +1139,7 @@ class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 
@@ -1552,19 +1629,25 @@ class XAMusicWindow(MediaApplicationBase.XAMediaWindow, XABaseScriptable.XASBWin
         super().__init__(properties)
 
         obj_class = self.xa_elem.objectClass().data()
+
         if not hasattr(self, "xa_specialized"):
+            new_self = None
             if obj_class == b'WrBc':
-                self.__class__ = MediaApplicationBase.XAMediaBrowserWindow
+                new_self = self._new_element(self.xa_elem, MediaApplicationBase.XAMediaBrowserWindow)
             elif obj_class == b'WlPc':
-                self.__class__ = MediaApplicationBase.XAMediaPlaylistWindow
+                new_self = self._new_element(self.xa_elem, MediaApplicationBase.XAMediaPlaylistWindow)
             elif obj_class == b'niwc':
-                self.__class__ = MediaApplicationBase.XAMediaVideoWindow
+                new_self = self._new_element(self.xa_elem, MediaApplicationBase.XAMediaVideoWindow)
             elif obj_class == b'WPMc':
-                self.__class__ = XAMusicMiniplayerWindow
+                new_self = self._new_element(self.xa_elem, XAMusicMiniplayerWindow)
             elif obj_class == b'WQEc':
-                self.__class__ = XAMusicEQWindow
+                new_self = self._new_element(self.xa_elem, XAMusicEQWindow)
+
+            if new_self is not None:
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+
             self.xa_specialized = True
-            self.__init__(properties)
 
 
 

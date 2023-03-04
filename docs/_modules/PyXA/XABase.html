@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.XABase &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.XABase &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -356,6 +356,16 @@
             <span class="n">obj</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">firstObject</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_format_for_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="nb">filter</span> <span class="ow">and</span> <span class="s2">&quot; &quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="nb">filter</span> <span class="o">+=</span> <span class="n">part</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAList.equalling"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAList.equalling">[docs]</a>    <span class="k">def</span> <span class="nf">equalling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves all elements whose property value equals the given value.</span>
@@ -376,6 +386,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_eq_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -400,6 +411,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_neq_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -424,6 +436,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_contains_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -448,6 +461,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="o">.</span><span class="n">evaluate_with_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;NOT </span><span class="si">{</span><span class="nb">property</span><span class="si">}</span><span class="s2"> CONTAINS </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span></div>
 
@@ -470,6 +484,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_begins_with_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -494,6 +509,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_ends_with_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -518,6 +534,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_gt_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -542,6 +559,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_lt_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
@@ -572,6 +590,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">property</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_gt_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value1</span><span class="p">)</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_lt_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
@@ -624,6 +643,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_for_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">comparison_operation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">value1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">comparison_operation</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;EQ&quot;</span><span class="p">,</span> <span class="s2">&quot;equals&quot;</span><span class="p">,</span> <span class="s2">&quot;EQUALS&quot;</span><span class="p">]:</span>
@@ -699,8 +719,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">shuffledArray</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span>
+                <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSArray</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithArray_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XAList.extend"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAList.extend">[docs]</a>    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ls</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">]):</span>
@@ -4307,6 +4332,25 @@
 <div class="viewcode-block" id="XADiskItemList.by_volume"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADiskItemList.by_volume">[docs]</a>    <span class="k">def</span> <span class="nf">by_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADiskItem&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">,</span> <span class="n">volume</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XADiskItemList.move_to"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADiskItemList.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XAPath</span><span class="p">,</span> <span class="s1">&#39;XAFolder&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Moves all disk items in the list to the specified location.</span>
+
+<span class="sd">        :param folder: The folder location to move the items to</span>
+<span class="sd">        :type folder: Union[str, XAPath, XAFolder]</span>
+<span class="sd">        :return: The list of disk items</span>
+<span class="sd">        :rtype: XADiskItem</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">XAFolder</span><span class="p">):</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">posix_path</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">XAPath</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
 <div class="viewcode-block" id="XADiskItemList.__repr__"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADiskItemList.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div></div>
 
@@ -4455,6 +4499,25 @@
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XADiskItem.move_to"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADiskItem.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XAPath</span><span class="p">,</span> <span class="s1">&#39;XAFolder&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Moves the disk item to the specified location.</span>
+
+<span class="sd">        :param folder: The folder location to move the item to</span>
+<span class="sd">        :type folder: Union[str, XAPath, XAFolder]</span>
+<span class="sd">        :return: The disk item object</span>
+<span class="sd">        :rtype: XADiskItem</span>
+
+<span class="sd">        .. versionadded:: 0.2.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">XAFolder</span><span class="p">):</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">posix_path</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">XAPath</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XADiskItem.get_path_representation"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADiskItem.get_path_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_path_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAPath</span><span class="p">:</span>
@@ -4616,35 +4679,35 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAAlias.disk_items"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAlias.disk_items">[docs]</a>    <span class="k">def</span> <span class="nf">disk_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItemList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of disk items, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAAlias.files"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAlias.files">[docs]</a>    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFileList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of files, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAAlias.file_packages"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAlias.file_packages">[docs]</a>    <span class="k">def</span> <span class="nf">file_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFilePackageList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of file packages, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAAlias.folders"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAlias.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFolderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of folders, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -4799,35 +4862,35 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XADisk.disk_items"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADisk.disk_items">[docs]</a>    <span class="k">def</span> <span class="nf">disk_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItemList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of disk items, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XADisk.files"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADisk.files">[docs]</a>    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFileList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of files, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XADisk.file_packages"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADisk.file_packages">[docs]</a>    <span class="k">def</span> <span class="nf">file_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFilePackageList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of file packages, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileOackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileOackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XADisk.folders"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADisk.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFolderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of folders, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -4990,7 +5053,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XADomain.__repr__"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XADomain.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div></div>
@@ -5099,7 +5162,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -5281,35 +5344,35 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFilePackage.disk_items"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFilePackage.disk_items">[docs]</a>    <span class="k">def</span> <span class="nf">disk_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItemList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of disk items, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFilePackage.files"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFilePackage.files">[docs]</a>    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFileList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of files, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFilePackage.file_packages"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFilePackage.file_packages">[docs]</a>    <span class="k">def</span> <span class="nf">file_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFilePackageList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of file packages, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFilePackage.folders"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFilePackage.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFolderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of folders, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -5337,28 +5400,28 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aliases</span><span class="p">(),</span> <span class="n">XAAliasList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFolder.disk_items"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFolder.disk_items">[docs]</a>    <span class="k">def</span> <span class="nf">disk_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADiskItemList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of disk items, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">diskItems</span><span class="p">(),</span> <span class="n">XADiskItemList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFolder.files"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFolder.files">[docs]</a>    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFileList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of files, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> <span class="n">XAFileList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFolder.file_packages"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFolder.file_packages">[docs]</a>    <span class="k">def</span> <span class="nf">file_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFilePackageList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of file packages, as PyXA objects, matching the given filter.</span>
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePackages</span><span class="p">(),</span> <span class="n">XAFilePackageList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAFolder.folders"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAFolder.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAFolderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of folders, as PyXA objects, matching the given filter.</span>
@@ -5370,7 +5433,7 @@
 
 <span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XAFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -6627,9 +6690,15 @@
             <span class="k">case</span> <span class="p">{</span><span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSImage</span><span class="p">()</span> <span class="k">as</span> <span class="n">image</span><span class="p">}:</span>
                 <span class="n">image_reference</span> <span class="o">=</span> <span class="n">image</span>
 
+            <span class="k">case</span> <span class="n">XAPath</span><span class="p">()</span> <span class="k">as</span> <span class="n">path</span><span class="p">:</span>
+                <span class="n">image_reference</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span>
+
+            <span class="k">case</span> <span class="n">XAURL</span><span class="p">()</span> <span class="k">as</span> <span class="n">url</span><span class="p">:</span>
+                <span class="n">image_reference</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">url</span>
+
             <span class="k">case</span> <span class="n">XAObject</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">image_reference</span> <span class="o">=</span> <span class="n">image_reference</span><span class="o">.</span><span class="n">get_image_representation</span><span class="p">()</span><span class="o">.</span><span class="n">xa_elem</span>
+                    <span class="n">image_reference</span> <span class="o">=</span> <span class="n">image_reference</span><span class="o">.</span><span class="n">get_image_representation</span><span class="p">()</span>
                 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">image_reference</span><span class="p">))</span><span class="si">}</span><span class="s2"> does not implement the XAImageLike protocol.&quot;</span><span class="p">)</span>
 
@@ -7623,7 +7692,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

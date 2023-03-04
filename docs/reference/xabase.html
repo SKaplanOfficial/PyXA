@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XABase Module &mdash; PyXA 0.1.2 documentation</title>
+  <title>XABase Module &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="XABaseScriptable Module" href="xabasescriptable.html" />
-    <link rel="prev" title="PyXA Module" href="pyxa.html" /> 
+    <link rel="prev" title="Code Documentation and Reference" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="pyxa.html">PyXA Module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">XABase Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#PyXA.XABase.AppleScript"><code class="docutils literal notranslate"><span class="pre">AppleScript</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#PyXA.XABase.Application"><code class="docutils literal notranslate"><span class="pre">Application</span></code></a></li>
@@ -3619,7 +3618,10 @@ The pasted content may be different for other applications.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItem.get_path_representation" title="PyXA.XABase.XADiskItem.get_path_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_path_representation</span></code></a>()</p></td>
 <td><p>Gets a representation of the object that can be used to initialize an <a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItem.open" title="PyXA.XABase.XADiskItem.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItem.move_to" title="PyXA.XABase.XADiskItem.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(folder)</p></td>
+<td><p>Moves the disk item to the specified location.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItem.open" title="PyXA.XABase.XADiskItem.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>()</p></td>
 <td><p>Opens the item in its default application.</p></td>
 </tr>
 </tbody>
@@ -3723,6 +3725,26 @@ The pasted content may be different for other applications.</p>
 <dd><p>The date on which the disk item was last modified.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XADiskItem.move_to">
+<span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAFolder" title="PyXA.XABase.XAFolder"><span class="pre">XAFolder</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem"><span class="pre">XADiskItem</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XADiskItem.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XADiskItem.move_to" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the disk item to the specified location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XAPath</em></a><em>, </em><a class="reference internal" href="#PyXA.XABase.XAFolder" title="PyXA.XABase.XAFolder"><em>XAFolder</em></a><em>]</em>) – The folder location to move the item to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The disk item object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem">XADiskItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
 </div>
 </dd></dl>
 
@@ -3930,34 +3952,37 @@ The pasted content may be different for other applications.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.modification_date" title="PyXA.XABase.XADiskItemList.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.name" title="PyXA.XABase.XADiskItemList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.move_to" title="PyXA.XABase.XADiskItemList.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(folder)</p></td>
+<td><p>Moves all disk items in the list to the specified location.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.name" title="PyXA.XABase.XADiskItemList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.name_extension" title="PyXA.XABase.XADiskItemList.name_extension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_extension</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.name_extension" title="PyXA.XABase.XADiskItemList.name_extension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_extension</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.package_folder" title="PyXA.XABase.XADiskItemList.package_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">package_folder</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.package_folder" title="PyXA.XABase.XADiskItemList.package_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">package_folder</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.path" title="PyXA.XABase.XADiskItemList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.path" title="PyXA.XABase.XADiskItemList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.physical_size" title="PyXA.XABase.XADiskItemList.physical_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_size</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.physical_size" title="PyXA.XABase.XADiskItemList.physical_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_size</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.posix_path" title="PyXA.XABase.XADiskItemList.posix_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">posix_path</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.posix_path" title="PyXA.XABase.XADiskItemList.posix_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">posix_path</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.size" title="PyXA.XABase.XADiskItemList.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.size" title="PyXA.XABase.XADiskItemList.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.url" title="PyXA.XABase.XADiskItemList.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.url" title="PyXA.XABase.XADiskItemList.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.visible" title="PyXA.XABase.XADiskItemList.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.visible" title="PyXA.XABase.XADiskItemList.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.volume" title="PyXA.XABase.XADiskItemList.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADiskItemList.volume" title="PyXA.XABase.XADiskItemList.volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -4108,6 +4133,26 @@ The pasted content may be different for other applications.</p>
 <dt class="sig sig-object py" id="PyXA.XABase.XADiskItemList.modification_date">
 <span class="sig-name descname"><span class="pre">modification_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XADiskItemList.modification_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XADiskItemList.modification_date" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XADiskItemList.move_to">
+<span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAFolder" title="PyXA.XABase.XAFolder"><span class="pre">XAFolder</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem"><span class="pre">XADiskItem</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XADiskItemList.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XADiskItemList.move_to" title="Permalink to this definition"></a></dt>
+<dd><p>Moves all disk items in the list to the specified location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XAPath</em></a><em>, </em><a class="reference internal" href="#PyXA.XABase.XAFolder" title="PyXA.XABase.XAFolder"><em>XAFolder</em></a><em>]</em>) – The folder location to move the items to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of disk items</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XADiskItem" title="PyXA.XABase.XADiskItem">XADiskItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XADiskItemList.name">
@@ -12704,14 +12749,14 @@ The pasted content may be different for other applications.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pyxa.html" class="btn btn-neutral float-left" title="PyXA Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Code Documentation and Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="xabasescriptable.html" class="btn btn-neutral float-right" title="XABaseScriptable Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

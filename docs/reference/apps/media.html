@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Application Reference &mdash; PyXA 0.1.2 documentation</title>
+  <title>Media Application Reference &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -224,6 +224,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.fast_forward" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.fast_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fast_forward</span></code></a>()</p></td>
 <td><p>Repeated skip forward in the track until resume() is called.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.file_tracks" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.file_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_tracks</span></code></a>([filter])</p></td>
+<td><p>Returns a list of file tracks, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.library_playlists" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.library_playlists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">library_playlists</span></code></a>([filter])</p></td>
+<td><p>Returns a list of library playlists, as PyXA objects, matching the given filter.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.next_track" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.next_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next_track</span></code></a>()</p></td>
 <td><p>Advances to the next track in the current playlist.</p></td>
 </tr>
@@ -233,7 +239,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.pause" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
 <td><p>Pauses the current track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.play" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>([item])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.play" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>([item, play_once])</p></td>
 <td><p>Plays the specified TV item (e.g.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.playlist_windows" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.playlist_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">playlist_windows</span></code></a>([filter])</p></td>
@@ -257,14 +263,20 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.set_volume" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.set_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_volume</span></code></a>(new_volume)</p></td>
 <td><p>Sets the volume of playback.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.sources" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.sources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sources</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.shared_tracks" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.shared_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shared_tracks</span></code></a>([filter])</p></td>
+<td><p>Returns a list of shared tracks, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.sources" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.sources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sources</span></code></a>([filter])</p></td>
 <td><p>Returns a list of sources, as PyXA objects, matching the given filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.stop" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.stop" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
 <td><p>Stops playback of the current track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.tracks" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.tracks" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
 <td><p>Returns a list of tracks, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.url_tracks" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.url_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url_tracks</span></code></a>([filter])</p></td>
+<td><p>Returns a list of URL tracks, as PyXA objects, matching the given filter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.video_windows" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.video_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">video_windows</span></code></a>([filter])</p></td>
 <td><p>Returns a list of video windows, as PyXA objects, matching the given filter.</p></td>
@@ -437,10 +449,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.PURCHASED_MUSIC" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.PURCHASED_MUSIC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PURCHASED_MUSIC</span></code></a></p></td>
 <td><p>The purchased music playlist</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">USER</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.UNKNOWN" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.UNKNOWN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNKNOWN</span></code></a></p></td>
+<td><p>An unknown playlist kind</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">USER</span></code></a></p></td>
 <td><p>A user-created playlist</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER_LIBRARY" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER_LIBRARY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">USER_LIBRARY</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER_LIBRARY" title="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.USER_LIBRARY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">USER_LIBRARY</span></code></a></p></td>
 <td><p>The user's library</p></td>
 </tr>
 </tbody>
@@ -479,6 +494,12 @@
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.PURCHASED_MUSIC">
 <span class="sig-name descname"><span class="pre">PURCHASED_MUSIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1800630349</span></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.PURCHASED_MUSIC" title="Permalink to this definition"></a></dt>
 <dd><p>The purchased music playlist</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.PlaylistKind.UNKNOWN" title="Permalink to this definition"></a></dt>
+<dd><p>An unknown playlist kind</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -755,6 +776,26 @@
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.file_tracks">
+<span class="sig-name descname"><span class="pre">file_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaFileTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaFileTrackList"><span class="pre">XAMediaFileTrackList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.file_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.file_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of file tracks, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned tracks will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of file tracks</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaFileTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaFileTrackList">XAMediaFileTrackList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.fixed_indexing">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fixed_indexing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.fixed_indexing" title="Permalink to this definition"></a></dt>
@@ -771,6 +812,26 @@
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.full_screen">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">full_screen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.full_screen" title="Permalink to this definition"></a></dt>
 <dd><p>Whether the app is fullscreen or not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.library_playlists">
+<span class="sig-name descname"><span class="pre">library_playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaLibraryPlaylistList" title="PyXA.apps.MediaApplicationBase.XAMediaLibraryPlaylistList"><span class="pre">XAMediaLibraryPlaylistList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.library_playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.library_playlists" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of library playlists, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned playlists will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of library playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaLibraryPlaylistList" title="PyXA.apps.MediaApplicationBase.XAMediaLibraryPlaylistList">XAMediaLibraryPlaylistList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -849,7 +910,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.play">
-<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaItem" title="PyXA.apps.MediaApplicationBase.XAMediaItem"><span class="pre">XAMediaItem</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication" title="PyXA.apps.MediaApplicationBase.XAMediaApplication"><span class="pre">XAMediaApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.play" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaItem" title="PyXA.apps.MediaApplicationBase.XAMediaItem"><span class="pre">XAMediaItem</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">play_once</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication" title="PyXA.apps.MediaApplicationBase.XAMediaApplication"><span class="pre">XAMediaApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.play" title="Permalink to this definition"></a></dt>
 <dd><p>Plays the specified TV item (e.g. track, playlist, etc.). If no item is provided, this plays the current track from its current player position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1033,6 +1094,26 @@
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.shared_tracks">
+<span class="sig-name descname"><span class="pre">shared_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaSharedTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaSharedTrackList"><span class="pre">XAMediaSharedTrackList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.shared_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.shared_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of shared tracks, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned tracks will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of shared tracks</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaSharedTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaSharedTrackList">XAMediaSharedTrackList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.sound_volume">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sound_volume</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.sound_volume" title="Permalink to this definition"></a></dt>
@@ -1097,6 +1178,26 @@
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaApplication.url_tracks">
+<span class="sig-name descname"><span class="pre">url_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaURLTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaURLTrackList"><span class="pre">XAMediaURLTrackList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaApplication.url_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaApplication.url_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of URL tracks, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned tracks will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of URL tracks</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaURLTrackList" title="PyXA.apps.MediaApplicationBase.XAMediaURLTrackList">XAMediaURLTrackList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
 </div>
 </dd></dl>
 
@@ -1863,10 +1964,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.move_to" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(parent_playlist)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.search" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(query[, type])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.play" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<td><p>Starts playback of the playlist, beginning with the first track in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.search" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(query[, type])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.tracks" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.tracks" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
 <td><p>Returns a list of tracks, as PyXA objects, matching the given filter.</p></td>
 </tr>
 </tbody>
@@ -1947,6 +2051,15 @@
 <dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist" title="PyXA.apps.MediaApplicationBase.XAMediaPlaylist"><span class="pre">XAMediaPlaylist</span></a></em><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.parent" title="Permalink to this definition"></a></dt>
 <dd><p>The folder containing the playlist, if any.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.MediaApplicationBase.XAMediaPlaylist.play">
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/MediaApplicationBase.html#XAMediaPlaylist.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.MediaApplicationBase.XAMediaPlaylist.play" title="Permalink to this definition"></a></dt>
+<dd><p>Starts playback of the playlist, beginning with the first track in the list.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -4213,7 +4326,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

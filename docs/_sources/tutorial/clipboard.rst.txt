@@ -80,5 +80,5 @@ You can also copy :class:`~PyXA.XABase.XAList` objects to the clipboard in the s
 .. code-block:: Python
 
     import PyXA
-    tracks = PyXA.application("Music").tracks()
+    tracks = PyXA.Application("Music").tracks()
     PyXA.XAClipboard().content = tracks

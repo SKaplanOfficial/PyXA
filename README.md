@@ -1,8 +1,5 @@
 <p align="center"><img src="https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></p>
 
-[![Documentation Status](https://readthedocs.org/projects/pyxa/badge/?version=latest)](https://pyxa.readthedocs.io/en/latest/?badge=latest)
-
-
 # Python for Automation
 Python for Automation, or PyXA for short, is a wrapper around several macOS frameworks that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA's objects and methods are based on applications' scripting dictionaries and coupled with additional automation features supported by Apple's macOS APIs. 
 

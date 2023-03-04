@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.PhotosApp &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.apps.PhotosApp &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -89,7 +89,6 @@
 
 <span class="kn">import</span> <span class="nn">AppKit</span>
 <span class="kn">import</span> <span class="nn">Photos</span>
-<span class="kn">import</span> <span class="nn">PhotosUI</span>
 <span class="kn">import</span> <span class="nn">Quartz</span>
 
 <span class="kn">from</span> <span class="nn">PyObjCTools</span> <span class="kn">import</span> <span class="n">AppHelper</span>
@@ -468,10 +467,14 @@
 
     <span class="k">def</span> <span class="nf">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSObject</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAObject&#39;</span><span class="p">:</span>
         <span class="n">element</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="n">predicate</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPredicate</span><span class="p">()</span>
-        <span class="n">predicate</span><span class="o">.</span><span class="n">add_eq_condition</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">())</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">)</span>
-        <span class="n">element</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPredicate</span><span class="p">()</span>
+            <span class="n">predicate</span><span class="o">.</span><span class="n">add_eq_condition</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">())</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">)</span>
+            <span class="n">element</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">element</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span>
         <span class="k">return</span> <span class="n">element</span>
 
 <div class="viewcode-block" id="XAPhotosMediaItemList.properties"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItemList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
@@ -843,7 +846,7 @@
 <span class="sd">        :return: The XAImage-compatible form of this object</span>
 <span class="sd">        :rtype: XABase.XAPath</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">path</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1079,7 +1082,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

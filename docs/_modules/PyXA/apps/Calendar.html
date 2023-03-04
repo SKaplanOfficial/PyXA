@@ -644,7 +644,9 @@
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+        <span class="c1"># self.calendar_obj.delete()</span>
+        <span class="c1"># print(self.xa_elem.lastError())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">removeCalendar_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calendar_obj</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XACalendarCalendar.events_in_range"><a class="viewcode-back" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarCalendar.events_in_range">[docs]</a>    <span class="k">def</span> <span class="nf">events_in_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACalendarEventList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets a list of events occurring between the specified start and end datetimes.</span>
@@ -691,24 +693,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">events_in_range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="XACalendarCalendar.week_events"><a class="viewcode-back" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarCalendar.week_events">[docs]</a>    <span class="k">def</span> <span class="nf">week_events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACalendarEventList&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Gets a list of events occurring in the next 7 days.</span>
-
-<span class="sd">        :return: The list of events.</span>
-<span class="sd">        :rtype: XACalendarEventList</span>
-
-<span class="sd">        .. seealso:: :func:`events_today`</span>
-
-<span class="sd">        .. deprecated:: 0.1.2</span>
-<span class="sd">        </span>
-<span class="sd">           Use :func:`events_in_range` instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span> <span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">events_in_range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XACalendarCalendar.new_event"><a class="viewcode-back" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarCalendar.new_event">[docs]</a>    <span class="k">def</span> <span class="nf">new_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACalendarEvent&#39;</span><span class="p">:</span>
@@ -1268,7 +1252,7 @@
         <span class="k">while</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;events&quot;</span><span class="p">):</span>
             <span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">xa_prnt</span>
 
-        <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">by_uid</span><span class="p">(</span><span class="n">new_event</span><span class="o">.</span><span class="n">eventIdentifier</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">parent</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">by_uid</span><span class="p">(</span><span class="n">new_event</span><span class="o">.</span><span class="n">calendarItemIdentifier</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="XACalendarEvent.duplicate_to"><a class="viewcode-back" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.duplicate_to">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calendar</span><span class="p">:</span> <span class="n">XACalendarCalendar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACalendarEvent&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Duplicates the event, placing the copy on the same calendar.</span>
@@ -1293,7 +1277,7 @@
         <span class="n">calendar_obj</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPredicate</span><span class="o">.</span><span class="n">evaluate_with_dict</span><span class="p">(</span><span class="n">calendars</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">calendar</span><span class="o">.</span><span class="n">name</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">new_event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_event_obj</span><span class="o">.</span><span class="n">copyToCalendar_withOptions_</span><span class="p">(</span><span class="n">calendar_obj</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveEvent_span_commit_error_</span><span class="p">(</span><span class="n">new_event</span><span class="p">,</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKSpanThisEvent</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">by_uid</span><span class="p">(</span><span class="n">new_event</span><span class="o">.</span><span class="n">eventIdentifier</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">()</span><span class="o">.</span><span class="n">by_uid</span><span class="p">(</span><span class="n">new_event</span><span class="o">.</span><span class="n">calendarItemIdentifier</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="XACalendarEvent.move_to"><a class="viewcode-back" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calendar</span><span class="p">:</span> <span class="n">XACalendarCalendar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACalendarEvent&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Moves this event to the specified calendar.</span>

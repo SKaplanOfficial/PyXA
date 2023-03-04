@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'PyXA'
-copyright = '2022, Stephen Kaplan'
+copyright = '2023, Stephen Kaplan'
 author = 'Stephen Kaplan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.2'
+release = '0.2.1'
 
 
 # -- General configuration ---------------------------------------------------

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; PyXA 0.1.2 documentation</title>
+  <title>Tutorial &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -144,7 +144,7 @@ https://www.google.com
 <span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">documents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The approach you use will depend one your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.</p>
+<p>The approach you use will depend on your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.</p>
 <p>Let’s make our workflow more useful by having it save the URL to a new note. To do this, we’ll need a reference to the Notes app. We then need to tell the Notes app to create a new note with the URL as the note’s content. We can temporarily store the URL in a variable to make our code more readable. The PyXA script for this is as follows:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">current_url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span>
@@ -213,7 +213,7 @@ PyXA.application<span class="o">(</span><span class="s2">&quot;Notes&quot;</span
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

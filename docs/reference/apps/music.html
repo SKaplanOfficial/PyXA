@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music Module Reference &mdash; PyXA 0.1.2 documentation</title>
+  <title>Music Module Reference &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -406,6 +406,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_audio" title="PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_audio</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_video" title="PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_video"><code class="xref py py-obj docutils literal notranslate"><span class="pre">supports_video</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -493,6 +496,11 @@
 <span class="sig-name descname"><span class="pre">supports_audio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicAirPlayDeviceList.supports_audio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_audio" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_video">
+<span class="sig-name descname"><span class="pre">supports_video</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicAirPlayDeviceList.supports_video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicAirPlayDeviceList.supports_video" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -536,6 +544,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.airplay_devices" title="PyXA.apps.Music.XAMusicApplication.airplay_devices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airplay_devices</span></code></a>([filter])</p></td>
 <td><p>Returns a list of AirPlay devices, as PyXA objects, matching the given filter.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.audio_cd_playlists" title="PyXA.apps.Music.XAMusicApplication.audio_cd_playlists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">audio_cd_playlists</span></code></a>([filter])</p></td>
+<td><p>Returns a list of audio CD playlists, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.audio_cd_tracks" title="PyXA.apps.Music.XAMusicApplication.audio_cd_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">audio_cd_tracks</span></code></a>([filter])</p></td>
+<td><p>Returns a list of audio CD tracks, as PyXA objects, matching the given filter.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.encoders" title="PyXA.apps.Music.XAMusicApplication.encoders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encoders</span></code></a>([filter])</p></td>
 <td><p>Returns a list of encoders, as PyXA objects, matching the given filter.</p></td>
 </tr>
@@ -548,8 +562,20 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.miniplayer_windows" title="PyXA.apps.Music.XAMusicApplication.miniplayer_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniplayer_windows</span></code></a>([filter])</p></td>
 <td><p>Returns a list of miniplayer windows, as PyXA objects, matching the given filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.tracks" title="PyXA.apps.Music.XAMusicApplication.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.radio_tuner_playlists" title="PyXA.apps.Music.XAMusicApplication.radio_tuner_playlists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radio_tuner_playlists</span></code></a>([filter])</p></td>
+<td><p>Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.sources" title="PyXA.apps.Music.XAMusicApplication.sources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sources</span></code></a>([filter])</p></td>
+<td><p>Returns a list of sources, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.subscription_playlists" title="PyXA.apps.Music.XAMusicApplication.subscription_playlists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscription_playlists</span></code></a>([filter])</p></td>
+<td><p>Returns a list of subscription playlists, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.tracks" title="PyXA.apps.Music.XAMusicApplication.tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tracks</span></code></a>([filter])</p></td>
 <td><p>Returns a list of tracks, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.user_playlists" title="PyXA.apps.Music.XAMusicApplication.user_playlists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_playlists</span></code></a>([filter])</p></td>
+<td><p>Returns a list of user playlists, as PyXA objects, matching the given filter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicApplication.visuals" title="PyXA.apps.Music.XAMusicApplication.visuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visuals</span></code></a>([filter])</p></td>
 <td><p>Returns a list of visuals, as PyXA objects, matching the given filter.</p></td>
@@ -846,6 +872,46 @@
 <dd><p>Whether AirPlay is currently enabled.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.audio_cd_playlists">
+<span class="sig-name descname"><span class="pre">audio_cd_playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicAudioCDPlaylistList" title="PyXA.apps.Music.XAMusicAudioCDPlaylistList"><span class="pre">XAMusicAudioCDPlaylistList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.audio_cd_playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.audio_cd_playlists" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of audio CD playlists, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned playlists will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of audio CD playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicAudioCDPlaylistList" title="PyXA.apps.Music.XAMusicAudioCDPlaylistList">XAMusicAudioCDPlaylistList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.audio_cd_tracks">
+<span class="sig-name descname"><span class="pre">audio_cd_tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicAudioCDTrackList" title="PyXA.apps.Music.XAMusicAudioCDTrackList"><span class="pre">XAMusicAudioCDTrackList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.audio_cd_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.audio_cd_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of audio CD tracks, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned tracks will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of audio CD tracks</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicAudioCDTrackList" title="PyXA.apps.Music.XAMusicAudioCDTrackList">XAMusicAudioCDTrackList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.converting">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">converting</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.converting" title="Permalink to this definition"></a></dt>
@@ -1079,6 +1145,26 @@
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.radio_tuner_playlists">
+<span class="sig-name descname"><span class="pre">radio_tuner_playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicRadioTunerPlaylistList" title="PyXA.apps.Music.XAMusicRadioTunerPlaylistList"><span class="pre">XAMusicRadioTunerPlaylistList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.radio_tuner_playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.radio_tuner_playlists" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of radio tuner playlists, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned playlists will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of radio tuner playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicRadioTunerPlaylistList" title="PyXA.apps.Music.XAMusicRadioTunerPlaylistList">XAMusicRadioTunerPlaylistList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.shuffle_enabled">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffle_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.shuffle_enabled" title="Permalink to this definition"></a></dt>
@@ -1098,6 +1184,46 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.sources">
+<span class="sig-name descname"><span class="pre">sources</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicSourceList" title="PyXA.apps.Music.XAMusicSourceList"><span class="pre">XAMusicSourceList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.sources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.sources" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of sources, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned sources will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of sources</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="media.html#PyXA.apps.MediaApplicationBase.XAMediaSourceList" title="PyXA.apps.MediaApplicationBase.XAMediaSourceList">XAMediaSourceList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.subscription_playlists">
+<span class="sig-name descname"><span class="pre">subscription_playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicSubscriptionPlaylistList" title="PyXA.apps.Music.XAMusicSubscriptionPlaylistList"><span class="pre">XAMusicSubscriptionPlaylistList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.subscription_playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.subscription_playlists" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of subscription playlists, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned playlists will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of subscription playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicSubscriptionPlaylistList" title="PyXA.apps.Music.XAMusicSubscriptionPlaylistList">XAMusicSubscriptionPlaylistList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.tracks">
 <span class="sig-name descname"><span class="pre">tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicTrackList" title="PyXA.apps.Music.XAMusicTrackList"><span class="pre">XAMusicTrackList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.tracks" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of tracks, as PyXA objects, matching the given filter.</p>
@@ -1114,6 +1240,26 @@
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.user_playlists">
+<span class="sig-name descname"><span class="pre">user_playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMusicUserPlaylistList" title="PyXA.apps.Music.XAMusicUserPlaylistList"><span class="pre">XAMusicUserPlaylistList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.user_playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.user_playlists" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of user playlists, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned playlists will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of user playlists</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicUserPlaylistList" title="PyXA.apps.Music.XAMusicUserPlaylistList">XAMusicUserPlaylistList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.1.</span></p>
 </div>
 </dd></dl>
 
@@ -1780,7 +1926,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicEQPresetList.modifiable">
-<span class="sig-name descname"><span class="pre">modifiable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicEQPresetList.modifiable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicEQPresetList.modifiable" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">modifiable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicEQPresetList.modifiable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicEQPresetList.modifiable" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1790,7 +1936,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicEQPresetList.update_tracks">
-<span class="sig-name descname"><span class="pre">update_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicEQPresetList.update_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicEQPresetList.update_tracks" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicEQPresetList.update_tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicEQPresetList.update_tracks" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2913,7 +3059,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -6,7 +6,6 @@ Top-level PyXA Modules
 .. toctree::
    :maxdepth: 2
 
-   pyxa
    xabase
    xabasescriptable
    xatypes

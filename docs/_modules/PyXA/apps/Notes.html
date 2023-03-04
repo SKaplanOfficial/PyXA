@@ -748,7 +748,7 @@
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The unique identifier for the folder.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">shared</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -764,11 +764,43 @@
 
 <div class="viewcode-block" id="XANotesFolder.show"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Shows the folder in the main Notes window.</span>
+
+<span class="sd">        :return: The folder object.</span>
+<span class="sd">        :rtype: XANotesFolder</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">showSeparately_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XANotesFolder.move_to"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XANotesFolder&#39;</span><span class="p">,</span> <span class="s1">&#39;XANotesAccount&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolder&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Moves the folder to the specified container.</span>
+
+<span class="sd">        :return: The folder object.</span>
+<span class="sd">        :rtype: XANotesFolder</span>
+
+<span class="sd">        .. versionadded:: 0.2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">destination</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XANotesFolder.delete"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Permanently deletes the folder.</span>
+
+<span class="sd">        .. versionadded:: 0.2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XANotesFolder.folders"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolderList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of folders, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: Keys and values to filter folders by, defaults to None</span>
+<span class="sd">        :type filter: dict, optional</span>
+<span class="sd">        :return: A PyXA list object wrapping a list of folders</span>
+<span class="sd">        :rtype: XANotesFolderList</span>
+
+<span class="sd">        .. versionadded:: 0.2.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">folders</span><span class="p">(),</span> <span class="n">XANotesFolderList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XANotesFolder.notes"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.notes">[docs]</a>    <span class="k">def</span> <span class="nf">notes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANoteList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of notes, as PyXA objects, matching the given filter.</span>
@@ -785,13 +817,6 @@
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">notes</span><span class="p">(),</span> <span class="n">XANoteList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="XANotesFolder.delete"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Permanently deletes the folder.</span>
-
-<span class="sd">        .. versionadded:: 0.0.4</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="XANotesFolder.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesFolder.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the folder.</span>
@@ -879,7 +904,7 @@
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The unique identifier for the note.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1035,7 +1060,7 @@
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The unique identifier for the attachment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">content_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1168,7 +1193,7 @@
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The unique identifier of the account.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolder&#39;</span><span class="p">:</span>

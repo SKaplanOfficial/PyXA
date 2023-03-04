@@ -78,7 +78,7 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">AppKit</span><span class="o">,</span> <span class="nn">ScriptingBridge</span>
 
@@ -228,7 +228,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span>
 
-<div class="viewcode-block" id="XAiWorkApplication.print"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">],</span> <span class="n">print_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkApplication.print"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">],</span> <span class="n">print_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Prints a document or window.</span>
 
 <span class="sd">        :param item: The document or window to print</span>
@@ -238,7 +238,7 @@
 <span class="sd">        :param show_dialog: Whether to show the print dialog or skip right to printing, defaults to True</span>
 <span class="sd">        :type show_dialog: bool, optional</span>
 <span class="sd">        :return: A reference to the PyXA application object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkApplication</span>
 
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -262,7 +262,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_</span><span class="p">([</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAiWorkApplication.set_password"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.set_password">[docs]</a>    <span class="k">def</span> <span class="nf">set_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">:</span> <span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">save_in_keychain</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkApplication.set_password"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.set_password">[docs]</a>    <span class="k">def</span> <span class="nf">set_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">:</span> <span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">save_in_keychain</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sets the password of an unencrypted document, optionally storing the password in the user&#39;s keychain.</span>
 
 <span class="sd">        :param document: The document to set the password for</span>
@@ -274,14 +274,14 @@
 <span class="sd">        :param save_in_keychain: Whether to save the password in the user&#39;s keychain, defaults to True</span>
 <span class="sd">        :type save_in_keychain: bool, optional</span>
 <span class="sd">        :return: A reference to the PyXA application object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkApplication</span>
 
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">setPassword_to_hint_savingInKeychain_</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">document</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">hint</span><span class="p">,</span> <span class="n">save_in_keychain</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XAiWorkApplication.remove_password"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.remove_password">[docs]</a>    <span class="k">def</span> <span class="nf">remove_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">:</span> <span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkApplication.remove_password"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkApplication.remove_password">[docs]</a>    <span class="k">def</span> <span class="nf">remove_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">:</span> <span class="s1">&#39;XAiWorkDocument&#39;</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Removes the password from a document.</span>
 
 <span class="sd">        :param document: The document to remove the password to</span>
@@ -289,7 +289,7 @@
 <span class="sd">        :param password: The current password</span>
 <span class="sd">        :type password: str</span>
 <span class="sd">        :return: A reference to the PyXA application object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkApplication</span>
 
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1206,23 +1206,6 @@
     <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;rotation&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAiWorkImage.rotate"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkImage.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkImage&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Rotates the image by the specified number of degrees.</span>
-
-<span class="sd">        :param degrees: The amount to rotate the image, in degrees, from -359 to 359</span>
-<span class="sd">        :type degrees: int</span>
-<span class="sd">        :return: The image.</span>
-<span class="sd">        :rtype: XAiWorkImage</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-
-<span class="sd">           Set the :attr:`rotation` attribute directly instead.</span>
-
-<span class="sd">        .. versionadded:: 0.1.1</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;rotation&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">degrees</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
 <div class="viewcode-block" id="XAiWorkImage.replace_with"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkImage.replace_with">[docs]</a>    <span class="k">def</span> <span class="nf">replace_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkImage&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Removes the image and inserts another in its place with the same width and height.</span>
 
@@ -1510,23 +1493,6 @@
     <span class="nd">@rotation</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;rotation&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
-
-<div class="viewcode-block" id="XAiWorkShape.rotate"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkShape.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkShape&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Rotates the shape by the specified number of degrees.</span>
-
-<span class="sd">        :param degrees: The amount to rotate the shape, in degrees, from -359 to 359</span>
-<span class="sd">        :type degrees: int</span>
-<span class="sd">        :return: The shape.</span>
-<span class="sd">        :rtype: XAiWorkShape</span>
-
-<span class="sd">        .. deprecated:: 0.1.1</span>
-
-<span class="sd">           Set the :attr:`rotation` attribute directly instead.</span>
-
-<span class="sd">        .. versionadded:: 0.1.1</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;rotation&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+</span> <span class="n">degrees</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XAiWorkShape.set_property"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkShape.set_property">[docs]</a>    <span class="k">def</span> <span class="nf">set_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
@@ -2062,7 +2028,7 @@
     <span class="k">def</span> <span class="nf">selection_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection_range</span><span class="p">:</span> <span class="s1">&#39;XAiWorkRange&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;selectionRange&#39;</span><span class="p">,</span> <span class="n">selection_range</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAiWorkTable.sort"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkTable.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by_column</span><span class="p">:</span> <span class="s1">&#39;XAiWorkColumn&#39;</span><span class="p">,</span> <span class="n">in_rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAiWorkRow&#39;</span><span class="p">],</span> <span class="s1">&#39;XAiWorkRowList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="n">XAiWorkApplication</span><span class="o">.</span><span class="n">SortDirection</span> <span class="o">=</span> <span class="n">XAiWorkApplication</span><span class="o">.</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">ASCENDING</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkTable.sort"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkTable.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by_column</span><span class="p">:</span> <span class="s1">&#39;XAiWorkColumn&#39;</span><span class="p">,</span> <span class="n">in_rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAiWorkRow&#39;</span><span class="p">],</span> <span class="s1">&#39;XAiWorkRowList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="n">XAiWorkApplication</span><span class="o">.</span><span class="n">SortDirection</span> <span class="o">=</span> <span class="n">XAiWorkApplication</span><span class="o">.</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">ASCENDING</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkTable&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sorts the table according to the specified column, in the specified sorting direction.</span>
 
 <span class="sd">        :param by_column: The column to sort by</span>
@@ -2072,7 +2038,7 @@
 <span class="sd">        :param direction: The direction to sort in, defaults to XAiWorkApplication.SortDirection.ASCENDING</span>
 <span class="sd">        :type direction: XAiWorkApplication.SortDirection, optional</span>
 <span class="sd">        :return: The table object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkTable</span>
 
 <span class="sd">        .. versionadded:: 0.1.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2386,11 +2352,11 @@
     <span class="k">def</span> <span class="nf">vertical_alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="p">:</span> <span class="n">XAiWorkApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;verticalAlignment&#39;</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAiWorkRange.clear"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkRange.clear"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkRange&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Clears the content of every cell in the range.</span>
 
 <span class="sd">        :return: The range object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkRange</span>
 
 <span class="sd">        :Example 1: Clear all cells in a table</span>
 
@@ -2413,11 +2379,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XAiWorkRange.merge"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkRange.merge"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkRange&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Merges all cells in the range.</span>
 
 <span class="sd">        :return: The range object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkRange</span>
 
 <span class="sd">        :Example 1: Merge all cells in the first row of a table</span>
 
@@ -2444,11 +2410,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">merge</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XAiWorkRange.unmerge"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.unmerge">[docs]</a>    <span class="k">def</span> <span class="nf">unmerge</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAiWorkRange.unmerge"><a class="viewcode-back" href="../../../reference/apps/iwork.html#PyXA.apps.iWorkApplicationBase.XAiWorkRange.unmerge">[docs]</a>    <span class="k">def</span> <span class="nf">unmerge</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiWorkRange&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Unmerges all cells in the range.</span>
 
 <span class="sd">        :return: The range object</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAiWorkRange</span>
 
 <span class="sd">        :Example 1: Unmerge all merged cells</span>
 

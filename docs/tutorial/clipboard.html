@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working With The Clipboard &mdash; PyXA 0.1.2 documentation</title>
+  <title>Working With The Clipboard &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -161,7 +161,7 @@
 <p>For strings and other literal values, the plaintext form of the value will be added to the clipboard. For PyXA class objects, one or more items representing the object in multiple forms will be added to the clipboard. For example, setting the clipboard content to an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> object will add the URL as a URL type and as a plaintext string, while setting the content to an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASound</span></code></a> object will add the raw sound data, a file URL, and the file path string. More information on how each PyXA object type is represented can be found in the corresponding code reference material.</p>
 <p>You can also copy <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> objects to the clipboard in the same way. When you do this, data for each element in the list is added to the clipboard. The type of data added to the clipboard varies based on the list type, but it generally matches the data type added for a single element of the corresponding class. For example, for Music tracks, a single track copied to the clipboard adds the track name to the clipboard, while a list of tracks copies the names of each track to the clipboard (as separate items).</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="n">tracks</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
+<span class="n">tracks</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
 <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">tracks</span>
 </pre></div>
 </div>
@@ -179,7 +179,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

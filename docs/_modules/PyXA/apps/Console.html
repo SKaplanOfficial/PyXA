@@ -76,7 +76,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
 <span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
@@ -89,13 +88,13 @@
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="XAConsoleApplication.select_device"><a class="viewcode-back" href="../../../reference/apps/console.html#PyXA.apps.Console.XAConsoleApplication.select_device">[docs]</a>    <span class="k">def</span> <span class="nf">select_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<div class="viewcode-block" id="XAConsoleApplication.select_device"><a class="viewcode-back" href="../../../reference/apps/console.html#PyXA.apps.Console.XAConsoleApplication.select_device">[docs]</a>    <span class="k">def</span> <span class="nf">select_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAConsoleApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Select a device.</span>
 
 <span class="sd">        :param uuid: The UUID of the device to select</span>
 <span class="sd">        :type uuid: str</span>
 <span class="sd">        :return: The application ject</span>
-<span class="sd">        :rtype: Self</span>
+<span class="sd">        :rtype: XAConsoleApplication</span>
 
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>

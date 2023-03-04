@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.XAProtocols &mdash; PyXA 0.1.2 documentation</title>
+  <title>PyXA.XAProtocols &mdash; PyXA 0.2.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -170,7 +170,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">print_properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">print_properties</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">printWithProperties_printDialog_</span><span class="p">(</span><span class="n">print_properties</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">do_print</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">printWithProperties_printDialog_</span><span class="p">(</span><span class="n">print_properties</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spawn_thread</span><span class="p">(</span><span class="n">do_print</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
 
 
@@ -298,7 +302,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -72,7 +72,7 @@ Like AppleScript and JXA, PyXA's syntax is often flexible, allowing multiple way
    import PyXA
    print(PyXA.application("Safari").documents()[0].url)
 
-The approach you use will depend one your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.
+The approach you use will depend on your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.
 
 Let's make our workflow more useful by having it save the URL to a new note. To do this, we'll need a reference to the Notes app. We then need to tell the Notes app to create a new note with the URL as the note's content. We can temporarily store the URL in a variable to make our code more readable. The PyXA script for this is as follows:
 

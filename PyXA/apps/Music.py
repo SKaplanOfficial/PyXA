@@ -580,13 +580,13 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
     def band10(self) -> list[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("band10") or [])
 
-    def modifiable(self) -> list[float]:
+    def modifiable(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modifiable") or [])
 
     def preamp(self) -> list[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("preamp") or [])
 
-    def update_tracks(self) -> list[float]:
+    def update_tracks(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("updateTracks") or [])
 
     def by_band1(self, band1: float) -> Union['XAMusicEQPreset', None]:

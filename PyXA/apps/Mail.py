@@ -1062,6 +1062,10 @@ class XAMailAccountList(XABase.XAList):
     def by_uses_ssl(self, uses_ssl: bool) -> Union['XAMailAccount', None]:
         return self.by_property("usesSsl", uses_ssl)
 
+    def mailboxes(self):
+        ls = self.xa_elem.arrayByApplyingSelector_("mailboxes") or []
+        return self._new_element(ls, XAMailboxList)
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
@@ -1754,6 +1758,10 @@ class XAMailboxList(XABase.XAList):
 
     def by_container(self, container: 'XAMailContainer') -> 'XAMailbox':
         return self.by_property("container", container.xa_elem)
+
+    def messages(self):
+        ls = self.xa_elem.arrayByApplyingSelector_("messages") or []
+        return self._new_element(ls, XAMailMessageList)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"

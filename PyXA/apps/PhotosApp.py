@@ -395,10 +395,14 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
 
     def _new_element(self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: list[Any]) -> 'XABase.XAObject':
         element = super()._new_element(obj, obj_class, *args)
-        predicate = XABase.XAPredicate()
-        predicate.add_eq_condition("id", obj.localIdentifier())
-        ls = predicate.evaluate(self.xa_scel)
-        element.xa_scel = ls[0]
+
+        try:
+            predicate = XABase.XAPredicate()
+            predicate.add_eq_condition("id", obj.localIdentifier())
+            ls = predicate.evaluate(self.xa_scel)
+            element.xa_scel = ls[0]
+        except AttributeError:
+            element.xa_scel = self.xa_scel
         return element
 
     def properties(self) -> list[dict]:
@@ -770,7 +774,7 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         :return: The XAImage-compatible form of this object
         :rtype: XABase.XAPath
         """
-        return self.file_path
+        return self.file_path.path
 
     def __repr__(self):
         if self.name is None:

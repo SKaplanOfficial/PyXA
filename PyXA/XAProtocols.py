@@ -98,7 +98,11 @@ class XAPrintable(XAProtocol):
         """
         if print_properties is None:
             print_properties = {}
-        self.xa_elem.printWithProperties_printDialog_(print_properties, show_dialog)
+
+        def do_print():
+            self.xa_elem.printWithProperties_printDialog_(print_properties, show_dialog)
+
+        self._spawn_thread(do_print)
         return self
 
 

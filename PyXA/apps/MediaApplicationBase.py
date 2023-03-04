@@ -388,6 +388,18 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.playlists(), XAMediaPlaylistList, filter)
+    
+    def library_playlists(self, filter: Union[dict, None] = None) -> 'XAMediaLibraryPlaylistList':
+        """Returns a list of library playlists, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of library playlists
+        :rtype: XAMediaLibraryPlaylistList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.libraryPlaylists(), XAMediaLibraryPlaylistList, filter)
 
     def playlist_windows(self, filter: Union[dict, None] = None) -> 'XAMediaPlaylistWindowList':
         """Returns a list of playlist windows, as PyXA objects, matching the given filter.
@@ -424,6 +436,42 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.tracks(), XAMediaTrackList, filter)
+    
+    def file_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaFileTrackList':
+        """Returns a list of file tracks, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of file tracks
+        :rtype: XAMediaFileTrackList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.fileTracks(), XAMediaFileTrackList, filter)
+    
+    def url_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaURLTrackList':
+        """Returns a list of URL tracks, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of URL tracks
+        :rtype: XAMediaURLTrackList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.URLTracks(), XAMediaURLTrackList, filter)
+    
+    def shared_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaSharedTrackList':
+        """Returns a list of shared tracks, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of shared tracks
+        :rtype: XAMediaSharedTrackList
+
+        .. versionadded:: 0.2.1
+        """
+        return self._new_element(self.xa_scel.sharedTracks(), XAMediaSharedTrackList, filter)
 
     def video_windows(self, filter: Union[dict, None] = None) -> 'XAMediaVideoWindowList':
         """Returns a list of video windows, as PyXA objects, matching the given filter.
@@ -854,6 +902,10 @@ class XAMediaPlaylist(XAMediaItem):
         self.xa_elem.moveTo_(parent_playlist.xa_elem)
 
     def play(self):
+        """Starts playback of the playlist, beginning with the first track in the list.
+
+        .. versionadded:: 0.2.1
+        """
         self.xa_elem.playOnce_(True)
 
     def search(self, query: str, type: Literal["all", "artists", "albums", "displayed", "tracks"] = "displayed"):
@@ -1379,7 +1431,7 @@ class XAMediaTrack(XAMediaItem):
     def __init__(self, properties):
         super().__init__(properties)
         
-        # print("Track type", self.objectClass.data())
+        #  "Track type", self.objectClass.data())
         # if self.objectClass.data() == _SHARED_TRACK:
         #     self.__class__ = XAMediaSharedTrack
         #     self.__init__()

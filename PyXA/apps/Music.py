@@ -368,6 +368,8 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
 
     All properties of AirPlay devices can be called as methods on the wrapped list, returning a list containing each devices's value for the property.
 
+    .. seealso:: :class:`XAMusicAirPlayDevice`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -436,6 +438,8 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
 
 class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
     """An AirPlay device.
+
+    .. seealso:: :class:`XAMusicAirPlayDeviceList`
 
     .. versionadded:: 0.0.7
     """
@@ -512,6 +516,8 @@ class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
 
     All properties of encoders can be called as methods on the wrapped list, returning a list containing each encoders's value for the property.
 
+    .. seealso:: :class:`XAMusicEncoder`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -525,6 +531,8 @@ class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
 
 class XAMusicEncoder(MediaApplicationBase.XAMediaItem):
     """An encoder in Music.app.
+
+    .. seealso:: :class:`XAMusicEncoderList`
 
     .. versionadded:: 0.0.7
     """
@@ -544,6 +552,8 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of equalizer presets that employs fast enumeration techniques.
 
     All properties of equalizer presets can be called as methods on the wrapped list, returning a list containing each preset's value for the property.
+
+    .. seealso:: :class:`XAMusicEQPreset`
 
     .. versionadded:: 0.0.7
     """
@@ -630,6 +640,8 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
 
 class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
     """An equalizer preset in Music.app.
+
+    .. seealso:: :class:`XAMusicEQPresetList`
 
     .. versionadded:: 0.0.7
     """
@@ -770,6 +782,8 @@ class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
 
     All properties of playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
 
+    .. seealso:: :class:`XAMusicPlaylist`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
@@ -792,19 +806,12 @@ class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
 class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
     """A playlist in Music.app.
 
-    .. seealso:: :class:`XAMusicLibraryPlaylist`, :class:`XAMusicUserPlaylist`
+    .. seealso:: :class:`XAMusicPlaylistList`, :class:`XAMusicUserPlaylist`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-        if not hasattr(self, "xa_specialized"):
-            if self.special_kind == XAMusicApplication.PlaylistKind.USER or self.special_kind == XAMusicApplication.PlaylistKind.NONE:
-                self.__class__ = XAMusicUserPlaylist
-
-            self.xa_specialized = True
-            self.__init__(properties)
 
     @property
     def disliked(self) -> bool:
@@ -867,6 +874,8 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
 
     All properties of audio CD playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
 
+    .. seealso:: :class:`XAMusicAudioCDPlaylist`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -917,7 +926,7 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
 class XAMusicAudioCDPlaylist(XAMusicPlaylist):
     """An audio CD playlist in Music.app.
 
-    .. seealso:: :class:`XAMusicLibraryPlaylist`, :class:`XAMusicUserPlaylist`
+    .. seealso:: :class:`XAMusicAudioCDPlaylistList`
 
     .. versionadded:: 0.0.7
     """
@@ -1014,6 +1023,8 @@ class XAMusicRadioTunerPlaylistList(XAMusicPlaylistList):
 
     All properties of radio tuner playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
 
+    .. seealso:: :class:`XAMusicRadioTunerPlaylist`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1021,6 +1032,8 @@ class XAMusicRadioTunerPlaylistList(XAMusicPlaylistList):
 
 class XAMusicRadioTunerPlaylist(XAMusicPlaylist):
     """A radio playlist in Music.app.
+
+    .. seealso:: :class:`XAMusicRadioTunerPlaylistList`
 
     .. versionadded:: 0.0.7
     """
@@ -1047,6 +1060,8 @@ class XAMusicSourceList(MediaApplicationBase.XAMediaSourceList):
 
     All properties of sources can be called as methods on the wrapped list, returning a list containing each source's value for the property.
 
+    .. seealso:: :class:`XAMusicSource`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1054,6 +1069,8 @@ class XAMusicSourceList(MediaApplicationBase.XAMediaSourceList):
 
 class XAMusicSource(MediaApplicationBase.XAMediaSource):
     """A media source in Music.app.
+
+    .. seealso:: :class:`XAMusicSourceList`
 
     .. versionadded:: 0.0.1
     """
@@ -1104,6 +1121,8 @@ class XAMusicSubscriptionPlaylistList(XAMusicPlaylistList):
 
     All properties of subscription playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
 
+    .. seealso:: :class:`XAMusicSubscriptionPlaylist`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1111,6 +1130,8 @@ class XAMusicSubscriptionPlaylistList(XAMusicPlaylistList):
 
 class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
     """A subscription playlist from Apple Music in Music.app.
+
+    .. seealso:: :class:`XAMusicSubscriptionPlaylistList`
 
     .. versionadded:: 0.0.7
     """
@@ -1148,6 +1169,8 @@ class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
     """A wrapper around lists of music tracks that employs fast enumeration techniques.
 
     All properties of music tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
+
+    .. seealso:: :class:`XAMusicTrack`
 
     .. versionadded:: 0.0.7
     """
@@ -1290,23 +1313,12 @@ class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
 class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
     """A class for managing and interacting with tracks in Music.app.
 
-    .. seealso:: :class:`XAMusicSharedTrack`, :class:`MediaApplicationBase.XAMediaFileTrack`, :class:`XAMusicRemoteURLTrack`
+    .. seealso:: :class:`XAMusicTrackList`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-        # print("Track type", self.objectClass.data())
-        # if self.objectClass.data() == _SHARED_TRACK:
-        #     self.__class__ = XAMusicSharedTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _FILE_TRACK:
-        #     self.__class__ = MediaApplicationBase.XAMediaFileTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _URL_TRACK:
-        #     self.__class__ = MediaApplicationBase.XAMediaURLTrack
-        #     self.__init__()
 
     @property
     def album_artist(self) -> str:
@@ -1521,6 +1533,8 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
 
     All properties of music audio CD tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
 
+    .. seealso:: :class:`XAMusicAudioCDTrack`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1535,6 +1549,8 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
 
 class XAMusicAudioCDTrack(XAMusicTrack):
     """An audio CD track in Music.app.
+
+    .. seealso:: :class:`XAMusicAudioCDTrackList`
 
     .. versionadded:: 0.0.1
     """
@@ -1558,6 +1574,8 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
 
     All properties of music user playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
 
+    .. seealso:: :class:`XAMusicUserPlaylist`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1571,6 +1589,8 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
 
 class XAMusicUserPlaylist(XAMusicPlaylist):
     """A user-created playlist in Music.app.
+
+    .. seealso:: :class:`XAMusicUserPlaylistList`
 
     .. versionadded:: 0.0.1
     """
@@ -1591,6 +1611,8 @@ class XAMusicVisualList(MediaApplicationBase.XAMediaItemList):
 
     All properties of music visuals can be called as methods on the wrapped list, returning a list containing each visual's value for the property.
 
+    .. seealso:: :class:`XAMusicVisual`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1598,6 +1620,8 @@ class XAMusicVisualList(MediaApplicationBase.XAMediaItemList):
 
 class XAMusicVisual(XAMusicPlaylist):
     """A music visual in Music.app.
+
+    .. seealso:: :class:`XAMusicVisualList`
 
     .. versionadded:: 0.0.7
     """
@@ -1611,6 +1635,8 @@ class XAMusicWindowList(MediaApplicationBase.XAMediaWindowList):
 
     All properties of music windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
 
+    .. seealso:: :class:`XAMusicWindow`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
@@ -1621,7 +1647,7 @@ class XAMusicWindowList(MediaApplicationBase.XAMediaWindowList):
 class XAMusicWindow(MediaApplicationBase.XAMediaWindow, XABaseScriptable.XASBWindow):
     """A windows of Music.app.
 
-    .. seealso:: :class:`XAMusicBrowserWindow`, :class:`XAMusicPlaylistWindow`, :class:`XAMusicVideoWindow`
+    .. seealso:: :class:`XAMusicWindowList`
 
     .. versionadded:: 0.0.1
     """
@@ -1657,6 +1683,8 @@ class XAMusicEQWindowList(XAMusicWindowList):
 
     All properties of music equalizer windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
 
+    .. seealso:: :class:`XAMusicEQWindow`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1664,6 +1692,8 @@ class XAMusicEQWindowList(XAMusicWindowList):
 
 class XAMusicEQWindow(XAMusicWindow):
     """An equalizer window in Music.app.
+
+    .. seealso:: :class:`XAMusicEQWindowList`
 
     .. versionadded:: 0.0.7
     """
@@ -1678,6 +1708,8 @@ class XAMusicMiniplayerWindowList(XAMusicWindowList):
 
     All properties of music minipplayer windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
 
+    .. seealso:: :class:`XAMusicMiniplayerWindow`
+
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -1685,6 +1717,8 @@ class XAMusicMiniplayerWindowList(XAMusicWindowList):
 
 class XAMusicMiniplayerWindow(XAMusicWindow):
     """A miniplayer window in Music.app.
+
+    .. seealso:: :class:`XAMusicMiniplayerWindowList`
 
     .. versionadded:: 0.0.7
     """

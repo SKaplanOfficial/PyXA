@@ -12,6 +12,33 @@ from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
 from PyXA.XAEvents import event_from_str
 
+class MediaObjectClass(Enum):
+    AIRPLAY_DEVICE = 'cAPD'
+    APPLICATION = 'capp'
+    ARTWORK = 'cArt'
+    AUDIO_CD_PLAYLIST = 'cCDP'
+    AUDIO_CD_TRACK = 'cCDT'
+    BROWSER_WINDOW = 'cBrW'
+    ENCODER = 'cEnc'
+    EQ_PRESET = 'cEQP'
+    EQ_WINDOW = 'cEQW'
+    FILE_TRACK = 'cFlT'
+    FOLDER_PlAYLIST = 'cFoP'
+    ITEM = 'cobj'
+    LIBRARY_PLAYLIST = 'cLiP'
+    MINIPLAYER_WINDOW = 'cMPW'
+    PLAYLIST = 'cPly'
+    PLAYLIST_WINDOW = 'cPlW'
+    RADIO_TUNER_PLAYLIST = 'cRTP'
+    SHARED_TRACK = 'cShT'
+    SOURCE = 'cSrc'
+    SUBSCRIPTION_PLAYLIST = 'cSuP'
+    TRACK = 'cTrk'
+    URL_TRACK = 'cURT'
+    USER_PLAYLIST = 'cUsP'
+    VIDEO_WINDOW = 'cNPW'
+    VISUAL = 'cVis'
+    WINDOW = 'cwin'
 
 class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with media apps.
@@ -563,6 +590,10 @@ class XAMediaItem(XABase.XAObject):
         super().__init__(properties)
 
     @property
+    def object_class(self):
+        return MediaObjectClass(XABase.unOSType(self.xa_elem.objectClass().typeCodeValue()))
+
+    @property
     def container(self) -> XABase.XAObject:
         """The container of the item.
         """
@@ -829,7 +860,7 @@ class XAMediaPlaylist(XAMediaItem):
     def __init__(self, properties):
         super().__init__(properties)
 
-        if not hasattr(self, "xa_specialized"):
+        if not issubclass(self.__class__, XAMediaPlaylist) and not hasattr(self, "xa_specialized"):
             if self.special_kind == XAMediaApplication.PlaylistKind.LIBRARY or self.special_kind == XAMediaApplication.PlaylistKind.USER_LIBRARY:
                 self.__class__ = XAMediaLibraryPlaylist
 
@@ -1430,17 +1461,19 @@ class XAMediaTrack(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        #  "Track type", self.objectClass.data())
-        # if self.objectClass.data() == _SHARED_TRACK:
-        #     self.__class__ = XAMediaSharedTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _FILE_TRACK:
-        #     self.__class__ = XAMediaFileTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _URL_TRACK:
-        #     self.__class__ = XAMediaURLTrack
-        #     self.__init__()
+
+        if not hasattr(self, "xa_specialized"):
+            if self.object_class == MediaObjectClass.SHARED_TRACK:
+                self.__class__ = XAMediaSharedTrack
+
+            elif self.object_class == MediaObjectClass.FILE_TRACK:
+                self.__class__ = XAMediaFileTrack
+
+            elif self.object_class == MediaObjectClass.URL_TRACK:
+                self.__class__ = XAMediaURLTrack
+
+            self.xa_specialized = True
+            self.__init__(properties)
 
     @property
     def album(self) -> str:

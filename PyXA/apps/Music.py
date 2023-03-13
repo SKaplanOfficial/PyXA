@@ -899,7 +899,10 @@ class XAMusicItem(XABase.XAObject):
 
     @property
     def object_class(self):
-        return MusicObjectClass(XABase.unOSType(self.xa_elem.objectClass().typeCodeValue()))
+        try:
+            return MusicObjectClass(XABase.unOSType(self.xa_elem.objectClass().typeCodeValue()))
+        except AttributeError:
+            return MusicObjectClass.ITEM
 
     @property
     def container(self) -> XABase.XAObject:

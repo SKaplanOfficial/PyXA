@@ -36,7 +36,7 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
-VERSION = "0.2.0" #: The installed version of PyXA
+VERSION = "0.2.2" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
 workspace = None
@@ -205,6 +205,16 @@ class XAObject():
             property_name = parts[0] + "".join(titled_parts)
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
+    
+    def exists(self) -> bool:
+        """Returns true if the scripting object referenced by this PyXA object exists, false otherwise.
+
+        :return: True if the scripting object exists
+        :rtype: bool
+
+        .. versionadded:: 0.2.2
+        """
+        return self.xa_elem.exists()
 
     def __eq__(self, other: 'XAObject'):
         if other is None:
@@ -295,7 +305,7 @@ class XAList(XAObject):
 
         return (filter, value1, value2)
 
-    def equalling(self, property: str, value: str) -> XAObject:
+    def equalling(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value equals the given value.
 
         :param property: The property to match
@@ -320,7 +330,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def not_equalling(self, property: str, value: str) -> XAObject:
+    def not_equalling(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value does not equal the given value.
 
         :param property: The property to match
@@ -345,7 +355,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def containing(self, property: str, value: str) -> XAObject:
+    def containing(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value contains the given value.
 
         :param property: The property to match
@@ -370,7 +380,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def not_containing(self, property: str, value: str) -> XAObject:
+    def not_containing(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value does not contain the given value.
 
         :param property: The property to match
@@ -393,7 +403,7 @@ class XAList(XAObject):
         ls = XAPredicate.evaluate_with_format(self.xa_elem, f"NOT {property} CONTAINS \"{value}\"")
         return self._new_element(ls, self.__class__)
 
-    def beginning_with(self, property: str, value: str) -> XAObject:
+    def beginning_with(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value begins with the given value.
 
         :param property: The property to match
@@ -418,7 +428,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def ending_with(self, property: str, value: str) -> XAObject:
+    def ending_with(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value ends with the given value.
 
         :param property: The property to match
@@ -443,7 +453,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def greater_than(self, property: str, value: Union[int, float]) -> XAObject:
+    def greater_than(self, property: str, value: Union[int, float]) -> 'XAList':
         """Retrieves all elements whose property value is greater than the given value.
 
         :param property: The property to match
@@ -468,7 +478,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def less_than(self, property: str, value: Union[int, float]) -> XAObject:
+    def less_than(self, property: str, value: Union[int, float]) -> 'XAList':
         """Retrieves all elements whose property value is less than the given value.
 
         :param property: The property to match
@@ -493,7 +503,7 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
 
-    def between(self, property: str, value1: Union[int, float], value2: Union[int, float]) -> XAObject:
+    def between(self, property: str, value1: Union[int, float], value2: Union[int, float]) -> 'XAList':
         """Retrieves all elements whose property value is between the given values.
 
         :param property: The property to match
@@ -523,6 +533,32 @@ class XAList(XAObject):
         predicate.add_gt_condition(property, value1)
         predicate.add_lt_condition(property, value2)
         ls = predicate.evaluate(self.xa_elem).get()
+        return self._new_element(ls, self.__class__)
+    
+    def exists(self, property: str) -> 'XAList':
+        """Retrieves all elements whose specified property value exists.
+
+        :param property: The property to check the existence of
+        :type property: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        .. versionadded:: 0.2.2
+        """
+        ls = [x for x in self.xa_elem if getattr(x, property)().exists()]
+        return self._new_element(ls, self.__class__)
+    
+    def not_exists(self, property: str) -> 'XAList':
+        """Retrieves all elements whose specified property value does not exist.
+
+        :param property: The property to check the non-existence of
+        :type property: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        .. versionadded:: 0.2.2
+        """
+        ls = [x for x in self.xa_elem if not getattr(x, property)().exists()]
         return self._new_element(ls, self.__class__)
 
     def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> 'XAList':
@@ -569,9 +605,20 @@ class XAList(XAObject):
         >>> print(photo)
         <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001>
 
+        :Example 4: Get All Top-Level Playlists in Music.app
+
+        >>> import PyXA
+        >>> app = PyXA.Music()
+        >>> top_level_playlists = app.playlists().filter("parent", "!exists")
+        >>> print(top_level_playlists)
+
         .. versionadded:: 0.0.8
         """
         filter, value1, value2 = self._format_for_filter(filter, value1, value2)
+        if comparison_operation.lower() == "exists":
+            return self.exists(filter)
+        elif comparison_operation.lower() in ["not exists", "!exists", "nonexistent"]:
+            return self.not_exists(filter)
         if comparison_operation is not None and value1 is not None:
             predicate = XAPredicate()
             if comparison_operation in ["=", "==", "eq", "EQ", "equals", "EQUALS"]:

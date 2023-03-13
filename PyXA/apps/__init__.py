@@ -63,4 +63,5 @@ application_classes = {
     "adobe acrobat reader": ("AcrobatReader", "XAAcrobatReaderApplication"),
     "cardhop": ("Cardhop", "XACardhopAppplication"),
     "amphetamine": ("Amphetamine", "XAAmphetamineApplication"),
+    "iina": ("IINA", "XAIINAApplication")
 }

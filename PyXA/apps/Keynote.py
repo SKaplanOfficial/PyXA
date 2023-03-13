@@ -1174,25 +1174,75 @@ class XAKeynoteSlide(XAKeynoteContainer):
         else:
             self.set_property('presenterNotes', presenter_notes.xa_elem)
 
-    def duplicate(self) -> 'XAKeynoteSlide':
-        """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
+    def move(self, location: Union[XAKeynoteDocument, XAKeynoteSlideList], position: int = -1) -> 'XAKeynoteSlide':   
+        """Moves the slide to the specified location, at the specified position.
 
+        :param location: The document or list of slides to move this slide to
+        :type location: Union[XAKeynoteDocument, XAKeynoteSlideList]
+        :param position: The index to insert the slide within a list, defaults to -1
+        :type position: int, optional
+        :return: A reference to the slide object
+        :rtype: XAKeynoteSlide
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Keynote()
+        >>> doc = app.documents()[0]
+        >>> doc2 = app.documents()[1]
+        >>> doc.slides()[0].move(doc2)
+        <<class 'PyXA.apps.Keynote.XAKeynoteSlide'>slide number: 5>
+
+        .. versionadded:: 0.2.2
+        """     
+        if isinstance(location, XAKeynoteSlideList):
+            if position == -1:
+                self.xa_elem.moveTo_(location.xa_elem.lastObject().positionAfter())
+                return location[-1]
+            else:
+                self.xa_elem.moveTo_(location.xa_elem[position].positionBefore())
+                return location[position]
+            
+        elif isinstance(location, XAKeynoteDocument):
+            if position == -1:
+                self.xa_elem.moveTo_(location.slides().xa_elem.lastObject().positionAfter())
+                return location.slides()[-1]
+            else:
+                self.xa_elem.moveTo_(location.slides().xa_elem[position].positionBefore())
+                return location.slides()[position]
+
+    def duplicate(self, location: Union[XAKeynoteDocument, XAKeynoteSlideList, None] = None, position: int = -1) -> 'XAKeynoteSlide':
+        """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
+        
+        :param location: The document or list of slides to duplicate this slide to, or None to duplicate into the current document, defaults to None
+        :type location: Union[XAKeynoteDocument, XAKeynoteSlideList, None], optional
+        :param position: The index to insert the slide within a list, defaults to -1
+        :type position: int, optional
         :return: A reference to newly created (duplicate) slide object.
         :rtype: XAKeynoteSlide
 
-        .. versionadded:: 0.0.2
+        :Example: Duplicate Slide From One Document To Another
+
+        >>> import PyXA
+        >>> app = PyXA.Keynote()
+        >>> doc1 = app.documents()[0]
+        >>> doc2 = app.documents()[1]
+        >>> doc1.slides()[0].duplicate(doc2)
+        <<class 'PyXA.apps.Keynote.XAKeynoteSlide'>slide number: 5>
+
+        .. versionadded:: 0.2.2
         """
-        new_slide = None
-        if isinstance(self.xa_prnt, XAKeynoteSlideList):
-            # Parent is an XAList object -- we can natively use positionAfter()
-            self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), None)
-            new_slide = self._new_element(self.xa_prnt.xa_prnt.xa_elem.slides()[-1], XAKeynoteSlide)
-        else:
-            # Parent is an XADocument object -- we have to get an NSArray instance
-            slide = self.xa_prnt.xa_elem.slides()[self.slide_number - 1]
-            slide.duplicateTo_withProperties_(slide.positionAfter(), None)
-            new_slide = self._new_element(self.xa_prnt.xa_elem.slides()[-1], XAKeynoteSlide)
-        return new_slide
+        if location is None:
+            location = self.xa_prnt
+
+        source = self.xa_prnt
+        if isinstance(source, XAKeynoteSlideList):
+            self.xa_elem.duplicateTo_withProperties_(source.xa_elem.lastObject().positionAfter(), None)
+            return source[-1].move(location, position)
+
+        elif isinstance(source, XAKeynoteDocument):
+            self.xa_elem.duplicateTo_withProperties_(source.slides().xa_elem.lastObject().positionAfter(), None)
+            return source.slides()[-1].move(location, position)
 
     def delete(self):
         """Deletes the slide.

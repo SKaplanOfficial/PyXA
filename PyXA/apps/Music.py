@@ -8,11 +8,12 @@ from enum import Enum
 from typing import Any, Literal, Union
 
 import AppKit
+import ScriptingBridge
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
-from PyXA.XAEvents import event_from_str
+from PyXA.XAEvents import event_from_str, event_from_type_code
 
 class MusicObjectClass(Enum):
     AIRPLAY_DEVICE = 'cAPD'
@@ -807,6 +808,77 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.visuals(), XAMusicVisualList, filter)
 
+    def make(self, specifier: str, properties: dict):
+        """Creates a new element of the given specifier class without adding it to any list.
+
+        Use :func:`XABase.XAList.push` to push the element onto a list. Valid specifiers are: playlist, user playlist, folder playlist, library playlist, audio CD playlist, radio tuner playlist, subscription playlist, track, URL track, shared track, audio CD track, file track, AirPlay device, artwork, window, browser window, EQ window, miniplayer window, playlist window, video window, visual, source, EQ preset, or encoder.
+
+        :param specifier: The classname of the object to create
+        :type specifier: str
+        :param properties: The properties to give the object
+        :type properties: dict
+        :return: A PyXA wrapped form of the object
+        :rtype: XABase.XAObject
+
+        :Example: Make a new folder playlist and push it onto the list of playlists
+
+        >>> import PyXA
+        >>> app = PyXA.Music()
+        >>> new_playlist = app.make("folder playlist", {"name": "Example Playlist"})
+        >>> app.playlists().push(new_playlist)
+
+        .. versionadded:: 0.2.2
+        """
+        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+
+        if specifier == "playlist":
+            return self._new_element(obj, XAMusicPlaylist)
+        elif specifier == "user playlist":
+            return self._new_element(obj, XAMusicUserPlaylist)
+        elif specifier == "folder playlist":
+            return self._new_element(obj, XAMusicFolderPlaylist)
+        elif specifier == "library playlist":
+            return self._new_element(obj, XAMusicLibraryPlaylist)
+        elif specifier == "audio CD playlist":
+            return self._new_element(obj, XAMusicAudioCDPlaylist)
+        elif specifier == "radio tuner playlist":
+            return self._new_element(obj, XAMusicRadioTunerPlaylist)
+        elif specifier == "subscription playlist":
+            return self._new_element(obj, XAMusicSubscriptionPlaylist)
+        elif specifier == "track":
+            return self._new_element(obj, XAMusicTrack)
+        elif specifier == "URL track":
+            return self._new_element(obj, XAMusicURLTrack)
+        elif specifier == "shared track":
+            return self._new_element(obj, XAMusicSharedTrack)
+        elif specifier == "audio CD track":
+            return self._new_element(obj, XAMusicAudioCDTrack)
+        elif specifier == "file track":
+            return self._new_element(obj, XAMusicFileTrack)
+        elif specifier == "AirPlay device":
+            return self._new_element(obj, XAMusicAirPlayDevice)
+        elif specifier == "artwork":
+            return self._new_element(obj, XAMusicArtwork)
+        elif specifier == "window":
+            return self._new_element(obj, XAMusicWindow)
+        elif specifier == "browser window":
+            return self._new_element(obj, XAMusicBrowserWindow)
+        elif specifier == "encoder":
+            return self._new_element(obj, XAMusicEncoder)
+        elif specifier == "EQ preset":
+            return self._new_element(obj, XAMusicEQPreset)
+        elif specifier == "EQ window":
+            return self._new_element(obj, XAMusicEQWindow)
+        elif specifier == "miniplayer window":
+            return self._new_element(obj, XAMusicMiniplayerWindow)
+        elif specifier == "playlist window":
+            return self._new_element(obj, XAMusicPlaylistWindow)
+        elif specifier == "source":
+            return self._new_element(obj, XAMusicSource)
+        elif specifier == "video window":
+            return self._new_element(obj, XAMusicVideoWindow)
+        elif specifier == "visual":
+            return self._new_element(obj, XAMusicVisual)
 
 
 
@@ -1570,6 +1642,14 @@ class XAMusicPlaylistList(XAMusicItemList):
     def by_visible(self, visible: bool) -> Union['XAMusicPlaylist', None]:
         return self.by_property("visible", visible)
     
+    def push(self, *elements: list['XAMusicPlaylist']) -> Union['XAMusicPlaylist', list['XAMusicPlaylist'], None]:
+        old_list = [x.id for x in self]
+        super().push(*elements)
+        new_list = [x.id for x in self if not x.id in old_list]
+        if len(new_list) == 1:
+            return self.by_id(new_list[0])
+        return [self.by_id(id) for id in new_list]
+        
     def _format_for_filter(self, filter, value1, value2 = None):
         if filter == "special_kind" or filter == "specialKind":
             if isinstance(value1, XAMusicApplication.PlaylistKind):
@@ -1585,6 +1665,9 @@ class XAMusicPlaylist(XAMusicItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+        if isinstance(self.xa_elem, ScriptingBridge.SBProxyByCode):
+            return
 
         object_class = self.object_class
         if not hasattr(self, "xa_specialized"):
@@ -1734,6 +1817,24 @@ class XAMusicPlaylist(XAMusicItem):
         .. versionadded:: 0.2.1
         """
         self.xa_elem.playOnce_(True)
+
+    def add_tracks(self, *tracks: Union['XAMusicTrackList', list['XAMusicTrack']]):
+        """Add one or more tracks to this playlist.
+
+        :param tracks: The list of tracks to add to this playlist
+        :type tracks: Union[XAMusicTrackList, list[XAMusicTrack]]
+
+        .. versionadded:: 0.2.2
+        """
+        if len(tracks) == 1 and isinstance(tracks[0], XAMusicTrackList):
+            tracks = tracks[0].xa_elem
+        elif len(tracks) == 1 and isinstance(tracks[0], list):
+            tracks = [x.xa_elem for x in tracks[0]]
+        else:
+            tracks = [x.xa_elem for x in tracks]
+
+        for track in tracks:
+            track.duplicateTo_(self.xa_elem)
 
     def tracks(self, filter: Union[dict, None] = None) -> 'XAMusicTrackList':
         """Returns a list of tracks, as PyXA objects, matching the given filter.
@@ -2033,8 +2134,13 @@ class XAMusicSourceList(XAMusicItemList):
         return self.by_property("freeSpace", free_space)
 
     def by_kind(self, kind: XAMusicApplication.SourceKind) -> Union['XAMusicSource', None]:
-        # TODO
-        return self.by_property("kind", kind.value)
+        return self.by_property("kind", event_from_str(XABase.unOSType(kind.value)))
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter == "kind":
+            if isinstance(value1, XAMusicApplication.SourceKind):
+                value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XAMusicSource(XAMusicItem):
     """A media source in Music.app.
@@ -2423,8 +2529,7 @@ class XAMusicTrackList(XAMusicItemList):
         return self.by_property("albumRating", album_rating)
 
     def by_album_rating_kind(self, album_rating_kind: XAMusicApplication.RatingKind) -> Union['XAMusicTrack', None]:
-        # TODO
-        return self.by_property("albumRatingKind", album_rating_kind.value)
+        return self.by_property("albumRatingKind", event_from_str(XABase.unOSType(album_rating_kind.value)))
 
     def by_bit_rate(self, bit_rate: int) -> Union['XAMusicTrack', None]:
         return self.by_property("bitRate", bit_rate)
@@ -2490,8 +2595,7 @@ class XAMusicTrackList(XAMusicItemList):
         return self.by_property("longDescription", long_description)
 
     def by_media_kind(self, media_kind: XAMusicApplication.MediaKind) -> Union['XAMusicTrack', None]:
-        # TODO
-        return self.by_property("mediaKind", media_kind.value)
+        return self.by_property("mediaKind", event_from_str(XABase.unOSType(media_kind.value)))
 
     def by_modification_date(self, modification_date: datetime) -> Union['XAMusicTrack', None]:
         return self.by_property("modificationDate", modification_date)
@@ -2512,8 +2616,7 @@ class XAMusicTrackList(XAMusicItemList):
         return self.by_property("rating", rating)
 
     def by_rating_kind(self, rating_kind: XAMusicApplication.RatingKind) -> Union['XAMusicTrack', None]:
-        # TODO
-        return self.by_property("ratingKind", rating_kind.value)
+        return self.by_property("ratingKind", event_from_str(XABase.unOSType(rating_kind.value)))
 
     def by_release_date(self, release_date: datetime) -> Union['XAMusicTrack', None]:
         return self.by_property("releaseDate", release_date)
@@ -2582,8 +2685,7 @@ class XAMusicTrackList(XAMusicItemList):
         return self.by_property("bpm", bpm)
 
     def by_cloud_status(self, cloud_status: XAMusicApplication.iCloudStatus) -> Union['XAMusicTrack', None]:
-        # TODO
-        return self.by_property("cloudStatus", cloud_status.value)
+        return self.by_property("cloudStatus", event_from_str(XABase.unOSType(cloud_status.value)))
 
     def by_compilation(self, compilation: bool) -> Union['XAMusicTrack', None]:
         return self.by_property("compilation", compilation)
@@ -2632,6 +2734,11 @@ class XAMusicTrackList(XAMusicItemList):
 
     def by_work(self, work: str) -> Union['XAMusicTrack', None]:
         return self.by_property("work", work)
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter in ["cloud_status", "cloudStatus", "album_rating_kind", "albumRatingKind", "media_kind", "mediaKind", "rating_kind", "ratingKind"]:
+            value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XAMusicTrack(XAMusicItem):
     """A class for managing and interacting with tracks in Music.app.

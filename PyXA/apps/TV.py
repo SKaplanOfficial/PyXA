@@ -7,6 +7,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Union
 
+import ScriptingBridge
+
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
@@ -52,9 +54,6 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """Types of sources for media items.
         """
         LIBRARY         = XABase.OSType('kLib') #: A library source
-        AUDIO_CD        = XABase.OSType('kACD') #: A CD source
-        MP3_CD          = XABase.OSType('kMCD') #: An MP3 file source
-        RADIO_TUNER     = XABase.OSType('kTun') #: A radio source
         SHARED_LIBRARY  = XABase.OSType('kShd') #: A shared library source
         ITUNES_STORE    = XABase.OSType('kITS') #: The iTunes Store source
         UNKNOWN         = XABase.OSType('kUnk') #: An unknown source
@@ -65,7 +64,6 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         ALBUMS      = XABase.OSType('kSrL') #: Search albums
         ALL         = XABase.OSType('kAll') #: Search all
         ARTISTS     = XABase.OSType('kSrR') #: Search artists
-        COMPOSERS   = XABase.OSType('kSrC') #: Search composers
         DISPLAYED   = XABase.OSType('kSrV') #: Search the currently displayed playlist
         NAMES       = XABase.OSType('kSrS') #: Search track names only
     
@@ -75,18 +73,16 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         NONE            = XABase.OSType('kNon') #: An unknown playlist kind
         UNKNOWN         = 0 #: An unknown playlist kind
         FOLDER          = XABase.OSType('kSpF') #: A folder
-        GENIUS          = XABase.OSType('kSpG') #: A smart playlist
         LIBRARY         = XABase.OSType('kSpL') #: The system library playlist
-        MUSIC           = XABase.OSType('kSpZ') #: A playlist containing music items
-        PURCHASED_MUSIC = XABase.OSType('kSpM') #: The purchased music playlist
-        USER            = XABase.OSType('cUsP') #: A user-created playlist
-        USER_LIBRARY    = XABase.OSType('cLiP') #: The user's library
+        MOVIES          = XABase.OSType('kSpI') #: A playlist containing movie items
+        TV_SHOWS        = XABase.OSType('kSpT') #: A playlist containing TV show items
 
     class MediaKind(Enum):
         """Types of media items.
         """
-        SONG        = XABase.OSType('kMdS') #: A song media item
-        MUSIC_VIDEO = XABase.OSType('kVdV') #: A music video media item
+        HOME_VIDEO        = XABase.OSType('kVdH') #: A home video track
+        MOVIE = XABase.OSType('kVdM') #: A movie track
+        TV_SHOW = XABase.OSType('kVdT') #: A TV show track
         UNKNOWN     = XABase.OSType('kUnk') #: An unknown media item kind
 
     class RatingKind(Enum):
@@ -500,6 +496,58 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.videoWindows(), XATVVideoWindowList, filter)
+    
+    def make(self, specifier: str, properties: dict):
+        """Creates a new element of the given specifier class without adding it to any list.
+
+        Use :func:`XABase.XAList.push` to push the element onto a list. Valid specifiers are: playlist, user playlist, folder playlist, library playlist, track, URL track, shared track, file track, artwork, window, browser window, playlist window, video window, or source.
+
+        :param specifier: The classname of the object to create
+        :type specifier: str
+        :param properties: The properties to give the object
+        :type properties: dict
+        :return: A PyXA wrapped form of the object
+        :rtype: XABase.XAObject
+
+        :Example: Make a new folder playlist and push it onto the list of playlists
+
+        >>> import PyXA
+        >>> app = PyXA.Music()
+        >>> new_playlist = app.make("folder playlist", {"name": "Example Playlist"})
+        >>> app.playlists().push(new_playlist)
+
+        .. versionadded:: 0.2.2
+        """
+        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+
+        if specifier == "playlist":
+            return self._new_element(obj, XATVPlaylist)
+        elif specifier == "user playlist":
+            return self._new_element(obj, XATVUserPlaylist)
+        elif specifier == "folder playlist":
+            return self._new_element(obj, XATVFolderPlaylist)
+        elif specifier == "library playlist":
+            return self._new_element(obj, XATVLibraryPlaylist)
+        elif specifier == "track":
+            return self._new_element(obj, XATVTrack)
+        elif specifier == "URL track":
+            return self._new_element(obj, XATVURLTrack)
+        elif specifier == "shared track":
+            return self._new_element(obj, XATVSharedTrack)
+        elif specifier == "file track":
+            return self._new_element(obj, XATVFileTrack)
+        elif specifier == "artwork":
+            return self._new_element(obj, XATVArtwork)
+        elif specifier == "window":
+            return self._new_element(obj, XATVWindow)
+        elif specifier == "browser window":
+            return self._new_element(obj, XATVBrowserWindow)
+        elif specifier == "playlist window":
+            return self._new_element(obj, XATVPlaylistWindow)
+        elif specifier == "source":
+            return self._new_element(obj, XATVSource)
+        elif specifier == "video window":
+            return self._new_element(obj, XATVVideoWindow)
 
 
 
@@ -833,6 +881,14 @@ class XATVPlaylistList(XATVItemList):
     def by_visible(self, visible: bool) -> Union['XATVPlaylist', None]:
         return self.by_property("visible", visible)
     
+    def push(self, *elements: list['XATVPlaylist']) -> Union['XATVPlaylist', list['XATVPlaylist'], None]:
+        old_list = [x.id for x in self]
+        super().push(*elements)
+        new_list = [x.id for x in self if not x.id in old_list]
+        if len(new_list) == 1:
+            return self.by_id(new_list[0])
+        return [self.by_id(id) for id in new_list]
+    
     def _format_for_filter(self, filter, value1, value2 = None):
         if filter == "special_kind" or filter == "specialKind":
             if isinstance(value1, XATVApplication.PlaylistKind):
@@ -848,6 +904,9 @@ class XATVPlaylist(XATVItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+        if isinstance(self.xa_elem, ScriptingBridge.SBProxyByCode):
+            return
 
         if not hasattr(self, "xa_specialized"):
             if self.special_kind == XATVApplication.PlaylistKind.LIBRARY or self.special_kind == XATVApplication.PlaylistKind.USER_LIBRARY:
@@ -928,6 +987,24 @@ class XATVPlaylist(XATVItem):
         """
         self.xa_elem.playOnce_(True)
 
+    def add_tracks(self, *tracks: Union['XATVTrackList', list['XATVTrack']]):
+        """Add one or more tracks to this playlist.
+
+        :param tracks: The list of tracks to add to this playlist
+        :type tracks: Union[XATVTrackList, list[XATVTrack]]
+
+        .. versionadded:: 0.2.2
+        """
+        if len(tracks) == 1 and isinstance(tracks[0], XATVTrackList):
+            tracks = tracks[0].xa_elem
+        elif len(tracks) == 1 and isinstance(tracks[0], list):
+            tracks = [x.xa_elem for x in tracks[0]]
+        else:
+            tracks = [x.xa_elem for x in tracks]
+
+        for track in tracks:
+            track.duplicateTo_(self.xa_elem)
+
     def search(self, query: str, type: Literal["all", "artists", "albums", "displayed", "tracks"] = "displayed"):
         search_ids = {
             "all": XATVApplication.SearchFilter.ALL,
@@ -994,6 +1071,7 @@ class XATVPlaylist(XATVItem):
         .. versionadded:: 0.0.7
         """
         return self._new_element(self.xa_elem.artworks(), XATVArtworkList, filter)
+
 
 
 
@@ -1083,8 +1161,13 @@ class XATVSourceList(XATVItemList):
         return self.by_property("freeSpace", free_space)
 
     def by_kind(self, kind: XATVApplication.SourceKind) -> Union['XATVSource', None]:
-        # TODO
-        return self.by_property("kind", kind.value)
+        return self.by_property("kind", event_from_str(XABase.unOSType(kind.value)))
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter == "kind":
+            if isinstance(value1, XATVApplication.SourceKind):
+                value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XATVSource(XATVItem):
     """A media source in media apps.
@@ -1326,8 +1409,7 @@ class XATVTrackList(XATVItemList):
         return self.by_property("albumRating", album_rating)
 
     def by_album_rating_kind(self, album_rating_kind: XATVApplication.RatingKind) -> Union['XATVTrack', None]:
-        # TODO
-        return self.by_property("albumRatingKind", album_rating_kind.value)
+        return self.by_property("albumRatingKind", event_from_str(XABase.unOSType(album_rating_kind.value)))
 
     def by_bit_rate(self, bit_rate: int) -> Union['XATVTrack', None]:
         return self.by_property("bitRate", bit_rate)
@@ -1393,8 +1475,7 @@ class XATVTrackList(XATVItemList):
         return self.by_property("longDescription", long_description)
 
     def by_media_kind(self, media_kind: XATVApplication.MediaKind) -> Union['XATVTrack', None]:
-        # TODO
-        return self.by_property("mediaKind", media_kind.value)
+        return self.by_property("mediaKind", event_from_str(XABase.unOSType(media_kind.value)))
 
     def by_modification_date(self, modification_date: datetime) -> Union['XATVTrack', None]:
         return self.by_property("modificationDate", modification_date)
@@ -1415,8 +1496,7 @@ class XATVTrackList(XATVItemList):
         return self.by_property("rating", rating)
 
     def by_rating_kind(self, rating_kind: XATVApplication.RatingKind) -> Union['XATVTrack', None]:
-        # TODO
-        return self.by_property("ratingKind", rating_kind.value)
+        return self.by_property("ratingKind", event_from_str(XABase.unOSType(rating_kind.value)))
 
     def by_release_date(self, release_date: datetime) -> Union['XATVTrack', None]:
         return self.by_property("releaseDate", release_date)
@@ -1468,6 +1548,11 @@ class XATVTrackList(XATVItemList):
 
     def by_year(self, year: int) -> Union['XATVTrack', None]:
         return self.by_property("year", year)
+    
+    def _format_for_filter(self, filter, value1, value2 = None):
+        if filter in ["album_rating_kind", "albumRatingKind", "media_kind", "mediaKind", "rating_kind", "ratingKind"]:
+            value1 = event_from_str(XABase.unOSType(value1.value))
+        return super()._format_for_filter(filter, value1, value2)
 
 class XATVTrack(XATVItem):
     """A class for managing and interacting with tracks in media apps.

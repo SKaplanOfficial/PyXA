@@ -2137,8 +2137,7 @@ class XASystemEventsDesktop(XABase.XAObject):
     def dynamic_style(self) -> XASystemEventsApplication.DynamicStyle:
         """The desktop picture dynamic style.
         """
-        # TODO - check
-        return XASystemEventsApplication.DynamicStyle(XABase.OSType(self.xa_elem.dynamicStyle().stringValue()))
+        return XASystemEventsApplication.DynamicStyle(self.xa_elem.dynamicStyle())
 
     @dynamic_style.setter
     def dynamic_style(self, dynamic_style: XASystemEventsApplication.DynamicStyle):
@@ -2199,8 +2198,7 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
     def double_click_behavior(self) -> XASystemEventsApplication.DoubleClickBehavior:
         """Behavior when double clicking window a title bar.
         """
-        # TODO - check
-        return XASystemEventsApplication.DoubleClickBehavior(XABase.OSType(self.xa_elem.doubleClickBehavior().stringValue()))
+        return XASystemEventsApplication.DoubleClickBehavior(self.xa_elem.doubleClickBehavior())
 
     @double_click_behavior.setter
     def double_click_behavior(self, double_click_behavior: XASystemEventsApplication.DoubleClickBehavior):
@@ -2230,8 +2228,7 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
     def minimize_effect(self) -> XASystemEventsApplication.MinimizeEffect:
         """Minimization effect.
         """
-        # TODO - check
-        return XASystemEventsApplication.MinimizeEffect(XABase.OSType(self.xa_elem.minimizeEffect().stringValue()))
+        return XASystemEventsApplication.MinimizeEffect(self.xa_elem.minimizeEffect())
 
     @minimize_effect.setter
     def minimize_effect(self, minimize_effect: XASystemEventsApplication.MinimizeEffect):
@@ -2251,8 +2248,7 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
     def screen_edge(self) -> XASystemEventsApplication.ScreenLocation:
         """Location on screen.
         """
-        # TODO - check
-        return XASystemEventsApplication.ScreenLocation(XABase.OSType(self.xa_elem.screenEdge().stringValue()))
+        return XASystemEventsApplication.ScreenLocation(self.xa_elem.screenEdge())
 
     @screen_edge.setter
     def screen_edge(self, screen_edge: XASystemEventsApplication.ScreenLocation):
@@ -4320,6 +4316,9 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
 
     def by_visible(self, visible: bool) -> Union['XASystemEventsProcess', None]:
         return self.by_property("visible", visible)
+    
+    def __repr__(self):
+        return "<" + str(type(self)) + "length: " + str(len(self)) + ">"
 
 class XASystemEventsProcess(XASystemEventsUIElement):
     """A process running on this computer.
@@ -4456,7 +4455,6 @@ class XASystemEventsProcess(XASystemEventsUIElement):
     @visible.setter
     def visible(self, visible: bool):
         self.set_property('visible', visible)
-
 
 
 

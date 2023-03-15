@@ -194,7 +194,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         if folder is None:
             folder = self
         name = name.replace('\n', '<br />')
-        body = body.replace('\n', '<br />')
+        body = body.text.replace('\n', '<br />')
         properties = {
             "body": f"<b>{name}</b><br />{body}",
         }

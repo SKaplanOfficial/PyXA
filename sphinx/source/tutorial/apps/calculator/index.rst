@@ -33,7 +33,7 @@ This example uses :func:`XACalculatorApplication.input` to calculate the result 
    :linenos:
 
    import PyXA
-   app = PyXA.application("Calculator")
+   app = PyXA.Application("Calculator")
    app.input("3.14159265*2*3*5*5*5=")
    x = app.current_value()
    print(x)

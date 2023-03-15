@@ -31,7 +31,7 @@ The example below creates a workflow that displays a notification, waits five se
    :linenos:
 
    import PyXA
-   app = PyXA.application("Automator")
+   app = PyXA.Application("Automator")
 
    # Create and save a new workflow
    new_workflow = app.make("workflow", {"name": "New Workflow"})
@@ -66,7 +66,7 @@ In the short example below, we open an existing workflow file, run it, and displ
    :linenos:
 
    import PyXA
-   app = PyXA.application("Automator")
+   app = PyXA.Application("Automator")
 
    app.open("/Users/exampleuser/Downloads/Example.workflow")
    workflow = app.workflows().by_name("Example.workflow")

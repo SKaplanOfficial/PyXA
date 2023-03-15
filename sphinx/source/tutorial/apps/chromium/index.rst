@@ -39,7 +39,7 @@ The example below activates Chromium.app, opens Apple's website in a new tab, wa
    from time import sleep
 
    # Open URL in new tab
-   app = PyXA.application("Chromium")
+   app = PyXA.Application("Chromium")
    app.activate()
    app.open("http://apple.com")
 
@@ -61,7 +61,7 @@ This example shows how to manually create new windows and tabs in Chromium. The 
 
    import PyXA
 
-   app = PyXA.application("Chromium")
+   app = PyXA.Application("Chromium")
    app.activate()
 
    # Make a new window using the convenience method

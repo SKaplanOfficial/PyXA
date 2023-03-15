@@ -59,6 +59,7 @@ Third-Party Application Module Reference
    apps/flow
    apps/drafts
    apps/hammerspoon
+   apps/iina
    apps/iterm
    apps/omnioutliner
    apps/spotify

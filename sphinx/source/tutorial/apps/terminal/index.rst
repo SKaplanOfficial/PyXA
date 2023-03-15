@@ -14,7 +14,7 @@ This example showcases many of the methods and attributes available for use in t
 .. code-block:: python
 
     import PyXA
-    app = PyXA.application("Terminal")
+    app = PyXA.Application("Terminal")
 
     # Get information about the current tab
     tab = app.current_tab

@@ -27,7 +27,7 @@ This example provides an overview of the most common methods and attributes of t
    import PyXA
 
    # Open URL in new tab
-   safari = PyXA.application("Safari")
+   safari = PyXA.Application("Safari")
 
    # Get open windows, documents, and tabs
    window1 = safari.front_window()

@@ -13,7 +13,7 @@ This example provides a general overview of the functionalities supported by the
    :linenos:
    
     import PyXA
-    app = PyXA.application("VLC")
+    app = PyXA.Application("VLC")
 
     # Open or get (without opening) files and URLs
     app.open("/Users/exampleUser/ExampleFile.m4v")

@@ -271,7 +271,7 @@ class XASBWindow(XABase.XAObject, XACloseable):
             return super().__getattribute__(attr)
         else:
             try:
-                return self.xa_scel.__getattribute__(attr)
+                return self.xa_elem.__getattribute__(attr)
             except Exception as e:
                 raise e
 

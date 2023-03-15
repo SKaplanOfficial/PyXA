@@ -24,7 +24,7 @@ The example below activates Chromium.app, opens Apple's website in a new tab, wa
    :linenos:
 
    import PyXA
-   app = PyXA.application("Shortcuts")
+   app = PyXA.Application("Shortcuts Events")
 
    # Get shortcuts by name
    sqrt = app.shortcuts().by_name("sqrt(x)")
@@ -50,7 +50,7 @@ This example highlights how you can intertwine PyXA, Shortcuts, and Python to ca
    import tempfile
 
    # Get the source of webpage, using a shortcut
-   app = PyXA.application("Shortcuts")
+   app = PyXA.Application("Shortcuts Events")
    s1 = app.shortcuts().by_name("Get HTML")
    source = s1.run("http://google.com")[0]
 

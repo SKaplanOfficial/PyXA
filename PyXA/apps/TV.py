@@ -32,7 +32,7 @@ class TVObjectClass(Enum):
     VIDEO_WINDOW = 'cNPW'
     WINDOW = 'cwin'
 
-class XATVApplication(XABaseScriptable.XASBApplication):
+class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with TV.app.
 
     .. seealso:: :class:`XATVWindow`, class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`
@@ -948,6 +948,28 @@ class XATVPlaylist(XATVItem):
             }
             items.append(XATVTrack(properties))
         return items
+    
+    def move(self, location: Union['XATVSource', 'XATVFolderPlaylist']):
+        """Moves the playlist to the specified source or folder playlist.
+
+        :param location: The source or folder playlist to move this playlist to
+        :type location: Union[XATVSource, XATVFolderPlaylist]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.moveTo_(location.xa_elem)
+
+    def duplicate(self, location: Union['XATVSource', 'XATVFolderPlaylist', None] = None):
+        """Duplicates the playlist to the specified source or folder playlist.
+
+        :param location: The source or folder playlist to duplicate this playlist to, or None to duplicate into the parent of this playlist, defaults to None
+        :type location: Union[XATVSource, XATVFolderPlaylist, None], optional
+
+        .. versionadded:: 0.2.2
+        """
+        if location is None:
+            location = self.xa_prnt
+        self.xa_elem.duplicateTo_(location.xa_elem)
 
     def tracks(self, filter: Union[dict, None] = None) -> 'XATVTrackList':
         """Returns a list of tracks, as PyXA objects, matching the given filter.
@@ -1931,6 +1953,26 @@ class XATVTrack(XATVItem):
         """
         self.xa_elem.playOnce_(True)
         return self
+    
+    def move(self, location: Union[XATVPlaylist, XATVSource]):
+        """Moves the track to the specified location, copying it if appropriate.
+
+        :param location: The playlist or source to move the track to
+        :type location: Union[XATVPlaylist, XATVSource]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.moveTo_(location.xa_elem)
+
+    def duplicate(self, location: Union[XATVPlaylist, XATVSource]):
+        """Duplicates the track at the specified location.
+
+        :param location: The location to duplicate the track to
+        :type location: Union[XATVPlaylist, XATVSource]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.duplicateTo_(location.xa_elem)
 
     def artworks(self, filter: Union[dict, None] = None) -> 'XATVArtworkList':
         """Returns a list of artworks, as PyXA objects, matching the given filter.

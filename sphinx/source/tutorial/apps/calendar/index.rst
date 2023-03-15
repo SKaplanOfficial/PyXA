@@ -32,7 +32,7 @@ In addition to listing events, you can obtain references to specific events usin
 
    from datetime import datetime, timedelta
    import PyXA
-   app = PyXA.application("Calendar")
+   app = PyXA.Application("Calendar")
 
    # Getting calendars
    all_calendars = app.calendars()
@@ -69,7 +69,7 @@ Example 2 - Creating Calendars and Events
 
    from datetime import datetime, timedelta
    import PyXA
-   app = PyXA.application("Calendar")
+   app = PyXA.Application("Calendar")
 
    # Create a new calendar
    new_calendar = app.new_calendar("PyXA Development")
@@ -89,7 +89,7 @@ Example 3 - Modifying and Manipulating Events
 
    from datetime import date
    import PyXA
-   app = PyXA.application("Calendar")
+   app = PyXA.Application("Calendar")
 
    calendar = app.default_calendar()
    calendar1 = app.calendar(1)
@@ -117,7 +117,7 @@ Example 5 - Displaying Events in Calendar.app
 
    from datetime import date
    import PyXA
-   app = PyXA.application("Calendar")
+   app = PyXA.Application("Calendar")
 
    calendar = app.default_calendar()
    calendar1 = app.calendar(1)

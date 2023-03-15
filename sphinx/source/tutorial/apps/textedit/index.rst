@@ -23,7 +23,7 @@ This example utilizes most of the methods provided in the TextEdit module, and i
 .. code-block:: python
 
    import PyXA
-   textedit = PyXA.application("TextEdit")
+   textedit = PyXA.Application("TextEdit")
    textedit.activate()
 
    # Opening existing documents
@@ -71,7 +71,7 @@ The example below implements a crude yet functional automatic flashcard generato
    from time import sleep
 
    # Open a URL and wait for it to load
-   safari = PyXA.application("Safari")
+   safari = PyXA.Application("Safari")
    safari.open("https://en.wikipedia.org/wiki/Computer")
    sleep(1)
 
@@ -89,7 +89,7 @@ The example below implements a crude yet functional automatic flashcard generato
       file.write(doc_text)
 
    # Open the document and get its paragraphs
-   textedit = PyXA.application("TextEdit")
+   textedit = PyXA.Application("TextEdit")
    textedit.open(file_path)
    doc = textedit.front_window().document
    paragraphs = doc.paragraphs()

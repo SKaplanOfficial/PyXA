@@ -27,7 +27,7 @@ An example will be added soon.
 ..    from time import sleep
 
 ..    # Open URL in new tab
-..    app = PyXA.application("Chromium")
+..    app = PyXA.Application("Chromium")
 ..    app.activate()
 ..    app.open("http://apple.com")
 

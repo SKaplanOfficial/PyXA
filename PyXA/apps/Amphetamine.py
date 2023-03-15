@@ -5,8 +5,6 @@ Control Amphetamine using JXA-like syntax.
 
 from typing import Literal, Union
 
-import AppKit
-
 from PyXA import XABaseScriptable
 
 class XAAmphetamineApplication(XABaseScriptable.XASBApplication):

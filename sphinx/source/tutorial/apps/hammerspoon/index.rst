@@ -6,7 +6,7 @@ The Hammerspoon module provides the ability to run Hammerspoon Lua scripts from 
 .. code-block:: Python
 
     import PyXA
-    app = PyXA.application("hammerspoon")
+    app = PyXA.Application("hammerspoon")
     result = app.execute_lua_code("""
         app = hs.appfinder.appFromName("Finder")
         window = app:mainWindow()

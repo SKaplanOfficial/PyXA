@@ -12,7 +12,7 @@ Example 1 - Interacting with Currently Selected Calendar Items
 .. code-block:: python
 
     import PyXA
-    app = PyXA.application("Fantastical")
+    app = PyXA.Application("Fantastical")
     items = app.selected_calendar_items()
     urls = [item.show_url.url for item in items]
     print(urls)
@@ -24,7 +24,7 @@ Example 2 - Using Natural Language to Create Events
 .. code-block:: python
 
     import PyXA
-    app = PyXA.application("Fantastical")
+    app = PyXA.Application("Fantastical")
     app.parse_sentence("Meeting from 2pm to 3 today")
     app.parse_sentence("Joe's birthday August 26th all day")
     app.parse_sentence("Computer Science Homework due on Tuesday")

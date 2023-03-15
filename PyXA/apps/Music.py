@@ -42,7 +42,7 @@ class MusicObjectClass(Enum):
     VISUAL = 'cVis'
     WINDOW = 'cwin'
 
-class XAMusicApplication(XABaseScriptable.XASBApplication):
+class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Music.app.
 
     .. seealso:: :class:`XAMusicWindow`, class:`XAMusicSource`, :class:`XAMusicPlaylist`, :class:`XAMusicTrack`
@@ -539,19 +539,6 @@ class XAMusicApplication(XABaseScriptable.XASBApplication):
         """
         self.set_property("soundVolume", new_volume)
         return self
-
-    def current_track(self) -> 'XAMusicTrack':
-        """Returns the currently playing (or paused but not stopped) track.
-
-        .. versionadded:: 0.0.1
-        """
-        properties = {
-            "parent": self,
-            "element": self.xa_scel.currentTrack(),
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAMusicTrack(properties)
 
     def add_to_playlist(self, urls: list[Union[str, AppKit.NSURL]], playlist):
         items = []
@@ -1719,8 +1706,27 @@ class XAMusicPlaylist(XAMusicItem):
             items.append(XAMusicTrack(properties))
         return items
 
-    def move_to(self, parent_playlist):
-        self.xa_elem.moveTo_(parent_playlist.xa_elem)
+    def move(self, location: Union['XAMusicSource', 'XAMusicFolderPlaylist']):
+        """Moves the playlist to the specified source or folder playlist.
+
+        :param location: The source or folder playlist to move this playlist to
+        :type location: Union[XAMusicSource, XAMusicPlaylist]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.moveTo_(location.xa_elem)
+
+    def duplicate(self, location: Union['XAMusicSource', 'XAMusicFolderPlaylist', None] = None):
+        """Duplicates the playlist to the specified source or folder playlist.
+
+        :param location: The source or folder playlist to duplicate this playlist to, or None to duplicate into the parent of this playlist, defaults to None
+        :type location: Union[XAMusicSource, XAMusicFolderPlaylist, None], optional
+
+        .. versionadded:: 0.2.2
+        """
+        if location is None:
+            location = self.xa_prnt
+        self.xa_elem.duplicateTo_(location.xa_elem)
 
     def play(self):
         """Starts playback of the playlist, beginning with the first track in the list.
@@ -3284,6 +3290,26 @@ class XAMusicTrack(XAMusicItem):
     def work(self, work: str):
         self.set_property('work', work)
 
+    def move(self, location: Union[XAMusicPlaylist, XAMusicSource]):
+        """Moves the track to the specified location, copying it if appropriate.
+
+        :param location: The playlist or source to move the track to
+        :type location: Union[XAMusicPlaylist, XAMusicSource]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.moveTo_(location.xa_elem)
+
+    def duplicate(self, location: Union[XAMusicPlaylist, XAMusicSource]):
+        """Duplicates the track at the specified location.
+
+        :param location: The location to duplicate the track to
+        :type location: Union[XAMusicPlaylist, XAMusicSource]
+
+        .. versionadded:: 0.2.2
+        """
+        self.xa_elem.duplicateTo_(location.xa_elem)
+
     def select(self) -> 'XAMusicItem':
         """Selects the item.
 
@@ -3688,7 +3714,7 @@ class XAMusicWindowList(XAMusicItemList):
         return self.by_property("zoomed", zoomed)
 
 class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
-    """A windows of Music.app.
+    """A window of Music.app.
 
     .. seealso:: :class:`XAMusicWindowList`
 

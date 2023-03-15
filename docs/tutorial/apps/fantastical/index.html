@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fantastical Module Overview &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Flow Module Overview" href="../flow/index.html" />
+    <link rel="prev" title="Drafts Module Overview" href="../drafts/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Application Module Overviews</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../index.html#first-party-application-modules-overviews">First-Party Application Modules Overviews</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#third-party-application-module-overviews">Third-Party Application Module Overviews</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../images.html">Working with Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Fantastical Module Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/fantastical/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fantastical-module-overview">
+<h1>Fantastical Module Overview<a class="headerlink" href="#fantastical-module-overview" title="Permalink to this heading"></a></h1>
+<p>The Fantastical module provides access to Fantastical’s features from within PyXA, making use of both the application’s scripting dictionary as well as its URL scheme.</p>
+<section id="fantastical-examples">
+<h2>Fantastical Examples<a class="headerlink" href="#fantastical-examples" title="Permalink to this heading"></a></h2>
+<section id="example-1-interacting-with-currently-selected-calendar-items">
+<h3>Example 1 - Interacting with Currently Selected Calendar Items<a class="headerlink" href="#example-1-interacting-with-currently-selected-calendar-items" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Fantastical&quot;</span><span class="p">)</span>
+<span class="n">items</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">selected_calendar_items</span><span class="p">()</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">show_url</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
+<span class="c1"># [&#39;x-fantastical://show?item=7d627e52-ae3d-39eb-b86b-57b037f92cab&amp;calendarIdentifier=A5E06B53-667F-42EE-A6FD-99609F6711E3&amp;date=2022-02-21%2000:00&#39;, &#39;x-fantastical://show?item=e4bcc8c4-cd34-3c1d-b273-def4ecd47eae&amp;calendarIdentifier=A5E06B53-667F-42EE-A6FD-99609F6711E3&amp;date=2022-02-14%2000:00&#39;, ...]</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-natural-language-to-create-events">
+<h3>Example 2 - Using Natural Language to Create Events<a class="headerlink" href="#example-2-using-natural-language-to-create-events" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Fantastical&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Meeting from 2pm to 3 today&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Joe&#39;s birthday August 26th all day&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Computer Science Homework due on Tuesday&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Vacation from August 26 to September 2&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Meeting at 2pm today alert 20 minutes before&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Attend Apple Event at 1 Infinite Loop, Cupertino, CA on September 14 at 9am&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">parse_sentence</span><span class="p">(</span><span class="s2">&quot;Remind me to clean on Wednesday&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="fantastical-resources">
+<h2>Fantastical Resources<a class="headerlink" href="#fantastical-resources" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://flexibits.com/fantastical/help/integration-with-other-apps">Fantastical Integration With Other Apps Help</a></p></li>
+<li><p><a class="reference external" href="https://web.archive.org/web/20220822222939/https://www.calendar.com/fantastical/#createe">Fantastical Guide - Calendar.com</a></p></li>
+</ul>
+<p>For all classes, methods, and inherited members of the Fantastical module, see the <a class="reference internal" href="../../../reference/apps/fantastical.html#module-PyXA.apps.Fantastical"><span class="std std-ref">Fantastical Module Reference</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../drafts/index.html" class="btn btn-neutral float-left" title="Drafts Module Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../flow/index.html" class="btn btn-neutral float-right" title="Flow Module Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

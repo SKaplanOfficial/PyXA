@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLC Module Reference &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="RStudio Module Reference" href="rstudio.html" />
+    <link rel="prev" title="Spotify Module Reference" href="spotify.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="drafts.html">Drafts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iina.html">IINA+ Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">VLC Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication"><code class="docutils literal notranslate"><span class="pre">XAVLCApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument"><code class="docutils literal notranslate"><span class="pre">XAVLCDocument</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList"><code class="docutils literal notranslate"><span class="pre">XAVLCDocumentList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow"><code class="docutils literal notranslate"><span class="pre">XAVLCWindow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">VLC Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/vlc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.VLC">
+<span id="vlc-module-reference"></span><h1>VLC Module Reference<a class="headerlink" href="#module-PyXA.apps.VLC" title="Permalink to this heading"></a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication" title="PyXA.apps.VLC.XAVLCApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAVLCApplication</span></code></a>(properties)</p></td>
+<td><p>VLC's top level scripting object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument" title="PyXA.apps.VLC.XAVLCDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAVLCDocument</span></code></a>(properties)</p></td>
+<td><p>A document open in VLC.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList" title="PyXA.apps.VLC.XAVLCDocumentList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAVLCDocumentList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around a list of documents.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow" title="PyXA.apps.VLC.XAVLCWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAVLCWindow</span></code></a>(properties)</p></td>
+<td><p>A window of VLC.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.VLC.</span></span><span class="sig-name descname"><span class="pre">XAVLCApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a></p>
+<p>VLC’s top level scripting object.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.activate_menu_item" title="PyXA.apps.VLC.XAVLCApplication.activate_menu_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">activate_menu_item</span></code></a>()</p></td>
+<td><p>Activates the currently focused menu item.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.documents" title="PyXA.apps.VLC.XAVLCApplication.documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">documents</span></code></a>([filter])</p></td>
+<td><p>Returns a list of documents, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.fullscreen" title="PyXA.apps.VLC.XAVLCApplication.fullscreen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullscreen</span></code></a>()</p></td>
+<td><p>Toggle between fullscreen and windowed mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.get_url" title="PyXA.apps.VLC.XAVLCApplication.get_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_url</span></code></a>(url)</p></td>
+<td><p>Get a URL without playing it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.make" title="PyXA.apps.VLC.XAVLCApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(specifier, properties)</p></td>
+<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_down" title="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_menu_focus_down</span></code></a>()</p></td>
+<td><p>Moves the menu focus down.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_left" title="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_left"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_menu_focus_left</span></code></a>()</p></td>
+<td><p>Moves the menu focus to the left.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_right" title="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_right"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_menu_focus_right</span></code></a>()</p></td>
+<td><p>Moves the menu focus to the right.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_up" title="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_menu_focus_up</span></code></a>()</p></td>
+<td><p>Moves the menu focus up.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.mute" title="PyXA.apps.VLC.XAVLCApplication.mute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mute</span></code></a>()</p></td>
+<td><p>Mute the audio of the item or unmute it if it was muted.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.next" title="PyXA.apps.VLC.XAVLCApplication.next"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next</span></code></a>()</p></td>
+<td><p>Go to the next item in the playlist or the next chapter in the DVD/VCD.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.open" title="PyXA.apps.VLC.XAVLCApplication.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>(target)</p></td>
+<td><p>Opens the file/website at the given filepath/URL.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.open_url" title="PyXA.apps.VLC.XAVLCApplication.open_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_url</span></code></a>(url)</p></td>
+<td><p>Open a media URL.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.play" title="PyXA.apps.VLC.XAVLCApplication.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<td><p>Start playing the current playlistitem or pause it when it is already playing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.previous" title="PyXA.apps.VLC.XAVLCApplication.previous"><code class="xref py py-obj docutils literal notranslate"><span class="pre">previous</span></code></a>()</p></td>
+<td><p>Go to the previous item in the playlist or the previous chapter in the DVD/VCD.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.step_backward" title="PyXA.apps.VLC.XAVLCApplication.step_backward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step_backward</span></code></a>()</p></td>
+<td><p>Step the current playlist item backward the specified step width (default is 2) (1=extraShort, 2=short, 3=medium, 4=long).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.step_forward" title="PyXA.apps.VLC.XAVLCApplication.step_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step_forward</span></code></a>()</p></td>
+<td><p>Step the current playlist item forward the specified step width (default is 2) (1=extraShort, 2=short, 3=medium, 4=long).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.stop" title="PyXA.apps.VLC.XAVLCApplication.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<td><p>Stop playing the current playlist item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.volume_down" title="PyXA.apps.VLC.XAVLCApplication.volume_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume_down</span></code></a>()</p></td>
+<td><p>Bring the volume down by one step.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.volume_up" title="PyXA.apps.VLC.XAVLCApplication.volume_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">volume_up</span></code></a>()</p></td>
+<td><p>Bring the volume up by one step.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.audio_desync" title="PyXA.apps.VLC.XAVLCApplication.audio_desync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">audio_desync</span></code></a></p></td>
+<td><p>The audio desynchronization preference from -2147483648 to 2147483647, where 0 is default.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.audio_volume" title="PyXA.apps.VLC.XAVLCApplication.audio_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">audio_volume</span></code></a></p></td>
+<td><p>The volume of the current playlist item from 0 to 512, where 256 is 100%.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.current_time" title="PyXA.apps.VLC.XAVLCApplication.current_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_time</span></code></a></p></td>
+<td><p>The current time of the current playlist item in seconds.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.duration_of_current_item" title="PyXA.apps.VLC.XAVLCApplication.duration_of_current_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration_of_current_item</span></code></a></p></td>
+<td><p>The duration of the current playlist item in seconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.frontmost" title="PyXA.apps.VLC.XAVLCApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Whether VLC is the active application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.fullscreen_mode" title="PyXA.apps.VLC.XAVLCApplication.fullscreen_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullscreen_mode</span></code></a></p></td>
+<td><p>Indicates whether fullscreen is enabled or not.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.muted" title="PyXA.apps.VLC.XAVLCApplication.muted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">muted</span></code></a></p></td>
+<td><p>Is VLC currently muted?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.name" title="PyXA.apps.VLC.XAVLCApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.name_of_current_item" title="PyXA.apps.VLC.XAVLCApplication.name_of_current_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_of_current_item</span></code></a></p></td>
+<td><p>Name of the current playlist item.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.path_of_current_item" title="PyXA.apps.VLC.XAVLCApplication.path_of_current_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path_of_current_item</span></code></a></p></td>
+<td><p>Path to the current playlist item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.playback_shows_menu" title="PyXA.apps.VLC.XAVLCApplication.playback_shows_menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">playback_shows_menu</span></code></a></p></td>
+<td><p>Indicates whether a DVD menu is currently being shown.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.playing" title="PyXA.apps.VLC.XAVLCApplication.playing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">playing</span></code></a></p></td>
+<td><p>Is VLC playing an item?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.properties" title="PyXA.apps.VLC.XAVLCApplication.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a></p></td>
+<td><p>All properties of the VLC application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCApplication.version" title="PyXA.apps.VLC.XAVLCApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of VLC.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.activate_menu_item">
+<span class="sig-name descname"><span class="pre">activate_menu_item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.activate_menu_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.activate_menu_item" title="Permalink to this definition"></a></dt>
+<dd><p>Activates the currently focused menu item.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.audio_desync">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio_desync</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.audio_desync" title="Permalink to this definition"></a></dt>
+<dd><p>The audio desynchronization preference from -2147483648 to 2147483647, where 0 is default.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.audio_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">audio_volume</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.audio_volume" title="Permalink to this definition"></a></dt>
+<dd><p>The volume of the current playlist item from 0 to 512, where 256 is 100%.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.current_time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.current_time" title="Permalink to this definition"></a></dt>
+<dd><p>The current time of the current playlist item in seconds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.documents">
+<span class="sig-name descname"><span class="pre">documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList" title="PyXA.apps.VLC.XAVLCDocumentList"><span class="pre">XAVLCDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.documents" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of documents, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter documents by, defaults to None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PyXA list object wrapping a list of documents</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList" title="PyXA.apps.VLC.XAVLCDocumentList">XAVLCDocumentList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.duration_of_current_item">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration_of_current_item</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.duration_of_current_item" title="Permalink to this definition"></a></dt>
+<dd><p>The duration of the current playlist item in seconds.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.frontmost" title="Permalink to this definition"></a></dt>
+<dd><p>Whether VLC is the active application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.fullscreen">
+<span class="sig-name descname"><span class="pre">fullscreen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.fullscreen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.fullscreen" title="Permalink to this definition"></a></dt>
+<dd><p>Toggle between fullscreen and windowed mode.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.fullscreen_mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fullscreen_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.fullscreen_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Indicates whether fullscreen is enabled or not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.get_url">
+<span class="sig-name descname"><span class="pre">get_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.get_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.get_url" title="Permalink to this definition"></a></dt>
+<dd><p>Get a URL without playing it.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.make">
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.make" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_down">
+<span class="sig-name descname"><span class="pre">move_menu_focus_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.move_menu_focus_down"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_down" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the menu focus down.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_left">
+<span class="sig-name descname"><span class="pre">move_menu_focus_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.move_menu_focus_left"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_left" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the menu focus to the left.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_right">
+<span class="sig-name descname"><span class="pre">move_menu_focus_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.move_menu_focus_right"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_right" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the menu focus to the right.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.move_menu_focus_up">
+<span class="sig-name descname"><span class="pre">move_menu_focus_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.move_menu_focus_up"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.move_menu_focus_up" title="Permalink to this definition"></a></dt>
+<dd><p>Moves the menu focus up.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.mute">
+<span class="sig-name descname"><span class="pre">mute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.mute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.mute" title="Permalink to this definition"></a></dt>
+<dd><p>Mute the audio of the item or unmute it if it was muted.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.muted">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">muted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.muted" title="Permalink to this definition"></a></dt>
+<dd><p>Is VLC currently muted?</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the application.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.name_of_current_item">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_of_current_item</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.name_of_current_item" title="Permalink to this definition"></a></dt>
+<dd><p>Name of the current playlist item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.next">
+<span class="sig-name descname"><span class="pre">next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.next"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.next" title="Permalink to this definition"></a></dt>
+<dd><p>Go to the next item in the playlist or the next chapter in the DVD/VCD.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.open" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the file/website at the given filepath/URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><em>XABase.XAURL</em></a><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>str</em><em>]</em>) – The path to a file or the URL to a website to open.</p>
+</dd>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
+<dd class="field-even"><p>Open files from file paths</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;VLC&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Downloads/Example.avi&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Documents/Example.m4v&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Open URLs</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;VLC&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0f/Baby_pelican.ogg/Baby_pelican.ogg.mp3&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;https://www.youtube.com/watch?v=e9B3E_DnnWw&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.open_url">
+<span class="sig-name descname"><span class="pre">open_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.open_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.open_url" title="Permalink to this definition"></a></dt>
+<dd><p>Open a media URL.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.path_of_current_item">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path_of_current_item</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.path_of_current_item" title="Permalink to this definition"></a></dt>
+<dd><p>Path to the current playlist item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.play">
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.play" title="Permalink to this definition"></a></dt>
+<dd><p>Start playing the current playlistitem or pause it when it is already playing.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.playback_shows_menu">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">playback_shows_menu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.playback_shows_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Indicates whether a DVD menu is currently being shown.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.playing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">playing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.playing" title="Permalink to this definition"></a></dt>
+<dd><p>Is VLC playing an item?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.previous">
+<span class="sig-name descname"><span class="pre">previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.previous"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.previous" title="Permalink to this definition"></a></dt>
+<dd><p>Go to the previous item in the playlist or the previous chapter in the DVD/VCD.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.properties" title="Permalink to this definition"></a></dt>
+<dd><p>All properties of the VLC application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.step_backward">
+<span class="sig-name descname"><span class="pre">step_backward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.step_backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.step_backward" title="Permalink to this definition"></a></dt>
+<dd><p>Step the current playlist item backward the specified step width (default is 2) (1=extraShort, 2=short, 3=medium, 4=long).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.step_forward">
+<span class="sig-name descname"><span class="pre">step_forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.step_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.step_forward" title="Permalink to this definition"></a></dt>
+<dd><p>Step the current playlist item forward the specified step width (default is 2) (1=extraShort, 2=short, 3=medium, 4=long).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop playing the current playlist item.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.version" title="Permalink to this definition"></a></dt>
+<dd><p>The version of VLC.app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.volume_down">
+<span class="sig-name descname"><span class="pre">volume_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.volume_down"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.volume_down" title="Permalink to this definition"></a></dt>
+<dd><p>Bring the volume down by one step. There are 32 steps from 0 to 400% volume.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCApplication.volume_up">
+<span class="sig-name descname"><span class="pre">volume_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCApplication.volume_up"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCApplication.volume_up" title="Permalink to this definition"></a></dt>
+<dd><p>Bring the volume up by one step. There are 32 steps from 0 to 400% volume.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocument">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.VLC.</span></span><span class="sig-name descname"><span class="pre">XAVLCDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocument" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A document open in VLC.app.</p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument.modified" title="PyXA.apps.VLC.XAVLCDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
+<td><p>Has the document been modified since the last save?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument.name" title="PyXA.apps.VLC.XAVLCDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The document's name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument.path" title="PyXA.apps.VLC.XAVLCDocument.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>The document's path.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument.properties" title="PyXA.apps.VLC.XAVLCDocument.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a></p></td>
+<td><p>All properties of the document.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocument.modified">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocument.modified" title="Permalink to this definition"></a></dt>
+<dd><p>Has the document been modified since the last save?</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocument.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocument.name" title="Permalink to this definition"></a></dt>
+<dd><p>The document’s name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocument.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocument.path" title="Permalink to this definition"></a></dt>
+<dd><p>The document’s path.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocument.properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocument.properties" title="Permalink to this definition"></a></dt>
+<dd><p>All properties of the document.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.VLC.</span></span><span class="sig-name descname"><span class="pre">XAVLCDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<p>A wrapper around a list of documents.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.by_modified" title="PyXA.apps.VLC.XAVLCDocumentList.by_modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_modified</span></code></a>(modified)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.by_name" title="PyXA.apps.VLC.XAVLCDocumentList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.by_path" title="PyXA.apps.VLC.XAVLCDocumentList.by_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_path</span></code></a>(path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation" title="PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each document in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.modified" title="PyXA.apps.VLC.XAVLCDocumentList.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.name" title="PyXA.apps.VLC.XAVLCDocumentList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocumentList.path" title="PyXA.apps.VLC.XAVLCDocumentList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.by_modified">
+<span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument" title="PyXA.apps.VLC.XAVLCDocument"><span class="pre">XAVLCDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.by_modified" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument" title="PyXA.apps.VLC.XAVLCDocument"><span class="pre">XAVLCDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.by_path">
+<span class="sig-name descname"><span class="pre">by_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument" title="PyXA.apps.VLC.XAVLCDocument"><span class="pre">XAVLCDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.by_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.by_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each document in the list.</p>
+<p>When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of document names</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.modified">
+<span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.modified" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCDocumentList.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCDocumentList.path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCDocumentList.path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.VLC.</span></span><span class="sig-name descname"><span class="pre">XAVLCWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/VLC.html#XAVLCWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.VLC.XAVLCWindow" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a></p>
+<p>A window of VLC.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow.document" title="PyXA.apps.VLC.XAVLCWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
+<td><p>The document whose contents are being displayed in the window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow.floating" title="PyXA.apps.VLC.XAVLCWindow.floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">floating</span></code></a></p></td>
+<td><p>Whether the window floats.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow.modal" title="PyXA.apps.VLC.XAVLCWindow.modal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modal</span></code></a></p></td>
+<td><p>Whether the window is the application's current modal window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.VLC.XAVLCWindow.titled" title="PyXA.apps.VLC.XAVLCWindow.titled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">titled</span></code></a></p></td>
+<td><p>Whether the window has a title bar.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCWindow.document">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.VLC.XAVLCDocument" title="PyXA.apps.VLC.XAVLCDocument"><span class="pre">XAVLCDocument</span></a></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCWindow.document" title="Permalink to this definition"></a></dt>
+<dd><p>The document whose contents are being displayed in the window.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCWindow.floating">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">floating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCWindow.floating" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window floats.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCWindow.modal">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCWindow.modal" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is the application’s current modal window.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.VLC.XAVLCWindow.titled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">titled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.VLC.XAVLCWindow.titled" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window has a title bar.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spotify.html" class="btn btn-neutral float-left" title="Spotify Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rstudio.html" class="btn btn-neutral float-right" title="RStudio Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

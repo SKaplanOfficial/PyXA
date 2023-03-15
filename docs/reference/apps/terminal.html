@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Module Reference &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TextEdit Module Reference" href="textedit.html" />
+    <link rel="prev" title="System Preferences Module Reference" href="systempreferences.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Console Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quicktimeplayer.html">QuickTime Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Terminal Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication"><code class="docutils literal notranslate"><span class="pre">XATerminalApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet"><code class="docutils literal notranslate"><span class="pre">XATerminalSettingsSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList"><code class="docutils literal notranslate"><span class="pre">XATerminalSettingsSetList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab"><code class="docutils literal notranslate"><span class="pre">XATerminalTab</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList"><code class="docutils literal notranslate"><span class="pre">XATerminalTabList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow"><code class="docutils literal notranslate"><span class="pre">XATerminalWindow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Terminal Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/terminal.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Terminal">
+<span id="terminal-module-reference"></span><h1>Terminal Module Reference<a class="headerlink" href="#module-PyXA.apps.Terminal" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p>Control the macOS Terminal application using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication" title="PyXA.apps.Terminal.XATerminalApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Messages.app</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalSettingsSet</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with settings sets in Terminal.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalSettingsSetList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Terminal settings sets that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalTab</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with tabs in Terminal.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList" title="PyXA.apps.Terminal.XATerminalTabList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalTabList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Terminal tabs that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATerminalWindow</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with windows in Terminal.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
+<p>A class for managing and interacting with Messages.app</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATerminalWindow</span></code></a>, <a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATerminalTab</span></code></a>, <a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATerminalSettingsSet</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.current_tab" title="PyXA.apps.Terminal.XATerminalApplication.current_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_tab</span></code></a></p></td>
+<td><p>The currently active Terminal tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.default_settings" title="PyXA.apps.Terminal.XATerminalApplication.default_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_settings</span></code></a></p></td>
+<td><p>The settings set used for new windows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.frontmost" title="PyXA.apps.Terminal.XATerminalApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Whether Terminal is the active application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.name" title="PyXA.apps.Terminal.XATerminalApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.startup_settings" title="PyXA.apps.Terminal.XATerminalApplication.startup_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startup_settings</span></code></a></p></td>
+<td><p>The settings set used for the window created on application startup.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.version" title="PyXA.apps.Terminal.XATerminalApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of Terminal.app.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.do_script" title="PyXA.apps.Terminal.XATerminalApplication.do_script"><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_script</span></code></a>(script[, window_tab, return_result])</p></td>
+<td><p>Executes a Terminal script in the specified window or tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication.settings_sets" title="PyXA.apps.Terminal.XATerminalApplication.settings_sets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings_sets</span></code></a>([filter])</p></td>
+<td><p>Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.current_tab">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.current_tab" title="Permalink to this definition"></a></dt>
+<dd><p>The currently active Terminal tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.default_settings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.default_settings" title="Permalink to this definition"></a></dt>
+<dd><p>The settings set used for new windows.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.do_script">
+<span class="sig-name descname"><span class="pre">do_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><span class="pre">XATerminalWindow</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication" title="PyXA.apps.Terminal.XATerminalApplication"><span class="pre">XATerminalApplication</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.do_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.do_script" title="Permalink to this definition"></a></dt>
+<dd><p>Executes a Terminal script in the specified window or tab.</p>
+<p>If no window or tab is provided, the script will run in a new tab of the frontmost window. If return_result is True, the script will be run in a new tab no regardless of the value of window_tab.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>script</strong> (<em>str</em>) – The script to execute.</p></li>
+<li><p><strong>window_tab</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><em>XATerminalWindow</em></a><em>, </em><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><em>XATerminalTab</em></a><em>]</em><em>, </em><em>optional</em>) – The window or tab to execute the script in, defaults to None</p></li>
+<li><p><strong>return_result</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the result of script execution, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to the Terminal application object, or the result of script execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication" title="PyXA.apps.Terminal.XATerminalApplication">XATerminalApplication</a>, Dict[str, str]]</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.9: </span>Now optionally returns the script execution result.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.frontmost" title="Permalink to this definition"></a></dt>
+<dd><p>Whether Terminal is the active application.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.settings_sets">
+<span class="sig-name descname"><span class="pre">settings_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">XATerminalSettingsSetList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.settings_sets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.settings_sets" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned settings sets will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of settings sets</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList">XATerminalSettingsSetList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.startup_settings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">startup_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.startup_settings" title="Permalink to this definition"></a></dt>
+<dd><p>The settings set used for the window created on application startup.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.version" title="Permalink to this definition"></a></dt>
+<dd><p>The version of Terminal.app.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalSettingsSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<p>A class for managing and interacting with settings sets in Terminal.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.background_color" title="PyXA.apps.Terminal.XATerminalSettingsSet.background_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">background_color</span></code></a></p></td>
+<td><p>The background color for the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bold_text_color</span></code></a></p></td>
+<td><p>The bold text color for the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands" title="PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_commands</span></code></a></p></td>
+<td><p>The processes which will be ignored when checking whether a tab can be closed without showing a prompt.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color" title="PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cursor_color</span></code></a></p></td>
+<td><p>The cursor color for the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSet.custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_title</span></code></a></p></td>
+<td><p>The tab's custom title.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_antialiasing" title="PyXA.apps.Terminal.XATerminalSettingsSet.font_antialiasing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_antialiasing</span></code></a></p></td>
+<td><p>Whether the font used to display the tab's contents is antialiased.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_name" title="PyXA.apps.Terminal.XATerminalSettingsSet.font_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_name</span></code></a></p></td>
+<td><p>The name of the font used to display the tab's contents.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_size" title="PyXA.apps.Terminal.XATerminalSettingsSet.font_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_size</span></code></a></p></td>
+<td><p>The size of the font used to display the tab's contents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.id" title="PyXA.apps.Terminal.XATerminalSettingsSet.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the settings set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.name" title="PyXA.apps.Terminal.XATerminalSettingsSet.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the settings set.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normal_text_color</span></code></a></p></td>
+<td><p>The normal text color for the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.number_of_columns" title="PyXA.apps.Terminal.XATerminalSettingsSet.number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_columns</span></code></a></p></td>
+<td><p>The number of columns displayed in the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.number_of_rows" title="PyXA.apps.Terminal.XATerminalSettingsSet.number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_rows</span></code></a></p></td>
+<td><p>The number of rows displayed in the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_custom_title</span></code></a></p></td>
+<td><p>Whether the title contains a custom title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_device_name" title="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_device_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_device_name</span></code></a></p></td>
+<td><p>Whether the title contains the device name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_settings_name" title="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_settings_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_settings_name</span></code></a></p></td>
+<td><p>Whether the title contains the settings set name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_shell_path" title="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_shell_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_shell_path</span></code></a></p></td>
+<td><p>Whether the title contains the shell path.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_window_size" title="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_window_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_window_size</span></code></a></p></td>
+<td><p>Whether the title contains the tab's size, in rows and columns.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet.get_clipboard_representation" title="PyXA.apps.Terminal.XATerminalSettingsSet.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the settings set.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.background_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">background_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.background_color" title="Permalink to this definition"></a></dt>
+<dd><p>The background color for the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bold_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color" title="Permalink to this definition"></a></dt>
+<dd><p>The bold text color for the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clean_commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands" title="Permalink to this definition"></a></dt>
+<dd><p>The processes which will be ignored when checking whether a tab can be closed without showing a prompt.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cursor_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color" title="Permalink to this definition"></a></dt>
+<dd><p>The cursor color for the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.custom_title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custom_title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.custom_title" title="Permalink to this definition"></a></dt>
+<dd><p>The tab’s custom title.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.font_antialiasing">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">font_antialiasing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_antialiasing" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the font used to display the tab’s contents is antialiased.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.font_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">font_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the font used to display the tab’s contents.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.font_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">font_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.font_size" title="Permalink to this definition"></a></dt>
+<dd><p>The size of the font used to display the tab’s contents.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSet.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the settings set.</p>
+<p>When the clipboard content is set to a settings set, the setting set’s name is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The setting set’s name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.id" title="Permalink to this definition"></a></dt>
+<dd><p>The unique identifier of the settings set.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the settings set.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normal_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color" title="Permalink to this definition"></a></dt>
+<dd><p>The normal text color for the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.number_of_columns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_columns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.number_of_columns" title="Permalink to this definition"></a></dt>
+<dd><p>The number of columns displayed in the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.number_of_rows">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.number_of_rows" title="Permalink to this definition"></a></dt>
+<dd><p>The number of rows displayed in the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_custom_title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the title contains a custom title.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_device_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_device_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_device_name" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the title contains the device name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_settings_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_settings_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_settings_name" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the title contains the settings set name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_shell_path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_shell_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_shell_path" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the title contains the shell path.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_window_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_window_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.title_displays_window_size" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the title contains the tab’s size, in rows and columns.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalSettingsSetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<p>A wrapper around lists of Terminal settings sets that employs fast enumeration techniques.</p>
+<p>All properties of settings sets can be called as methods on the wrapped list, returning a list containing each settings set’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.7.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.background_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.background_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">background_color</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bold_text_color</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_background_color</span></code></a>(background_color)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_bold_text_color</span></code></a>(bold_text_color)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_clean_commands</span></code></a>(clean_commands)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_cursor_color</span></code></a>(cursor_color)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_custom_title</span></code></a>(custom_title)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_antialiasing</span></code></a>(font_antialiasing)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_name</span></code></a>(font_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_size</span></code></a>(font_size)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_id" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_normal_text_color</span></code></a>(normal_text_color)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_number_of_columns</span></code></a>(number_of_columns)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_number_of_rows</span></code></a>(number_of_rows)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_custom_title</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_device_name</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_settings_name</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_shell_path</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_window_size" title="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_window_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_window_size</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands" title="PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_commands</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cursor_color</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_title</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing" title="PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_antialiasing</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.font_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_size" title="PyXA.apps.Terminal.XATerminalSettingsSetList.font_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_size</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation" title="PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each settings set in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.id" title="PyXA.apps.Terminal.XATerminalSettingsSetList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color" title="PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normal_text_color</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns" title="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_columns</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows" title="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_rows</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_custom_title</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_device_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name" title="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_settings_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path" title="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_shell_path</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size" title="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_window_size</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.background_color">
+<span class="sig-name descname"><span class="pre">background_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.background_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color">
+<span class="sig-name descname"><span class="pre">bold_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color">
+<span class="sig-name descname"><span class="pre">by_background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color">
+<span class="sig-name descname"><span class="pre">by_bold_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bold_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands">
+<span class="sig-name descname"><span class="pre">by_clean_commands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clean_commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color">
+<span class="sig-name descname"><span class="pre">by_cursor_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title">
+<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing">
+<span class="sig-name descname"><span class="pre">by_font_antialiasing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_antialiasing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name">
+<span class="sig-name descname"><span class="pre">by_font_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size">
+<span class="sig-name descname"><span class="pre">by_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color">
+<span class="sig-name descname"><span class="pre">by_normal_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normal_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns">
+<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows">
+<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title">
+<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name">
+<span class="sig-name descname"><span class="pre">by_title_displays_device_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name">
+<span class="sig-name descname"><span class="pre">by_title_displays_settings_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_settings_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path">
+<span class="sig-name descname"><span class="pre">by_title_displays_shell_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_shell_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_window_size">
+<span class="sig-name descname"><span class="pre">by_title_displays_window_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_window_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_window_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_window_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands">
+<span class="sig-name descname"><span class="pre">clean_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color">
+<span class="sig-name descname"><span class="pre">cursor_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title">
+<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing">
+<span class="sig-name descname"><span class="pre">font_antialiasing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_name">
+<span class="sig-name descname"><span class="pre">font_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_size">
+<span class="sig-name descname"><span class="pre">font_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each settings set in the list.</p>
+<p>When the clipboard content is set to a list of settings sets, each setting set’s name is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of setting set names</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color">
+<span class="sig-name descname"><span class="pre">normal_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns">
+<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows">
+<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title">
+<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name">
+<span class="sig-name descname"><span class="pre">title_displays_device_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name">
+<span class="sig-name descname"><span class="pre">title_displays_settings_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path">
+<span class="sig-name descname"><span class="pre">title_displays_shell_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size">
+<span class="sig-name descname"><span class="pre">title_displays_window_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_window_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<p>A class for managing and interacting with tabs in Terminal.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.busy" title="PyXA.apps.Terminal.XATerminalTab.busy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">busy</span></code></a></p></td>
+<td><p>Whether the tab is currently busy running a process.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.contents" title="PyXA.apps.Terminal.XATerminalTab.contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contents</span></code></a></p></td>
+<td><p>The currently visible contents of the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.current_settings" title="PyXA.apps.Terminal.XATerminalTab.current_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_settings</span></code></a></p></td>
+<td><p>The set of settings which control the tab's behavior and appearance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.custom_title" title="PyXA.apps.Terminal.XATerminalTab.custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_title</span></code></a></p></td>
+<td><p>The tab's custom title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.history" title="PyXA.apps.Terminal.XATerminalTab.history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">history</span></code></a></p></td>
+<td><p>The contents of the entire scrolling buffer of the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.number_of_columns" title="PyXA.apps.Terminal.XATerminalTab.number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_columns</span></code></a></p></td>
+<td><p>The number of columns displayed in the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.number_of_rows" title="PyXA.apps.Terminal.XATerminalTab.number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_rows</span></code></a></p></td>
+<td><p>The number of rows displayed in the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.processes" title="PyXA.apps.Terminal.XATerminalTab.processes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">processes</span></code></a></p></td>
+<td><p>The processes currently running in the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.selected" title="PyXA.apps.Terminal.XATerminalTab.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
+<td><p>Whether the tab is currently selected.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalTab.title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_custom_title</span></code></a></p></td>
+<td><p>Whether the tab's title contains a custom title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.tty" title="PyXA.apps.Terminal.XATerminalTab.tty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tty</span></code></a></p></td>
+<td><p>The tab's TTY device.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation" title="PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the tab.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.busy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">busy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.busy" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the tab is currently busy running a process.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.contents">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.contents" title="Permalink to this definition"></a></dt>
+<dd><p>The currently visible contents of the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.current_settings">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.current_settings" title="Permalink to this definition"></a></dt>
+<dd><p>The set of settings which control the tab’s behavior and appearance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.custom_title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custom_title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.custom_title" title="Permalink to this definition"></a></dt>
+<dd><p>The tab’s custom title.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTab.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the tab.</p>
+<p>When the clipboard content is set to a Terminal tab, the tab’s custom title and its history are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The tab’s custom title and history</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.history">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.history" title="Permalink to this definition"></a></dt>
+<dd><p>The contents of the entire scrolling buffer of the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.number_of_columns">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_columns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.number_of_columns" title="Permalink to this definition"></a></dt>
+<dd><p>The number of columns displayed in the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.number_of_rows">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.number_of_rows" title="Permalink to this definition"></a></dt>
+<dd><p>The number of rows displayed in the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.processes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">processes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.processes" title="Permalink to this definition"></a></dt>
+<dd><p>The processes currently running in the tab.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.selected">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.selected" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the tab is currently selected.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.title_displays_custom_title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the tab’s title contains a custom title.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.tty">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tty</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.tty" title="Permalink to this definition"></a></dt>
+<dd><p>The tab’s TTY device.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
+<p>A wrapper around lists of Terminal tabs that employs fast enumeration techniques.</p>
+<p>All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.7.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.busy" title="PyXA.apps.Terminal.XATerminalTabList.busy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">busy</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_busy" title="PyXA.apps.Terminal.XATerminalTabList.by_busy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_busy</span></code></a>(busy)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_contents" title="PyXA.apps.Terminal.XATerminalTabList.by_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_contents</span></code></a>(contents)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_current_settings" title="PyXA.apps.Terminal.XATerminalTabList.by_current_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_current_settings</span></code></a>(current_settings)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_custom_title" title="PyXA.apps.Terminal.XATerminalTabList.by_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_custom_title</span></code></a>(custom_title)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_history" title="PyXA.apps.Terminal.XATerminalTabList.by_history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_history</span></code></a>(history)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns" title="PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_number_of_columns</span></code></a>(number_of_columns)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows" title="PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_number_of_rows</span></code></a>(number_of_rows)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_processes" title="PyXA.apps.Terminal.XATerminalTabList.by_processes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_processes</span></code></a>(processes)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_selected" title="PyXA.apps.Terminal.XATerminalTabList.by_selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_selected</span></code></a>(selected)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title_displays_custom_title</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.by_tty" title="PyXA.apps.Terminal.XATerminalTabList.by_tty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_tty</span></code></a>(tty)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.contents" title="PyXA.apps.Terminal.XATerminalTabList.contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contents</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.current_settings" title="PyXA.apps.Terminal.XATerminalTabList.current_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_settings</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.custom_title" title="PyXA.apps.Terminal.XATerminalTabList.custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_title</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation" title="PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each tab in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.history" title="PyXA.apps.Terminal.XATerminalTabList.history"><code class="xref py py-obj docutils literal notranslate"><span class="pre">history</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_columns" title="PyXA.apps.Terminal.XATerminalTabList.number_of_columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_columns</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_rows" title="PyXA.apps.Terminal.XATerminalTabList.number_of_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_rows</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.processes" title="PyXA.apps.Terminal.XATerminalTabList.processes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">processes</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.selected" title="PyXA.apps.Terminal.XATerminalTabList.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title" title="PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title_displays_custom_title</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList.tty" title="PyXA.apps.Terminal.XATerminalTabList.tty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tty</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.busy">
+<span class="sig-name descname"><span class="pre">busy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.busy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_busy">
+<span class="sig-name descname"><span class="pre">by_busy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">busy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_busy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_contents">
+<span class="sig-name descname"><span class="pre">by_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_contents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_current_settings">
+<span class="sig-name descname"><span class="pre">by_current_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_current_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_custom_title">
+<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_history">
+<span class="sig-name descname"><span class="pre">by_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_history" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns">
+<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows">
+<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_processes">
+<span class="sig-name descname"><span class="pre">by_processes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_processes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_selected">
+<span class="sig-name descname"><span class="pre">by_selected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_selected" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title">
+<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_tty">
+<span class="sig-name descname"><span class="pre">by_tty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_tty" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.contents">
+<span class="sig-name descname"><span class="pre">contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.contents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.current_settings">
+<span class="sig-name descname"><span class="pre">current_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">XATerminalSettingsSetList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.current_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.custom_title">
+<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each tab in the list.</p>
+<p>When the clipboard content is set to a list of Terminal tabs, each tab’s custom title and history are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of each tab’s custom title and history</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.history">
+<span class="sig-name descname"><span class="pre">history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.history" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.number_of_columns">
+<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.number_of_rows">
+<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_rows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.processes">
+<span class="sig-name descname"><span class="pre">processes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.processes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.selected">
+<span class="sig-name descname"><span class="pre">selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.selected" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title">
+<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.tty">
+<span class="sig-name descname"><span class="pre">tty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.tty" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBPrintable</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A class for managing and interacting with windows in Terminal.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow.frontmost" title="PyXA.apps.Terminal.XATerminalWindow.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Whether the window is currently the frontmost Terminal window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow.position" title="PyXA.apps.Terminal.XATerminalWindow.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow.selected_tab" title="PyXA.apps.Terminal.XATerminalWindow.selected_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected_tab</span></code></a></p></td>
+<td><p>The Terminal tab currently displayed in the window.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow.tabs" title="PyXA.apps.Terminal.XATerminalWindow.tabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tabs</span></code></a>([filter])</p></td>
+<td><p>Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.frontmost" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is currently the frontmost Terminal window.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.selected_tab">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.selected_tab" title="Permalink to this definition"></a></dt>
+<dd><p>The Terminal tab currently displayed in the window.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.tabs">
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList" title="PyXA.apps.Terminal.XATerminalTabList"><span class="pre">XATerminalTabList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.tabs" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – A dictionary specifying property-value pairs that all returned tabs will have, or None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of tabs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList" title="PyXA.apps.Terminal.XATerminalTabList">XATerminalTabList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.7.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="systempreferences.html" class="btn btn-neutral float-left" title="System Preferences Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="textedit.html" class="btn btn-neutral float-right" title="TextEdit Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

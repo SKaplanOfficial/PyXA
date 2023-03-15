@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Working with Images &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working With The Clipboard" href="clipboard.html" />
+    <link rel="prev" title="Working With Lists" href="lists.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Working with Images</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#loading-images">Loading Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#accessing-image-information">Accessing Image Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modifying-image-attributes">Modifying Image Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basics-of-image-manipulation">Basics of Image Manipulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#applying-filters">Applying Filters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-distortions">Adding Distortions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite-operations">Composite Operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#text-extraction">Text Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#working-with-lists-of-images">Working with Lists of Images</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Working with Images</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/images.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="working-with-images">
+<h1>Working with Images<a class="headerlink" href="#working-with-images" title="Permalink to this heading"></a></h1>
+<p>PyXA uses the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> class to provide a standard, convenient way to interact with images stored in files, images created by other PyXA operations, and images managed by applications such as Photos or Image Events. Using this class, you can:</p>
+<ul class="simple">
+<li><p>Load and save images</p></li>
+<li><p>Access information about images, such as whether they contain transparent pixels</p></li>
+<li><p>Copy images to the clipboard</p></li>
+<li><p>Set image attributes such as vibrance and temperature</p></li>
+<li><p>Apply filters and distortions</p></li>
+<li><p>Create composite images or blend images together using composition filters</p></li>
+<li><p>Stitch images together</p></li>
+<li><p>Extract text contained in images</p></li>
+</ul>
+<p>The <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> class aims to simplify complex Objective-C implementations of image manipulation down to just a few lines of code for PyXA users. As a result, creating scripts to operate on images can be done quickly and without needing to understand the underlying mechanisms as work. You can then intuitively utilize images elsewhere in your automation scripts. Some ideas for automation include:</p>
+<ul class="simple">
+<li><p>Download images from an online API, extract text from them, and store the text in a note</p></li>
+<li><p>Find images containing a certain word or phrase and sort them into an album in Photos</p></li>
+<li><p>Create a mosaic of all images in a particular photo album, or of all images taken in the last year</p></li>
+<li><p>Auto-enhance all images stored in a particular folder</p></li>
+<li><p>Store images files sent to you in a particular folder immediately after receiving them</p></li>
+<li><p>Overlay the songs of a Music playlist onto a mosaic of all the songs’ album artworks</p></li>
+</ul>
+<p>…and many more! What will you come up with?</p>
+<p>The rest of this page describes the various features of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> class and provides several examples for you to reference.</p>
+<section id="loading-images">
+<h2>Loading Images<a class="headerlink" href="#loading-images" title="Permalink to this heading"></a></h2>
+<p>To initialize an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, you provide some kind of reference to an image via the <cite>image_reference</cite> parameter (the first parameter of XAImage’s init method). This parameter accepts data in many forms, including: a raw string file path (with any image file extension), a web or filesystem URL, an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> or <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> object, another <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, and any object whose class implements the <a class="reference internal" href="../reference/xaprotocols.html#PyXA.XAProtocols.XAImageLike" title="PyXA.XAProtocols.XAImageLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageLike</span></code></a> protocol, such as <a class="reference internal" href="../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosMediaItem</span></code></a>. The code below shows how to use these different kinds of image references.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="c1"># Load a single image file</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="c1"># &lt;PyXA.XABase.XAImage object at 0x104b385b0&gt;</span>
+
+<span class="c1"># Load an image from a web URL</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+
+<span class="c1"># Load images from a XAURL or XAPath</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+<span class="n">img1</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="c1"># Initialize an image from another image</span>
+<span class="n">img1</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">img1</span><span class="p">)</span>
+
+<span class="c1"># Get an image from Photos</span>
+<span class="n">photos</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span><span class="o">.</span><span class="n">by_title</span><span class="p">(</span><span class="s2">&quot;PyXA Logo&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Additionally, some apps such as Image Events utilize subclasses of <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> to afford a more direct connection between their content and the functionality of XAImages. In the case of Image Events, an image opened using <a class="reference internal" href="../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsApplication.open" title="PyXA.apps.ImageEvents.XAImageEventsApplication.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.ImageEvents.XAImageEventsApplication.open()</span></code></a> is an instance of <a class="reference internal" href="../reference/apps/imageevents.html#module-PyXA.apps.ImageEvents" title="PyXA.apps.ImageEvents"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.ImageEvents()</span></code></a>.XAImageEventsImage`, a subclass of <cite>:class:`~PyXA.XABase.XAImage</cite>, and has access to both XAImage’s methods as well as methods specific to the Image Events context.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">ie</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Image Events&quot;</span><span class="p">)</span>
+<span class="n">ie_img</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use XAImageEventsImage methods</span>
+<span class="n">profile</span> <span class="o">=</span> <span class="n">ie</span><span class="o">.</span><span class="n">profiles</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Generic Gray Profile&quot;</span><span class="p">)</span>
+<span class="n">ie_img</span><span class="o">.</span><span class="n">embed_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+
+<span class="c1"># Use XAList methods</span>
+<span class="n">ie_img</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="o">.</span><span class="n">black</span><span class="p">())</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ie_img</span><span class="o">.</span><span class="n">gaussian_blur</span><span class="p">()</span><span class="o">.</span><span class="n">bloom</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also use the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.open" title="PyXA.XABase.XAImage.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> method to open one or more image files or URLs. When opening multiple images at a time, this method returns an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> object – more on that later.</p>
+</section>
+<section id="accessing-image-information">
+<h2>Accessing Image Information<a class="headerlink" href="#accessing-image-information" title="Permalink to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check if image has alpha channel</span>
+<span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">has_alpha_channel</span><span class="p">:</span>
+    <span class="c1"># Check if image contains transparent pixels</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">is_opaque</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Image is capable of having transparent pixels, but does not have any right now&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Image contains transparent pixels&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Image cannot contain transparent pixels in its current format&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print other attributes</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">color_space_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="modifying-image-attributes">
+<h2>Modifying Image Attributes<a class="headerlink" href="#modifying-image-attributes" title="Permalink to this heading"></a></h2>
+<p>In addition to accessing information attributes, you can use PyXA to concisely set image attributes such as the vibrance, tint, and temperature of an image. The mutable attributes are:</p>
+<ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">gamma</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">vibrance</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">tint</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">temperature</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">white_point</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">highlight</span></code></p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">shadow</span></code></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Owl.png&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">vibrance</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">image</span><span class="o">.</span><span class="n">highlight</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">image</span><span class="o">.</span><span class="n">shadow</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">image</span><span class="o">.</span><span class="n">tint</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">image</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="mi">12000</span>
+<span class="n">image</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">image</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="basics-of-image-manipulation">
+<h2>Basics of Image Manipulation<a class="headerlink" href="#basics-of-image-manipulation" title="Permalink to this heading"></a></h2>
+<p>In addition to modifiable attributes, PyXA provides several method for basic image manipulation, including: <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_horizontally()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_vertically" title="PyXA.XABase.XAImage.flip_vertically"><code class="xref py py-func docutils literal notranslate"><span class="pre">flip_vertically()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.rotate" title="PyXA.XABase.XAImage.rotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotate()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.scale" title="PyXA.XABase.XAImage.scale"><code class="xref py py-func docutils literal notranslate"><span class="pre">scale()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.crop" title="PyXA.XABase.XAImage.crop"><code class="xref py py-func docutils literal notranslate"><span class="pre">crop()</span></code></a>, and <code class="xref py py-func docutils literal notranslate"><span class="pre">pad()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+
+<span class="c1"># Apply individual modifications</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/cat2.jpeg&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+<span class="n">image</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+
+<span class="c1"># Apply modifications using method chaining</span>
+<span class="n">image</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">pad_color</span><span class="o">=</span><span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="o">.</span><span class="n">red</span><span class="p">())</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span><span class="o">.</span><span class="n">flip_horizontally</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="applying-filters">
+<h2>Applying Filters<a class="headerlink" href="#applying-filters" title="Permalink to this heading"></a></h2>
+<p>PyXA provides easy-access to several common image filters that might be useful for automation workflows; for more advanced use cases, a dedicated image manipulation library is recommended. The provided filter methods are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.bloom" title="PyXA.XABase.XAImage.bloom"><code class="xref py py-func docutils literal notranslate"><span class="pre">bloom()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.crystallize" title="PyXA.XABase.XAImage.crystallize"><code class="xref py py-func docutils literal notranslate"><span class="pre">crystallize()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.comic" title="PyXA.XABase.XAImage.comic"><code class="xref py py-func docutils literal notranslate"><span class="pre">comic()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.depth_of_field" title="PyXA.XABase.XAImage.depth_of_field"><code class="xref py py-func docutils literal notranslate"><span class="pre">depth_of_field()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.edges" title="PyXA.XABase.XAImage.edges"><code class="xref py py-func docutils literal notranslate"><span class="pre">edges()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.gaussian_blur" title="PyXA.XABase.XAImage.gaussian_blur"><code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_blur()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.invert" title="PyXA.XABase.XAImage.invert"><code class="xref py py-func docutils literal notranslate"><span class="pre">invert()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.monochrome" title="PyXA.XABase.XAImage.monochrome"><code class="xref py py-func docutils literal notranslate"><span class="pre">monochrome()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.outline" title="PyXA.XABase.XAImage.outline"><code class="xref py py-func docutils literal notranslate"><span class="pre">outline()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.pixellate" title="PyXA.XABase.XAImage.pixellate"><code class="xref py py-func docutils literal notranslate"><span class="pre">pixellate()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.pointillize" title="PyXA.XABase.XAImage.pointillize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pointillize()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.reduce_noise" title="PyXA.XABase.XAImage.reduce_noise"><code class="xref py py-func docutils literal notranslate"><span class="pre">reduce_noise()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.sepia" title="PyXA.XABase.XAImage.sepia"><code class="xref py py-func docutils literal notranslate"><span class="pre">sepia()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.vignette" title="PyXA.XABase.XAImage.vignette"><code class="xref py py-func docutils literal notranslate"><span class="pre">vignette()</span></code></a></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/cat2.jpeg&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">pixellate</span><span class="p">()</span><span class="o">.</span><span class="n">sepia</span><span class="p">()</span><span class="o">.</span><span class="n">vignette</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-distortions">
+<h2>Adding Distortions<a class="headerlink" href="#adding-distortions" title="Permalink to this heading"></a></h2>
+<p>In addition to filters, PyXA provided a few methods for adding distortions to images. These methods include <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.bump" title="PyXA.XABase.XAImage.bump"><code class="xref py py-func docutils literal notranslate"><span class="pre">bump()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.pinch" title="PyXA.XABase.XAImage.pinch"><code class="xref py py-func docutils literal notranslate"><span class="pre">pinch()</span></code></a>, and <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.twirl" title="PyXA.XABase.XAImage.twirl"><code class="xref py py-func docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Owl.png&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">curvature</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">pinch</span><span class="p">((</span><span class="mi">871</span><span class="p">,</span> <span class="mi">871</span><span class="p">),</span> <span class="n">intensity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">twirl</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="composite-operations">
+<h2>Composite Operations<a class="headerlink" href="#composite-operations" title="Permalink to this heading"></a></h2>
+<p>PyXA currently supports four composite operations (operations that merge many images into a single, composite image): <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.horizontal_stitch" title="PyXA.XABase.XAImageList.horizontal_stitch"><code class="xref py py-func docutils literal notranslate"><span class="pre">horizontal_stitch()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.vertical_stitch" title="PyXA.XABase.XAImageList.vertical_stitch"><code class="xref py py-func docutils literal notranslate"><span class="pre">vertical_stitch()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.additive_composition" title="PyXA.XABase.XAImageList.additive_composition"><code class="xref py py-func docutils literal notranslate"><span class="pre">additive_composition()</span></code></a>, and <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.subtractive_composition" title="PyXA.XABase.XAImageList.subtractive_composition"><code class="xref py py-func docutils literal notranslate"><span class="pre">subtractive_composition()</span></code></a>. The first two are image concatenation operations which “stitch” together a series of images either vertically or horizontally, one on top of or next to another, to form a single combined imaged, while the other two produce an image by overlaying images and applying a specific blend filter.</p>
+<p>The composite image operations noted above are methods of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">images</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Owl.png&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/steven/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
+
+<span class="n">images</span><span class="o">.</span><span class="n">additive_composition</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+<span class="n">images</span><span class="o">.</span><span class="n">subtractive_composition</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+<span class="n">images</span><span class="o">.</span><span class="n">horizontal_stitch</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+<span class="n">images</span><span class="o">.</span><span class="n">vertical_stitch</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="text-extraction">
+<h2>Text Extraction<a class="headerlink" href="#text-extraction" title="Permalink to this heading"></a></h2>
+<p>With PyXA, you can extract text from images using just one method call. When working with a single <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object , calling the object’s <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code> method will return a list of all text contained within the image, separated by newline characters. Likewise, when calling <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.extract_text" title="PyXA.XABase.XAImageList.extract_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code></a> on an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> object, you will get a list of lists of strings, with each image’s text organized into its own entry.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="c1"># Extract text from one image</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/handwritingImage.png&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">extract_text</span><span class="p">())</span>
+<span class="c1"># [&quot;This is a handwritten note&quot;]</span>
+
+<span class="c1"># Extract text from multiple images at a time</span>
+<span class="n">images</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/codeImage.png&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/steven/Desktop/handwritingImage.png&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/steven/Desktop/signImage.jpeg&quot;</span><span class="p">)</span>
+<span class="n">texts</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="c1"># [</span>
+<span class="c1">#   [&quot;import PyXA&quot;, &#39;PyXA.Application(&quot;Music&quot;).play()&#39;],</span>
+<span class="c1">#   [&quot;This is a handwritten note&quot;],</span>
+<span class="c1">#   [&quot;KEEP&quot;, &quot;RIGHT&quot;],</span>
+<span class="c1"># ]</span>
+</pre></div>
+</div>
+<p>This functionality allows you to quickly and easily obtain the text within an image, then use that text elsewhere in your automation scripts. For example, the code below rotates or scales images according to the text found within them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">sample_folder</span> <span class="o">=</span> <span class="s2">&quot;/Users/steven/Desktop/samples/&quot;</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s2">&quot;/Users/steven/Desktop/output/&quot;</span>
+
+<span class="c1"># Create output folder if necessary</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Loop through source images</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">sample_folder</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Analyzing sample </span><span class="si">{</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">sample_folder</span> <span class="o">+</span> <span class="n">sample</span><span class="p">)</span>
+
+    <span class="c1"># Extract image text -- each image source is known to have two lines</span>
+    <span class="n">image_text</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span>
+    <span class="n">operation</span> <span class="o">=</span> <span class="n">image_text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">image_text</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Apply appropriate operation</span>
+    <span class="k">if</span> <span class="n">operation</span> <span class="o">==</span> <span class="s2">&quot;rotate&quot;</span><span class="p">:</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="s2">&quot;scale&quot;</span><span class="p">:</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+
+    <span class="c1"># Save modified image to file in output folder</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Writing to disk...&quot;</span><span class="p">)</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_folder</span> <span class="o">+</span> <span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="working-with-lists-of-images">
+<h2>Working with Lists of Images<a class="headerlink" href="#working-with-lists-of-images" title="Permalink to this heading"></a></h2>
+<p>As with many other PyXA classes, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> has an associated <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> class that provides both convenience and performance improvements over standard lists. For example, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList.flip_horizontally" title="PyXA.XABase.XAImageList.flip_horizontally"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.XABase.XAImageList.flip_horizontally()</span></code></a> method performs over twice as fast as iterating over the same size list of individual  <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> objects and calling the  <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage.flip_horizontally" title="PyXA.XABase.XAImage.flip_horizontally"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage.flip_horizontally()</span></code></a> method on each list item, as seen in the example code below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
+
+<span class="k">def</span> <span class="nf">without_xalist</span><span class="p">():</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">),</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">),</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">)]</span>
+    <span class="n">flipped_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+        <span class="n">flipped_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">flip_vertically</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">flipped_images</span>
+
+<span class="k">def</span> <span class="nf">with_xalist</span><span class="p">():</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">,</span> <span class="s2">&quot;/Users/steven/Desktop/dog1.JPG&quot;</span><span class="p">)</span>
+    <span class="n">flipped_images</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">flip_vertically</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">flipped_images</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="n">without_xalist</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="n">with_xalist</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Non-XAList avg over 100 trials:&quot;</span><span class="p">,</span> <span class="n">t1</span> <span class="o">/</span> <span class="mf">50.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;XAList avg over 100 trials:&quot;</span><span class="p">,</span> <span class="n">t2</span> <span class="o">/</span> <span class="mf">50.0</span> <span class="p">)</span>
+<span class="c1"># Non-XAList avg over 100 trials: 1.53993887584</span>
+<span class="c1"># XAList avg over 100 trials: 0.6404187591799999</span>
+</pre></div>
+</div>
+<p>A relationship exists for all of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> and <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> methods. Thus, generally speaking, you’ll want to make use of <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageList</span></code></a> objects any time you work with several or more images.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lists.html" class="btn btn-neutral float-left" title="Working With Lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="clipboard.html" class="btn btn-neutral float-right" title="Working With The Clipboard" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

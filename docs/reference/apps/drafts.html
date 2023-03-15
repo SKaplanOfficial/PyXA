@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drafts Module Reference &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Hammerspoon Module Reference" href="hammerspoon.html" />
+    <link rel="prev" title="Flow Module Reference" href="flow.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Drafts Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication"><code class="docutils literal notranslate"><span class="pre">XADraftsApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft"><code class="docutils literal notranslate"><span class="pre">XADraftsDraft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList"><code class="docutils literal notranslate"><span class="pre">XADraftsDraftList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iina.html">IINA+ Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Drafts Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/drafts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Drafts">
+<span id="drafts-module-reference"></span><h1>Drafts Module Reference<a class="headerlink" href="#module-PyXA.apps.Drafts" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p>Control Drafts using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication" title="PyXA.apps.Drafts.XADraftsApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADraftsApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Drafts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADraftsDraft</span></code></a>(properties)</p></td>
+<td><p>A draft in Drafts.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList" title="PyXA.apps.Drafts.XADraftsDraftList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADraftsDraftList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around a list of drafts.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
+<p>A class for managing and interacting with Drafts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication.drafts" title="PyXA.apps.Drafts.XADraftsApplication.drafts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drafts</span></code></a>([filter])</p></td>
+<td><p>Returns a list of drafts, as PyXA-wrapped objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication.make" title="PyXA.apps.Drafts.XADraftsApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(specifier[, properties])</p></td>
+<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication.new_draft" title="PyXA.apps.Drafts.XADraftsApplication.new_draft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_draft</span></code></a>(content)</p></td>
+<td><p>Creates a new draft with the given name and content</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication.name" title="PyXA.apps.Drafts.XADraftsApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication.version" title="PyXA.apps.Drafts.XADraftsApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of Drafts.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.drafts">
+<span class="sig-name descname"><span class="pre">drafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList" title="PyXA.apps.Drafts.XADraftsDraftList"><span class="pre">XADraftsDraftList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.drafts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.drafts" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of drafts, as PyXA-wrapped objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keys and values to filter drafts by, defaults to None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PyXA list object wrapping a list of drafts</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList" title="PyXA.apps.Drafts.XADraftsDraftList">XADraftsDraftList</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.make">
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.make" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
+<li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PyXA wrapped form of the object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.new_draft">
+<span class="sig-name descname"><span class="pre">new_draft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.new_draft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.new_draft" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new draft with the given name and content</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>content</strong> (<em>str</em>) – The full content of the draft (the first line is the name)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created draft object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft">XADraftsDraft</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.version" title="Permalink to this definition"></a></dt>
+<dd><p>The version of Drafts.app.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A draft in Drafts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.accessed_at" title="PyXA.apps.Drafts.XADraftsDraft.accessed_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accessed_at</span></code></a></p></td>
+<td><p>The date the draft was last accessed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.content" title="PyXA.apps.Drafts.XADraftsDraft.content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">content</span></code></a></p></td>
+<td><p>The content of the draft.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.created_at" title="PyXA.apps.Drafts.XADraftsDraft.created_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">created_at</span></code></a></p></td>
+<td><p>The date the draft was created.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.flagged" title="PyXA.apps.Drafts.XADraftsDraft.flagged"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flagged</span></code></a></p></td>
+<td><p>The flagged status of the draft.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.id" title="PyXA.apps.Drafts.XADraftsDraft.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the draft.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.modified_at" title="PyXA.apps.Drafts.XADraftsDraft.modified_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified_at</span></code></a></p></td>
+<td><p>The date the draft was last modified.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.name" title="PyXA.apps.Drafts.XADraftsDraft.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The first line of the draft.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.permalink" title="PyXA.apps.Drafts.XADraftsDraft.permalink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permalink</span></code></a></p></td>
+<td><p>The URL of the draft.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft.tags" title="PyXA.apps.Drafts.XADraftsDraft.tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code></a></p></td>
+<td><p>The tags assigned to the draft.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.accessed_at">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accessed_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.accessed_at" title="Permalink to this definition"></a></dt>
+<dd><p>The date the draft was last accessed.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.content">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.content" title="Permalink to this definition"></a></dt>
+<dd><p>The content of the draft.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.created_at">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.created_at" title="Permalink to this definition"></a></dt>
+<dd><p>The date the draft was created.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.flagged">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flagged</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.flagged" title="Permalink to this definition"></a></dt>
+<dd><p>The flagged status of the draft.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.id" title="Permalink to this definition"></a></dt>
+<dd><p>The unique identifier of the draft.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.modified_at">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.modified_at" title="Permalink to this definition"></a></dt>
+<dd><p>The date the draft was last modified.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.name" title="Permalink to this definition"></a></dt>
+<dd><p>The first line of the draft.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.permalink">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">permalink</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.permalink" title="Permalink to this definition"></a></dt>
+<dd><p>The URL of the draft.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.tags">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.tags" title="Permalink to this definition"></a></dt>
+<dd><p>The tags assigned to the draft.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsDraftList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
+<p>A wrapper around a list of drafts.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.accessed_at" title="PyXA.apps.Drafts.XADraftsDraftList.accessed_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accessed_at</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at" title="PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_accessed_at</span></code></a>(accessed_at)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_content" title="PyXA.apps.Drafts.XADraftsDraftList.by_content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_content</span></code></a>(content)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_created_at" title="PyXA.apps.Drafts.XADraftsDraftList.by_created_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_created_at</span></code></a>(created_at)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_flagged" title="PyXA.apps.Drafts.XADraftsDraftList.by_flagged"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_flagged</span></code></a>(flagged)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_id" title="PyXA.apps.Drafts.XADraftsDraftList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_modified_at" title="PyXA.apps.Drafts.XADraftsDraftList.by_modified_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_modified_at</span></code></a>(modified_at)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_name" title="PyXA.apps.Drafts.XADraftsDraftList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_permalink" title="PyXA.apps.Drafts.XADraftsDraftList.by_permalink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_permalink</span></code></a>(permalink)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.by_tags" title="PyXA.apps.Drafts.XADraftsDraftList.by_tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_tags</span></code></a>(tags)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.content" title="PyXA.apps.Drafts.XADraftsDraftList.content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">content</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.created_at" title="PyXA.apps.Drafts.XADraftsDraftList.created_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">created_at</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.flagged" title="PyXA.apps.Drafts.XADraftsDraftList.flagged"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flagged</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.id" title="PyXA.apps.Drafts.XADraftsDraftList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.modified_at" title="PyXA.apps.Drafts.XADraftsDraftList.modified_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified_at</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.name" title="PyXA.apps.Drafts.XADraftsDraftList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.permalink" title="PyXA.apps.Drafts.XADraftsDraftList.permalink"><code class="xref py py-obj docutils literal notranslate"><span class="pre">permalink</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList.tags" title="PyXA.apps.Drafts.XADraftsDraftList.tags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.accessed_at">
+<span class="sig-name descname"><span class="pre">accessed_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.accessed_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at">
+<span class="sig-name descname"><span class="pre">by_accessed_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accessed_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_content">
+<span class="sig-name descname"><span class="pre">by_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_content" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_created_at">
+<span class="sig-name descname"><span class="pre">by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_flagged">
+<span class="sig-name descname"><span class="pre">by_flagged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flagged</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_flagged" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_modified_at">
+<span class="sig-name descname"><span class="pre">by_modified_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_modified_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_permalink">
+<span class="sig-name descname"><span class="pre">by_permalink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">permalink</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_permalink" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_tags">
+<span class="sig-name descname"><span class="pre">by_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_tags" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.content">
+<span class="sig-name descname"><span class="pre">content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.content" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.created_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.flagged">
+<span class="sig-name descname"><span class="pre">flagged</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.flagged" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.modified_at">
+<span class="sig-name descname"><span class="pre">modified_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.modified_at" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.permalink">
+<span class="sig-name descname"><span class="pre">permalink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.permalink" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.tags" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flow.html" class="btn btn-neutral float-left" title="Flow Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hammerspoon.html" class="btn btn-neutral float-right" title="Hammerspoon Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

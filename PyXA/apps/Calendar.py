@@ -109,7 +109,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> app.switch_view_to(app.ViewType.WEEK)
         >>> app.switch_view_to(app.ViewType.DAY)
         >>> app.switch_view_to(app.ViewType.MONTH)
@@ -135,7 +135,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         >>> import PyXA
         >>> from datetime import date
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> date1 = date(2022, 7, 20)
         >>> app.view_calendar_at(date1)
 
@@ -186,21 +186,21 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Get all calendars
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> print(app.calendars())
         <<class 'PyXA.apps.Calendar.XACalendarCalendarList'>['Calendar', 'Calendar2', 'Calendar3', ...]>
 
         :Example 2: Get calendars using a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> print(app.calendars({"name": "Calendar"})[0])
         <<class 'PyXA.apps.Calendar.XACalendarCalendar'>Calendar>
 
         :Example 3: Get calendars using list methods
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> print(app.calendars().by_name("Calendar"))
         <<class 'PyXA.apps.Calendar.XACalendarCalendar'>Calendar>
 
@@ -219,7 +219,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> app.new_calendar("PyXA Development")
 
         .. versionadded:: 0.0.1
@@ -244,7 +244,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         >>> from datetime import datetime, timedelta
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> start_date = datetime.now()
         >>> end_date = start_date + timedelta(hours = 1)
         >>> app.new_event("Learn about PyXA", start_date, end_date)
@@ -253,7 +253,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         >>> from datetime import datetime, timedelta
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> start_date = datetime.now()
         >>> end_date = start_date + timedelta(hours = 1)
         >>> calendar = app.calendars()[-1]
@@ -282,14 +282,14 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Make a new calendar
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> new_calendar = app.make("calendar", {"name": "PyXA Development"})
         >>> app.calendars().push(new_calendar)
 
         :Example 2: Make a new event
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> start_date = datetime.now()
         >>> end_date = start_date + timedelta(hours = 1)
         >>> new_event = app.make("event", {"summary": "Work on PyXA", "startDate": start_date, "endDate": end_date})
@@ -590,7 +590,7 @@ class XACalendarCalendar(XABase.XAObject):
 
         >>> from datetime import date
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> calendar = app.default_calendar
         >>> start_date = date(2022, 6, 4)
         >>> end_date = date(2022, 6, 6)
@@ -1191,7 +1191,7 @@ class XACalendarEvent(XABase.XAObject):
         :Example: Copy today's event to another calendar
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> calendar = app.default_calendar
         >>> calendar2 = app.calendars()[2]
         >>> event = calendar.events_today()[0]
@@ -1218,7 +1218,7 @@ class XACalendarEvent(XABase.XAObject):
         :Example: Move today's event to another calendar
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> calendar = app.default_calendar
         >>> calendar2 = app.calendars()[2]
         >>> event = calendar.events_today()[0]
@@ -1243,7 +1243,7 @@ class XACalendarEvent(XABase.XAObject):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> calendar = app.default_calendar
         >>> calendar2 = app.calendars()[1]
         >>> event = calendar.events_today()[0]
@@ -1381,7 +1381,7 @@ class XACalendarAttachment(XABase.XAObject):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Calendar")
+        >>> app = PyXA.Application("Calendar")
         >>> calendar = app.default_calendar
         >>> event = calendar.events_today()[0]
         >>> event.attachments()[0].open()

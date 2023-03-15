@@ -141,7 +141,6 @@ For further help, consider joining the (PyXA Discord Server](https://discord.gg/
 
 # Known Limitations
 - Currently, PyXA only supports macOS automation. There is a goal to expand support to other operating systems, but no concrete plan exists at this time.
-- PyXA can be quite slow when working with large lists of items (such as the list of Calendar events). There are plans to improve this by better utilizing Objective-C predicates.
 - Since PyXA uses hard-coded class and method definitions, instead of deriving them automatically from existing sdef files, support for third-party applications is limited to the applications that contributors deem relevant. This is a sacrifice made in order to have detailed, consistent documentation for all supported applications.
 
 Limitations of specific applications and methods are noted in their respective reference documents.

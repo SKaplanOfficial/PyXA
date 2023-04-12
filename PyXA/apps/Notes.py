@@ -166,7 +166,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         """
         return self._new_element(self.xa_scel.attachments(), XANotesAttachmentList, filter)
         
-    def new_note(self, name = "New Note", body = "", folder: 'XANotesFolder' = None) -> 'XANote':
+    def new_note(self, name: str = "New Note", body: Union[str, XABase.XAText] = "", folder: 'XANotesFolder' = None) -> 'XANote':
         """Creates a new note with the given name and body text in the given folder.
         If no folder is provided, the note is created in the default Notes folder.
 
@@ -194,9 +194,14 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         if folder is None:
             folder = self
         name = name.replace('\n', '<br />')
-        body = body.text.replace('\n', '<br />')
+
+        if isinstance(body, str):
+            body = body.replace('\n', '<br />')
+        elif isinstance(body, XABase.XAText):
+            body = body.text.replace('\n', '<br />')
+            
         properties = {
-            "body": f"<b>{name}</b><br />{body}",
+            "body": f"<h1>{name}</h1><br />{body}",
         }
         note = self.make("note", properties)
         folder.notes().push(note)

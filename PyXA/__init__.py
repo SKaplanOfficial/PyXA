@@ -13,6 +13,8 @@ from .XABase import (
     XASound,
     XAImage,
     XAVideo,
+    XACamera,
+    XAMicrophone,
     XALocation,
     Application,
 

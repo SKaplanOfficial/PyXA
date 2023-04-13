@@ -7252,7 +7252,7 @@ class XASound(XAObject, XAClipboardCodable):
         else:
             return XASound(sound_references)
 
-    def beep():
+    def beep(self):
         """Plays the system Beep sound.
 
         .. versionadded:: 0.1.0
@@ -7658,3 +7658,148 @@ class XAVideo(XAObject):
         
         while not waiting:
             time.sleep(0.01)
+
+
+
+class XACamera(XAObject):
+    """A reusable controller for camera-related functions
+    
+    .. versionadded:: 0.2.3
+    """
+    def __init__(self):
+        pass
+        # import AVFoundation
+
+        # session = AVFoundation.AVCaptureSession.alloc().init()
+        
+        # device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeVideo)
+        # AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeVideo, None)
+
+        # deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
+        # output = AVFoundation.AVCaptureStillImageOutput.alloc().init().retain()
+        # output.setOutputSettings_({AVFoundation.AVVideoCodecKey: AVFoundation.AVVideoCodecJPEG})
+
+        # # Add input and output to the session (enable the video output)
+        # session.beginConfiguration()
+        # session.addInput_(deviceInput)
+        # session.addOutput_(output)
+        # session.commitConfiguration()
+
+        # session.startRunning()
+
+        # file_path = "/Users/steven/Downloads/blahblah.jpeg"
+        # if isinstance(file_path, XAPath):
+        #     file_path = file_path.path
+        # url = XAURL(file_path)
+
+        # def doThing(buffer, error):
+        #     AppHelper.stopEventLoop()
+        #     data = AVFoundation.AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation_(buffer)
+        #     print(data)
+        #     with open(file_path, 'wb') as f:
+        #         f.write(data)
+
+        # output.captureStillImageAsynchronouslyFromConnection_completionHandler_(output.connections()[0], doThing)
+
+        # AppHelper.runEventLoop()
+
+    def record_video(self, file_path: Union[str, XAPath], duration: Union[float, None] = 10) -> XAVideo:
+        """Records a video for the specified duration, saving into the provided file path.
+
+        :param file_path: The file path to save the video at.
+        :type file_path: Union[str, XAPath]
+        :param duration: The duration of the video, in seconds, or None to record continuously until the script is canceled, defaults to 10.
+        :type duration: Union[float, None], optional
+        :return: The resulting video as a PyXA object.
+        :rtype: XAVideo
+
+        .. versionadded:: 0.2.3
+        """
+        import AVFoundation
+
+        session = AVFoundation.AVCaptureSession.alloc().init()
+        
+        device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeVideo)
+        AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeVideo, None)
+
+        deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
+        output = AVFoundation.AVCaptureMovieFileOutput.alloc().init().retain()
+
+        # Add input and output to the session (enable the video output)
+        session.beginConfiguration()
+        session.addInput_(deviceInput)
+        session.addOutput_(output)
+        session.commitConfiguration()
+
+        session.startRunning()
+
+        if isinstance(file_path, XAPath):
+            file_path = file_path.path
+
+        url = XAURL(file_path)
+        output.startRecordingToOutputFileURL_recordingDelegate_(url.xa_elem, self)
+
+        if duration is None:
+            AppHelper.runConsoleEventLoop()
+        else:
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = duration))
+
+        return XAVideo(file_path)
+    
+
+
+class XAMicrophone(XAObject):
+    """A reusable controller for microphone-related functions.
+
+    .. versionadded:: 0.2.3
+    """
+    def __init__(self):
+        pass
+
+    def record_audio(self, file_path: Union[str, XAPath], duration: Union[float, None] = 10) -> XASound:
+        """Records audio for the specified duration, saving into the provided file path.
+
+        :param file_path: The file path to save the audio at.
+        :type file_path: Union[str, XAPath]
+        :param duration: The duration of the audio, in seconds, or None to record continuously until the script is canceled, defaults to 10.
+        :type duration: Union[float, None], optional
+        :return: The resulting audio as a PyXA object.
+        :rtype: XASound
+
+        .. versionadded:: 0.2.3
+        """
+        import AVFoundation
+
+        session = AVFoundation.AVCaptureSession.alloc().init()
+        session.setSessionPreset_(AVFoundation.AVCaptureSessionPresetPhoto)
+        
+        device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeAudio)
+        AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeAudio, None)
+
+        deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
+        output = AVFoundation.AVCaptureAudioFileOutput.alloc().init().retain()
+
+        # Add input and output to the session (enable the video output)
+        session.beginConfiguration()
+        session.addInput_(deviceInput)
+        session.addOutput_(output)
+        session.commitConfiguration()
+
+        session.startRunning()
+
+        if isinstance(file_path, XAPath):
+            file_path = file_path.path
+        url = XAURL(file_path)
+
+        file_type = AVFoundation.AVFileTypeAIFF
+        if file_path.lower().endswith("aiff"):
+            file_type = AVFoundation.AVFileTypeAIFF
+        elif file_path.lower().endswith("wav"):
+            file_type = AVFoundation.AVFileTypeWAVE
+
+        output.startRecordingToOutputFileURL_outputFileType_recordingDelegate_(url.xa_elem, file_type, self)
+
+        if duration is None:
+            AppHelper.runConsoleEventLoop()
+        else:
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = duration))

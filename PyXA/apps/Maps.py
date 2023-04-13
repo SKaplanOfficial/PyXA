@@ -7,6 +7,7 @@ from typing import Literal, Union
 from AppKit import NSPredicate
 
 from PyXA import XABase
+from .SystemEvents import XASystemEventsUIElement, XASystemEventsUIElementList
 
 class XAMapsApplication(XABase.XAApplication):
     """A class for managing and interacting with Maps.app.
@@ -24,9 +25,11 @@ class XAMapsApplication(XABase.XAApplication):
         """
         sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[1]
         return sidebar.get() is not None
-
-    # TODO: This
-    # def set_view(self, view: Literal[""])
+    
+    @sidebar_showing.setter
+    def sidebar_showing(self, sidebar_showing: bool):
+        if self.sidebar_showing != sidebar_showing:
+            self.front_window.toolbars()[0].buttons()[0].actions().by_name("AXPress").perform()
 
     def toggle_sidebar(self):
         """Toggles the sidebar.
@@ -35,7 +38,7 @@ class XAMapsApplication(XABase.XAApplication):
         """
         self.front_window.toolbars()[0].buttons()[0].actions().by_name("AXPress").perform()
 
-    def search(self, query: str, latitude: Union[float, None] = None, longitude: Union[float, None] = None, exact: bool = True):
+    def search(self, query: Union[str, XABase.XAText], latitude: Union[float, None] = None, longitude: Union[float, None] = None, exact: bool = True):
         """Searches Maps for the given query, centered at the (optional) specified location.
 
         :param query: The term to search for
@@ -49,6 +52,9 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
+        if isinstance(query, XABase.XAText):
+            query = query.text
+
         url = "maps://?q=" + query
         if latitude is not None and longitude is not None:
             if exact is True:
@@ -131,7 +137,7 @@ class XAMapsApplication(XABase.XAApplication):
         url = f"maps://?q={name}&ll={latitude},{longitude}"
         XABase.XAURL(url).open()
 
-    def directions_to(self, destination_address: str, source_address: Union[str, None] = None, transport_type: Union[Literal["d", "driving", "w", "walking", "p", "pt", "r", "public transit", "transit"], None] = None): # Eventually return XAMapsDirections object?
+    def directions_to(self, destination_address: Union[str, XABase.XAText], source_address: Union[str, XABase.XAText, None] = None, transport_type: Union[Literal["d", "driving", "w", "walking", "p", "pt", "r", "public transit", "transit"], None] = None): # Eventually return XAMapsDirections object?
         """Queries for directions to the destination address, optionally starting from a source address.
 
         If no source address is provided, the current location is used.
@@ -145,6 +151,12 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
+        if isinstance(destination_address, XABase.XAText):
+            destination_address = destination_address.text
+
+        if isinstance(source_address, XABase.XAText):
+            source_address = source_address.text
+
         url = "maps://?daddr=" + destination_address.replace(" ", "%20")
         if source_address is not None:
             url += "&saddr=" + source_address
@@ -198,22 +210,21 @@ class XAMapsApplication(XABase.XAApplication):
 
 
 
-class XAMapsTabList(XABase.XAList):
+class XAMapsTabList(XASystemEventsUIElementList):
     """A wrapper around a list of locations.
 
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMapsTab, filter)
+        super().__init__(properties, filter, XAMapsTab)
 
-    # def name(self) -> list[str]:
-    #     ls = self.xa_elem.arrayByApplyingSelector_("objectDescription")
-    #     return [x.split(",")[0] for x in ls]
+    def title(self) -> list[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    # def __repr__(self):
-    #     return "<" + str(type(self)) + str(self.name()) + ">"
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title()) + ">"
 
-class XAMapsTab(XABase.XAObject):
+class XAMapsTab(XASystemEventsUIElement):
     """A class for interacting with sidebar locations in Maps.app.
 
     .. versionadded:: 0.0.6
@@ -226,21 +237,12 @@ class XAMapsTab(XABase.XAObject):
         """All properties of the tab.
         """
         return self.xa_elem.properties()
-
-    @property
-    def title(self) -> str:
-        """The name of the tab.
-        """
-        return self.xa_elem.title()
-
-    @property
-    def selected(self) -> bool:
-        """Whether the tab is the currently selected tab.
-        """
-        return self.xa_elem.value == 1
-
+    
     def close(self):
         self.xa_elem.buttons()[0].actions()[0].perform()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title) + ">"
 
 
 

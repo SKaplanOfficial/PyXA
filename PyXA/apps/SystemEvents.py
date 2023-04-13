@@ -3590,7 +3590,11 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
     def selected(self) -> Union[bool, None]:
         """Is the UI element selected?
         """
-        return self.xa_elem.selected()
+        selected = self.xa_elem.selected()
+        try:
+            selected = selected.get()
+        finally:
+            return selected
 
     @selected.setter
     def selected(self, selected: bool):

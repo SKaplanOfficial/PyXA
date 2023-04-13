@@ -3,13 +3,21 @@
 ## [PyXA 0.2.3] - 2023-04-13
 
 **Additions**
-- 
+- Add _XACamera_.
+- Add _XAMicrophone_.
 
 **Changes**
-- 
+- Maps:
+    - _XAMapsApplication.sidebar_showing_ can now be set to True/False.
+    - _XAMapsApplication.search()_ now accepts both str and _XAText_ as input.
+    - _XAMapsApplication.directions_to()_ now accepts both str and _XAText_ as input.
+    - _XAMapsTabList_ and _XAMapsTab_ now print elegantly.
+    - _XAMapsTabList_ is now a subclass of _XASystemEventsUIElementList_.
+    - _XAMapsTab_ is now a subclass of _XASystemEventsUIElement_.
 
 **Bug Fixes**
-- Fix error when creating new note in Notes using _XANotesApplication.new_note()_. (Resolve #13)
+- Fixed error when creating new note in Notes using _XANotesApplication.new_note()_. (Resolve #13)
+- Fixed _XAAudio.beep()_ failing due to too many arguments.
 
 ---
 

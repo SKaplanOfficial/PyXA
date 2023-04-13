@@ -206,7 +206,8 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
             properties["documentTheme"] = theme.xa_elem
 
         new_document = self.make("document", properties)
-        return self.documents().push(new_document)
+        self.documents().push(new_document)
+        return self.documents()[0]
 
     def themes(self, filter: Union[dict, None] = None) -> 'XAKeynoteThemeList':
         """Returns a list of themes, as PyXA objects, matching the given filter.

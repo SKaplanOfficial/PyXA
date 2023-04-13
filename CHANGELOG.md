@@ -1,5 +1,18 @@
 # PyXA Changelog 
 
+## [PyXA 0.2.3] - 2023-04-13
+
+**Additions**
+- 
+
+**Changes**
+- 
+
+**Bug Fixes**
+- Fix error when creating new note in Notes using _XANotesApplication.new_note()_. (Resolve #13)
+
+---
+
 ## [PyXA 0.2.2] - 2023-03-15
 
 **Additions**
@@ -45,6 +58,7 @@
 - Fixed _XAMusicTrackList.filter()_ and _XATVTrackList.filter()_ not transforming event values into proper event format.
 - Fixed _XASystemEventsDesktop.dynamic_style_, _XASystemEventsDockPreferencesObject.double_click_behavior_, _XASystemEventsDockPreferencesObject.minimize_effect_, _XASystemEventsDockPreferencesObject.screen_edge_ yielding an error due to improper conversion from event format.
 
+---
 
 ## [PyXA 0.2.1] - 2023-03-04
 
@@ -87,6 +101,7 @@
 - Fixed _XAMusicAirPlayDeviceList.by_kind()_ always returning None.
 - Fixed _XAProtocols.XAPrintable_ running in the main thread instead of separately.
 
+---
 
 ## [PyXA 0.2.0] - 2023-01-18
 
@@ -130,6 +145,7 @@
 - Removed various XASystemEvents UI classes, now condensed to a single UI element class — this better represents the scripting dictionary for System Events. Unless scripts reference these classes directly, there will be no observable impact of this change.
 - Removed numpy dependency.
 
+---
 
 ## [PyXA 0.1.2] - 2022-12-14
 
@@ -184,6 +200,7 @@
 - Removed logging using the Python logging module as it was causing issues with PyXA scripts bundled as Mac apps via py2app. NSLog is (minimally) used instead.
 - _XACalendarCalendarList.calendar_identifier()_, _XACalendarCalendarList.by_calendar_identifier()_, and _XACalendarCalendar.calendar_identifier_; these methods/attributes have never worked correctly and cannot currently be fixed.
 
+---
 
 ## [PyXA 0.1.1] - 2022-11-23
 
@@ -245,6 +262,7 @@
 **Images**
 <img width="504" alt="An image of a menu bar app for copying colors in various representations created with the new XAMenuBar structure." src="https://user-images.githubusercontent.com/7865925/203693101-5ad833e9-f897-4080-97c2-d611e5bc8afe.png">
 
+---
 
 ## [PyXA 0.1.0] - 2022-10-30
 
@@ -342,6 +360,7 @@ Note: This version of PyXA requires Python 3.11.
 - Full macOS Ventura Support
 - Integrate Finder classes with System Events classes
 
+---
 
 ## [PyXA 0.0.9] - 2022-08-25
 
@@ -409,6 +428,7 @@ Note: This version of PyXA requires Python 3.11.
 - _PyXA.get_clipboard()_, _PyXA.get_clipboard_strings()_, _PyXA.set_clipboard()_ — Deprecated in v0.0.5, now completely replaced by XAClipboard class
 - _PyXA.run_application()_ — Deprecated in v0.0.5, now completely replaced by AppleScript class
 
+---
 
 ## [PyXA 0.0.8] - 2022-08-18
 
@@ -473,6 +493,7 @@ Note: This version of PyXA requires Python 3.11.
 
 **Full Changelog**: https://github.com/SKaplanOfficial/PyXA/compare/v0.0.7...v0.0.8
 
+---
 
 ## [PyXA 0.0.7] - 2022-08-12
 
@@ -480,6 +501,7 @@ This pre-release version expands fast enumeration over list objects to the Music
 
 **Full Changelog**: https://github.com/SKaplanOfficial/PyXA/compare/v0.0.6...v0.0.7
 
+---
 
 ## [PyXA 0.0.6] - 2022-08-02
 
@@ -487,6 +509,7 @@ This pre-release version includes performance improvements, support for several 
 
 **Full Changelog**: https://github.com/SKaplanOfficial/PyXA/compare/v0.0.5...v0.0.6
 
+---
 
 ## [PyXA 0.0.5] - 2022-07-14
 

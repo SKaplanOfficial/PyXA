@@ -85,7 +85,8 @@ class XANumbersApplication(iWorkApplicationBase.XAiWorkApplication):
             properties["documentTemplate"] = template.xa_elem
 
         new_document = self.make("document", properties)
-        return self.documents().push(new_document)
+        self.documents().push(new_document)
+        return self.documents()[0]
 
     def templates(self, filter: Union[dict, None] = None) -> 'XANumbersTemplateList':
         """Returns a list of templates, as PyXA objects, matching the given filter.

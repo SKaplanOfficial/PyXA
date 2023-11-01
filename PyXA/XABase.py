@@ -7,6 +7,7 @@ import importlib
 import math
 import os
 import random
+import re
 import sys
 import threading
 import time
@@ -24,7 +25,7 @@ import ScriptingBridge
 from bs4 import BeautifulSoup, element
 from PyObjCTools import AppHelper
 
-from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError
+from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError, AppleScriptError
 from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
 
 from .apps import application_classes
@@ -1546,7 +1547,9 @@ class AppleScript():
                 with open(script, 'r') as f:
                     script = f.readlines()
             else:
-                self.script = [script]
+                script_text = re.sub(r'[ \t]+', ' ', script)
+                script_text = re.sub(r'[\n\r]+', '\n', script_text)
+                self.script = script_text.split("\n")
         elif isinstance(script, list):
             self.script = script
         elif script == None:
@@ -1668,18 +1671,9 @@ class AppleScript():
         if isinstance(path, str):
             path = XAPath(path)
         script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
-
-        attributed_string = script.richTextSource()
-        attributed_string = str(attributed_string).split("}")
-        parts = []
-        for x in attributed_string:
-            parts.extend(x.split("{"))
-
-        for x in parts:
-            if "=" in x:
-                parts.remove(x)
-
-        script = AppleScript("".join(parts).split("\n"))
+        script_text = re.sub(r'[ \t]+', ' ', str(script.richTextSource().string()))
+        script_text = re.sub(r'[\n\r]+', '\n', script_text)
+        script = AppleScript(script_text.split("\n"))
         script.__file_path = path
         return script
 
@@ -1769,13 +1763,17 @@ class AppleScript():
 
         return response_objects
 
-    def run(self) -> Any:
+    def run(self, args: list = None, dry_run=False) -> Any:
         """Compiles and runs the script, returning the result.
 
+        :param args: A list of arguments to pass to the script, defaults to None
+        :type args: list, optional
+        :param dry_run: Whether to compile and check the script without running it, defaults to False
+        :type dry_run: bool, optional
         :return: The return value of the script.
         :rtype: Any
 
-        :Example:
+        :Example 1: Basic Script Execution
 
         >>> import PyXA
         >>> script = PyXA.AppleScript(f\"\"\"tell application "System Events"
@@ -1794,18 +1792,67 @@ class AppleScript():
             'data': {length = 4, bytes = 0x03000000},
             'event': <NSAppleEventDescriptor: 3>
         }
+
+        :Example 2: Run Script With Arguments
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"on run argv
+        >>>     set x to item 1 of argv
+        >>>     set y to item 2 of argv
+        >>>     return x + y
+        >>> end run\"\"\")
+        >>> print(script.run([5, 6]))
+        {'
+            string': '11',
+            'int': 11,
+            'bool': False,
+            'float': 11.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 11,
+            'data': {length = 4, bytes = 0x0b000000},
+            'event': <NSAppleEventDescriptor: 11>
+        }
         
         .. versionadded:: 0.0.5
         """
         script = ""
         for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        
-        result = script.executeAndReturnError_(None)[0]
+            if line.startswith("on run "):
+                argv_specifier = line.split("on run ")[1].strip()
+                script += "on run" + "\n"
+
+                if args is not None:
+                    if type(args) is not list:
+                        args = [args]
+
+                    args = [str(x) for x in args]
+
+                    script += "set " + argv_specifier + " to {\"" + "\", \"".join(args) + "\"}\n"
+                else:
+                    script += "set " + argv_specifier + " to {}\n"
+            else:
+                script += line + "\n"
+
+        full_script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        if dry_run:
+            status = full_script.compileAndReturnError_(None)
+            if status[1] is not None:
+                raise AppleScriptError(status[1], script)
+            return status[0]
+
+        result = full_script.executeAndReturnError_(None)
+        if result[1] is not None:
+            raise AppleScriptError(result[1], script)
+
+        result = result[0]
+        string_result = result.stringValue()
+        if string_result is not None:
+            string_result = string_result.replace('\r', '\n')
+                
         if result is not None:
             self.__last_result = {
-                "string": result.stringValue(),
+                "string": string_result,
                 "int": result.int32Value(),
                 "bool": result.booleanValue(),
                 "float": result.doubleValue(),
@@ -7658,148 +7705,3 @@ class XAVideo(XAObject):
         
         while not waiting:
             time.sleep(0.01)
-
-
-
-class XACamera(XAObject):
-    """A reusable controller for camera-related functions
-    
-    .. versionadded:: 0.2.3
-    """
-    def __init__(self):
-        pass
-        # import AVFoundation
-
-        # session = AVFoundation.AVCaptureSession.alloc().init()
-        
-        # device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeVideo)
-        # AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeVideo, None)
-
-        # deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
-        # output = AVFoundation.AVCaptureStillImageOutput.alloc().init().retain()
-        # output.setOutputSettings_({AVFoundation.AVVideoCodecKey: AVFoundation.AVVideoCodecJPEG})
-
-        # # Add input and output to the session (enable the video output)
-        # session.beginConfiguration()
-        # session.addInput_(deviceInput)
-        # session.addOutput_(output)
-        # session.commitConfiguration()
-
-        # session.startRunning()
-
-        # file_path = "/Users/steven/Downloads/blahblah.jpeg"
-        # if isinstance(file_path, XAPath):
-        #     file_path = file_path.path
-        # url = XAURL(file_path)
-
-        # def doThing(buffer, error):
-        #     AppHelper.stopEventLoop()
-        #     data = AVFoundation.AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation_(buffer)
-        #     print(data)
-        #     with open(file_path, 'wb') as f:
-        #         f.write(data)
-
-        # output.captureStillImageAsynchronouslyFromConnection_completionHandler_(output.connections()[0], doThing)
-
-        # AppHelper.runEventLoop()
-
-    def record_video(self, file_path: Union[str, XAPath], duration: Union[float, None] = 10) -> XAVideo:
-        """Records a video for the specified duration, saving into the provided file path.
-
-        :param file_path: The file path to save the video at.
-        :type file_path: Union[str, XAPath]
-        :param duration: The duration of the video, in seconds, or None to record continuously until the script is canceled, defaults to 10.
-        :type duration: Union[float, None], optional
-        :return: The resulting video as a PyXA object.
-        :rtype: XAVideo
-
-        .. versionadded:: 0.2.3
-        """
-        import AVFoundation
-
-        session = AVFoundation.AVCaptureSession.alloc().init()
-        
-        device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeVideo)
-        AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeVideo, None)
-
-        deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
-        output = AVFoundation.AVCaptureMovieFileOutput.alloc().init().retain()
-
-        # Add input and output to the session (enable the video output)
-        session.beginConfiguration()
-        session.addInput_(deviceInput)
-        session.addOutput_(output)
-        session.commitConfiguration()
-
-        session.startRunning()
-
-        if isinstance(file_path, XAPath):
-            file_path = file_path.path
-
-        url = XAURL(file_path)
-        output.startRecordingToOutputFileURL_recordingDelegate_(url.xa_elem, self)
-
-        if duration is None:
-            AppHelper.runConsoleEventLoop()
-        else:
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = duration))
-
-        return XAVideo(file_path)
-    
-
-
-class XAMicrophone(XAObject):
-    """A reusable controller for microphone-related functions.
-
-    .. versionadded:: 0.2.3
-    """
-    def __init__(self):
-        pass
-
-    def record_audio(self, file_path: Union[str, XAPath], duration: Union[float, None] = 10) -> XASound:
-        """Records audio for the specified duration, saving into the provided file path.
-
-        :param file_path: The file path to save the audio at.
-        :type file_path: Union[str, XAPath]
-        :param duration: The duration of the audio, in seconds, or None to record continuously until the script is canceled, defaults to 10.
-        :type duration: Union[float, None], optional
-        :return: The resulting audio as a PyXA object.
-        :rtype: XASound
-
-        .. versionadded:: 0.2.3
-        """
-        import AVFoundation
-
-        session = AVFoundation.AVCaptureSession.alloc().init()
-        session.setSessionPreset_(AVFoundation.AVCaptureSessionPresetPhoto)
-        
-        device = AVFoundation.AVCaptureDevice.defaultDeviceWithMediaType_(AVFoundation.AVMediaTypeAudio)
-        AVFoundation.AVCaptureDevice.requestAccessForMediaType_completionHandler_(AVFoundation.AVMediaTypeAudio, None)
-
-        deviceInput = AVFoundation.AVCaptureDeviceInput.deviceInputWithDevice_error_(device, None)[0]
-        output = AVFoundation.AVCaptureAudioFileOutput.alloc().init().retain()
-
-        # Add input and output to the session (enable the video output)
-        session.beginConfiguration()
-        session.addInput_(deviceInput)
-        session.addOutput_(output)
-        session.commitConfiguration()
-
-        session.startRunning()
-
-        if isinstance(file_path, XAPath):
-            file_path = file_path.path
-        url = XAURL(file_path)
-
-        file_type = AVFoundation.AVFileTypeAIFF
-        if file_path.lower().endswith("aiff"):
-            file_type = AVFoundation.AVFileTypeAIFF
-        elif file_path.lower().endswith("wav"):
-            file_type = AVFoundation.AVFileTypeWAVE
-
-        output.startRecordingToOutputFileURL_outputFileType_recordingDelegate_(url.xa_elem, file_type, self)
-
-        if duration is None:
-            AppHelper.runConsoleEventLoop()
-        else:
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = duration))

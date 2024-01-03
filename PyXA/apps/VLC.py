@@ -17,7 +17,6 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         super().__init__(properties)
         self.xa_wcls = XAVLCWindow
 
-    # TODO: Update properties to new format
     @property
     def properties(self) -> dict:
         """All properties of the VLC application.

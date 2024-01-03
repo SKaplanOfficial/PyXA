@@ -12,3 +12,6 @@ XAPoint = namedtuple('XAPoint', ['x', 'y'])
 XARectangle = namedtuple('XARectangle', ['x', 'y', 'width', 'height'])
 """A named tuple representing a rectangle with an origin point (x, y) and dimensions width x height.
 """
+
+XADatetimeBlock = namedtuple('XADatetimeBlock', ['date', 'duration'])
+"""A named tuple representing a date and an associated duration."""

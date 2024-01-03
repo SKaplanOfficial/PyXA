@@ -1,4 +1,4 @@
-Project Overview
+Package Overview
 ================
 
 What is PyXA?
@@ -18,4 +18,3 @@ Is PyXA for Me?
 ###############
 
 PyXA is not intended to replace AppleScript or even to cover 100% of AppleScript's capabilities. Instead, PyXA is meant to provide general convenience in accomplishing AppleScript and other automation tasks via Python, for the most commonly used applications. If you need a complete Apple Event bridge, or if you find that PyXA cannot handle your particular use case, consider using `appscript <https://appscript.sourceforge.io>`_ or one of its derivatives. If you just need something that works in most circumstances, that has abundant examples for you to reference, and supports some additional automation features (such as opening Maps to a specific address), then PyXA might be a good fit for you.
-

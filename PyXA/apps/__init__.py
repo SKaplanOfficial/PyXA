@@ -69,7 +69,6 @@ application_classes = {
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
     "rstudio": ("RStudio", "XARStudioApplication"),
     "iterm": ("iTerm", "XAiTermApplication"),
-
     "vlc": ("VLC", "XAVLCApplication"),
     "fantastical": ("Fantastical", "XAFantasticalApplication"),
     "omnioutliner": ("OmniOutliner", "XAOmniOutlinerApplication"),
@@ -77,7 +76,7 @@ application_classes = {
     "flow": ("Flow", "XAFlowApplication"),
     "bike": ("Bike", "XABikeApplication"),
     "adobe acrobat reader": ("AcrobatReader", "XAAcrobatReaderApplication"),
-    "cardhop": ("Cardhop", "XACardhopAppplication"),
+    "cardhop": ("Cardhop", "XACardhopApplication"),
     "amphetamine": ("Amphetamine", "XAAmphetamineApplication"),
     "iina": ("IINA", "XAIINAApplication"),
     "omniweb": ("OmniWeb", "XAOmniWebApplication"),

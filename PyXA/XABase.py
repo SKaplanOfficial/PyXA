@@ -22,11 +22,14 @@ import AppKit
 import Quartz
 import requests
 import ScriptingBridge
+import DataDetection
+import libdispatch
 from bs4 import BeautifulSoup, element
 from PyObjCTools import AppHelper
 
 from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError, AppleScriptError
 from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
+from PyXA.XATypes import XADatetimeBlock
 
 from .apps import application_classes
 
@@ -137,6 +140,9 @@ class XAObject():
         """
         if obj is None:
             return None
+        
+        if obj_class is None:
+            return obj
 
         properties = {
             "parent": self,
@@ -255,7 +261,7 @@ class XAList(XAObject):
         super().__init__(properties)
         self.xa_ocls = object_class
 
-        if not isinstance(self.xa_elem, AppKit.NSArray):
+        if not isinstance(self.xa_elem, AppKit.NSArray) and not isinstance(self.xa_elem, ScriptingBridge.SBElementArray):
             self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(self.xa_elem)
 
         if filter is not None:
@@ -289,7 +295,7 @@ class XAList(XAObject):
             return None
 
         try:
-            obj = ls.get().firstObject()
+            obj = ls.firstObject()
         except AttributeError:
             # List object has no get method
             obj = ls.firstObject()
@@ -305,6 +311,37 @@ class XAList(XAObject):
                     filter += part.title()
 
         return (filter, value1, value2)
+
+    def map(self, function: Callable[[object], object]) -> 'XAList':
+        """Applies the given function to each element in the list and returns a new :class:`XAList` containing the results.
+
+        This is most effective when the function does not access the element's properties, as this will cause the element to be fully dereferenced. In such cases, it is better (faster) to use subclass-specific fast-enumeration methods. Use this method to associate element references with other data, e.g. by wrapping each element in a dictionary.
+
+        :param function: The function to apply to each element
+        :type function: Callable[[object], object]
+        :return: The new list containing the results of the function
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> notes = app.notes()
+        >>> indexed_notes = notes.map(lambda element, index: {"element": element, "id": index})
+        >>> print(indexed_notes[0])
+        {'element': <<class 'PyXA.apps.Notes.XANote'>Example Note, x-coredata://314D805E-C349-42A0-96EC-380EE21392E2/ICNote/p9527>, 'id': 0}
+
+        .. versionadded:: 0.2.3
+        """
+        new_arr = AppKit.NSMutableArray.alloc().initWithArray_(self.xa_elem);
+
+        def apply_to_index(index):
+            new_arr.replaceObjectAtIndex_withObject_(index, function(self._new_element(new_arr[index], self.xa_ocls), index))
+
+        queue = libdispatch.dispatch_get_global_queue(libdispatch.DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+        libdispatch.dispatch_apply(self.xa_elem.count(), queue, lambda i: apply_to_index(i))
+
+        return self._new_element(new_arr, XAList)
 
     def equalling(self, property: str, value: str) -> 'XAList':
         """Retrieves all elements whose property value equals the given value.
@@ -533,7 +570,7 @@ class XAList(XAObject):
         predicate = XAPredicate()
         predicate.add_gt_condition(property, value1)
         predicate.add_lt_condition(property, value2)
-        ls = predicate.evaluate(self.xa_elem).get()
+        ls = predicate.evaluate(self.xa_elem)
         return self._new_element(ls, self.__class__)
     
     def exists(self, property: str) -> 'XAList':
@@ -817,12 +854,8 @@ class XAList(XAObject):
             return self._new_element(arr, self.__class__)
         if key < 0:
             key = self.xa_elem.count() + key
-        
-        try:
-            return self._new_element(self.xa_elem.get().objectAtIndex_(key), self.xa_ocls)
-        except AttributeError:
-            # List object has no get method
-            return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
+
+        return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
 
     def __len__(self):
         return len(self.xa_elem)
@@ -1075,9 +1108,17 @@ class Application(XAObject):
 
     def __xa_get_path_to_app(self, app_identifier: str) -> str:
         self.__xa_load_app_paths()
+        candidate = None
         for path in self.app_paths:
-            if app_identifier.lower() in path.lower():
+            app_path_component = path.split("/")[-1][:-4]
+            if app_identifier.lower() == path.lower() or app_identifier.lower() == app_path_component.lower():
                 return path
+            
+            if app_identifier.lower() in path.lower():
+                candidate = path
+        
+        if candidate is not None:
+            return candidate
 
         raise ApplicationNotFoundError(app_identifier)
 
@@ -1187,9 +1228,11 @@ def current_application() -> 'XAApplication':
     return Application(workspace.frontmostApplication().localizedName())
 
 
-def running_applications() -> list['XAApplication']:
-    """Gets PyXA references to all currently visible (not hidden or minimized) running applications whose app bundles are stored in typical application directories.
+def running_applications(unique = True) -> list['XAApplication']:
+    """Gets PyXA references to all currently visible (not hidden or minimized) running applications whose app bundles are stored in typical application directories. Applications are ordered by their z-index, with the frontmost application first.
 
+    :param unique: Whether to return only one instance of each application, defaults to True
+    :type unique: bool, optional
     :return: A list of PyXA application objects.
     :rtype: list[XAApplication]
 
@@ -1199,16 +1242,71 @@ def running_applications() -> list['XAApplication']:
     >>> apps = PyXA.running_applications()
     >>> print(apps.localized_name())
     ['GitHub Desktop', 'Safari', 'Code', 'Terminal', 'Notes', 'Messages', 'TV']
+
+    .. versionchanged:: 0.2.3
+
+        Added the :attr:`unique` parameter.
     
     .. versionadded:: 0.0.1
     """
-    windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionAll, Quartz.kCGNullWindowID)
-    ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
+    windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
+    ls = XAPredicate.evaluate_with_format(windows, "kCGWindowLayer == 0")
+
+    # Filter list to unique applications
+    if unique:
+        app_names = []
+        ls = [x for x in ls if x["kCGWindowOwnerName"] not in app_names and (app_names.append(x["kCGWindowOwnerName"]) or True)]
+
     properties = {
         "element": ls,
     }
     arr = XAApplicationList(properties)
     return arr
+
+SUPPORTED_BROWSERS = [
+    "Safari",
+    "Google Chrome",
+    "Google Chrome Canary",
+    "Google Chrome Beta",
+    "Google Chrome Dev",
+    "Chromium",
+    "Brave Browser",
+    "Brave Browser Dev",
+    "Brave Browser Beta",
+    "Brave Browser Nightly",
+    "Microsoft Edge",
+    "Microsoft Edge Beta",
+    "Microsoft Edge Dev",
+    "Microsoft Edge Canary",
+    "Opera",
+    "Opera Beta",
+    "Opera Developer",
+    "Opera GX",
+    "Opera Neon",
+    "Vivaldi",
+    "Blisk",
+    "Iridium",
+    "Yandex",
+    "Maxthon",
+    "Maxthon Beta",
+    "Arc",
+    "OmniWeb",
+]
+"""Browsers supported by PyXA, i.e. having dedicated PyXA Application classes.
+"""
+
+def active_browser() -> 'XAApplication':
+    """Retrieves a PyXA representation of the most recently active browser application. The browser must have at least one open window. The browser must be one of the ones listed in :attr:`SUPPORTED_BROWSERS`.
+
+    :return: A PyXA application object referencing the current browser application.
+    :rtype: XAApplication
+
+    .. versionadded:: 0.2.3
+    """
+    running_app_names =  running_applications().localized_name()
+    for browser in running_app_names:
+        if browser in SUPPORTED_BROWSERS:
+            return Application(browser)
 
 
 class XAApplication(XAObject, XAClipboardCodable):
@@ -1955,15 +2053,21 @@ class XAPredicate(XAObject, XAClipboardCodable):
             })
         return ls
 
-    def evaluate_with_format(target: Union['AppKit.NSArray', XAList], fmt: str) -> 'AppKit.NSArray':
+    def evaluate_with_format(target: Union['AppKit.NSArray', XAList], fmt: str, *fmt_parameters) -> 'AppKit.NSArray':
         """Evaluates the specified array against a predicate with the given format.
 
         :param target: The array to filter
         :type target: AppKit.NSArray
         :param fmt: The format string for the predicate
         :type fmt: str
+        :param fmt_parameters: The parameters for the format string
+        :type fmt_parameters: Any
         :return: The filtered array
         :rtype: AppKit.NSArray
+
+        .. versionchanged:: 0.2.3
+
+            Added the :attr:`fmt_parameters` parameter.
 
         .. versionadded:: 0.0.4
         """
@@ -1971,7 +2075,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             target_list = target.xa_elem
 
-        predicate = AppKit.NSPredicate.predicateWithFormat_(fmt)
+        predicate = AppKit.NSPredicate.predicateWithFormat_argumentArray_(fmt, fmt_parameters)
         ls = target_list.filteredArrayUsingPredicate_(predicate)
 
         if isinstance(target, XAList):
@@ -2651,6 +2755,12 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_elem = path
         self.path = path.path() #: The path string without the file:// prefix
         self.url = str(self.xa_elem) #: The path string with the file:// prefix included
+
+    @property
+    def name(self) -> str:
+        """The name of the file or folder at the path.
+        """
+        return self.xa_elem.lastPathComponent()
 
     def open(self):
         """Opens the file in its default application.
@@ -3471,6 +3581,88 @@ class XAText(XAObject):
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeSentimentScore, 0, apply_tags)
         return tagged_sentiments
 
+    def extract_urls(self) -> list['XAURL']:
+        """Gets a list of URLs in the text.
+
+        :return: The list of URLs.
+        :rtype: list[XAURL]
+
+        .. versionadded:: 0.2.3
+        """
+        detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(AppKit.NSTextCheckingTypeLink, None)
+        if detector[1] is not None:
+            raise Exception("Error creating data detector")
+        
+        matches = detector[0].matchesInString_options_range_(self.xa_elem, 0, AppKit.NSMakeRange(0, len(self.xa_elem)))
+        return [XAURL(match.URL()) for match in matches]
+
+    def extract_dates(self) -> list['XADatetimeBlock']:
+        """Gets a list of dates and durations in the text.
+
+        :return: The list of dates.
+        :rtype: list[XADatetimeBlock]
+
+        .. versionadded:: 0.2.3
+        """
+        detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(AppKit.NSTextCheckingTypeDate, None)
+        if detector[1] is not None:
+            raise Exception("Error creating data detector")
+        
+        matches = detector[0].matchesInString_options_range_(self.xa_elem, 0, AppKit.NSMakeRange(0, len(self.xa_elem)))
+        return [XADatetimeBlock(match.date(), match.duration()) for match in matches]
+
+    def extract_addresses(self):
+        """Gets a list of addresses in the text.
+
+        :return: The list of addresses.
+        :rtype: list[XALocation]
+
+        .. versionadded:: 0.2.3
+        """
+        import CoreLocation
+        detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(AppKit.NSTextCheckingTypeAddress, None)
+        if detector[1] is not None:
+            raise Exception()
+        
+        matches = detector[0].matchesInString_options_range_(self.xa_elem, 0, AppKit.NSMakeRange(0, len(self.xa_elem)))
+        address_dicts = [match.addressComponents() for match in matches]
+        
+        geocoder = CoreLocation.CLGeocoder.alloc().init()
+        addresses = []
+
+        def add_location(placemarks, error):
+            nonlocal addresses
+            if error is not None:
+                raise Exception("Error creating data detector")
+            
+            if len(placemarks) > 0:
+                addresses.append(XALocation(placemarks[0].location(), placemarks[0].name(), 0, 0, None, 0, placemarks[0].postalAddress()))
+
+            if len(addresses) == len(address_dicts):
+                AppHelper.stopEventLoop()
+
+        for address_dict in address_dicts:
+            address_string = ", ".join([x for x in address_dict.values() if x is not None])
+            geocoder.geocodeAddressString_completionHandler_(address_string, add_location)
+
+        AppHelper.runConsoleEventLoop()
+        return addresses
+
+    def extract_phone_numbers(self):
+        """Gets a list of phone numbers in the text.
+
+        :return: The list of phone numbers.
+        :rtype: list[XAText]
+
+        .. versionadded:: 0.2.3
+        """
+        detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(AppKit.NSTextCheckingTypePhoneNumber, None)
+        if detector[1] is not None:
+            raise Exception("Error creating data detector")
+        
+        matches = detector[0].matchesInString_options_range_(self.xa_elem, 0, AppKit.NSMakeRange(0, len(self.xa_elem)))
+        return [XAText(match.phoneNumber()) for match in matches]
+
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
         """Gets a list of paragraphs in the text.
 
@@ -3800,6 +3992,11 @@ class XALocation(XAObject):
         if self.raw_value is None:
             if latitude is not None and longitude is not None:
                 self.raw_value = CoreLocation.CLLocation.alloc().initWithLatitude_longitude_(latitude, longitude)
+        else:
+            self.latitude = self.raw_value.coordinate()[0]
+            self.longitude = self.raw_value.coordinate()[1]
+            self.altitude = self.raw_value.altitude()
+            self.radius = self.raw_value.horizontalAccuracy()
 
     @property
     def raw_value(self): 
@@ -3894,7 +4091,7 @@ class XALocation(XAObject):
         AppHelper.runConsoleEventLoop()
 
     def __repr__(self):
-        return "<" + str(type(self)) + str((self.latitude, self.longitude)) + ">"
+        return "<" + str(type(self)) + (self.title + " " if self.title is not None else "") + str((self.latitude, self.longitude)) + ">"
 
 
 
@@ -4538,7 +4735,6 @@ class XADiskItem(XAObject, XAPathLike):
         elif isinstance(folder, str):
             folder = XAPath(folder)
 
-        print(folder.xa_elem)
         self.xa_elem.moveTo_(folder.xa_elem)
         return self
 

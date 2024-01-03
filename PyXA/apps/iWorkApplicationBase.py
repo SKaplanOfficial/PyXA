@@ -247,7 +247,7 @@ class XAiWorkDocumentList(XABase.XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
-            obj_class = XAiWorkDocumentList
+            obj_class = XAiWorkDocument
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:

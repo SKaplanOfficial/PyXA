@@ -13,8 +13,6 @@ from .XABase import (
     XASound,
     XAImage,
     XAVideo,
-    XACamera,
-    XAMicrophone,
     XALocation,
     Application,
 
@@ -38,7 +36,7 @@ from .XABase import (
     # XAFinderExtension,
 
     # Methods
-    current_application, running_applications,
+    current_application, running_applications, active_browser
 )
 
 old_module = sys.modules["PyXA"]
@@ -57,6 +55,7 @@ module_map = {
     "XALSM": ".Additions.Learn",
 
     "SDEFParser": ".Additions.Utils",
+    "AppBuilder": ".Additions.Utils",
 
     "XAMenuBar": ".Additions.UI",
     "XAAlertStyle": ".Additions.UI",

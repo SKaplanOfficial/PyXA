@@ -40,7 +40,32 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
-VERSION = "0.2.2" #: The installed version of PyXA
+def snakify(text: str) -> str:
+    """Converts a string to snake case.
+
+    :param text: The string to convert
+    :type text: str
+    :return: The snakeized string
+    :rtype: str
+
+    .. versionadded:: 0.2.3
+    """
+    return re.sub(r"([A-Z])", r"_\1", text).lower()
+
+def camelize(text: str) -> str:
+    """Converts a string to camel case.
+
+    :param text: The string to convert
+    :type text: str
+    :return: The camelized string
+    :rtype: str
+
+    .. versionadded:: 0.2.3
+    """
+    parts = text.split("_")
+    return parts[0] + "".join([part.title() for part in parts[1:]])
+
+VERSION = "0.2.3" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
 workspace = None

@@ -82,7 +82,7 @@ class XAPrintable(XAProtocol):
 
     .. versionadded:: 0.0.8
     """
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True, new_thread = True) -> 'XAPrintable':
         """Prints the object.
 
         Child classes of XAPrintable should override this method as necessary.
@@ -101,8 +101,11 @@ class XAPrintable(XAProtocol):
 
         def do_print():
             self.xa_elem.printWithProperties_printDialog_(print_properties, show_dialog)
-
-        self._spawn_thread(do_print)
+        
+        if new_thread:
+            self._spawn_thread(do_print)
+        else:
+            do_print()
         return self
 
 

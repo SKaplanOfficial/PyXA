@@ -5,18 +5,34 @@ Control the macOS TextEdit application using JXA-like syntax.
 
 from time import sleep
 from typing import Any, Union
+from enum import Enum
 
 import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XACloseable, XAPrintable
+from ..XAProtocols import (
+    XACanOpenPath,
+    XACanPrintPath,
+    XAClipboardCodable,
+    XACloseable,
+    XAPrintable,
+)
 
-class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
+
+class XATextEditApplication(
+    XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath
+):
     """A class for managing and interacting with TextEdit.app.
 
     .. versionadded:: 0.0.1
     """
+
+    class ObjectType(Enum):
+        """Types of objects that can be created with :func:`make`."""
+
+        DOCUMENT = "document"
+        WINDOW = "window"
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -24,8 +40,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
     @property
     def frontmost(self) -> bool:
-        """Whether TextEdit is the active application.
-        """
+        """Whether TextEdit is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -34,21 +49,24 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
-        """The version of the TextEdit application.
-        """
+        """The version of the TextEdit application."""
         return self.xa_scel.version()
 
-    def open(self, path: str) -> 'XATextEditDocument':
+    def open(self, path: str) -> "XATextEditDocument":
         super().open(path)
         return self.front_window.document
 
-    def print(self, file: Union[str, AppKit.NSURL, 'XATextEditDocument'], print_properties: dict = None, show_prompt: bool = True):
+    def print(
+        self,
+        file: Union[str, AppKit.NSURL, "XATextEditDocument"],
+        print_properties: dict = None,
+        show_prompt: bool = True,
+    ):
         """Prints a TextEdit document.
 
         :param file: The document or path to a document to print
@@ -85,9 +103,11 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
             file = AppKit.NSURL.alloc().initFileURLWithPath_(file)
         elif isinstance(file, XATextEditDocument):
             file = file.path.xa_elem
-        self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_properties)
+        self.xa_scel.print_printDialog_withProperties_(
+            file, show_prompt, print_properties
+        )
 
-    def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
+    def documents(self, filter: dict = None) -> "XATextEditDocumentList":
         """Returns a list of documents matching the filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have
@@ -122,9 +142,9 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         , This is note 3
         ]
         Words: [This, is, note, 1, This, is, note, 2, This, is, note, 3]
-        Characters: [T, h, i, s,  , i, s, , n, o, t, e,  , 1, 
-        , T, h, i, s, , i, s, , n, o, t, e, , 2, 
-        , T, h, i, s, , i, s, , n, o, t, e, , 3, 
+        Characters: [T, h, i, s,  , i, s, , n, o, t, e,  , 1,
+        , T, h, i, s, , i, s, , n, o, t, e, , 2,
+        , T, h, i, s, , i, s, , n, o, t, e, , 3,
         ]
 
         .. versionchanged:: 0.0.4
@@ -133,9 +153,16 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
         .. versionadded:: 0.0.1
         """
-        return self._new_element(self.xa_scel.documents(), XATextEditDocumentList, filter)
+        return self._new_element(
+            self.xa_scel.documents(), XATextEditDocumentList, filter
+        )
 
-    def new_document(self, name: Union[str, None] = "Untitled.txt", text: Union[str, None] = "", location: Union[str, None] = None) -> 'XATextEditDocument':
+    def new_document(
+        self,
+        name: Union[str, None] = "Untitled.txt",
+        text: Union[str, None] = "",
+        location: Union[str, None] = None,
+    ) -> "XATextEditDocument":
         """Creates a new document with the given name and initializes it with the supplied text. If no location is provided, the document file is created in the user's Documents folder.
 
         :param name: The name (including file extension) of the document, defaults to "Untitled.txt"
@@ -166,7 +193,13 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         .. versionadded:: 0.0.1
         """
         if location is None:
-            location = AppKit.NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
+            location = (
+                AppKit.NSFileManager.alloc()
+                .homeDirectoryForCurrentUser()
+                .relativePath()
+                + "/Documents/"
+                + name
+            )
         else:
             if not location.endswith("/"):
                 location = location + "/"
@@ -175,15 +208,22 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         doc = self.documents().push(new_doc)
         return doc
 
-    def make(self, specifier: str, properties: dict):
+    def make(
+        self,
+        specifier: Union[str, "XATextEditApplication.ObjectType"],
+        properties: dict,
+        data: Any = None,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XATextEditApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to initialize the object with, defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -201,12 +241,37 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
         .. versionadded:: 0.0.3
         """
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if isinstance(specifier, XATextEditApplication.ObjectType):
+            specifier = specifier.value
+
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "document":
             return self._new_element(obj, XATextEditDocument)
-
-
+        elif specifier == "window":
+            return self._new_element(obj, XATextEditWindow)
 
 
 class XATextEditWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
@@ -214,38 +279,34 @@ class XATextEditWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XATextEditDocument':
-        """The active document.
-        """
+    def document(self) -> "XATextEditDocument":
+        """The active document."""
         doc_obj = self.xa_elem.document()
         return self._new_element(doc_obj, XATextEditDocument)
 
     @document.setter
-    def document(self, document: 'XATextEditDocument'):
+    def document(self, document: "XATextEditDocument"):
         self.set_property("document", document.xa_elem)
 
     @property
     def floating(self) -> bool:
-        """Whether the window floats.
-        """
+        """Whether the window floats."""
         return self.xa_elem.floating()
 
     @property
     def modal(self) -> bool:
-        """Whether the window is a modal window.
-        """
+        """Whether the window is a modal window."""
         return self.xa_elem.modal()
 
     @property
     def titled(self) -> bool:
-        """Whether the window has a title bar.
-        """
+        """Whether the window has a title bar."""
         return self.xa_elem.titled()
-
 
 
 class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
@@ -255,18 +316,24 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
 
     .. versionadded:: 0.0.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XATextEditDocument)
 
     def properties(self) -> list[dict]:
         raw_dicts = list(self.xa_elem.arrayByApplyingSelector_("properties") or [])
-        return [{
-            "modified": raw_dict["modified"],
-            "name": raw_dict["name"],
-            "class": "document",
-            "path": XABase.XAPath(raw_dict["path"]) if raw_dict["path"] is not None else None,
-            "text": raw_dict["text"]
-        } for raw_dict in raw_dicts]
+        return [
+            {
+                "modified": raw_dict["modified"],
+                "name": raw_dict["name"],
+                "class": "document",
+                "path": XABase.XAPath(raw_dict["path"])
+                if raw_dict["path"] is not None
+                else None,
+                "text": raw_dict["text"],
+            }
+            for raw_dict in raw_dicts
+        ]
 
     def path(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
@@ -278,30 +345,37 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
     def modified(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
-    def by_properties(self, properties: dict) -> Union['XABase.XATextDocument', None]:
+    def by_properties(self, properties: dict) -> Union["XABase.XATextDocument", None]:
         for document in self.xa_elem:
             doc_props = document.properties()
             conditions = [
                 doc_props["modified"] == properties["modified"],
                 doc_props["name"] == properties["name"],
-                doc_props["path"] == (properties["path"].path if isinstance(properties["path"], XABase.XAPath) else properties["path"]),
-                doc_props["text"] == properties["text"]
+                doc_props["path"]
+                == (
+                    properties["path"].path
+                    if isinstance(properties["path"], XABase.XAPath)
+                    else properties["path"]
+                ),
+                doc_props["text"] == properties["text"],
             ]
             if all(conditions):
                 return self._new_element(document, self.xa_ocls)
 
-    def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XATextEditDocument', None]:
+    def by_path(
+        self, path: Union[str, XABase.XAPath]
+    ) -> Union["XATextEditDocument", None]:
         if isinstance(path, XABase.XAPath):
             path = path.path
         return self.by_property("path", path)
 
-    def by_name(self, name: str) -> Union['XATextEditDocument', None]:
+    def by_name(self, name: str) -> Union["XATextEditDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XATextEditDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XATextEditDocument", None]:
         return self.by_property("modified", modified)
 
-    def prepend(self, text: str) -> 'XATextEditDocumentList':
+    def prepend(self, text: str) -> "XATextEditDocumentList":
         """Inserts the provided text at the beginning of every document in the list.
 
         :param text: The text to insert.
@@ -325,7 +399,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             doc.setValue_forKey_(text + old_text, "text")
         return self
 
-    def append(self, text: str) -> 'XATextEditDocumentList':
+    def append(self, text: str) -> "XATextEditDocumentList":
         """Appends the provided text to the end of every document in the list.
 
         :param text: The text to append.
@@ -349,7 +423,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             doc.setValue_forKey_(old_text + text, "text")
         return self
 
-    def reverse(self) -> 'XATextEditDocumentList':
+    def reverse(self) -> "XATextEditDocumentList":
         """Reverses the text of every document in the list.
 
         :return: A reference to the document object.
@@ -386,7 +460,9 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             items.append(paths[index].xa_elem)
         return items
 
-    def push(self, *documents: list['XATextEditDocument']) -> Union['XATextEditDocument', list['XATextEditDocument'], None]:
+    def push(
+        self, *documents: list["XATextEditDocument"]
+    ) -> Union["XATextEditDocument", list["XATextEditDocument"], None]:
         """Appends the document to the list.
 
         .. versionadded:: 0.1.1
@@ -405,8 +481,12 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
 
             if len_after > len_before:
                 num_added += 1
-                objects.append(self._new_element(self.xa_elem.objectAtIndex_(0).get(), self.xa_ocls))
-        
+                objects.append(
+                    self._new_element(
+                        self.xa_elem.objectAtIndex_(0).get(), self.xa_ocls
+                    )
+                )
+
         if num_added == 1:
             return objects[0]
 
@@ -414,11 +494,14 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             return None
 
         return objects
-        
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable, XACloseable):
+
+class XATextEditDocument(
+    XABase.XATextDocument, XAPrintable, XAClipboardCodable, XACloseable
+):
     """A class for managing and interacting with TextEdit documents.
 
     .. versionchanged:: 0.0.2
@@ -427,19 +510,19 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the document.
-        """
+        """All properties of the document."""
         raw_dict = self.xa_elem.properties()
         return {
             "path": XABase.XAPath(raw_dict["path"]),
             "name": raw_dict["name"],
             "modified": raw_dict["modified"],
-            "text": self._new_element(raw_dict["text"], XABase.XAText)
+            "text": self._new_element(raw_dict["text"], XABase.XAText),
         }
 
     @properties.setter
@@ -463,8 +546,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     @property
     def path(self) -> XABase.XAPath:
-        """The path at which the document is stored.
-        """
+        """The path at which the document is stored."""
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -473,8 +555,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     @property
     def name(self) -> str:
-        """The name of the document, including the file extension.
-        """
+        """The name of the document, including the file extension."""
         return self.xa_elem.name()
 
     @name.setter
@@ -483,11 +564,12 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since the last save.
-        """
+        """Whether the document has been modified since the last save."""
         return self.xa_elem.modified()
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
+    def print(
+        self, print_properties: Union[dict, None] = None, show_dialog: bool = True
+    ) -> "XATextEditDocument":
         """Prints the document.
 
         :param print_properties: Properties to set for printing, defaults to None
@@ -501,7 +583,9 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         """
         if print_properties is None:
             print_properties = {}
-        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
+        self.xa_elem.print_printDialog_withProperties_(
+            self.xa_elem, show_dialog, print_properties
+        )
         return self
 
     def save(self, file_path: Union[str, XABase.XAPath, None] = None):

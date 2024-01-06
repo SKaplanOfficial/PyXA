@@ -158,15 +158,15 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         if data is None:
             camelized_properties = {}
-            
+
             if properties is None:
                 properties = {}
-                
+
             for key, value in properties.items():
-              if key == "url":
-                key = "URL"
-                
-              camelized_properties[XABase.camelize(key)] = value
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
 
             obj = (
                 self.xa_scel.classForScriptingClass_(specifier)
@@ -180,19 +180,13 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
                 .initWithData_(data)
             )
 
-        if specifier == XABikeApplication.ObjectType.WINDOW or specifier == "window":
+        if specifier == "window":
             raise UnconstructableClassError("Windows cannot be created for Bike.app.")
-        elif (
-            specifier == XABikeApplication.ObjectType.DOCUMENT
-            or specifier == "document"
-        ):
+        elif specifier == "document":
             return self._new_element(obj, XABikeDocument)
-        elif specifier == XABikeApplication.ObjectType.ROW or specifier == "row":
+        elif specifier == "row":
             return self._new_element(obj, XABikeRow)
-        elif (
-            specifier == XABikeApplication.ObjectType.ATTRIBUTE
-            or specifier == "attribute"
-        ):
+        elif specifier == "attribute":
             return self._new_element(obj, XABikeAttribute)
 
 

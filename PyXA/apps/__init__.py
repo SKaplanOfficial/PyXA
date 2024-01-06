@@ -1,7 +1,7 @@
 application_classes = {
     # "invocation": ("module_name", "application_object_name")
     ### First Party Scriptable Apps
-    'database events': ("DatabaseEvents", "XADatabaseEventsApplication"),
+    "database events": ("DatabaseEvents", "XADatabaseEventsApplication"),
     "finder": ("Finder", "XAFinderApplication"),
     "safari": ("Safari", "XASafariApplication"),
     "music": ("Music", "XAMusicApplication"),
@@ -30,13 +30,11 @@ application_classes = {
     "script editor": ("ScriptEditor", "XAScriptEditorApplication"),
     "system events": ("SystemEvents", "XASystemEventsApplication"),
     "image events": ("ImageEvents", "XAImageEventsApplication"),
-
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
     "dictionary": ("Dictionary", "XADictionaryApplication"),
     "maps": ("Maps", "XAMapsApplication"),
     "stocks": ("Stocks", "XAStocksApplication"),
-
     ### Third Party Scriptable Apps
     # Chromium
     "chromium": ("Chromium", "XAChromiumApplication"),
@@ -63,7 +61,7 @@ application_classes = {
     "yandex": ("Chromium", "XAChromiumApplication"),
     "maxthon": ("Chromium", "XAChromiumApplication"),
     "maxthon beta": ("Chromium", "XAChromiumApplication"),
-
+    # Other
     "alfred": ("Alfred", "XAAlfredApplication"),
     "drafts": ("Drafts", "XADraftsApplication"),
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),

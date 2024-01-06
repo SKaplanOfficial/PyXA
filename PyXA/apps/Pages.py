@@ -11,6 +11,7 @@ from PyXA import XABase
 from PyXA.XABase import OSType
 from . import iWorkApplicationBase
 
+
 class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
     """A class for managing and interacting with Pages.app.
 
@@ -18,22 +19,39 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
 
     .. versionadded:: 0.0.6
     """
+
+    class ObjectType(Enum):
+        """Types of objects that can be created using :func:`XAPagesApplication.make`."""
+
+        DOCUMENT = "document"
+        SHAPE = "shape"
+        TABLE = "table"
+        AUDIO_CLIP = "audio_clip"
+        CHART = "chart"
+        IMAGE = "image"
+        PAGE = "page"
+        LINE = "line"
+        MOVIE = "movie"
+        TEXT_ITEM = "text_item"
+        GROUP = "group"
+        IWORK_ITEM = "iwork_item"
+
     class ExportFormat(Enum):
-        """Options for what format to export a Pages project as.
-        """
-        Pages                   = OSType('Pgff') #: The Pages native file format 
-        EPUB                    = OSType('Pepu') #: EPUB format
-        PLAINTEXT               = OSType('Ptxf') #: Plaintext format
-        PDF                     = OSType('Ppdf') #: PDF format
-        MICROSOFT_WORD          = OSType('Pwrd') #: MS Word format
-        RTF                     = OSType('Prtf') #: RTF format
-        PAGES_09                = OSType('PPag') #: Pages 09 format
+        """Options for what format to export a Pages project as."""
+
+        Pages = OSType("Pgff")  #: The Pages native file format
+        EPUB = OSType("Pepu")  #: EPUB format
+        PLAINTEXT = OSType("Ptxf")  #: Plaintext format
+        PDF = OSType("Ppdf")  #: PDF format
+        MICROSOFT_WORD = OSType("Pwrd")  #: MS Word format
+        RTF = OSType("Prtf")  #: RTF format
+        PAGES_09 = OSType("PPag")  #: Pages 09 format
 
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAPagesWindow
 
-    def documents(self, filter: Union[dict, None] = None) -> 'XAPagesDocumentList':
+    def documents(self, filter: Union[dict, None] = None) -> "XAPagesDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None
@@ -45,7 +63,11 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
         """
         return self._new_element(self.xa_scel.documents(), XAPagesDocumentList, filter)
 
-    def new_document(self, file_path: Union[str, XABase.XAPath] = "./Untitled.pages", template: 'XAPagesTemplate' = None) -> 'XAPagesDocument':
+    def new_document(
+        self,
+        file_path: Union[str, XABase.XAPath] = "./Untitled.pages",
+        template: "XAPagesTemplate" = None,
+    ) -> "XAPagesDocument":
         """Creates a new document at the specified path and with the specified template.
 
         :param file_path: The path to create the document at, defaults to "./Untitled.key"
@@ -71,7 +93,7 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
         self.documents().push(new_document)
         return self.documents()[0]
 
-    def templates(self, filter: Union[dict, None] = None) -> 'XAPagesTemplateList':
+    def templates(self, filter: Union[dict, None] = None) -> "XAPagesTemplateList":
         """Returns a list of templates, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned templates will have, or None
@@ -83,15 +105,22 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
         """
         return self._new_element(self.xa_scel.templates(), XAPagesTemplateList, filter)
 
-    def make(self, specifier: str, properties: dict = None):
+    def make(
+        self,
+        specifier: Union[str, "XAPagesApplication.ObjectType"],
+        properties: dict = None,
+        data: Any = None,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAPagesApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to initialize the object with, defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -111,10 +140,32 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
 
         .. versionadded:: 0.0.5
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAPagesApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "document":
             return self._new_element(obj, XAPagesDocument)
@@ -122,7 +173,7 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
             return self._new_element(obj, iWorkApplicationBase.XAiWorkShape)
         elif specifier == "table":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkTable)
-        elif specifier == "audioClip":
+        elif specifier == "audio_clip":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkAudioClip)
         elif specifier == "chart":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkChart)
@@ -134,14 +185,12 @@ class XAPagesApplication(iWorkApplicationBase.XAiWorkApplication):
             return self._new_element(obj, iWorkApplicationBase.XAiWorkLine)
         elif specifier == "movie":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkMovie)
-        elif specifier == "textItem":
+        elif specifier == "text_item":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkTextItem)
         elif specifier == "group":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkGroup)
-        elif specifier == "iWorkItem":
+        elif specifier == "iwork_item":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkiWorkItem)
-
-
 
 
 class XAPagesWindow(iWorkApplicationBase.XAiWorkWindow):
@@ -149,16 +198,14 @@ class XAPagesWindow(iWorkApplicationBase.XAiWorkWindow):
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XAPagesDocument':
-        """The document currently displayed in the window.
-        """
+    def document(self) -> "XAPagesDocument":
+        """The document currently displayed in the window."""
         return self._new_element(self.xa_elem.document(), XAPagesDocument)
-
-
 
 
 class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
@@ -168,6 +215,7 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
 
     .. versionadded:: 0.0.5
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPagesDocument)
 
@@ -177,16 +225,23 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
         for index, doc in enumerate(self.xa_elem):
             pyxa_dicts[index] = {
                 "id": raw_dicts[index]["id"],
-                "current_page": self._new_element(raw_dicts[index]["currentPage"], XAPagesDocument),
+                "current_page": self._new_element(
+                    raw_dicts[index]["currentPage"], XAPagesDocument
+                ),
                 "file": XABase.XAPath(raw_dicts[index]["file"]),
                 "modified": raw_dicts[index]["modified"],
                 "document_body": raw_dicts[index]["documentBody"],
-                "document_template": self._new_element(raw_dicts[index]["documentTemplate"], XAPagesTemplate),
+                "document_template": self._new_element(
+                    raw_dicts[index]["documentTemplate"], XAPagesTemplate
+                ),
                 "body_text": raw_dicts[index]["bodyText"],
                 "facing_pages": raw_dicts[index]["facingPages"],
-                "selection": self._new_element(raw_dicts[index]["selection"], iWorkApplicationBase.XAiWorkiWorkItemList),
+                "selection": self._new_element(
+                    raw_dicts[index]["selection"],
+                    iWorkApplicationBase.XAiWorkiWorkItemList,
+                ),
                 "name": raw_dicts[index]["name"],
-                "password_protected": raw_dicts[index]["passwordProtected"]
+                "password_protected": raw_dicts[index]["passwordProtected"],
             }
         return pyxa_dicts
 
@@ -203,7 +258,7 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def document_template(self) -> 'XAPagesTemplateList':
+    def document_template(self) -> "XAPagesTemplateList":
         ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate") or []
         return self._new_element(ls, XAPagesTemplateList)
 
@@ -217,11 +272,11 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
     def facing_pages(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("facingPages") or [])
 
-    def current_page(self) -> 'XAPagesPageList':
+    def current_page(self) -> "XAPagesPageList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentPage") or []
         return self._new_element(ls, XAPagesPageList)
 
-    def by_properties(self, properties: dict) -> Union['XAPagesDocument', None]:
+    def by_properties(self, properties: dict) -> Union["XAPagesDocument", None]:
         raw_dict = {}
 
         if "id" in properties:
@@ -267,92 +322,123 @@ class XAPagesDocumentList(iWorkApplicationBase.XAiWorkDocumentList):
             if all(raw_dict[x] == document.properties()[x] for x in raw_dict):
                 return self._new_element(document, XAPagesDocument)
 
-    def by_name(self, name: str) -> Union['XAPagesDocument', None]:
+    def by_name(self, name: str) -> Union["XAPagesDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XAPagesDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XAPagesDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: Union[str, XABase.XAPath]) -> Union['XAPagesDocument', None]:
+    def by_file(
+        self, file: Union[str, XABase.XAPath]
+    ) -> Union["XAPagesDocument", None]:
         if isinstance(file, XABase.XAPath):
             file = file.url
         return self.by_property("file", file)
 
-    def by_id(self, id: str) -> Union['XAPagesDocument', None]:
+    def by_id(self, id: str) -> Union["XAPagesDocument", None]:
         return self.by_property("id", id)
 
-    def by_document_template(self, document_template: 'XAPagesTemplate') -> Union['XAPagesDocument', None]:
+    def by_document_template(
+        self, document_template: "XAPagesTemplate"
+    ) -> Union["XAPagesDocument", None]:
         return self.by_property("documentTemplate", document_template.xa_elem)
 
-    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesDocument', None]:
+    def by_body_text(
+        self, body_text: Union[str, XABase.XAText]
+    ) -> Union["XAPagesDocument", None]:
         if isinstance(body_text, str):
-            self.by_property('bodyText', body_text)
+            self.by_property("bodyText", body_text)
         else:
-            self.by_property('bodyText', body_text.xa_elem)
+            self.by_property("bodyText", body_text.xa_elem)
 
-    def by_document_body(self, document_body: bool) -> Union['XAPagesDocument', None]:
+    def by_document_body(self, document_body: bool) -> Union["XAPagesDocument", None]:
         return self.by_property("documentBody", document_body)
 
-    def by_facing_pages(self, facing_pages: bool) -> Union['XAPagesDocument', None]:
+    def by_facing_pages(self, facing_pages: bool) -> Union["XAPagesDocument", None]:
         return self.by_property("facingPages", facing_pages)
 
-    def by_current_page(self, current_page: 'XAPagesPage') -> Union['XAPagesDocument', None]:
+    def by_current_page(
+        self, current_page: "XAPagesPage"
+    ) -> Union["XAPagesDocument", None]:
         return self.by_property("currentPage", current_page.xa_elem)
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
+    def audio_clips(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkAudioClipList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("audioClips")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkAudioClipList, filter)
 
-    def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
+    def charts(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkChartList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("charts")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkChartList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
+    def groups(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkGroupList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("groups")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkGroupList, filter)
 
-    def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
+    def images(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkImageList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("images")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkImageList, filter)
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
+    def iwork_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkiWorkItemList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("iWorkItems")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkiWorkItemList, filter)
 
-    def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
+    def lines(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkLineList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("lines")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkLineList, filter)
-    
-    def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
+
+    def movies(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkMovieList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("movies")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkMovieList, filter)
 
-    def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
+    def pages(self, filter: Union[dict, None] = None) -> "XAPagesPageList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("pages")]
         return self._new_element(ls, XAPagesPageList, filter)
 
-    def sections(self, filter: Union[dict, None] = None) -> 'XAPagesSectionList':
+    def sections(self, filter: Union[dict, None] = None) -> "XAPagesSectionList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("sections")]
         return self._new_element(ls, XAPagesSectionList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
+    def shapes(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkShapeList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("shapes")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
+    def tables(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTableList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("tables")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
+    def text_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTextItemList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("textItems")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
-    def placeholder_texts(self, filter: Union[dict, None] = None) -> 'XAPagesPlaceholderTextList':
+    def placeholder_texts(
+        self, filter: Union[dict, None] = None
+    ) -> "XAPagesPlaceholderTextList":
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("placeholderTexts")]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
     """A class for managing and interacting with Pages documents.
@@ -361,71 +447,74 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the document.
-        """
+        """All properties of the document."""
         raw_dict = self.xa_elem.properties()
         pyxa_dict = {
-                "id": raw_dict["id"],
-                "current_page": self._new_element(raw_dict["currentPage"], XAPagesDocument),
-                "file": XABase.XAPath(raw_dict["file"]),
-                "modified": raw_dict["modified"],
-                "document_body": raw_dict["documentBody"],
-                "document_template": self._new_element(raw_dict["documentTemplate"], XAPagesTemplate),
-                "body_text": raw_dict["bodyText"],
-                "facing_pages": raw_dict["facingPages"],
-                "selection": self._new_element(raw_dict["selection"], iWorkApplicationBase.XAiWorkiWorkItemList),
-                "name": raw_dict["name"],
-                "password_protected": raw_dict["passwordProtected"]
+            "id": raw_dict["id"],
+            "current_page": self._new_element(raw_dict["currentPage"], XAPagesDocument),
+            "file": XABase.XAPath(raw_dict["file"]),
+            "modified": raw_dict["modified"],
+            "document_body": raw_dict["documentBody"],
+            "document_template": self._new_element(
+                raw_dict["documentTemplate"], XAPagesTemplate
+            ),
+            "body_text": raw_dict["bodyText"],
+            "facing_pages": raw_dict["facingPages"],
+            "selection": self._new_element(
+                raw_dict["selection"], iWorkApplicationBase.XAiWorkiWorkItemList
+            ),
+            "name": raw_dict["name"],
+            "password_protected": raw_dict["passwordProtected"],
         }
         return pyxa_dict
 
     @property
-    def document_template(self) -> 'XAPagesTemplate':
-        """The template assigned to the document.
-        """
+    def document_template(self) -> "XAPagesTemplate":
+        """The template assigned to the document."""
         return self._new_element(self.xa_elem.documentTemplate(), XAPagesTemplate)
 
     @property
     def body_text(self) -> XABase.XAText:
-        """The document body text.
-        """
+        """The document body text."""
         return self._new_element(self.xa_elem.bodyText(), XABase.XAText)
 
     @body_text.setter
     def body_text(self, body_text: Union[XABase.XAText, str]):
         if isinstance(body_text, str):
-            self.set_property('bodyText', body_text)
+            self.set_property("bodyText", body_text)
         else:
-            self.set_property('bodyText', str(body_text))
+            self.set_property("bodyText", str(body_text))
 
     @property
     def document_body(self) -> bool:
-        """Whether the document has body text.
-        """
+        """Whether the document has body text."""
         return self.xa_elem.documentBody()
 
     @property
     def facing_pages(self) -> bool:
-        """Whether the document has facing pages.
-        """
+        """Whether the document has facing pages."""
         return self.xa_elem.facingPages()
 
     @facing_pages.setter
     def facing_pages(self, facing_pages: bool):
-        self.set_property('facingPages', facing_pages)
+        self.set_property("facingPages", facing_pages)
 
     @property
-    def current_page(self) -> 'XAPagesPage':
-        """The current page of the document.
-        """
+    def current_page(self) -> "XAPagesPage":
+        """The current page of the document."""
         return self._new_element(self.xa_elem.currentPage(), XAPagesPage)
 
-    def export(self, file_path: Union[str, AppKit.NSURL] = None, format: XAPagesApplication.ExportFormat = XAPagesApplication.ExportFormat.PDF):
+    def export(
+        self,
+        file_path: Union[str, AppKit.NSURL] = None,
+        format: XAPagesApplication.ExportFormat = XAPagesApplication.ExportFormat.PDF,
+    ):
         """Exports the document in the specified format.
 
         :param file_path: The path to save the exported file at, defaults to None
@@ -441,7 +530,7 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
             file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         self.xa_elem.exportTo_as_withProperties_(file_path, format.value, None)
 
-    def new_page(self, text: Union[str, XABase.XAText]) -> 'XAPagesPage':
+    def new_page(self, text: Union[str, XABase.XAText]) -> "XAPagesPage":
         """Creates a new page at the end of the document.
 
         :param text: The text to initialize the new page with
@@ -454,13 +543,15 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
         parent = self.xa_prnt
         while not hasattr(parent, "make"):
             parent = parent.xa_prnt
-            
+
         new_page = parent.make("page", {})
         page = self.pages().push(new_page)
         page.body_text = text
         return page
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
+    def audio_clips(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkAudioClipList":
         """Returns a list of audio clips, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
@@ -470,9 +561,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.audioClips(), iWorkApplicationBase.XAiWorkAudioClipList, filter)
+        return self._new_element(
+            self.xa_elem.audioClips(), iWorkApplicationBase.XAiWorkAudioClipList, filter
+        )
 
-    def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
+    def charts(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkChartList":
         """Returns a list of charts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
@@ -482,9 +577,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.charts(), iWorkApplicationBase.XAiWorkChartList, filter)
+        return self._new_element(
+            self.xa_elem.charts(), iWorkApplicationBase.XAiWorkChartList, filter
+        )
 
-    def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
+    def groups(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -494,9 +593,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.groups(), iWorkApplicationBase.XAiWorkGroupList, filter)
+        return self._new_element(
+            self.xa_elem.groups(), iWorkApplicationBase.XAiWorkGroupList, filter
+        )
 
-    def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
+    def images(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkImageList":
         """Returns a list of images, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
@@ -506,9 +609,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.images(), iWorkApplicationBase.XAiWorkImageList, filter)
+        return self._new_element(
+            self.xa_elem.images(), iWorkApplicationBase.XAiWorkImageList, filter
+        )
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
+    def iwork_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkiWorkItemList":
         """Returns a list of iWork items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
@@ -518,9 +625,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.iWorkItems(), iWorkApplicationBase.XAiWorkiWorkItemList, filter)
+        return self._new_element(
+            self.xa_elem.iWorkItems(), iWorkApplicationBase.XAiWorkiWorkItemList, filter
+        )
 
-    def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
+    def lines(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkLineList":
         """Returns a list of lines, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
@@ -530,9 +641,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.lines(), iWorkApplicationBase.XAiWorkLineList, filter)
+        return self._new_element(
+            self.xa_elem.lines(), iWorkApplicationBase.XAiWorkLineList, filter
+        )
 
-    def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
+    def movies(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkMovieList":
         """Returns a list of movies, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
@@ -542,9 +657,11 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.movies(), iWorkApplicationBase.XAiWorkMovieList, filter)
+        return self._new_element(
+            self.xa_elem.movies(), iWorkApplicationBase.XAiWorkMovieList, filter
+        )
 
-    def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
+    def pages(self, filter: Union[dict, None] = None) -> "XAPagesPageList":
         """Returns a list of pages, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned pages will have, or None
@@ -556,7 +673,7 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
         """
         return self._new_element(self.xa_elem.pages(), XAPagesPageList, filter)
 
-    def sections(self, filter: Union[dict, None] = None) -> 'XAPagesSectionList':
+    def sections(self, filter: Union[dict, None] = None) -> "XAPagesSectionList":
         """Returns a list of sections, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned sections will have, or None
@@ -568,7 +685,9 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
         """
         return self._new_element(self.xa_elem.sections(), XAPagesSectionList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
+    def shapes(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkShapeList":
         """Returns a list of shapes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
@@ -578,9 +697,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.shapes(), iWorkApplicationBase.XAiWorkShapeList, filter)
+        return self._new_element(
+            self.xa_elem.shapes(), iWorkApplicationBase.XAiWorkShapeList, filter
+        )
 
-    def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
+    def tables(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTableList":
         """Returns a list of tables, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
@@ -590,9 +713,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.tables(), iWorkApplicationBase.XAiWorkTableList, filter)
+        return self._new_element(
+            self.xa_elem.tables(), iWorkApplicationBase.XAiWorkTableList, filter
+        )
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
+    def text_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTextItemList":
         """Returns a list of text items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned text items will have, or None
@@ -602,9 +729,13 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.textItems(), iWorkApplicationBase.XAiWorkTextItemList, filter)
+        return self._new_element(
+            self.xa_elem.textItems(), iWorkApplicationBase.XAiWorkTextItemList, filter
+        )
 
-    def placeholder_texts(self, filter: Union[dict, None] = None) -> 'XAPagesPlaceholderTextList':
+    def placeholder_texts(
+        self, filter: Union[dict, None] = None
+    ) -> "XAPagesPlaceholderTextList":
         """Returns a list of placeholder texts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned placeholder texts will have, or None
@@ -614,7 +745,9 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.placeholderTexts(), XAPagesPlaceholderTextList, filter)
+        return self._new_element(
+            self.xa_elem.placeholderTexts(), XAPagesPlaceholderTextList, filter
+        )
 
     def __repr__(self):
         try:
@@ -624,8 +757,6 @@ class XAPagesDocument(iWorkApplicationBase.XAiWorkDocument):
             return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
-
-
 class XAPagesTemplateList(XABase.XAList):
     """A wrapper around lists of templates that employs fast enumeration techniques.
 
@@ -633,6 +764,7 @@ class XAPagesTemplateList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPagesTemplate, filter)
 
@@ -642,14 +774,15 @@ class XAPagesTemplateList(XABase.XAList):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_id(self, id: str) -> Union['XAPagesTemplate', None]:
+    def by_id(self, id: str) -> Union["XAPagesTemplate", None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> Union['XAPagesTemplate', None]:
+    def by_name(self, name: str) -> Union["XAPagesTemplate", None]:
         return self.by_property("name", name)
 
     def __repr__(self):
         return f"<{str(type(self))}{self.name()}>"
+
 
 class XAPagesTemplate(XABase.XAObject):
     """A class for managing and interacting with Pages templates.
@@ -658,19 +791,18 @@ class XAPagesTemplate(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the template.
-        """
+        """The unique identifier for the template."""
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The localized name of the template.
-        """
+        """The localized name of the template."""
         return self.xa_elem.name()
 
     def __repr__(self):
@@ -681,13 +813,12 @@ class XAPagesTemplate(XABase.XAObject):
             return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
-
-
 class XAPagesSectionList(XABase.XAList):
     """A wrapper around lists of sections that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPagesSection, filter)
 
@@ -695,13 +826,17 @@ class XAPagesSectionList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
-    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesSection', None]:
+    def by_body_text(
+        self, body_text: Union[str, XABase.XAText]
+    ) -> Union["XAPagesSection", None]:
         if isinstance(body_text, str):
-            self.by_property('bodyText', body_text)
+            self.by_property("bodyText", body_text)
         else:
-            self.by_property('bodyText', str(body_text))
+            self.by_property("bodyText", str(body_text))
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
+    def audio_clips(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkAudioClipList":
         ls = self.xa_elem.arrayByApplyingSelector_("audioClips") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -709,7 +844,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkAudioClipList, filter)
 
-    def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
+    def charts(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkChartList":
         ls = self.xa_elem.arrayByApplyingSelector_("charts") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -717,7 +854,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkChartList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
+    def groups(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkGroupList":
         ls = self.xa_elem.arrayByApplyingSelector_("groups") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -725,7 +864,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkGroupList, filter)
 
-    def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
+    def images(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkImageList":
         ls = self.xa_elem.arrayByApplyingSelector_("images") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -733,7 +874,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkImageList, filter)
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
+    def iwork_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkiWorkItemList":
         ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -741,15 +884,19 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkiWorkItemList, filter)
 
-    def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
+    def lines(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkLineList":
         ls = self.xa_elem.arrayByApplyingSelector_("lines") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkLineList, filter)
-    
-    def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
+
+    def movies(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkMovieList":
         ls = self.xa_elem.arrayByApplyingSelector_("movies") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -757,7 +904,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkMovieList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
+    def shapes(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkShapeList":
         ls = self.xa_elem.arrayByApplyingSelector_("shapes") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -765,7 +914,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkShapeList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
+    def tables(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTableList":
         ls = self.xa_elem.arrayByApplyingSelector_("tables") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -773,7 +924,7 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, iWorkApplicationBase.XAiWorkTableList, filter)
 
-    def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
+    def pages(self, filter: Union[dict, None] = None) -> "XAPagesPageList":
         ls = self.xa_elem.arrayByApplyingSelector_("pages") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -781,7 +932,9 @@ class XAPagesSectionList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAPagesPageList, filter)
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
+    def text_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTextItemList":
         ls = self.xa_elem.arrayByApplyingSelector_("textItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -792,6 +945,7 @@ class XAPagesSectionList(XABase.XAList):
     def __repr__(self):
         return f"<{str(type(self))}length:{len(self.xa_elem)}>"
 
+
 class XAPagesSection(XABase.XAObject):
     """A class for managing and interacting with sections in Pages.
 
@@ -799,23 +953,25 @@ class XAPagesSection(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def body_text(self) -> XABase.XAText:
-        """The section body text.
-        """
+        """The section body text."""
         return self._new_element(self.xa_elem.bodyText(), XABase.XAText)
 
     @body_text.setter
     def body_text(self, body_text: Union[XABase.XAText, str]):
         if isinstance(body_text, str):
-            self.set_property('bodyText', body_text)
+            self.set_property("bodyText", body_text)
         else:
-            self.set_property('bodyText', str(body_text))
+            self.set_property("bodyText", str(body_text))
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkiWorkItemList':
+    def iwork_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkiWorkItemList":
         """Returns a list of iWork items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
@@ -825,9 +981,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.iWorkItems(), iWorkApplicationBase.XAiWorkiWorkItemList, filter)
+        return self._new_element(
+            self.xa_elem.iWorkItems(), iWorkApplicationBase.XAiWorkiWorkItemList, filter
+        )
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkAudioClipList':
+    def audio_clips(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkAudioClipList":
         """Returns a list of audio clips, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
@@ -837,9 +997,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.audioClips(), iWorkApplicationBase.XAiWorkAudioClipList, filter)
+        return self._new_element(
+            self.xa_elem.audioClips(), iWorkApplicationBase.XAiWorkAudioClipList, filter
+        )
 
-    def charts(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkChartList':
+    def charts(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkChartList":
         """Returns a list of charts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
@@ -849,9 +1013,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.charts(), iWorkApplicationBase.XAiWorkChartList, filter)
+        return self._new_element(
+            self.xa_elem.charts(), iWorkApplicationBase.XAiWorkChartList, filter
+        )
 
-    def images(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkImageList':
+    def images(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkImageList":
         """Returns a list of images, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
@@ -861,9 +1029,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.images(), iWorkApplicationBase.XAiWorkImageList, filter)
+        return self._new_element(
+            self.xa_elem.images(), iWorkApplicationBase.XAiWorkImageList, filter
+        )
 
-    def groups(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkGroupList':
+    def groups(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -873,9 +1045,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.groups(), iWorkApplicationBase.XAiWorkGroupList, filter)
+        return self._new_element(
+            self.xa_elem.groups(), iWorkApplicationBase.XAiWorkGroupList, filter
+        )
 
-    def lines(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkLineList':
+    def lines(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkLineList":
         """Returns a list of lines, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
@@ -885,9 +1061,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.lines(), iWorkApplicationBase.XAiWorkLineList, filter)
+        return self._new_element(
+            self.xa_elem.lines(), iWorkApplicationBase.XAiWorkLineList, filter
+        )
 
-    def movies(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkMovieList':
+    def movies(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkMovieList":
         """Returns a list of movies, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
@@ -897,9 +1077,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.movies(), iWorkApplicationBase.XAiWorkMovieList, filter)
+        return self._new_element(
+            self.xa_elem.movies(), iWorkApplicationBase.XAiWorkMovieList, filter
+        )
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkShapeList':
+    def shapes(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkShapeList":
         """Returns a list of shapes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
@@ -909,9 +1093,11 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.shapes(), iWorkApplicationBase.XAiWorkShapeList, filter)
+        return self._new_element(
+            self.xa_elem.shapes(), iWorkApplicationBase.XAiWorkShapeList, filter
+        )
 
-    def pages(self, filter: Union[dict, None] = None) -> 'XAPagesPageList':
+    def pages(self, filter: Union[dict, None] = None) -> "XAPagesPageList":
         """Returns a list of pages, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned pages will have, or None
@@ -923,7 +1109,9 @@ class XAPagesSection(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.pages(), XAPagesPageList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTableList':
+    def tables(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTableList":
         """Returns a list of tables, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
@@ -933,9 +1121,13 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.tables(), iWorkApplicationBase.XAiWorkTableList, filter)
+        return self._new_element(
+            self.xa_elem.tables(), iWorkApplicationBase.XAiWorkTableList, filter
+        )
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'iWorkApplicationBase.XAiWorkTextItemList':
+    def text_items(
+        self, filter: Union[dict, None] = None
+    ) -> "iWorkApplicationBase.XAiWorkTextItemList":
         """Returns a list of text_items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned text_items will have, or None
@@ -945,8 +1137,9 @@ class XAPagesSection(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        return self._new_element(self.xa_elem.textItems(), iWorkApplicationBase.XAiWorkTextItemList, filter)
-
+        return self._new_element(
+            self.xa_elem.textItems(), iWorkApplicationBase.XAiWorkTextItemList, filter
+        )
 
 
 class XAPagesContainerList(iWorkApplicationBase.XAiWorkContainerList):
@@ -954,22 +1147,25 @@ class XAPagesContainerList(iWorkApplicationBase.XAiWorkContainerList):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAPagesContainer
         self._xa_ccls = XAPagesPageList
         super().__init__(properties, filter, obj_class)
+
 
 class XAPagesContainer(iWorkApplicationBase.XAiWorkContainer):
     """A class for managing and interacting with containers in Pages.
 
     .. versionadded:: 0.0.8
     """
+
     def __init__(self, properties):
         self._xa_ccls = XAPagesPageList
         super().__init__(properties)
-
-
 
 
 class XAPagesPageList(XAPagesContainerList):
@@ -979,6 +1175,7 @@ class XAPagesPageList(XAPagesContainerList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPagesPage)
 
@@ -995,7 +1192,7 @@ class XAPagesPageList(XAPagesContainerList):
         ls = self.xa_elem.arrayByApplyingSelector_("bodyText") or []
         return self._new_element(ls, XABase.XATextList)
 
-    def by_properties(self, properties: dict) -> Union['XAPagesPage', None]:
+    def by_properties(self, properties: dict) -> Union["XAPagesPage", None]:
         raw_dict = {}
 
         if "body_text" in properties:
@@ -1005,14 +1202,17 @@ class XAPagesPageList(XAPagesContainerList):
             if all([raw_dict[x] == page.properties()[x] for x in raw_dict]):
                 return self._new_element(page, XAPagesPage)
 
-    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> Union['XAPagesPage', None]:
+    def by_body_text(
+        self, body_text: Union[str, XABase.XAText]
+    ) -> Union["XAPagesPage", None]:
         if isinstance(body_text, str):
-            self.by_property('bodyText', body_text)
+            self.by_property("bodyText", body_text)
         else:
-            self.by_property('bodyText', body_text.xa_elem)
+            self.by_property("bodyText", body_text.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + "length:" + str(len(self.xa_elem)) + ">"
+
 
 class XAPagesPage(XAPagesContainer):
     """A class for managing and interacting with pages in Pages documents.
@@ -1021,13 +1221,13 @@ class XAPagesPage(XAPagesContainer):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the page.
-        """
+        """All properties of the page."""
         raw_dict = self.xa_elem.properties()
         pyxa_dict = {
             "body_text": self._new_element(raw_dict["bodyText"], XABase.XAText)
@@ -1036,18 +1236,19 @@ class XAPagesPage(XAPagesContainer):
 
     @property
     def body_text(self) -> XABase.XAText:
-        """The page body text.
-        """
+        """The page body text."""
         return self._new_element(self.xa_elem.bodyText(), XABase.XAText)
 
     @body_text.setter
     def body_text(self, body_text: Union[XABase.XAText, str]):
         if isinstance(body_text, str):
-            self.set_property('bodyText', body_text)
+            self.set_property("bodyText", body_text)
         else:
-            self.set_property('bodyText', str(body_text))
+            self.set_property("bodyText", str(body_text))
 
-    def add_image(self, file_path: Union[str, XABase.XAPath, XABase.XAImage]) -> 'iWorkApplicationBase.XAiWorkImage':
+    def add_image(
+        self, file_path: Union[str, XABase.XAPath, XABase.XAImage]
+    ) -> "iWorkApplicationBase.XAiWorkImage":
         """Adds the image at the specified path to the page.
 
         :param file_path: The path to the image file
@@ -1069,10 +1270,9 @@ class XAPagesPage(XAPagesContainer):
         while not hasattr(parent, "make"):
             parent = parent.xa_prnt
 
-        image = self.images().push(parent.make("image", { "file": url }))
+        image = self.images().push(parent.make("image", {"file": url}))
         image.xa_prnt = self
         return image
-
 
 
 class XAPagesPlaceholderTextList(XABase.XATextList):
@@ -1082,29 +1282,31 @@ class XAPagesPlaceholderTextList(XABase.XATextList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPagesPlaceholderText)
 
     def tag(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("tag") or [])
 
-    def by_tag(self, tag: str) -> Union['XAPagesPlaceholderText', None]:
+    def by_tag(self, tag: str) -> Union["XAPagesPlaceholderText", None]:
         return self.by_property("tag", tag)
+
 
 class XAPagesPlaceholderText(XABase.XAText):
     """A placeholder text in Pages.app.
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def tag(self) -> str:
-        """The placeholder text's script tag.
-        """
+        """The placeholder text's script tag."""
         return self.xa_elem.tag()
 
     @tag.setter
     def tag(self, tag: str):
-        self.set_property('tag', tag)
+        self.set_property("tag", tag)

@@ -11,12 +11,14 @@ from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath
 
+
 class XAConsoleApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Console.app.
 
     .. versionadded:: 0.0.5
     """
-    def select_device(self, uuid: str) -> 'XAConsoleApplication':
+
+    def select_device(self, uuid: str) -> "XAConsoleApplication":
         """Select a device.
 
         :param uuid: The UUID of the device to select

@@ -5,6 +5,7 @@ Control Safari using JXA-like syntax.
 
 from typing import Any, Union
 import threading
+from enum import Enum
 
 import AppKit
 
@@ -12,21 +13,33 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable
 
-class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject, XACanOpenPath):
+
+class XASafariApplication(
+    XABaseScriptable.XASBApplication,
+    XABaseScriptable.XASBPrintable,
+    XABase.XAObject,
+    XACanOpenPath,
+):
     """A class for interacting with Safari.app.
 
     .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBApplication`, :class:`XABaseScriptable.XASBSaveable`, :class:`XABaseScriptable.XASBPrintable`
 
     .. versionadded:: 0.0.1
     """
+
+    class ObjectType(Enum):
+        """Object types that can be created using :func:`make`."""
+
+        DOCUMENT = "document"
+        TAB = "tab"
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XASafariWindow
 
     @property
     def frontmost(self) -> bool:
-        """Whether Safari is the active application.
-        """
+        """Whether Safari is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -35,33 +48,31 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
-        """The version of Safari.app.
-        """
+        """The version of Safari.app."""
         return self.xa_scel.version()
 
     @property
-    def current_document(self) -> 'XASafariDocument':
-        """The currently displayed document in the active tab.
-        """
+    def current_document(self) -> "XASafariDocument":
+        """The currently displayed document in the active tab."""
         return self._new_element(self.xa_scel.documents()[0], XASafariDocument)
 
     @property
-    def current_tab(self) -> 'XASafariTab':
-        """The currently active tab.
-        """
+    def current_tab(self) -> "XASafariTab":
+        """The currently active tab."""
         return self.front_window.current_tab
 
     @current_tab.setter
-    def current_tab(self, current_tab: 'XASafariTab'):
+    def current_tab(self, current_tab: "XASafariTab"):
         self.front_window.current_tab = current_tab
 
-    def open(self, url: Union[str, XABase.XAURL, XABase.XAPath] = "https://google.com") -> 'XASafariTab':
+    def open(
+        self, url: Union[str, XABase.XAURL, XABase.XAPath] = "https://google.com"
+    ) -> "XASafariTab":
         """Opens a URL in new tab.
 
         :param url: The URL or path to open, defaults to "http://google.com"
@@ -78,7 +89,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         >>> app.open("/Users/exampleuser/Documents/WebPage.html")
 
         .. versionadded:: 0.0.1
-        """        
+        """
         if isinstance(url, str):
             url = XABase.XAURL(url)
 
@@ -88,19 +99,21 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         self.front_window.current_tab = tab
         return tab
 
-    def show_bookmarks(self) -> 'XASafariApplication':
+    def show_bookmarks(self) -> "XASafariApplication":
         """Activates Safari and opens Safari's bookmarks page.
 
-        :return: A reference to the newly opened Bookmarks tab  
+        :return: A reference to the newly opened Bookmarks tab
         :rtype: XASafariTab
 
         .. versionadded:: 0.0.1
         """
         self.activate()
-        self.xa_scel.showBookmarks();
+        self.xa_scel.showBookmarks()
         return self.front_window.current_tab
 
-    def add_to_reading_list(self, item: Union[str, XABase.XAURL, 'XASafariTab', 'XASafariDocument']) -> 'XASafariApplication':
+    def add_to_reading_list(
+        self, item: Union[str, XABase.XAURL, "XASafariTab", "XASafariDocument"]
+    ) -> "XASafariApplication":
         """Adds a URL to the reading list.
 
         :param item: A URL string or a Safari tab or document containing the URL to add to the reading list.
@@ -128,7 +141,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         self.xa_scel.addReadingListItem_andPreviewText_withTitle_(item, None, None)
         return self
 
-    def search(self, term: str) -> 'XASafariApplication':
+    def search(self, term: str) -> "XASafariApplication":
         """Activates Safari and searches the specified string in a new tab of the frontmost Safari window. Uses the default search engine.
 
         :param term: The string to search
@@ -150,7 +163,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         self.xa_scel.searchTheWebIn_for_(self.xa_scel.windows()[0], term)
         return self.front_window.current_tab
 
-    def search_in_tab(self, tab: 'XASafariTab', term: str) -> 'XASafariApplication':
+    def search_in_tab(self, tab: "XASafariTab", term: str) -> "XASafariApplication":
         """Searches the given search string in the specified tab. Uses the default search engine.
 
         :param tab: The tab to conduct the web search in.
@@ -174,7 +187,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         self.xa_scel.searchTheWebIn_for_(tab.xa_elem, term)
         return tab
 
-    def do_javascript(self, script: str, tab: 'XASafariTab' = None) -> Any:
+    def do_javascript(self, script: str, tab: "XASafariTab" = None) -> Any:
         """Runs JavaScript in the specified tab. If no tab is specified, the script is run in the current tab of the frontmost Safari window.
 
         :param script: The script to run.
@@ -199,7 +212,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
             tab = self.front_window.current_tab
         return self.xa_scel.doJavaScript_in_(script, tab.xa_elem)
 
-    def email(self, item: Union['XASafariDocument', 'XASafariTab']):
+    def email(self, item: Union["XASafariDocument", "XASafariTab"]):
         """Opens a new email draft with the content of a tab or document.
 
         :param item: The object to email
@@ -212,7 +225,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
     def save(self):
         self.xa_elem.saveIn_as_(None, None)
 
-    def documents(self, filter: dict = None) -> 'XASafariDocumentList':
+    def documents(self, filter: dict = None) -> "XASafariDocumentList":
         """Returns a list of documents matching the given filter.
 
         .. versionchanged:: 0.0.4
@@ -223,7 +236,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         return self._new_element(self.xa_scel.documents(), XASafariDocumentList, filter)
 
-    def new_tab(self, url: Union[str, XABase.XAURL, XABase.XAPath]) -> 'XASafariTab':
+    def new_tab(self, url: Union[str, XABase.XAURL, XABase.XAPath]) -> "XASafariTab":
         """Activates Safari to a new tab at the specified URL or path.
 
         :param url: The URL or path to open in a new tab
@@ -240,15 +253,22 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         self.activate()
         return tab
 
-    def make(self, specifier: str, properties: dict):
+    def make(
+        self,
+        specifier: Union[str, "XASafariApplication.ObjectType"],
+        properties: dict,
+        data: Any = None,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XASafariApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to give the object, defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -268,52 +288,65 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         .. versionadded:: 0.0.4
         """
-        adjusted_properties = properties.copy()
+        if isinstance(specifier, XASafariApplication.ObjectType):
+            specifier = specifier.value
 
-        # Get URLs in a common format
-        if "URL" in adjusted_properties:
-            url = XABase.XAURL(adjusted_properties["URL"]).url
-            adjusted_properties["URL"] = url
-        elif "url" in adjusted_properties:
-            url = XABase.XAURL(adjusted_properties["url"]).url
-            adjusted_properties["URL"] = url
-            adjusted_properties.pop("URL")
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "document":
-            obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(adjusted_properties)
             return self._new_element(obj, XASafariDocument)
         elif specifier == "tab":
-            obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(adjusted_properties)
             return self._new_element(obj, XASafariTab)
 
 
-
-
-class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
+class XASafariWindow(
+    XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject
+):
     """A window of Safari.app.
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XASafariDocument':
-        """The document currently displayed in the window.
-        """
+    def document(self) -> "XASafariDocument":
+        """The document currently displayed in the window."""
         return self._new_element(self.xa_elem.document(), XASafariDocument)
 
     @property
-    def current_tab(self) -> 'XASafariTab':
-        """The currently selected tab.
-        """
+    def current_tab(self) -> "XASafariTab":
+        """The currently selected tab."""
         return self._new_element(self.xa_elem.currentTab(), XASafariTab)
 
     @current_tab.setter
-    def current_tab(self, current_tab: 'XASafariTab'):
+    def current_tab(self, current_tab: "XASafariTab"):
         self.set_property("currentTab", current_tab.xa_elem)
 
-    def tabs(self, filter: dict = None) -> 'XASafariTabList':
+    def tabs(self, filter: dict = None) -> "XASafariTabList":
         """Returns a list of tabs matching the given filter.
 
         .. versionchanged:: 0.0.4
@@ -328,8 +361,6 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
-
 class XASafariGeneric(XACloseable, XABase.XAObject):
     """A generic class containing methods relevant to Safari tabs and documents.
 
@@ -337,10 +368,11 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
-    def search(self, term: str) -> 'XASafariGeneric':
+    def search(self, term: str) -> "XASafariGeneric":
         """Searches for the specified term in the current tab or document.
 
         :param term: The term to search
@@ -353,7 +385,7 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
         self.xa_elem.searchTheWebIn_for_(self.xa_elem, term)
         return self
 
-    def add_to_reading_list(self) -> 'XASafariGeneric':
+    def add_to_reading_list(self) -> "XASafariGeneric":
         """Adds the URL of a tab or document to the reading list.
 
         :return: A reference to the object that called this method.
@@ -361,7 +393,9 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.addReadingListItem_andPreviewText_withTitle_(self.xa_elem.URL(), None, None)
+        self.xa_elem.addReadingListItem_andPreviewText_withTitle_(
+            self.xa_elem.URL(), None, None
+        )
         return self
 
     def do_javascript(self, script: str) -> Any:
@@ -374,7 +408,7 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
         """
         return self.xa_elem.doJavaScript_in_(script, self.xa_elem)
 
-    def email(self) -> 'XASafariGeneric':
+    def email(self) -> "XASafariGeneric":
         """Opens a new email draft with the content of a tab or document.
 
         :param item: The object to email
@@ -387,7 +421,7 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
         self.xa_elem.emailContentsOf_(self.xa_elem)
         return self
 
-    def reload(self) -> 'XASafariGeneric':
+    def reload(self) -> "XASafariGeneric":
         """Reloads the tab or document.
 
         :return: A reference to the object that called this method.
@@ -399,8 +433,6 @@ class XASafariGeneric(XACloseable, XABase.XAObject):
         return self
 
 
-
-
 class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Safari documents that employs fast enumeration techniques.
 
@@ -408,6 +440,7 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASafariDocument, filter)
 
@@ -431,82 +464,84 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         ls = [x.text() for x in self.xa_elem]
         return [XABase.XAText(x) for x in ls]
 
-    def by_name(self, name: str) -> Union['XASafariDocument', None]:
+    def by_name(self, name: str) -> Union["XASafariDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XASafariDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XASafariDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: str) -> Union['XASafariDocument', None]:
+    def by_file(self, file: str) -> Union["XASafariDocument", None]:
         return self.by_property("file", file)
 
-    def by_source(self, source: str) -> Union['XASafariDocument', None]:
+    def by_source(self, source: str) -> Union["XASafariDocument", None]:
         for doc in self.xa_elem:
             if doc.source() == source:
                 return self._new_element(doc, XASafariDocument)
 
-    def by_url(self, url: XABase.XAURL) -> Union['XASafariDocument', None]:
+    def by_url(self, url: XABase.XAURL) -> Union["XASafariDocument", None]:
         return self.by_property("URL", str(url.xa_elem))
-    
-    def by_text(self, text: Union[str, XABase.XAText]) -> Union['XASafariDocument', None]:
+
+    def by_text(
+        self, text: Union[str, XABase.XAText]
+    ) -> Union["XASafariDocument", None]:
         for doc in self.xa_elem:
             if doc.text() == str(text):
                 return self._new_element(doc, XASafariDocument)
 
-    def reload(self) -> 'XASafariDocumentList':
+    def reload(self) -> "XASafariDocumentList":
         """Reloads all documents in the list.
 
         :return: A reference to the document list object.
         :rtype: XASafariDocumentList
-        
+
         .. versionadded:: 0.0.4
         """
         for document in self.xa_elem:
             document.setValue_forKey_(document.URL(), "URL")
         return self
 
-    def add_to_reading_list(self) -> 'XASafariDocumentList':
+    def add_to_reading_list(self) -> "XASafariDocumentList":
         """Adds the URL of all documents in the list to the reading list.
 
         :return: A reference to the document list object.
         :rtype: XASafariDocumentList
-        
+
         .. versionadded:: 0.0.5
         """
         for document in self:
             document.add_to_reading_list()
         return self
 
-    def email(self) -> 'XASafariDocumentList':
+    def email(self) -> "XASafariDocumentList":
         """Opens a new email draft with embedded links to the URL of each document in the list.
 
         :return: A reference to the document list object.
         :rtype: XASafariDocumentList
-        
+
         .. versionadded:: 0.0.5
         """
         for document in self:
             document.email()
         return self
 
-    def do_javascript(self, script: str) -> 'XASafariDocumentList':
+    def do_javascript(self, script: str) -> "XASafariDocumentList":
         """Runs a given JavaScript script in each document in the list.
 
         :return: A reference to the document list object.
         :rtype: XASafariDocumentList
-        
+
         .. versionadded:: 0.0.5
         """
         for document in self:
             document.do_javascript(script)
         return self
 
-    def search(self, term: str) -> 'XASafariDocumentList':
+    def search(self, term: str) -> "XASafariDocumentList":
         """Searches for the given term in each document in the list, using the default search engine.
 
         :return: A reference to the document list object.
         :rtype: XASafariDocumentList
-        
+
         .. versionadded:: 0.0.5
         """
         for document in self:
@@ -538,46 +573,45 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XASBPrintable):
+
+class XASafariDocument(
+    XASafariGeneric, XAClipboardCodable, XABaseScriptable.XASBPrintable
+):
     """A class for interacting with Safari documents.
 
     .. seealso:: :class:`XASafariGeneric`, :class:`XABaseScriptable.XASBPrintable`, :class:`XABaseScriptable.XASBSaveable`
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The title of the document.
-        """
+        """The title of the document."""
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since its last save.
-        """
+        """Whether the document has been modified since its last save."""
         return self.xa_elem.modified()
 
     @property
     def file(self) -> str:
-        """The location of the document on the disk, if there is one.
-        """
+        """The location of the document on the disk, if there is one."""
         file = self.xa_elem.file()
         if file is not None:
             return XABase.XAPath(file)
 
     @property
     def source(self) -> str:
-        """The HTML source of the web page currently loaded in the document.
-        """
+        """The HTML source of the web page currently loaded in the document."""
         return self.xa_elem.source()
 
     @property
     def url(self) -> XABase.XAURL:
-        """The current URL of the document.
-        """
+        """The current URL of the document."""
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -588,8 +622,7 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
 
     @property
     def text(self) -> XABase.XAText:
-        """The text of the web page currently loaded in the document.
-        """
+        """The text of the web page currently loaded in the document."""
         return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     def print(self, properties: dict = None, show_dialog: bool = True):
@@ -605,7 +638,11 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
         if properties is None:
             properties = {}
 
-        print_thread = threading.Thread(target=self.xa_elem.printWithProperties_printDialog_, args=(properties, show_dialog), name="Print Document")
+        print_thread = threading.Thread(
+            target=self.xa_elem.printWithProperties_printDialog_,
+            args=(properties, show_dialog),
+            name="Print Document",
+        )
         print_thread.start()
 
     def get_clipboard_representation(self) -> AppKit.NSURL:
@@ -624,7 +661,6 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
 class XASafariTabList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of tabs that employs fast enumeration techniques.
 
@@ -632,6 +668,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASafariTab, filter)
 
@@ -642,7 +679,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
 
         :return: A list of source HTML
         :rtype: list[str]
-        
+
         .. versionadded:: 0.0.4
         """
         current_tab = self.xa_prnt.current_tab.index - 1
@@ -668,7 +705,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
 
         :return: A list of visible text
         :rtype: list[XABase.XAText]
-        
+
         .. versionadded:: 0.0.4
         """
         current_tab = self.xa_prnt.current_tab.index - 1
@@ -686,89 +723,89 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_source(self, source: str) -> Union['XASafariTab', None]:
+    def by_source(self, source: str) -> Union["XASafariTab", None]:
         for tab in self.xa_elem:
             if tab.source() == source:
                 return self._new_element(tab, XASafariTab)
 
-    def by_url(self, url: XABase.XAURL) -> Union['XASafariTab', None]:
+    def by_url(self, url: XABase.XAURL) -> Union["XASafariTab", None]:
         return self.by_property("URL", str(url.xa_elem))
 
-    def by_index(self, index: int) -> Union['XASafariTab', None]:
+    def by_index(self, index: int) -> Union["XASafariTab", None]:
         return self.by_property("index", index)
 
-    def by_text(self, text: Union[str, XABase.XAText]) -> Union['XASafariTab', None]:
+    def by_text(self, text: Union[str, XABase.XAText]) -> Union["XASafariTab", None]:
         for tab in self.xa_elem:
             if tab.text() == str(text):
                 return self._new_element(tab, XASafariTab)
 
-    def by_visible(self, visible: bool) -> Union['XASafariTab', None]:
+    def by_visible(self, visible: bool) -> Union["XASafariTab", None]:
         return self.by_property("visible", visible)
 
-    def by_name(self, name: str) -> Union['XASafariTab', None]:
+    def by_name(self, name: str) -> Union["XASafariTab", None]:
         return self.by_property("name", name)
 
-    def reload(self) -> 'XASafariTabList':
+    def reload(self) -> "XASafariTabList":
         """Reloads all tabs in the list.
 
         :return: A reference to the tab list object.
         :rtype: XASafariTabList
-        
+
         .. versionadded:: 0.0.4
         """
         for tab in self.xa_elem:
             tab.setValue_forKey_(tab.URL(), "URL")
         return self
 
-    def add_to_reading_list(self) -> 'XASafariTabList':
+    def add_to_reading_list(self) -> "XASafariTabList":
         """Adds the URL of all tabs in the list to the reading list.
 
         :return: A reference to the tab list object.
         :rtype: XASafariTabList
-        
+
         .. versionadded:: 0.0.5
         """
         for tab in self:
             tab.add_to_reading_list()
         return self
 
-    def email(self) -> 'XASafariTabList':
+    def email(self) -> "XASafariTabList":
         """Opens a new email draft with embedded links to the URL of each tab in the list.
 
         :return: A reference to the tab list object.
         :rtype: XASafariTabList
-        
+
         .. versionadded:: 0.0.5
         """
         for tab in self:
             tab.email()
         return self
 
-    def do_javascript(self, script: str) -> 'XASafariTabList':
+    def do_javascript(self, script: str) -> "XASafariTabList":
         """Runs a given JavaScript script in each tab in the list.
 
         :return: A reference to the tab list object.
         :rtype: XASafariTabList
-        
+
         .. versionadded:: 0.0.5
         """
         for tab in self:
             tab.do_javascript(script)
         return self
 
-    def search(self, term: str) -> 'XASafariTabList':
+    def search(self, term: str) -> "XASafariTabList":
         """Searches for the given term in each tab in the list, using the default search engine.
 
         :return: A reference to the tab list object.
         :rtype: XASafariTabList
-        
+
         .. versionadded:: 0.0.5
         """
         for tab in self:
             tab.search(term)
         return self
 
-    def move_to(self, window: XASafariWindow) -> 'XASafariTabList':
+    def move_to(self, window: XASafariWindow) -> "XASafariTabList":
         """Moves all tabs in the list to the specified window.
 
         :param window: The window to move tabs to
@@ -785,7 +822,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
             tab.close()
         return self
 
-    def duplicate_to(self, window: XASafariWindow) -> 'XASafariTabList':
+    def duplicate_to(self, window: XASafariWindow) -> "XASafariTabList":
         """Duplicate all tabs in the list in the specified window.
 
         :param window: The window to duplicate tabs in
@@ -826,6 +863,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XASafariTab(XASafariGeneric, XAClipboardCodable):
     """A class for interacting with Safari tabs.
 
@@ -833,19 +871,18 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
 
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def source(self) -> str:
-        """The HTML source of the web page currently loaded in the tab.
-        """
+        """The HTML source of the web page currently loaded in the tab."""
         return self.xa_elem.source()
 
     @property
     def url(self) -> XABase.XAURL:
-        """The current URL of the tab.
-        """
+        """The current URL of the tab."""
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -856,29 +893,25 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
 
     @property
     def index(self) -> int:
-        """The index of the tab, ordered left to right.
-        """
+        """The index of the tab, ordered left to right."""
         return self.xa_elem.index()
 
     @property
     def text(self) -> XABase.XAText:
-        """The text of the web page currently loaded in the tab.
-        """
+        """The text of the web page currently loaded in the tab."""
         return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @property
     def visible(self) -> bool:
-        """Whether the tab is currently visible.
-        """
+        """Whether the tab is currently visible."""
         return self.xa_elem.visible()
 
     @property
     def name(self) -> str:
-        """The title of the tab.
-        """
+        """The title of the tab."""
         return self.xa_elem.name()
 
-    def move_to(self, window: 'XASafariWindow') -> 'XASafariTab':
+    def move_to(self, window: "XASafariWindow") -> "XASafariTab":
         """Moves the tab to the specified window. After, the tab will exist in only one location.
 
         :param window: The window to move the tab to.
@@ -902,7 +935,7 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         self.close()
         return self
 
-    def duplicate_to(self, window: 'XASafariWindow') -> 'XASafariTab':
+    def duplicate_to(self, window: "XASafariWindow") -> "XASafariTab":
         """Duplicates the tab in the specified window. The tab will then exist in two locations.
 
         :param window: The window to duplicate the tab in.

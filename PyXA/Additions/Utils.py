@@ -18,13 +18,15 @@ import PyXA.XABase
 import PyXA.XABaseScriptable
 from PyXA.XAErrors import ApplicationNotFoundError
 
-class AppBuilder():
+
+class AppBuilder:
     """A class for constructing on-the-fly PyXA Application classes for scriptable applications that do not have a pre-defined class.
 
     .. warning:: This is an experimental feature and may not work as expected.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, name: str):
         """Initializes a new AppBuilder instance. Does not create the associated application class.
 
@@ -42,7 +44,9 @@ class AppBuilder():
         app_bundle_url = AppKit.NSURL.fileURLWithPath_(app_bundle_path)
         app_bundle = AppKit.NSBundle.bundleWithURL_(app_bundle_url)
         app_bundle_id = app_bundle.bundleIdentifier()
-        self.sdef_path = app_bundle.pathsForResourcesOfType_inDirectory_("sdef", "").firstObject()
+        self.sdef_path = app_bundle.pathsForResourcesOfType_inDirectory_(
+            "sdef", ""
+        ).firstObject()
 
         self._xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
         url = self._xa_wksp.URLForApplicationWithBundleIdentifier_(app_bundle_id)
@@ -52,15 +56,24 @@ class AppBuilder():
         config.setHides_(True)
 
         app_ref = None
+
         def _launch_completion_handler(app, _error):
             nonlocal app_ref
-            self.xa_elem = AppKit.NSRunningApplication.runningApplicationsWithBundleIdentifier_(app_bundle_id).firstObject()
+            self.xa_elem = (
+                AppKit.NSRunningApplication.runningApplicationsWithBundleIdentifier_(
+                    app_bundle_id
+                ).firstObject()
+            )
 
             if self.sdef_path is not None:
-                self.xa_scel = ScriptingBridge.SBApplication.applicationWithURL_(app_bundle_url)
+                self.xa_scel = ScriptingBridge.SBApplication.applicationWithURL_(
+                    app_bundle_url
+                )
             app_ref = 1
-        
-        self._xa_wksp.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+
+        self._xa_wksp.openApplicationAtURL_configuration_completionHandler_(
+            url, config, _launch_completion_handler
+        )
         while app_ref is None:
             time.sleep(0.01)
 
@@ -69,12 +82,15 @@ class AppBuilder():
         candidate = None
         for path in app_paths:
             app_path_component = path.split("/")[-1][:-4]
-            if app_identifier.lower() == path.lower() or app_identifier.lower() == app_path_component.lower():
+            if (
+                app_identifier.lower() == path.lower()
+                or app_identifier.lower() == app_path_component.lower()
+            ):
                 return path
-            
+
             if app_identifier.lower() in path.lower():
                 candidate = path
-        
+
         if candidate is not None:
             return candidate
 
@@ -85,7 +101,7 @@ class AppBuilder():
         search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
         search.run()
         return [x.path for x in search.results]
-    
+
     def application(self):
         """Creates and instantiates a new PyXA Application class for the application specified in the AppBuilder's name attribute.
 
@@ -106,7 +122,16 @@ class AppBuilder():
         for suite in parser.scripting_suites:
             for scripting_class in suite["classes"]:
                 list_class_dict = {}
-                list_class_dict["__doc__"] = "A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques. All properties of " + scripting_class["name"].lower() + "s can be called as methods on the wrapped list, returning a list containing each " + scripting_class["name"].lower() + "'s value for the property.\n\n.. versionadded:: " + XABase.VERSION
+                list_class_dict["__doc__"] = (
+                    "A wrapper around lists of "
+                    + scripting_class["name"].lower()
+                    + "s that employs fast enumeration techniques. All properties of "
+                    + scripting_class["name"].lower()
+                    + "s can be called as methods on the wrapped list, returning a list containing each "
+                    + scripting_class["name"].lower()
+                    + "'s value for the property.\n\n.. versionadded:: "
+                    + XABase.VERSION
+                )
 
                 def __init__(self, *args):
                     super(XABase.XAList, self).__init__()
@@ -115,28 +140,60 @@ class AppBuilder():
                     self.xa_prnt = args[0]["parent"]
                     self.xa_ocls = args[1]
 
-                list_class_dict["__init__"] = lambda self, properties, filter: __init__(self, properties, classes[scripting_class["name"]], filter)
+                list_class_dict["__init__"] = lambda self, properties, filter: __init__(
+                    self, properties, classes[scripting_class["name"]], filter
+                )
 
                 for property in scripting_class["properties"]:
-                    list_class_dict[property["name"]] = lambda self, property = property: list(self.xa_elem.arrayByApplyingSelector_(property["name"]))
+                    list_class_dict[
+                        property["name"]
+                    ] = lambda self, property=property: list(
+                        self.xa_elem.arrayByApplyingSelector_(property["name"])
+                    )
 
-                cls = create_class(scripting_class["name"].replace(" ", "") + "List", (XABase.XAList, ), list_class_dict)
+                cls = create_class(
+                    scripting_class["name"].replace(" ", "") + "List",
+                    (XABase.XAList,),
+                    list_class_dict,
+                )
                 classes[scripting_class["name"].replace(" ", "") + "List"] = cls
 
                 class_dict = {}
-                class_dict["__doc__"] = scripting_class["comment"] + "\n\n.. versionadded:: " + XABase.VERSION
+                class_dict["__doc__"] = (
+                    scripting_class["comment"]
+                    + "\n\n.. versionadded:: "
+                    + XABase.VERSION
+                )
 
                 for property in scripting_class["properties"]:
-                    class_dict[property["name"]] = lambda self, property = property: self.xa_elem.__getattribute__(property["name"])()
+                    class_dict[
+                        property["name"]
+                    ] = lambda self, property=property: self.xa_elem.__getattribute__(
+                        property["name"]
+                    )()
 
                 for element in scripting_class["elements"]:
-                    class_dict[element["name"]] = lambda self, filter = None, element = element: self._new_element(self.xa_elem.__getattribute__(element["name"])(), classes[element["type"].replace(" ", "") + "List"], filter)
+                    class_dict[
+                        element["name"]
+                    ] = lambda self, filter=None, element=element: self._new_element(
+                        self.xa_elem.__getattribute__(element["name"])(),
+                        classes[element["type"].replace(" ", "") + "List"],
+                        filter,
+                    )
 
                 for command in scripting_class["responds-to"]:
                     if command in suite["commands"]:
-                        class_dict[suite["commands"][command]["name"]] = lambda self, suite = suite, **kwargs: self.xa_elem.__getattribute__(suite["commands"][command]["name"])(**kwargs)
-                    
-                cls = create_class(scripting_class["name"], (XABase.XAObject, ), class_dict)
+                        class_dict[
+                            suite["commands"][command]["name"]
+                        ] = lambda self, suite=suite, **kwargs: self.xa_elem.__getattribute__(
+                            suite["commands"][command]["name"]
+                        )(
+                            **kwargs
+                        )
+
+                cls = create_class(
+                    scripting_class["name"], (XABase.XAObject,), class_dict
+                )
                 classes[scripting_class["name"]] = cls
                 if scripting_class["name"].endswith("Application"):
                     app_class = cls
@@ -146,16 +203,17 @@ class AppBuilder():
             "element": self.xa_scel,
             "appref": self.xa_elem,
         }
-        
-        return app_class(properties)
-        
 
-class SDEFParser():
+        return app_class(properties)
+
+
+class SDEFParser:
     """A class for parsing SDEF files and generating Python code for interacting with scriptable applications.
 
     .. versionadded:: 0.1.1
     """
-    def __init__(self, sdef_file: Union['XABase.XAPath', str]):
+
+    def __init__(self, sdef_file: Union["XABase.XAPath", str]):
         """Initializes a new SDEFParser instance.
 
         :param sdef_file: The full path to the SDEF file to parse.
@@ -165,7 +223,7 @@ class SDEFParser():
         """
         if isinstance(sdef_file, str):
             sdef_file = XABase.XAPath(sdef_file)
-        self.file = sdef_file #: The full path to the SDEF file to parse
+        self.file = sdef_file  #: The full path to the SDEF file to parse
 
         self.app_name = ""
         self.scripting_suites = []
@@ -217,39 +275,48 @@ class SDEFParser():
                     else:
                         property_type = "XA" + app_name + property_type.title()
 
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
+                    property_name = (
+                        property.attrib.get("name", "").replace(" ", "_").lower()
+                    )
                     property_comment = property.attrib.get("description", "")
 
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
+                    properties.append(
+                        {
+                            "type": property_type,
+                            "name": property_name,
+                            "comment": property_comment,
+                        }
+                    )
 
                 ## Class Extension Elements
                 class_elements = extension.findall("element")
                 for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+                    element_name = (
+                        (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
+                    )
+                    element_type = (
+                        "XA" + app_name + element.attrib.get("type", "").title()
+                    )
 
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
+                    elements.append({"name": element_name, "type": element_type})
 
                 ## Class Extension Responds-To Commands
                 class_responds_to_commands = extension.findall("responds-to")
                 for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
+                    command_name = (
+                        command.attrib.get("command", "").replace(" ", "_").lower()
+                    )
                     responds_to_commands.append(command_name)
 
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
+                classes.append(
+                    {
+                        "name": class_name,
+                        "comment": class_comment,
+                        "properties": properties,
+                        "elements": elements,
+                        "responds-to": responds_to_commands,
+                    }
+                )
 
             ### Classes
             scripting_classes = suite.findall("class")
@@ -278,40 +345,48 @@ class SDEFParser():
                     else:
                         property_type = "XA" + app_name + property_type.title()
 
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
+                    property_name = (
+                        property.attrib.get("name", "").replace(" ", "_").lower()
+                    )
                     property_comment = property.attrib.get("description", "")
 
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
+                    properties.append(
+                        {
+                            "type": property_type,
+                            "name": property_name,
+                            "comment": property_comment,
+                        }
+                    )
 
                 ## Class Elements
                 class_elements = scripting_class.findall("element")
                 for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+                    element_name = (
+                        (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
+                    )
+                    element_type = (
+                        "XA" + app_name + element.attrib.get("type", "").title()
+                    )
 
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
+                    elements.append({"name": element_name, "type": element_type})
 
                 ## Class Responds-To Commands
                 class_responds_to_commands = scripting_class.findall("responds-to")
                 for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
+                    command_name = (
+                        command.attrib.get("command", "").replace(" ", "_").lower()
+                    )
                     responds_to_commands.append(command_name)
 
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
-
+                classes.append(
+                    {
+                        "name": class_name,
+                        "comment": class_comment,
+                        "properties": properties,
+                        "elements": elements,
+                        "responds-to": responds_to_commands,
+                    }
+                )
 
             ### Commands
             script_commands = suite.findall("command")
@@ -328,11 +403,13 @@ class SDEFParser():
 
                     direct_parameter_comment = direct_param.attrib.get("description")
 
-                    parameters.append({
-                        "name": "direct_param",
-                        "type": direct_parameter_type,
-                        "comment": direct_parameter_comment
-                    })
+                    parameters.append(
+                        {
+                            "name": "direct_param",
+                            "type": direct_parameter_type,
+                            "comment": direct_parameter_comment,
+                        }
+                    )
 
                 if not "_" in command_name and len(parameters) > 0:
                     command_name += "_"
@@ -343,30 +420,31 @@ class SDEFParser():
                     if parameter_type == "specifier":
                         parameter_type = "XAObject"
 
-                    parameter_name = parameter.attrib.get("name", "").lower().replace(" ", "_")
+                    parameter_name = (
+                        parameter.attrib.get("name", "").lower().replace(" ", "_")
+                    )
                     parameter_comment = parameter.attrib.get("description", "")
 
-                    parameters.append({
-                        "name": parameter_name,
-                        "type": parameter_type,
-                        "comment": parameter_comment,
-                    })
+                    parameters.append(
+                        {
+                            "name": parameter_name,
+                            "type": parameter_type,
+                            "comment": parameter_comment,
+                        }
+                    )
 
                 commands[command_name] = {
                     "name": command_name,
                     "comment": command_comment,
-                    "parameters": parameters
+                    "parameters": parameters,
                 }
 
-            suites.append({
-                "classes": classes,
-                "commands": commands
-            })
+            suites.append({"classes": classes, "commands": commands})
 
         self.scripting_suites = suites
         return suites
 
-    def export(self, output_file: Union['XABase.XAPath', str]):
+    def export(self, output_file: Union["XABase.XAPath", str]):
         """Exports the scripting suites parsed from the SDEF file to a Python module.
 
         :param output_file: The full path to the file to export module code to.
@@ -385,68 +463,161 @@ class SDEFParser():
         for suite in self.scripting_suites:
             for scripting_class in suite["classes"]:
                 lines.append("\n\n")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + "List:")
-                lines.append("\t\"\"\"A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques.")
-                lines.append("\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.")
+                lines.append(
+                    "class " + scripting_class["name"].replace(" ", "") + "List:"
+                )
+                lines.append(
+                    '\t"""A wrapper around lists of '
+                    + scripting_class["name"].lower()
+                    + "s that employs fast enumeration techniques."
+                )
+                lines.append(
+                    "\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property."
+                )
                 lines.append("\n\t.. versionadded:: " + XABase.VERSION)
-                lines.append("\t\"\"\"")
+                lines.append('\t"""')
 
-                lines.append("\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):")
-                lines.append("\t\tsuper().__init__(properties, " + scripting_class["name"].replace(" ", "") + ", filter)")
+                lines.append(
+                    "\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):"
+                )
+                lines.append(
+                    "\t\tsuper().__init__(properties, "
+                    + scripting_class["name"].replace(" ", "")
+                    + ", filter)"
+                )
 
                 for property in scripting_class["properties"]:
                     lines.append("")
-                    lines.append("\tdef " + property["name"] + "(self) -> list['" + property["type"].replace(" ", "") + "']:")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
+                    lines.append(
+                        "\tdef "
+                        + property["name"]
+                        + "(self) -> list['"
+                        + property["type"].replace(" ", "")
+                        + "']:"
+                    )
+                    lines.append(
+                        '\t\t"""'
+                        + property["comment"]
+                        + "\n\n\t\t.. versionadded:: "
+                        + XABase.VERSION
+                        + '\n\t\t"""'
+                    )
+                    lines.append(
+                        '\t\treturn list(self.xa_elem.arrayByApplyingSelector_("'
+                        + property["name"]
+                        + '"))'
+                    )
 
                 for property in scripting_class["properties"]:
                     lines.append("")
-                    lines.append("\tdef by_" + property["name"] + "(self, " + property["name"] + ") -> '" + scripting_class["name"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Retrieves the " + scripting_class["comment"] + "whose " + property["name"] + " matches the given " + property["name"] + ".\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.by_property(\"" + property["name"] + "\", " + property["name"] + ")")
-
+                    lines.append(
+                        "\tdef by_"
+                        + property["name"]
+                        + "(self, "
+                        + property["name"]
+                        + ") -> '"
+                        + scripting_class["name"].replace(" ", "")
+                        + "':"
+                    )
+                    lines.append(
+                        '\t\t"""Retrieves the '
+                        + scripting_class["comment"]
+                        + "whose "
+                        + property["name"]
+                        + " matches the given "
+                        + property["name"]
+                        + ".\n\n\t\t.. versionadded:: "
+                        + XABase.VERSION
+                        + '\n\t\t"""'
+                    )
+                    lines.append(
+                        '\t\treturn self.by_property("'
+                        + property["name"]
+                        + '", '
+                        + property["name"]
+                        + ")"
+                    )
 
                 lines.append("")
                 lines.append("class " + scripting_class["name"].replace(" ", "") + ":")
-                lines.append("\t\"\"\"" + scripting_class["comment"] + "\n\n\t.. versionadded:: " + XABase.VERSION + "\n\t\"\"\"")
+                lines.append(
+                    '\t"""'
+                    + scripting_class["comment"]
+                    + "\n\n\t.. versionadded:: "
+                    + XABase.VERSION
+                    + '\n\t"""'
+                )
 
                 for property in scripting_class["properties"]:
                     lines.append("")
                     lines.append("\t@property")
-                    lines.append("\tdef " + property["name"] + "(self) -> '" + property["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + XABase.VERSION + "\n\t\t\"\"\"")
+                    lines.append(
+                        "\tdef "
+                        + property["name"]
+                        + "(self) -> '"
+                        + property["type"].replace(" ", "")
+                        + "':"
+                    )
+                    lines.append(
+                        '\t\t"""'
+                        + property["comment"]
+                        + "\n\n\t\t.. versionadded:: "
+                        + XABase.VERSION
+                        + '\n\t\t"""'
+                    )
                     lines.append("\t\treturn self.xa_elem." + property["name"] + "()")
 
                 for element in scripting_class["elements"]:
                     lines.append("")
-                    lines.append("\tdef " + element["name"].replace(" ", "") + "(self, filter: Union[dict, None] = None) -> '" + element["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Returns a list of " + element["name"] + ", as PyXA objects, matching the given filter.")
+                    lines.append(
+                        "\tdef "
+                        + element["name"].replace(" ", "")
+                        + "(self, filter: Union[dict, None] = None) -> '"
+                        + element["type"].replace(" ", "")
+                        + "':"
+                    )
+                    lines.append(
+                        '\t\t"""Returns a list of '
+                        + element["name"]
+                        + ", as PyXA objects, matching the given filter."
+                    )
                     lines.append("\n\t\t.. versionadded:: " + XABase.VERSION)
-                    lines.append("\t\t\"\"\"")
-                    lines.append("\t\tself._new_element(self.xa_elem." + element["name"] + "(), " + element["type"].replace(" ", "") + "List, filter)")
+                    lines.append('\t\t"""')
+                    lines.append(
+                        "\t\tself._new_element(self.xa_elem."
+                        + element["name"]
+                        + "(), "
+                        + element["type"].replace(" ", "")
+                        + "List, filter)"
+                    )
 
                 for command in scripting_class["responds-to"]:
                     if command in suite["commands"]:
                         lines.append("")
-                        command_str = "\tdef " + suite["commands"][command]["name"] + "(self, "
+                        command_str = (
+                            "\tdef " + suite["commands"][command]["name"] + "(self, "
+                        )
 
                         for parameter in suite["commands"][command]["parameters"]:
-                            command_str += parameter["name"] + ": '" + parameter["type"] + "', "
+                            command_str += (
+                                parameter["name"] + ": '" + parameter["type"] + "', "
+                            )
 
                         command_str = command_str[:-2] + "):"
                         lines.append(command_str)
 
-                        lines.append("\t\t\"\"\"" + suite["commands"][command]["comment"])
+                        lines.append('\t\t"""' + suite["commands"][command]["comment"])
                         lines.append("\n\t\t.. versionadded:: " + XABase.VERSION)
-                        lines.append("\t\t\"\"\"")
+                        lines.append('\t\t"""')
 
-                        cmd_call_str = "self.xa_elem." + suite["commands"][command]["name"] + "("
+                        cmd_call_str = (
+                            "self.xa_elem." + suite["commands"][command]["name"] + "("
+                        )
 
                         if len(suite["commands"][command]["parameters"]) > 0:
                             for parameter in suite["commands"][command]["parameters"]:
                                 cmd_call_str += parameter["name"] + ", "
-                            
+
                             cmd_call_str = cmd_call_str[:-2] + ")"
                         else:
                             cmd_call_str += ")"

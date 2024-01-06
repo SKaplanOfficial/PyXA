@@ -101,18 +101,18 @@ class XAArcApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if isinstance(specifier, XAArcApplication.ObjectType):
             specifier = specifier.value
-            
+
         if data is None:
             camelized_properties = {}
-            
+
             if properties is None:
                 properties = {}
-                
+
             for key, value in properties.items():
-              if key == "url":
-                key = "URL"
-                
-              camelized_properties[XABase.camelize(key)] = value
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
 
             obj = (
                 self.xa_scel.classForScriptingClass_(specifier)
@@ -126,11 +126,11 @@ class XAArcApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
                 .initWithData_(data)
             )
 
-        if specifier == XAArcApplication.ObjectType.WINDOW or specifier == "window":
+        if specifier == "window":
             return self._new_element(obj, XAArcWindow)
-        elif specifier == XAArcApplication.ObjectType.TAB or specifier == "tab":
+        elif specifier == "tab":
             return self._new_element(obj, XAArcTab)
-        elif specifier == XAArcApplication.ObjectType.SPACE or specifier == "space":
+        elif specifier == "space":
             return self._new_element(obj, XAArcSpace)
 
 

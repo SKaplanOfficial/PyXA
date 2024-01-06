@@ -7,6 +7,7 @@ from CoreServices import DCSCopyTextDefinition
 
 from PyXA import XABase
 
+
 class XADictionaryApplication(XABase.XAApplication):
     """A class for managing and interacting with Dictionary.app.
 
@@ -14,6 +15,7 @@ class XADictionaryApplication(XABase.XAApplication):
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 

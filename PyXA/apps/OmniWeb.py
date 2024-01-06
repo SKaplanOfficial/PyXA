@@ -4,7 +4,7 @@ Control OmniWeb using JXA-like syntax.
 """
 
 from enum import Enum
-from typing import Union
+from typing import Union, Any
 from datetime import datetime
 import threading
 
@@ -30,14 +30,15 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
     .. versionadded:: 0.2.3
     """
 
-    class ObjectClass(Enum):
+    class ObjectType(Enum):
+        """Types of objects that can be created using :func:`XAOmniWebApplication.make`."""
         Document = "document"
         Window = "window"
         Workspace = "workspace"
         Browser = "browser"
         Tab = "tab"
         Bookmark = "bookmark"
-        BookmarksDocument = "bookmarks document"
+        BookmarksDocument = "bookmarks_document"
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -240,15 +241,17 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         """
         return list(self.xa_scel.GetWindowInfo())
 
-    def make(self, specifier: ObjectClass, properties: Union[dict, None] = None) -> XABase.XAObject:
+    def make(self, specifier: Union[str, 'XAOmniWebApplication.ObjectType'], properties: Union[dict, None] = None, data: Any = None) -> XABase.XAObject:
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAOmniWebApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to give the object, defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -268,24 +271,46 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
 
         .. versionadded:: 0.2.3
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAOmniWebApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier.value).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
 
-        if specifier == self.ObjectClass.Document:
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
+
+        if specifier == "window":
             return self._new_element(obj, XAOmniWebWindow)
-        elif specifier == self.ObjectClass.Document:
+        elif specifier == "document":
             return self._new_element(obj, XAOmniWebDocument)
-        elif specifier == self.ObjectClass.Tab:
+        elif specifier == "tab":
             return self._new_element(obj, XAOmniWebTab)
-        elif specifier == self.ObjectClass.Bookmark:
+        elif specifier == "bookmark":
             return self._new_element(obj, XAOmniWebBookmark)
-        elif specifier == self.ObjectClass.BookmarksDocument:
+        elif specifier == "bookmarks_document":
             return self._new_element(obj, XAOmniWebBookmarksDocument)
-        elif specifier == self.ObjectClass.Browser:
+        elif specifier == "browser":
             return self._new_element(obj, XAOmniWebBrowser)
-        elif specifier == self.ObjectClass.Workspace:
+        elif specifier == "workspace":
             return self._new_element(obj, XAOmniWebWorkspace)
 
 

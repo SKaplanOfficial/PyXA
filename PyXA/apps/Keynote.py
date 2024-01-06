@@ -20,6 +20,23 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
 
     .. versionadded:: 0.0.2
     """
+    class ObjectType(Enum):
+        """Object types available for creation in Keynote.
+        """
+        DOCUMENT = "document"
+        SHAPE = "shape"
+        TABLE = "table"
+        AUDIO_CLIP = "audio_clip"
+        CHART = "chart"
+        IMAGE = "image"
+        SLIDE = "slide"
+        LINE = "line"
+        MOVIE = "movie"
+        TEXT_ITEM = "text_item"
+        GROUP = "group"
+        iWORK_ITEM = "iwork_item"
+        TRANSITION_SETTINGS = "transition_settings"
+        
     class ExportFormat(Enum):
         """Options for what format to export a Keynote project as.
         """
@@ -229,24 +246,48 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
         """
         return self._new_element(self.xa_scel.themes(), XAKeynoteThemeList, filter)
 
-    def make(self, specifier: str, properties: dict = None):
+    def make(self, specifier: Union[str, 'XAKeynoteApplication.ObjectType'], properties: dict = None, data: Any = None):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAKeynoteApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to initialize the object with
+        :type data: Any
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
         .. versionadded:: 0.0.5
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAKeynoteApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "document":
             return self._new_element(obj, XAKeynoteDocument)
@@ -254,7 +295,7 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
             return self._new_element(obj, iWorkApplicationBase.XAiWorkShape)
         elif specifier == "table":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkTable)
-        elif specifier == "audioClip":
+        elif specifier == "audio_clip":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkAudioClip)
         elif specifier == "chart":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkChart)
@@ -266,13 +307,13 @@ class XAKeynoteApplication(iWorkApplicationBase.XAiWorkApplication):
             return self._new_element(obj, iWorkApplicationBase.XAiWorkLine)
         elif specifier == "movie":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkMovie)
-        elif specifier == "textItem":
+        elif specifier == "text_item":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkTextItem)
         elif specifier == "group":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkGroup)
-        elif specifier == "iWorkItem":
+        elif specifier == "iwork_item":
             return self._new_element(obj, iWorkApplicationBase.XAiWorkiWorkItem)
-        elif specifier == "TransitionSettings":
+        elif specifier == "transition_settings":
             return self._new_element(obj, XAKeynoteTransitionSettings)
 
 

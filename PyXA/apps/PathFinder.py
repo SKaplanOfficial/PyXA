@@ -40,54 +40,54 @@ class XAPathFinderApplication(
     def name(self) -> str:
         """The name of the application."""
         return self.xa_scel.name()
-    
+
     @property
     def frontmost(self) -> bool:
-        """Whether Path Finder is the frontmost application.
-        """
+        """Whether Path Finder is the frontmost application."""
         return self.xa_scel.frontmost()
-    
+
     @property
     def version(self) -> str:
         """The version of Path Finder.app."""
         return self.xa_scel.version()
 
     @property
-    def home(self) -> 'XAPathFinderFolder':
+    def home(self) -> "XAPathFinderFolder":
         return self._new_element(self.xa_scel.home(), XAPathFinderFolder)
-    
+
     @property
-    def selection(self) -> 'XAPathFinderItemList':
+    def selection(self) -> "XAPathFinderItemList":
         return self._new_element(self.xa_scel.selection(), XAPathFinderItemList)
-    
+
     @property
-    def startup_disk(self) -> 'XAPathFinderDisk':
+    def startup_disk(self) -> "XAPathFinderDisk":
         return self._new_element(self.xa_scel.startupDisk(), XAPathFinderDisk)
-    
+
     @property
-    def desktop(self) -> 'XAPathFinderFolder':
+    def desktop(self) -> "XAPathFinderFolder":
         return self._new_element(self.xa_scel.desktop(), XAPathFinderFolder)
-    
+
     @property
-    def trash(self) -> 'XAPathFinderFolder':
+    def trash(self) -> "XAPathFinderFolder":
         return self._new_element(self.xa_scel.trash(), XAPathFinderFolder)
 
-    def disks(self) -> 'XAPathFinderDiskList':
-        """Returns a list of the disks in Path Finder.
-        """
+    def disks(self) -> "XAPathFinderDiskList":
+        """Returns a list of the disks in Path Finder."""
         return self._new_element(self.xa_scel.disks(), XAPathFinderDiskList)
-    
-    def finder_windows(self) -> 'XAPathFinderFinderWindowList':
-        """Returns a list of the finder windows in Path Finder.
-        """
-        return self._new_element(self.xa_scel.finderWindows(), XAPathFinderFinderWindowList)
-    
-    def info_windows(self) -> 'XAPathFinderInfoWindowList':
-        """Returns a list of the info windows in Path Finder.
-        """
+
+    def finder_windows(self) -> "XAPathFinderFinderWindowList":
+        """Returns a list of the finder windows in Path Finder."""
+        return self._new_element(
+            self.xa_scel.finderWindows(), XAPathFinderFinderWindowList
+        )
+
+    def info_windows(self) -> "XAPathFinderInfoWindowList":
+        """Returns a list of the info windows in Path Finder."""
         return self._new_element(self.xa_scel.infoWindows(), XAPathFinderInfoWindowList)
-    
-    def add_toolbar_item(self, item: Union[str, 'XAPathFinderItem', 'XABase.XAPath'], position: int = 0) -> int:
+
+    def add_toolbar_item(
+        self, item: Union[str, "XAPathFinderItem", "XABase.XAPath"], position: int = 0
+    ) -> int:
         """Adds an item to the toolbar.
 
         :param item: The item to add.
@@ -101,8 +101,10 @@ class XAPathFinderApplication(
         elif isinstance(item, XAPathFinderItem):
             item = item.posix_path
         return self.xa_scel.addToolbarItem_atPosition_(item.path, position)
-    
-    def remove_toolbar_item(self, item: Union[str, 'XAPathFinderItem', 'XABase.XAPath']) -> int:
+
+    def remove_toolbar_item(
+        self, item: Union[str, "XAPathFinderItem", "XABase.XAPath"]
+    ) -> int:
         """Removes an item from the toolbar.
 
         :param item: The item to remove.
@@ -114,12 +116,10 @@ class XAPathFinderApplication(
         elif isinstance(item, str) and item.startswith("/"):
             item = XABase.XAPath(item).name
         return self.xa_scel.removeToolbarItem_(item)
-    
+
     def empty(self) -> None:
-        """Empties the trash.
-        """
+        """Empties the trash."""
         self.xa_scel.empty()
-    
 
 
 class XAPathFinderWindow(XABaseScriptable.XASBWindow):
@@ -127,15 +127,14 @@ class XAPathFinderWindow(XABaseScriptable.XASBWindow):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XAPathFinderDocument':
-        """The active document.
-        """
+    def document(self) -> "XAPathFinderDocument":
+        """The active document."""
         return self._new_element(self.xa_elem.document(), XAPathFinderDocument)
-
 
 
 class XAPathFinderFinderWindowList(XABaseScriptable.XASBWindowList):
@@ -145,54 +144,58 @@ class XAPathFinderFinderWindowList(XABaseScriptable.XASBWindowList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderFinderWindow)
 
-    def target(self) -> 'XAPathFinderContainerList':
-        """The active target.
-        """
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("target") or [], XAPathFinderContainerList)
-    
+    def target(self) -> "XAPathFinderContainerList":
+        """The active target."""
+        return self._new_element(
+            self.xa_elem.arrayByApplyingSelector_("target") or [],
+            XAPathFinderContainerList,
+        )
+
     def current_view(self) -> list[str]:
-        """The current view.
-        """
+        """The current view."""
         return list(self.xa_elem.arrayByApplyingSelector_("currentView") or [])
-    
-    def by_target(self, target: 'XAPathFinderContainer') -> Union['XAPathFinderFinderWindow', None]:
+
+    def by_target(
+        self, target: "XAPathFinderContainer"
+    ) -> Union["XAPathFinderFinderWindow", None]:
         return self.by_property("target", target.xa_elem)
-    
-    def by_current_view(self, current_view: str) -> Union['XAPathFinderFinderWindow', None]:
+
+    def by_current_view(
+        self, current_view: str
+    ) -> Union["XAPathFinderFinderWindow", None]:
         return self.by_property("currentView", current_view)
+
 
 class XAPathFinderFinderWindow(XAPathFinderWindow):
     """A class for interacting with finder windows in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def target(self) -> 'XAPathFinderContainer':
-        """The active target.
-        """
+    def target(self) -> "XAPathFinderContainer":
+        """The active target."""
         return self._new_element(self.xa_elem.target(), XAPathFinderContainer)
-    
+
     @property
     def current_view(self) -> str:
-        """The current view.
-        """
+        """The current view."""
         return self.xa_elem.currentView()
-    
+
     @current_view.setter
     def current_view(self, current_view: str):
         self.set_property("currentView", current_view)
 
     def open(self) -> None:
-        """Opens the window.
-        """
+        """Opens the window."""
         self.xa_elem.open()
-
 
 
 class XAPathFinderInfoWindowList(XABaseScriptable.XASBWindowList):
@@ -202,31 +205,35 @@ class XAPathFinderInfoWindowList(XABaseScriptable.XASBWindowList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderInfoWindow)
 
-    def item(self) -> 'XAPathFinderItemList':
-        """The active item.
-        """
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("item") or [], XAPathFinderItemList)
-    
-    def by_item(self, item: 'XAPathFinderItem') -> Union['XAPathFinderInfoWindow', None]:
+    def item(self) -> "XAPathFinderItemList":
+        """The active item."""
+        return self._new_element(
+            self.xa_elem.arrayByApplyingSelector_("item") or [], XAPathFinderItemList
+        )
+
+    def by_item(
+        self, item: "XAPathFinderItem"
+    ) -> Union["XAPathFinderInfoWindow", None]:
         return self.by_property("item", item.xa_elem)
+
 
 class XAPathFinderInfoWindow(XAPathFinderWindow):
     """A class for interacting with info windows in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def item(self) -> 'XAPathFinderItem':
-        """The active item.
-        """
+    def item(self) -> "XAPathFinderItem":
+        """The active item."""
         return self._new_element(self.xa_elem.item(), XAPathFinderItem)
-
 
 
 class XAPathFinderDocumentList(XABase.XAList):
@@ -236,6 +243,7 @@ class XAPathFinderDocumentList(XABase.XAList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPathFinderDocument, filter)
 
@@ -245,16 +253,21 @@ class XAPathFinderDocumentList(XABase.XAList):
     def modified(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
-    def file(self) -> list['XABase.XAPath']:
-        return [XABase.XAPath(x) for x in self.xa_elem.arrayByApplyingSelector_("file") or []]
+    def file(self) -> list["XABase.XAPath"]:
+        return [
+            XABase.XAPath(x)
+            for x in self.xa_elem.arrayByApplyingSelector_("file") or []
+        ]
 
-    def by_name(self, name: str) -> Union['XAPathFinderDocument', None]:
+    def by_name(self, name: str) -> Union["XAPathFinderDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XAPathFinderDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XAPathFinderDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: Union[str, 'XABase.XAPath']) -> Union['XAPathFinderDocument', None]:
+    def by_file(
+        self, file: Union[str, "XABase.XAPath"]
+    ) -> Union["XAPathFinderDocument", None]:
         if isinstance(file, XABase.XAPath):
             file = file.path
         return self.by_property("file", file)
@@ -262,24 +275,26 @@ class XAPathFinderDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAPathFinderDocument(XABase.XAObject):
     """A class for interacting with documents in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
         return self.xa_elem.name()
-    
+
     @property
     def modified(self) -> bool:
         return self.xa_elem.modified()
-    
+
     @property
-    def file(self) -> 'XABase.XAPath':
+    def file(self) -> "XABase.XAPath":
         return XABase.XAPath(self.xa_elem.file())
 
 
@@ -290,40 +305,45 @@ class XAPathFinderItemList(XABase.XAList):
 
     .. versionadded:: 0.2.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAPathFinderItemList
         super().__init__(properties, obj_class, filter)
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
-    
-    def by_name(self, name: str) ->  Union["XAPathFinderItem", None]:
+
+    def by_name(self, name: str) -> Union["XAPathFinderItem", None]:
         return self.by_property("name", name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAPathFinderItem(XABase.XAObject):
     """A class for interacting with items in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def extension_hidden(self) -> bool:
         return self.xa_elem.extensionHidden()
-    
+
     @extension_hidden.setter
     def extension_hidden(self, extension_hidden: bool):
         self.set_property("extensionHidden", extension_hidden)
-    
+
     @property
     def locked(self) -> bool:
         return self.xa_elem.locked()
-    
+
     @locked.setter
     def locked(self, locked: bool):
         self.set_property("locked", locked)
@@ -331,11 +351,11 @@ class XAPathFinderItem(XABase.XAObject):
     @property
     def kind(self) -> str:
         return self.xa_elem.kind()
-    
+
     @property
     def size(self) -> int:
         return self.xa_elem.size()
-    
+
     @property
     def modification_date(self) -> datetime:
         return self.xa_elem.modificationDate()
@@ -347,7 +367,7 @@ class XAPathFinderItem(XABase.XAObject):
     @property
     def group_privileges(self) -> str:
         return self.xa_elem.groupPrivileges()
-    
+
     @group_privileges.setter
     def group_privileges(self, group_privileges: str):
         self.set_property("groupPrivileges", group_privileges)
@@ -355,11 +375,11 @@ class XAPathFinderItem(XABase.XAObject):
     @property
     def displayed_name(self) -> str:
         return self.xa_elem.displayedName()
-    
+
     @property
     def label_index(self) -> int:
         return self.xa_elem.labelIndex()
-    
+
     @property
     def everyones_privileges(self) -> str:
         return self.xa_elem.everyonesPrivileges()
@@ -369,13 +389,13 @@ class XAPathFinderItem(XABase.XAObject):
         self.set_property("everyonesPrivileges", everyones_privileges)
 
     @property
-    def disk(self) -> 'XAPathFinderDisk':
+    def disk(self) -> "XAPathFinderDisk":
         return self._new_element(self.xa_elem.disk(), XAPathFinderDisk)
-    
+
     @property
     def group(self) -> str:
         return self.xa_elem.group()
-    
+
     @group.setter
     def group(self, group: str):
         self.set_property("group", group)
@@ -383,19 +403,21 @@ class XAPathFinderItem(XABase.XAObject):
     @property
     def owner(self) -> str:
         return self.xa_elem.owner()
-    
+
     @owner.setter
     def owner(self, owner: str):
         self.set_property("owner", owner)
 
     @property
-    def information_window(self) -> 'XAPathFinderInfoWindow':
-        return self._new_element(self.xa_elem.informationWindow(), XAPathFinderInfoWindow)
-    
+    def information_window(self) -> "XAPathFinderInfoWindow":
+        return self._new_element(
+            self.xa_elem.informationWindow(), XAPathFinderInfoWindow
+        )
+
     @property
     def owner_privileges(self) -> str:
         return self.xa_elem.ownerPrivileges()
-    
+
     @owner_privileges.setter
     def owner_privileges(self, owner_privileges: str):
         self.set_property("ownerPrivileges", owner_privileges)
@@ -403,71 +425,65 @@ class XAPathFinderItem(XABase.XAObject):
     @property
     def creation_date(self) -> datetime:
         return self.xa_elem.creationDate()
-    
+
     @property
     def name_extension(self) -> str:
         return self.xa_elem.nameExtension()
-    
+
     @property
     def physical_size(self) -> int:
         return self.xa_elem.physicalSize()
-    
+
     @property
-    def container(self) -> 'XAPathFinderContainer':
+    def container(self) -> "XAPathFinderContainer":
         return self._new_element(self.xa_elem.container(), XAPathFinderContainer)
-    
+
     @property
-    def url(self) -> 'XABase.XAURL':
+    def url(self) -> "XABase.XAURL":
         return XABase.XAURL(self.xa_elem.URL())
 
     @property
-    def posix_path(self) -> 'XABase.XAPath':
+    def posix_path(self) -> "XABase.XAPath":
         return XABase.XAPath(self.xa_elem.posixPath())
-    
+
     @property
-    def path(self) -> 'XABase.XAPath':
+    def path(self) -> "XABase.XAPath":
         return XABase.XAPath(self.xa_elem.path())
 
     def reveal(self) -> None:
-        """Reveals the item in Path Finder.
-        """
+        """Reveals the item in Path Finder."""
         self.xa_elem.reveal()
 
     def select(self) -> None:
-        """Selects the item in Path Finder.
-        """
+        """Selects the item in Path Finder."""
         self.xa_elem.select()
 
     def exists(self) -> bool:
-        """Returns whether the item exists.
-        """
+        """Returns whether the item exists."""
         return self.xa_elem.exists()
-    
+
     def delete(self) -> None:
-        """Deletes the item.
-        """
+        """Deletes the item."""
         self.xa_elem.delete()
 
     def eject(self) -> None:
-        """Ejects the item.
-        """
+        """Ejects the item."""
         self.xa_elem.eject()
 
-    def open(self, application: Union[str, XABase.XAApplication] = "Path Finder") -> None:
-        """Opens the item.
-        """
+    def open(
+        self, application: Union[str, XABase.XAApplication] = "Path Finder"
+    ) -> None:
+        """Opens the item."""
         if isinstance(application, XABase.XAApplication):
             application = application.bundle_url
         self.xa_elem.PFOpenUsing_(application)
 
     def show_info(self) -> None:
-        """Opens the item's info window.
-        """
+        """Opens the item's info window."""
         self.xa_elem.PFInfo()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
-
 
 
 class XAPathFinderContainerList(XAPathFinderItemList):
@@ -477,29 +493,31 @@ class XAPathFinderContainerList(XAPathFinderItemList):
 
     .. versionadded:: 0.2.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAPathFinderContainer
         super().__init__(properties, filter, obj_class)
+
 
 class XAPathFinderContainer(XAPathFinderItem):
     """A class for interacting with containers in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
-    def folders(self) -> 'XAPathFinderFolderList':
-        """Returns a list of the folders in the container.
-        """
+    def folders(self) -> "XAPathFinderFolderList":
+        """Returns a list of the folders in the container."""
         return self._new_element(self.xa_elem.fsFolders(), XAPathFinderFolderList)
-    
-    def files(self) -> 'XAPathFinderFileList':
-        """Returns a list of the files in the container.
-        """
-        return self._new_element(self.xa_elem.fsFiles(), XAPathFinderFileList)
 
+    def files(self) -> "XAPathFinderFileList":
+        """Returns a list of the files in the container."""
+        return self._new_element(self.xa_elem.fsFiles(), XAPathFinderFileList)
 
 
 class XAPathFinderFolderList(XAPathFinderContainerList):
@@ -509,17 +527,19 @@ class XAPathFinderFolderList(XAPathFinderContainerList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderFolder)
+
 
 class XAPathFinderFolder(XAPathFinderContainer):
     """A class for interacting with Path Finder folders and their contents.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
 
 
 class XAPathFinderDiskList(XAPathFinderContainerList):
@@ -529,67 +549,69 @@ class XAPathFinderDiskList(XAPathFinderContainerList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderDisk)
 
     def local_volume(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("localVolume") or [])
-    
+
     def startup(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("startup") or [])
-    
+
     def ejectable(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("ejectable") or [])
-    
+
     def capacity(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("capacity") or [])
-    
+
     def free_space(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace") or [])
-    
-    def by_local_volume(self, local_volume: bool) -> Union['XAPathFinderDisk', None]:
+
+    def by_local_volume(self, local_volume: bool) -> Union["XAPathFinderDisk", None]:
         return self.by_property("localVolume", local_volume)
-    
-    def by_startup(self, startup: bool) -> Union['XAPathFinderDisk', None]:
+
+    def by_startup(self, startup: bool) -> Union["XAPathFinderDisk", None]:
         return self.by_property("startup", startup)
-    
-    def by_ejectable(self, ejectable: bool) -> Union['XAPathFinderDisk', None]:
+
+    def by_ejectable(self, ejectable: bool) -> Union["XAPathFinderDisk", None]:
         return self.by_property("ejectable", ejectable)
-    
-    def by_capacity(self, capacity: int) -> Union['XAPathFinderDisk', None]:
+
+    def by_capacity(self, capacity: int) -> Union["XAPathFinderDisk", None]:
         return self.by_property("capacity", capacity)
-    
-    def by_free_space(self, free_space: int) -> Union['XAPathFinderDisk', None]:
+
+    def by_free_space(self, free_space: int) -> Union["XAPathFinderDisk", None]:
         return self.by_property("freeSpace", free_space)
+
 
 class XAPathFinderDisk(XAPathFinderContainer):
     """A class for interacting with disks in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def local_volume(self) -> bool:
         return self.xa_elem.localVolume()
-    
+
     @property
     def startup(self) -> bool:
         return self.xa_elem.startup()
-    
+
     @property
     def ejectable(self) -> bool:
         return self.xa_elem.ejectable()
-    
+
     @property
     def capacity(self) -> int:
         return self.xa_elem.capacity()
-    
+
     @property
     def free_space(self) -> int:
         return self.xa_elem.freeSpace()
-
 
 
 class XAPathFinderFileList(XAPathFinderItemList):
@@ -599,33 +621,36 @@ class XAPathFinderFileList(XAPathFinderItemList):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderFile)
 
     def file_type(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
-    
+
     def creator_type(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
-    
-    def by_file_type(self, file_type: str) -> Union['XAPathFinderFile', None]:
+
+    def by_file_type(self, file_type: str) -> Union["XAPathFinderFile", None]:
         return self.by_property("fileType", file_type)
-    
-    def by_creator_type(self, creator_type: str) -> Union['XAPathFinderFile', None]:
+
+    def by_creator_type(self, creator_type: str) -> Union["XAPathFinderFile", None]:
         return self.by_property("creatorType", creator_type)
+
 
 class XAPathFinderFile(XAPathFinderItem):
     """A class for interacting with files in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def file_type(self) -> str:
         return self.xa_elem.fileType()
-    
+
     @file_type.setter
     def file_type(self, file_type: str):
         self.set_property("fileType", file_type)
@@ -633,11 +658,10 @@ class XAPathFinderFile(XAPathFinderItem):
     @property
     def creator_type(self) -> str:
         return self.xa_elem.creatorType()
-    
+
     @creator_type.setter
     def creator_type(self, creator_type: str):
         self.set_property("creatorType", creator_type)
-
 
 
 class XAPathFinderActiveTargetList(XAPathFinderContainer):
@@ -647,17 +671,19 @@ class XAPathFinderActiveTargetList(XAPathFinderContainer):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderActiveTarget)
+
 
 class XAPathFinderActiveTarget(XAPathFinderContainer):
     """A class for interacting with active targets in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
 
 
 class XAPathFinderLeftTargetList(XAPathFinderContainer):
@@ -667,17 +693,19 @@ class XAPathFinderLeftTargetList(XAPathFinderContainer):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderLeftTarget)
+
 
 class XAPathFinderLeftTarget(XAPathFinderContainer):
     """A class for interacting with left targets in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
 
 
 class XAPathFinderRightTargetList(XAPathFinderContainer):
@@ -687,13 +715,16 @@ class XAPathFinderRightTargetList(XAPathFinderContainer):
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPathFinderRightTarget)
+
 
 class XAPathFinderRightTarget(XAPathFinderContainer):
     """A class for interacting with right targets in Path Finder.
 
     .. versionadded:: 0.2.3
     """
+
     def __init__(self, properties):
         super().__init__(properties)

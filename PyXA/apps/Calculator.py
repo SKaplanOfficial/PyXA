@@ -5,11 +5,13 @@ Control the macOS Calculator application using JXA-like syntax.
 
 from PyXA import XABase
 
+
 class XACalculatorApplication(XABase.XAApplication):
     """A class for managing and interacting with Calculator.app.
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
         self.__xa_btns = None
@@ -146,8 +148,8 @@ class XACalculatorApplication(XABase.XAApplication):
     def input(self, sequence: str):
         """Inputs a sequence of numbers and operations into the calculator by mimicking button clicks.
 
-        This method does not obtain the result of the input. For that, use :func:`current_value`. 
-        
+        This method does not obtain the result of the input. For that, use :func:`current_value`.
+
         The sequence should be a continuous string (no spaces). The valid characters are numbers `0-9`, `+`, `-`, `*`, `/`, `%`, `~`, `=`, and `c`. Their meanings are as follows:
 
         - `+`, `-`, `*`, and `/` correspond to their usual operation buttons.

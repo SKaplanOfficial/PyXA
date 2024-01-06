@@ -4,6 +4,7 @@ Control Chromium using JXA-like syntax.
 """
 
 from typing import Any, Union
+from enum import Enum
 
 import AppKit
 
@@ -18,6 +19,12 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.3
     """
+    class ObjectType(Enum):
+        """The object types that can be created using :func:`make`.
+        """
+        TAB = "tab"
+        WINDOW = "window"
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAChromiumWindow
@@ -146,15 +153,17 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.front_window.tabs().push(new_tab)
         return new_tab
 
-    def make(self, specifier: str, properties: dict = None):
+    def make(self, specifier: Union[str, 'XAChromiumApplication.ObjectType'], properties: dict = None, data: Any = None):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAChromiumApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to give the object
+        :type data: Any
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -162,10 +171,32 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.4
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAChromiumApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "tab":
             return self._new_element(obj, XAChromiumTab)

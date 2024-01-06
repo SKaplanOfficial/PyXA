@@ -12,25 +12,25 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XAClipboardCodable, XACloseable, XADeletable, XAPrintable
 
+
 class XAFantasticalApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Fantastical.app.
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAFantasticalWindow
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Fantastical is the active application.
-        """
+        """Whether Fantastical is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -39,11 +39,17 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
 
     @property
     def version(self) -> str:
-        """The version of Fantastical.app.
-        """
+        """The version of Fantastical.app."""
         return self.xa_scel.version()
 
-    def parse_sentence(self, sentence: str, notes: str = "", calendar: Union[str, 'XAFantasticalCalendar', None] = None, add_immediately: bool = True, add_attendees: bool = False):
+    def parse_sentence(
+        self,
+        sentence: str,
+        notes: str = "",
+        calendar: Union[str, "XAFantasticalCalendar", None] = None,
+        add_immediately: bool = True,
+        add_attendees: bool = False,
+    ):
         """Parses the given sentences and creates a corresponding calendar item based on the parsing result.
 
         :param sentence: The sentence to parse
@@ -63,36 +69,42 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
         >>> import PyXA
         >>> app = PyXA.Application("Fantastical")
         >>> app.parse_sentence("Event 1")
-        >>> 
+        >>>
         >>> # Create an event on a calendar specified by a calendar object
         >>> cal = app.calendars().by_title("PyXA Development")
         >>> app.parse_sentence("Event 2", calendar = cal)
-        >>> 
+        >>>
         >>> # Create an event on a calendar specified by a string
         >>> app.parse_sentence("Event 3", calendar = "Testing")
-        
+
         :Example 2: Use Fantastical's query parsing to adjust calendar item settings
 
         >>> # Automatically set the time of a task to 8am, show event editing dialog
         >>> app.parse_sentence("Wake up at 8am", add_immediately = False)
-        >>> 
+        >>>
         >>> # Create a todo
         >>> app.parse_sentence("todo today Learn PyXA")
-        >>> 
+        >>>
         >>> # Create an event at a location, with an alert, repeating weekly
         >>> app.parse_sentence("Meet with Example Person at 10am at 1 Infinite Loop, Cupertino, CA with alert 30 minutes before repeat weekly")
-        >>> 
+        >>>
         >>> # Create an event spanning a week
         >>> app.parse_sentence("PyXA stuff August 22 to August 29")
 
         .. versionadded:: 0.0.9
         """
         if isinstance(calendar, XAFantasticalCalendar):
-            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(sentence, notes, calendar.xa_elem, None, add_immediately, add_attendees)
+            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(
+                sentence, notes, calendar.xa_elem, None, add_immediately, add_attendees
+            )
         elif isinstance(calendar, str):
-            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(sentence, notes, None, calendar, add_immediately, add_attendees)
+            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(
+                sentence, notes, None, calendar, add_immediately, add_attendees
+            )
         else:
-            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(sentence, notes, None, None, add_immediately, add_attendees)
+            self.xa_scel.parseSentence_notes_calendar_calendarName_addImmediately_addAttendees_(
+                sentence, notes, None, None, add_immediately, add_attendees
+            )
 
     def show_mini_view(self, date: Union[str, datetime, None] = None):
         """Shows the mini calendar view, optionally showing a specific date.
@@ -126,29 +138,37 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
         print(date)
         XABase.XAURL(f"x-fantastical3://show/calendar/{date}").open()
 
-    def documents(self, filter: dict = None) -> 'XAFantasticalDocumentList':
+    def documents(self, filter: dict = None) -> "XAFantasticalDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.9
         """
-        return self._new_element(self.xa_scel.documents(), XAFantasticalDocumentList, filter)
+        return self._new_element(
+            self.xa_scel.documents(), XAFantasticalDocumentList, filter
+        )
 
-    def calendars(self, filter: dict = None) -> 'XAFantasticalCalendarList':
+    def calendars(self, filter: dict = None) -> "XAFantasticalCalendarList":
         """Returns a list of calendars, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.9
         """
-        return self._new_element(self.xa_scel.calendars(), XAFantasticalCalendarList, filter)
+        return self._new_element(
+            self.xa_scel.calendars(), XAFantasticalCalendarList, filter
+        )
 
-    def selected_calendar_items(self, filter: dict = None) -> 'XAFantasticalSelectedCalendarItemList':
+    def selected_calendar_items(
+        self, filter: dict = None
+    ) -> "XAFantasticalSelectedCalendarItemList":
         """Returns a list of selected calendar items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.9
         """
-        return self._new_element(self.xa_scel.selectedCalendarItems(), XAFantasticalSelectedCalendarItemList, filter)
-    
+        return self._new_element(
+            self.xa_scel.selectedCalendarItems(),
+            XAFantasticalSelectedCalendarItemList,
+            filter,
+        )
 
-    
 
 class XAFantasticalDocumentList(XABase.XAList):
     """A wrapper around lists of Fantastical documents that employs fast enumeration techniques.
@@ -157,6 +177,7 @@ class XAFantasticalDocumentList(XABase.XAList):
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFantasticalDocument, filter)
 
@@ -170,23 +191,27 @@ class XAFantasticalDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
-    def by_name(self, name: str) -> 'XAFantasticalDocument':
+    def by_name(self, name: str) -> "XAFantasticalDocument":
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> 'XAFantasticalDocument':
+    def by_modified(self, modified: bool) -> "XAFantasticalDocument":
         return self.by_property("modified", modified)
 
-    def by_file(self, file: XABase.XAPath) -> 'XAFantasticalDocument':
+    def by_file(self, file: XABase.XAPath) -> "XAFantasticalDocument":
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintable, XAClipboardCodable):
+
+class XAFantasticalDocument(
+    XABase.XAObject, XACloseable, XADeletable, XAPrintable, XAClipboardCodable
+):
     """A document in Fantastical.app.
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -196,20 +221,17 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
 
     @name.setter
     def name(self, name: str):
-        """The document's name.
-        """
+        """The document's name."""
         self.set_property("name", name)
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since it was last saved.
-        """
+        """Whether the document has been modified since it was last saved."""
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
-        """The document's path.
-        """
+        """The document's path."""
         return XABase.XAPath(self.xa_elem.file())
 
     @file.setter
@@ -218,7 +240,9 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
             file = XABase.XAPath(file)
         self.set_property("file", file.xa_elem)
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
+    def print(
+        self, print_properties: Union[dict, None] = None, show_dialog: bool = True
+    ) -> "XAPrintable":
         """Prints the object.
 
         Child classes of XAPrintable should override this method as necessary.
@@ -234,7 +258,9 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
         """
         if print_properties is None:
             print_properties = {}
-        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
+        self.xa_elem.print_printDialog_withProperties_(
+            self.xa_elem, show_dialog, print_properties
+        )
         return self
 
     def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
@@ -251,28 +277,23 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
-    
-
 
 
 class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable):
-    """A window of Fantastical.app.
-    """
+    """A window of Fantastical.app."""
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def document(self) -> XAFantasticalDocument:
-        """The document currently displayed in the window.
-        """
+        """The document currently displayed in the window."""
         return self._new_element(self.xa_elem.document(), XAFantasticalDocument)
 
     @document.setter
     def document(self, document: XAFantasticalDocument):
         self.set_property("document", document.xa_elem)
 
-
-    
 
 class XAFantasticalCalendarList(XABase.XAList):
     """A wrapper around lists of Fantastical calendars that employs fast enumeration techniques.
@@ -281,6 +302,7 @@ class XAFantasticalCalendarList(XABase.XAList):
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFantasticalCalendar, filter)
 
@@ -290,27 +312,28 @@ class XAFantasticalCalendarList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def by_title(self, title: str) -> 'XAFantasticalCalendar':
+    def by_title(self, title: str) -> "XAFantasticalCalendar":
         return self.by_property("title", title)
 
-    def by_id(self, id: str) -> 'XAFantasticalCalendar':
+    def by_id(self, id: str) -> "XAFantasticalCalendar":
         return self.by_property("id", id)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.title()) + ">"
+
 
 class XAFantasticalCalendar(XABase.XAObject):
     """A class in Fantastical.app.
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def title(self) -> str:
-        """The calendar's title.
-        """
+        """The calendar's title."""
         return self.xa_elem.title()
 
     @title.setter
@@ -319,14 +342,11 @@ class XAFantasticalCalendar(XABase.XAObject):
 
     @property
     def id(self) -> str:
-        """The unique identifier for the calendar.
-        """
+        """The unique identifier for the calendar."""
         return self.xa_elem.id()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.title) + ">"
-
-
 
 
 class XAFantasticalCalendarItemList(XABase.XAList):
@@ -336,7 +356,10 @@ class XAFantasticalCalendarItemList(XABase.XAList):
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAFantasticalCalendarItem
         super().__init__(properties, obj_class, filter)
@@ -369,96 +392,89 @@ class XAFantasticalCalendarItemList(XABase.XAList):
     def is_all_day(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("isAllDay") or [])
 
-    def by_id(self, id: str) -> 'XAFantasticalCalendarItem':
+    def by_id(self, id: str) -> "XAFantasticalCalendarItem":
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> 'XAFantasticalCalendarItem':
+    def by_title(self, title: str) -> "XAFantasticalCalendarItem":
         return self.by_property("title", title)
 
-    def by_start_date(self, start_date: datetime) -> 'XAFantasticalCalendarItem':
+    def by_start_date(self, start_date: datetime) -> "XAFantasticalCalendarItem":
         return self.by_property("startDate", start_date)
 
-    def by_end_date(self, end_date: datetime) -> 'XAFantasticalCalendarItem':
+    def by_end_date(self, end_date: datetime) -> "XAFantasticalCalendarItem":
         return self.by_property("endDate", end_date)
 
-    def by_notes(self, notes: str) -> 'XAFantasticalCalendarItem':
+    def by_notes(self, notes: str) -> "XAFantasticalCalendarItem":
         return self.by_property("notes", notes)
 
-    def by_url(self, url: XABase.XAURL) -> 'XAFantasticalCalendarItem':
+    def by_url(self, url: XABase.XAURL) -> "XAFantasticalCalendarItem":
         return self.by_property("URL", url.xa_elem)
 
-    def by_show_url(self, show_url: XABase.XAURL) -> 'XAFantasticalCalendarItem':
+    def by_show_url(self, show_url: XABase.XAURL) -> "XAFantasticalCalendarItem":
         return self.by_property("showURL", show_url.xa_elem)
 
-    def by_is_recurring(self, is_recurring: bool) -> 'XAFantasticalCalendarItem':
+    def by_is_recurring(self, is_recurring: bool) -> "XAFantasticalCalendarItem":
         return self.by_property("isRecurring", is_recurring)
 
-    def by_is_all_day(self, is_all_day: bool) -> 'XAFantasticalCalendarItem':
+    def by_is_all_day(self, is_all_day: bool) -> "XAFantasticalCalendarItem":
         return self.by_property("isAllDay", is_all_day)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.title()) + ">"
+
 
 class XAFantasticalCalendarItem(XABase.XAObject):
     """An insertion point between two objects in Fantastical.app.
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the item.
-        """
+        """The unique identifier for the item."""
         return self.xa_elem.id()
 
     @property
     def title(self) -> str:
-        """The event title.
-        """
+        """The event title."""
         return self.xa_elem.title()
 
     @property
     def start_date(self) -> datetime:
-        """The start date of the event.
-        """
+        """The start date of the event."""
         return self.xa_elem.startDate()
 
     @property
     def end_date(self) -> datetime:
-        """The end date of the event.
-        """
+        """The end date of the event."""
         return self.xa_elem.endDate()
 
     @property
     def notes(self) -> str:
-        """The notes for the event.
-        """
+        """The notes for the event."""
         return self.xa_elem.notes() or ""
 
     @property
     def url(self) -> XABase.XAURL:
-        """The related URL for the event.
-        """
+        """The related URL for the event."""
         return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def show_url(self) -> XABase.XAURL:
-        """The show URL for the event.
-        """
+        """The show URL for the event."""
         return XABase.XAURL(self.xa_elem.showURL())
 
     @property
     def is_recurring(self) -> bool:
-        """True if the item is a recurring item.
-        """
+        """True if the item is a recurring item."""
         return self.xa_elem.isRecurring()
 
     @property
     def is_all_day(self) -> bool:
-        """True if the item spans an entire day.
-        """
+        """True if the item spans an entire day."""
         return self.xa_elem.isAllDay()
 
     def save(self):
@@ -468,8 +484,6 @@ class XAFantasticalCalendarItem(XABase.XAObject):
         return "<" + str(type(self)) + str(self.title) + ">"
 
 
-
-
 class XAFantasticalSelectedCalendarItemList(XAFantasticalCalendarItemList):
     """A wrapper around lists of Fantastical selected calendar items that employs fast enumeration techniques.
 
@@ -477,14 +491,14 @@ class XAFantasticalSelectedCalendarItemList(XAFantasticalCalendarItemList):
 
     .. versionadded:: 0.0.9
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAFantasticalSelectedCalendarItem)
+
 
 class XAFantasticalSelectedCalendarItem(XAFantasticalCalendarItem):
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAFantasticalCalendarEvent(XAFantasticalCalendarItem):
@@ -493,15 +507,12 @@ class XAFantasticalCalendarEvent(XAFantasticalCalendarItem):
 
     @property
     def location(self) -> str:
-        """The event location.
-        """
+        """The event location."""
         return self.xa_elem.location()
 
     @location.setter
     def location(self, location: str):
         self.set_property("location", location)
-
-
 
 
 class XAFantasticalTaskItem(XAFantasticalCalendarItem):
@@ -510,8 +521,7 @@ class XAFantasticalTaskItem(XAFantasticalCalendarItem):
 
     @property
     def priority(self) -> int:
-        """The event priority; higher number means lower priority.
-        """
+        """The event priority; higher number means lower priority."""
         return self.xa_elem.priority()
 
     @priority.setter

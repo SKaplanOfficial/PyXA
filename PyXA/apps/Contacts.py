@@ -20,84 +20,88 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.2
     """
+
+    class ObjectType(Enum):
+        """Object types that can be created using :func:`XAContactsApplication.make`."""
+
+        PERSON = "person"
+        GROUP = "group"
+        DOCUMENT = "document"
+        URL = "url"
+
     class Format(Enum):
-        """Format options when saving documents.
-        """
-        ARCHIVE = XABase.OSType('abbu') #: The native Address Book file format
+        """Format options when saving documents."""
+
+        ARCHIVE = XABase.OSType("abbu")  #: The native Address Book file format
 
     class ServiceType(Enum):
-        """Service types for social media accounts.
-        """
-        AIM         = XABase.OSType('az85')
-        GADU_GADU   = XABase.OSType('az86')
-        GOOGLE_TALK = XABase.OSType('az87')
-        ICQ         = XABase.OSType('az88')
-        JABBER      = XABase.OSType('az89')
-        MSN         = XABase.OSType('az90')
-        QQ          = XABase.OSType('az91')
-        SKYPE       = XABase.OSType('az92')
-        YAHOO       = XABase.OSType('az93')
-        FACEBOOK    = XABase.OSType('az94')
+        """Service types for social media accounts."""
+
+        AIM = XABase.OSType("az85")
+        GADU_GADU = XABase.OSType("az86")
+        GOOGLE_TALK = XABase.OSType("az87")
+        ICQ = XABase.OSType("az88")
+        JABBER = XABase.OSType("az89")
+        MSN = XABase.OSType("az90")
+        QQ = XABase.OSType("az91")
+        SKYPE = XABase.OSType("az92")
+        YAHOO = XABase.OSType("az93")
+        FACEBOOK = XABase.OSType("az94")
 
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Contacts is the frontmost application.
-        """
+        """Whether Contacts is the frontmost application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
     def frontmost(self, frontmost: bool):
-        self.set_property('frontmost', frontmost)
+        self.set_property("frontmost", frontmost)
 
     @property
     def version(self) -> str:
-        """The version of Contacts.app.
-        """
+        """The version of Contacts.app."""
         return self.xa_scel.version()
 
     @property
-    def my_card(self) -> 'XAContactsPerson':
-        """The user's contact card.
-        """
+    def my_card(self) -> "XAContactsPerson":
+        """The user's contact card."""
         return self._new_element(self.xa_scel.myCard(), XAContactsPerson)
 
     @my_card.setter
-    def my_card(self, my_card: 'XAContactsPerson'):
-        self.set_property('myCard', my_card)
+    def my_card(self, my_card: "XAContactsPerson"):
+        self.set_property("myCard", my_card)
 
     @property
     def unsaved(self) -> bool:
-        """Whether there are any unsaved changed.
-        """
+        """Whether there are any unsaved changed."""
         return self.xa_scel.unsaved()
 
     @property
-    def selection(self) -> 'XAContactsPersonList':
-        """The currently selected entries.
-        """
+    def selection(self) -> "XAContactsPersonList":
+        """The currently selected entries."""
         return self._new_element(self.xa_scel.selection(), XAContactsPersonList)
 
     @selection.setter
-    def selection(self, selection: Union['XAContactsPersonList', list['XAContactsPerson']]):
+    def selection(
+        self, selection: Union["XAContactsPersonList", list["XAContactsPerson"]]
+    ):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property("selection", selection)
         else:
-            self.set_property('selection', selection.xa_elem)
+            self.set_property("selection", selection.xa_elem)
 
     @property
     def default_country_code(self) -> str:
-        """The default country code for addresses.
-        """
+        """The default country code for addresses."""
         return self.xa_scel.defaultCountryCode().get() or ""
 
     def open(self, file_path: str):
@@ -117,7 +121,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         self.xa_scel.save()
 
-    def documents(self, filter: Union[dict, None] = None) -> 'XAContactsDocumentList':
+    def documents(self, filter: Union[dict, None] = None) -> "XAContactsDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None
@@ -127,9 +131,11 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.documents(), XAContactsDocumentList, filter)
+        return self._new_element(
+            self.xa_scel.documents(), XAContactsDocumentList, filter
+        )
 
-    def groups(self, filter: Union[dict, None] = None) -> 'XAContactsGroupList':
+    def groups(self, filter: Union[dict, None] = None) -> "XAContactsGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -148,7 +154,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.groups(), XAContactsGroupList, filter)
 
-    def people(self, filter: Union[dict, None] = None) -> 'XAContactsPersonList':
+    def people(self, filter: Union[dict, None] = None) -> "XAContactsPersonList":
         """Returns a list of people, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned people will have, or None
@@ -167,15 +173,22 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.people(), XAContactsPersonList, filter)
 
-    def make(self, specifier: str, properties: dict = None):
+    def make(
+        self,
+        specifier: Union[str, "XAContactsApplication.ObjectType"],
+        properties: dict = None,
+        data: Any = None,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAContactsApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to initialize the object with. Defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -190,10 +203,32 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.7
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAContactsApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "document":
             return self._new_element(obj, XAContactsDocument)
@@ -205,23 +240,19 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             return self._new_element(obj, XAContactsURL)
 
 
-
-
 class XAContactsWindow(XABaseScriptable.XASBWindow):
     """A window of Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XAContactsDocument':
-        """The documents currently displayed in the window.
-        """
+    def document(self) -> "XAContactsDocument":
+        """The documents currently displayed in the window."""
         return self._new_element(self.xa_elem.document(), XAContactsDocument)
-
-
 
 
 class XAContactsDocumentList(XABase.XAList):
@@ -231,6 +262,7 @@ class XAContactsDocumentList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsDocument, filter)
 
@@ -244,45 +276,42 @@ class XAContactsDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAURL(x) for x in ls]
 
-    def by_name(self, name: str) -> Union['XAContactsDocument', None]:
+    def by_name(self, name: str) -> Union["XAContactsDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XAContactsDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XAContactsDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: XABase.XAURL) -> Union['XAContactsDocument', None]:
+    def by_file(self, file: XABase.XAURL) -> Union["XAContactsDocument", None]:
         return self.by_property("file", file.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAContactsDocument(XABase.XAObject):
     """A document in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the document.
-        """
+        """The name of the document."""
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since it was last saved.
-        """
+        """Whether the document has been modified since it was last saved."""
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAURL:
-        """The location of the document of the disk, if one exists.
-        """
+        """The location of the document of the disk, if one exists."""
         return XABase.XAURL(self.xa_elem.file())
-
-
 
 
 class XAContactsAddressList(XABase.XAList):
@@ -292,6 +321,7 @@ class XAContactsAddressList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsAddress, filter)
 
@@ -322,127 +352,120 @@ class XAContactsAddressList(XABase.XAList):
     def state(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("state") or [])
 
-    def by_city(self, city: str) -> Union['XAContactsAddress', None]:
+    def by_city(self, city: str) -> Union["XAContactsAddress", None]:
         return self.by_property("city", city)
 
-    def by_formatted_address(self, formatted_address: str) -> Union['XAContactsAddress', None]:
+    def by_formatted_address(
+        self, formatted_address: str
+    ) -> Union["XAContactsAddress", None]:
         return self.by_property("formattedAddress", formatted_address)
 
-    def by_street(self, street: str) -> Union['XAContactsAddress', None]:
+    def by_street(self, street: str) -> Union["XAContactsAddress", None]:
         return self.by_property("street", street)
 
-    def by_id(self, id: str) -> Union['XAContactsAddress', None]:
+    def by_id(self, id: str) -> Union["XAContactsAddress", None]:
         return self.by_property("id", id)
 
-    def by_zip(self, zip: str) -> Union['XAContactsAddress', None]:
+    def by_zip(self, zip: str) -> Union["XAContactsAddress", None]:
         return self.by_property("zip", zip)
 
-    def by_country(self, country: str) -> Union['XAContactsAddress', None]:
+    def by_country(self, country: str) -> Union["XAContactsAddress", None]:
         return self.by_property("country", country)
 
-    def by_label(self, label: str) -> Union['XAContactsAddress', None]:
+    def by_label(self, label: str) -> Union["XAContactsAddress", None]:
         return self.by_property("label", label)
 
-    def by_country_code(self, country_code: str) -> Union['XAContactsAddress', None]:
+    def by_country_code(self, country_code: str) -> Union["XAContactsAddress", None]:
         return self.by_property("countryCode", country_code)
 
-    def by_state(self, state: str) -> Union['XAContactsAddress', None]:
+    def by_state(self, state: str) -> Union["XAContactsAddress", None]:
         return self.by_property("state", state)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.label()) + ">"
+
 
 class XAContactsAddress(XABase.XAObject):
     """An address associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def city(self) -> str:
-        """The city part of the address.
-        """
+        """The city part of the address."""
         return self.xa_elem.city()
 
     @city.setter
     def city(self, city: str):
-        self.set_property('city', city)
+        self.set_property("city", city)
 
     @property
     def formatted_address(self) -> str:
-        """The formatted string for the address.
-        """
+        """The formatted string for the address."""
         return self.xa_elem.formattedAddress()
 
     @property
     def street(self) -> str:
-        """The street part of the address.
-        """
+        """The street part of the address."""
         return self.xa_elem.street()
 
     @street.setter
     def street(self, street: str):
-        self.set_property('street', street)
+        self.set_property("street", street)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the address.
-        """
+        """The unique identifier for the address."""
         return self.xa_elem.id()
 
     @property
     def zip(self) -> str:
-        """The zip code or postal code part of the address.
-        """
+        """The zip code or postal code part of the address."""
         return self.xa_elem.zip()
 
     @zip.setter
     def zip(self, zip: str):
-        self.set_property('zip', zip)
+        self.set_property("zip", zip)
 
     @property
     def country(self) -> str:
-        """The country part of the address.
-        """
+        """The country part of the address."""
         return self.xa_elem.country()
 
     @country.setter
     def country(self, country: str):
-        self.set_property('country', country)
+        self.set_property("country", country)
 
     @property
     def label(self) -> str:
-        """The label associated with the address.
-        """
+        """The label associated with the address."""
         return self.xa_elem.label()
 
     @label.setter
     def label(self, label: str):
-        self.set_property('label', label)
+        self.set_property("label", label)
 
     @property
     def country_code(self) -> str:
-        """The country code part of the address.
-        """
+        """The country code part of the address."""
         return self.xa_elem.countryCode()
 
     @country_code.setter
     def country_code(self, country_code: str):
-        self.set_property('countryCode', country_code)
+        self.set_property("countryCode", country_code)
 
     @property
     def state(self) -> str:
-        """The state, province, or region part of the address.
-        """
+        """The state, province, or region part of the address."""
         return self.xa_elem.state()
 
     @state.setter
     def state(self, state: str):
-        self.set_property('state', state)
-
-
+        self.set_property("state", state)
 
 
 class XAContactsContactInfoList(XABase.XAList):
@@ -452,7 +475,10 @@ class XAContactsContactInfoList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAContactsContactInfo
         super().__init__(properties, obj_class, filter)
@@ -466,53 +492,52 @@ class XAContactsContactInfoList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def by_label(self, label: str) -> Union['XAContactsContactInfo', None]:
+    def by_label(self, label: str) -> Union["XAContactsContactInfo", None]:
         return self.by_property("label", label)
 
-    def by_value(self, value: Any) -> Union['XAContactsContactInfo', None]:
+    def by_value(self, value: Any) -> Union["XAContactsContactInfo", None]:
         return self.by_property("value", value)
-    
-    def by_id(self, id: str) -> Union['XAContactsContactInfo', None]:
+
+    def by_id(self, id: str) -> Union["XAContactsContactInfo", None]:
         return self.by_property("id", id)
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.label()) + "::" + str(self.value()) + ">"
+        return (
+            "<" + str(type(self)) + str(self.label()) + "::" + str(self.value()) + ">"
+        )
+
 
 class XAContactsContactInfo(XABase.XAObject):
     """Contact information associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def label(self) -> str:
-        """The label associated with the information entry.
-        """
+        """The label associated with the information entry."""
         return self.xa_elem.label()
 
     @label.setter
     def label(self, label: str):
-        self.set_property('label', label)
+        self.set_property("label", label)
 
     @property
     def value(self) -> Union[str, datetime, None]:
-        """The value of the information entry.
-        """
+        """The value of the information entry."""
         return self.xa_elem.value()
 
     @value.setter
     def value(self, value: Union[str, datetime, None]):
-        self.set_property('value', value)
+        self.set_property("value", value)
 
     @property
     def id(self) -> str:
-        """The persistent unique identifier for the information entry.
-        """
+        """The persistent unique identifier for the information entry."""
         return self.xa_elem.id()
-
-
 
 
 class XAContactsCustomDateList(XAContactsContactInfoList):
@@ -522,18 +547,19 @@ class XAContactsCustomDateList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsCustomDate)
+
 
 class XAContactsCustomDate(XAContactsContactInfo):
     """A custom date associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAContactsEmailList(XAContactsContactInfoList):
@@ -543,18 +569,19 @@ class XAContactsEmailList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsEmail)
+
 
 class XAContactsEmail(XAContactsContactInfo):
     """A document in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAContactsEntryList(XABase.XAList):
@@ -564,7 +591,10 @@ class XAContactsEntryList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAContactsEntry
         super().__init__(properties, obj_class, filter)
@@ -581,58 +611,60 @@ class XAContactsEntryList(XABase.XAList):
     def selected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
-    def by_modification_date(self, modification_date: datetime) -> Union['XAContactsEntry', None]:
+    def by_modification_date(
+        self, modification_date: datetime
+    ) -> Union["XAContactsEntry", None]:
         return self.by_property("modificationDate", modification_date)
 
-    def by_creation_date(self, creation_date: datetime) -> Union['XAContactsEntry', None]:
+    def by_creation_date(
+        self, creation_date: datetime
+    ) -> Union["XAContactsEntry", None]:
         return self.by_property("creationDate", creation_date)
 
-    def by_id(self, id: str) -> Union['XAContactsEntry', None]:
+    def by_id(self, id: str) -> Union["XAContactsEntry", None]:
         return self.by_property("id", id)
 
-    def by_selected(self, selected: bool) -> Union['XAContactsEntry', None]:
+    def by_selected(self, selected: bool) -> Union["XAContactsEntry", None]:
         return self.by_property("selected", selected)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
+
 
 class XAContactsEntry(XABase.XAObject):
     """An entry in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def modification_date(self) -> datetime:
-        """The last modification date of the contact entry.
-        """
+        """The last modification date of the contact entry."""
         return self.xa_elem.modificationDate()
 
     @property
     def creation_date(self) -> datetime:
-        """The creation date of the contact entry.
-        """
+        """The creation date of the contact entry."""
         return self.xa_elem.creationDate()
 
     @property
     def id(self) -> str:
-        """The unique persistent identifier for the entry.
-        """
+        """The unique persistent identifier for the entry."""
         return self.xa_elem.id()
 
     @property
     def selected(self) -> bool:
-        """Whether the entry is selected.
-        """
+        """Whether the entry is selected."""
         return self.xa_elem.selected()
 
     @selected.setter
     def selected(self, selected: bool):
-        self.set_property('selected', selected)
+        self.set_property("selected", selected)
 
-    def add_to(self, parent: XABase.XAObject) -> 'XAContactsPerson':
+    def add_to(self, parent: XABase.XAObject) -> "XAContactsPerson":
         """Adds a child object to an entry.
 
         :param parent: The entry to add this entry as a child to
@@ -651,7 +683,7 @@ class XAContactsEntry(XABase.XAObject):
         person = self.xa_elem.addTo_(parent.xa_elem)
         return self._new_element(person, XAContactsPerson)
 
-    def remove_from(self, elem) -> 'XAContactsPerson':
+    def remove_from(self, elem) -> "XAContactsPerson":
         """Removes a child object from an entry.
 
         :param parent: The entry to removes this entry as a child from
@@ -682,8 +714,6 @@ class XAContactsEntry(XABase.XAObject):
         return "<" + str(type(self)) + str(self.id) + ">"
 
 
-
-
 class XAContactsGroupList(XAContactsEntryList):
     """A wrapper around lists of contact groups that employs fast enumeration techniques.
 
@@ -691,37 +721,39 @@ class XAContactsGroupList(XAContactsEntryList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsGroup)
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_name(self, name: str) -> Union['XAContactsGroup', None]:
+    def by_name(self, name: str) -> Union["XAContactsGroup", None]:
         return self.by_property("name", name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAContactsGroup(XAContactsEntry):
     """A group in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the group.
-        """
+        """The name of the group."""
         return self.xa_elem.name()
 
     @name.setter
     def name(self, name: str):
-        self.set_property('name', name)
+        self.set_property("name", name)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'XAContactsGroupList':
+    def groups(self, filter: Union[dict, None] = None) -> "XAContactsGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -733,7 +765,7 @@ class XAContactsGroup(XAContactsEntry):
         """
         return self._new_element(self.xa_elem.groups(), XAContactsGroupList, filter)
 
-    def people(self, filter: Union[dict, None] = None) -> 'XAContactsPersonList':
+    def people(self, filter: Union[dict, None] = None) -> "XAContactsPersonList":
         """Returns a list of people, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned people will have, or None
@@ -749,8 +781,6 @@ class XAContactsGroup(XAContactsEntry):
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
-
 class XAContactsInstantMessageList(XAContactsContactInfoList):
     """A wrapper around lists of IM addresses that employs fast enumeration techniques.
 
@@ -758,6 +788,7 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsInstantMessage)
 
@@ -766,62 +797,66 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
 
     def service_type(self) -> list[XAContactsApplication.ServiceType]:
         ls = self.xa_elem.arrayByApplyingSelector_("serviceType") or []
-        return [XAContactsApplication.ServiceType(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAContactsApplication.ServiceType(XABase.OSType(x.stringValue()))
+            for x in ls
+        ]
 
     def user_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("userName") or [])
 
-    def by_service_name(self, service_name: str) -> Union['XAContactsInstantMessage', None]:
+    def by_service_name(
+        self, service_name: str
+    ) -> Union["XAContactsInstantMessage", None]:
         return self.by_property("serviceName", service_name)
 
-    def by_service_type(self, service_type: XAContactsApplication.ServiceType) -> Union['XAContactsInstantMessage', None]:
+    def by_service_type(
+        self, service_type: XAContactsApplication.ServiceType
+    ) -> Union["XAContactsInstantMessage", None]:
         event = XAEvents.event_from_int(service_type.value)
         return self.by_property("serviceType", event)
 
-    def by_user_name(self, user_name: str) -> Union['XAContactsInstantMessage', None]:
+    def by_user_name(self, user_name: str) -> Union["XAContactsInstantMessage", None]:
         return self.by_property("userName", user_name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_name()) + ">"
+
 
 class XAContactsInstantMessage(XAContactsContactInfo):
     """An instant message (IM) address associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def service_name(self) -> str:
-        """The service name of the IM address.
-        """
+        """The service name of the IM address."""
         return self.xa_elem.serviceName().get()
 
     @property
     def service_type(self) -> XAContactsApplication.ServiceType:
-        """The service type of the IM address.
-        """
+        """The service type of the IM address."""
         return XAContactsApplication.ServiceType(self.xa_elem.serviceType())
 
     @service_type.setter
     def service_type(self, service_type: XAContactsApplication.ServiceType):
-        self.set_property('serviceType', service_type.value)
+        self.set_property("serviceType", service_type.value)
 
     @property
     def user_name(self) -> str:
-        """The user name of the the IM address.
-        """
+        """The user name of the the IM address."""
         return self.xa_elem.userName().get()
 
     @user_name.setter
     def user_name(self, user_name: str):
-        self.set_property('userName', user_name)
+        self.set_property("userName", user_name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_name) + ">"
-
-
 
 
 class XAContactsPersonList(XAContactsEntryList):
@@ -831,6 +866,7 @@ class XAContactsPersonList(XAContactsEntryList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsPerson)
 
@@ -895,275 +931,263 @@ class XAContactsPersonList(XAContactsEntryList):
     def first_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("firstName") or [])
 
-    def by_nickname(self, nickname: str) -> Union['XAContactsPerson', None]:
+    def by_nickname(self, nickname: str) -> Union["XAContactsPerson", None]:
         return self.by_property("nickname", nickname)
 
-    def by_organization(self, organization: str) -> Union['XAContactsPerson', None]:
+    def by_organization(self, organization: str) -> Union["XAContactsPerson", None]:
         return self.by_property("organization", organization)
 
-    def by_maiden_name(self, maiden_name: str) -> Union['XAContactsPerson', None]:
+    def by_maiden_name(self, maiden_name: str) -> Union["XAContactsPerson", None]:
         return self.by_property("maidenName", maiden_name)
 
-    def by_suffix(self, suffix: str) -> Union['XAContactsPerson', None]:
+    def by_suffix(self, suffix: str) -> Union["XAContactsPerson", None]:
         return self.by_property("suffix", suffix)
 
-    def by_vcard(self, vcard: str) -> Union['XAContactsPerson', None]:
+    def by_vcard(self, vcard: str) -> Union["XAContactsPerson", None]:
         return self.by_property("vcard", vcard)
 
-    def by_home_page(self, home_page: str) -> Union['XAContactsPerson', None]:
+    def by_home_page(self, home_page: str) -> Union["XAContactsPerson", None]:
         # TODO - URL?
         return self.by_property("homePage", home_page)
 
-    def by_birth_date(self, birth_date: datetime) -> Union['XAContactsPerson', None]:
+    def by_birth_date(self, birth_date: datetime) -> Union["XAContactsPerson", None]:
         return self.by_property("birthDate", birth_date)
 
-    def by_phonetic_last_name(self, phonetic_last_name: str) -> Union['XAContactsPerson', None]:
+    def by_phonetic_last_name(
+        self, phonetic_last_name: str
+    ) -> Union["XAContactsPerson", None]:
         return self.by_property("phoneticLastName", phonetic_last_name)
 
-    def by_title(self, title: str) -> Union['XAContactsPerson', None]:
+    def by_title(self, title: str) -> Union["XAContactsPerson", None]:
         return self.by_property("title", title)
 
-    def by_phonetic_middle_name(self, phonetic_middle_name: str) -> Union['XAContactsPerson', None]:
+    def by_phonetic_middle_name(
+        self, phonetic_middle_name: str
+    ) -> Union["XAContactsPerson", None]:
         return self.by_property("phoneticMiddleName", phonetic_middle_name)
 
-    def by_department(self, department: str) -> Union['XAContactsPerson', None]:
+    def by_department(self, department: str) -> Union["XAContactsPerson", None]:
         return self.by_property("department", department)
 
-    def by_image(self, image: XABase.XAImage) -> Union['XAContactsPerson', None]:
+    def by_image(self, image: XABase.XAImage) -> Union["XAContactsPerson", None]:
         return self.by_property("image", image.xa_elem)
 
-    def by_name(self, name: str) -> Union['XAContactsPerson', None]:
+    def by_name(self, name: str) -> Union["XAContactsPerson", None]:
         return self.by_property("name", name)
 
-    def by_note(self, note: str) -> Union['XAContactsPerson', None]:
+    def by_note(self, note: str) -> Union["XAContactsPerson", None]:
         return self.by_property("note", note)
 
-    def by_company(self, company: bool) -> Union['XAContactsPerson', None]:
+    def by_company(self, company: bool) -> Union["XAContactsPerson", None]:
         return self.by_property("company", company)
 
-    def by_middle_name(self, middle_name: str) -> Union['XAContactsPerson', None]:
+    def by_middle_name(self, middle_name: str) -> Union["XAContactsPerson", None]:
         return self.by_property("middleName", middle_name)
 
-    def by_phonetic_first_name(self, phonetic_first_name: str) -> Union['XAContactsPerson', None]:
+    def by_phonetic_first_name(
+        self, phonetic_first_name: str
+    ) -> Union["XAContactsPerson", None]:
         return self.by_property("phoneticFirstName", phonetic_first_name)
 
-    def by_job_title(self, job_title: str) -> Union['XAContactsPerson', None]:
+    def by_job_title(self, job_title: str) -> Union["XAContactsPerson", None]:
         return self.by_property("jobTitle", job_title)
 
-    def by_last_name(self, last_name: str) -> Union['XAContactsPerson', None]:
+    def by_last_name(self, last_name: str) -> Union["XAContactsPerson", None]:
         return self.by_property("lastName", last_name)
 
-    def by_first_name(self, first_name: str) -> Union['XAContactsPerson', None]:
+    def by_first_name(self, first_name: str) -> Union["XAContactsPerson", None]:
         return self.by_property("firstName", first_name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAContactsPerson(XAContactsEntry):
     """A person in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def nickname(self) -> str:
-        """The nickname of the person.
-        """
+        """The nickname of the person."""
         return self.xa_elem.nickname().get()
 
     @nickname.setter
     def nickname(self, nickname: str):
-        self.set_property('nickname', nickname)
+        self.set_property("nickname", nickname)
 
     @property
     def organization(self) -> str:
-        """The organization that employs the person.
-        """
+        """The organization that employs the person."""
         return self.xa_elem.organization().get()
 
     @organization.setter
     def organization(self, organization: str):
-        self.set_property('organization', organization)
+        self.set_property("organization", organization)
 
     @property
     def maiden_name(self) -> str:
-        """The maiden name of the person.
-        """
+        """The maiden name of the person."""
         return self.xa_elem.maidenName().get()
 
     @maiden_name.setter
     def maiden_name(self, maiden_name: str):
-        self.set_property('maidenName', maiden_name)
+        self.set_property("maidenName", maiden_name)
 
     @property
     def suffix(self) -> str:
-        """The suffix of the person's name.
-        """
+        """The suffix of the person's name."""
         return self.xa_elem.suffix().get()
 
     @suffix.setter
     def suffix(self, suffix: str):
-        self.set_property('suffix', suffix)
+        self.set_property("suffix", suffix)
 
     @property
     def vcard(self) -> str:
-        """The person's information in vCard format.
-        """
+        """The person's information in vCard format."""
         return self.xa_elem.vcard().get()
 
     @property
     def home_page(self) -> str:
-        """The homepage of the person.
-        """
+        """The homepage of the person."""
         return self.xa_elem.homePage().get()
 
     @home_page.setter
     def home_page(self, home_page: str):
-        self.set_property('homePage', home_page)
+        self.set_property("homePage", home_page)
 
     @property
     def birth_date(self) -> datetime:
-        """The birthdate of the person.
-        """
+        """The birthdate of the person."""
         return self.xa_elem.birthDate().get()
 
     @birth_date.setter
     def birth_date(self, birth_date: datetime):
-        self.set_property('birthDate', birth_date)
+        self.set_property("birthDate", birth_date)
 
     @property
     def phonetic_last_name(self) -> str:
-        """The phonetic version of the person's last name.
-        """
+        """The phonetic version of the person's last name."""
         return self.xa_elem.phoneticLastName().get()
 
     @phonetic_last_name.setter
     def phonetic_last_name(self, phonetic_last_name: str):
-        self.set_property('phoneticLastName', phonetic_last_name)
+        self.set_property("phoneticLastName", phonetic_last_name)
 
     @property
     def title(self) -> str:
-        """The title of the person.
-        """
+        """The title of the person."""
         return self.xa_elem.title().get()
 
     @title.setter
     def title(self, title: str):
-        self.set_property('title', title)
+        self.set_property("title", title)
 
     @property
     def phonetic_middle_name(self) -> str:
-        """The phonetic version of the person's middle name.
-        """
+        """The phonetic version of the person's middle name."""
         return self.xa_elem.phoneticMiddleNamne().get()
 
     @phonetic_middle_name.setter
     def phonetic_middle_name(self, phonetic_middle_name: str):
-        self.set_property('phoneticMiddleName', phonetic_middle_name)
+        self.set_property("phoneticMiddleName", phonetic_middle_name)
 
     @property
     def department(self) -> str:
-        """The department that the person works for.
-        """
+        """The department that the person works for."""
         return self.xa_elem.department().get()
 
     @department.setter
     def department(self, department: str):
-        self.set_property('department', department)
+        self.set_property("department", department)
 
     @property
     def image(self) -> XABase.XAImage:
-        """The image for the person.
-        """
+        """The image for the person."""
         return XABase.XAImage(self.xa_elem.image().get())
 
     @image.setter
     def image(self, image: XABase.XAImage):
-        self.set_property('image', image.xa_elem)
+        self.set_property("image", image.xa_elem)
 
     @property
     def name(self) -> str:
-        """The first and last name of the person.
-        """
+        """The first and last name of the person."""
         return self.xa_elem.name()
 
     @name.setter
     def name(self, name: str):
-        self.set_property('name', name)
+        self.set_property("name", name)
 
     @property
     def note(self) -> str:
-        """The notes for the person.
-        """
+        """The notes for the person."""
         return self.xa_elem.note().get()
 
     @note.setter
     def note(self, note: str):
-        self.set_property('note', note)
+        self.set_property("note", note)
 
     @property
     def company(self) -> bool:
-        """Whether the record is for a company or not (if not, the record is for a person).
-        """
+        """Whether the record is for a company or not (if not, the record is for a person)."""
         return self.xa_elem.company().get()
 
     @company.setter
     def company(self, company: bool):
-        self.set_property('company', company)
+        self.set_property("company", company)
 
     @property
     def middle_name(self) -> str:
-        """The middle name of the person.
-        """
+        """The middle name of the person."""
         return self.xa_elem.middleName().get()
 
     @middle_name.setter
     def middle_name(self, middle_name: str):
-        self.set_property('middleName', middle_name)
+        self.set_property("middleName", middle_name)
 
     @property
     def phonetic_first_name(self) -> str:
-        """The phonetic version of the person's first name.
-        """
+        """The phonetic version of the person's first name."""
         return self.xa_elem.phoneticFirstName().get()
 
     @phonetic_first_name.setter
     def phonetic_first_name(self, phonetic_first_name: str):
-        self.set_property('phoneticFirstName', phonetic_first_name)
+        self.set_property("phoneticFirstName", phonetic_first_name)
 
     @property
     def job_title(self) -> str:
-        """The job title of the person.
-        """
+        """The job title of the person."""
         return self.xa_elem.jobTitle().get()
 
     @job_title.setter
     def job_title(self, job_title: str):
-        self.set_property('jobTitle', job_title)
+        self.set_property("jobTitle", job_title)
 
     @property
     def last_name(self) -> str:
-        """The last name of the person.
-        """
+        """The last name of the person."""
         return self.xa_elem.lastName().get()
 
     @last_name.setter
     def last_name(self, last_name: str):
-        self.set_property('lastName', last_name)
+        self.set_property("lastName", last_name)
 
     @property
     def first_name(self) -> str:
-        """The first name of the person.
-        """
+        """The first name of the person."""
         return self.xa_elem.firstName().get()
 
     @first_name.setter
     def first_name(self, first_name: str):
-        self.set_property('firstName', first_name)
+        self.set_property("firstName", first_name)
 
-    def show(self) -> 'XAContactsPerson':
+    def show(self) -> "XAContactsPerson":
         """Shows the contact card for this contact in Contacts.app.
 
         :return: The contact person object
@@ -1172,11 +1196,13 @@ class XAContactsPerson(XAContactsEntry):
         .. versionadded:: 0.0.7
         """
         vcard = self.vcard
-        id = vcard[vcard.index("X-ABUID") + 8: vcard.index(":ABPerson")] + "%3AABPerson"
+        id = (
+            vcard[vcard.index("X-ABUID") + 8 : vcard.index(":ABPerson")] + "%3AABPerson"
+        )
         XABase.XAURL("addressbook://" + id).open()
         return self
 
-    def urls(self, filter: Union[dict, None] = None) -> 'XAContactsURLList':
+    def urls(self, filter: Union[dict, None] = None) -> "XAContactsURLList":
         """Returns a list of URLs, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned URLs will have, or None
@@ -1188,7 +1214,7 @@ class XAContactsPerson(XAContactsEntry):
         """
         return self._new_element(self.xa_elem.urls(), XAContactsURLList, filter)
 
-    def addresses(self, filter: Union[dict, None] = None) -> 'XAContactsAddressList':
+    def addresses(self, filter: Union[dict, None] = None) -> "XAContactsAddressList":
         """Returns a list of addresses, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned addresses will have, or None
@@ -1198,9 +1224,11 @@ class XAContactsPerson(XAContactsEntry):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.addresses(), XAContactsAddressList, filter)
+        return self._new_element(
+            self.xa_elem.addresses(), XAContactsAddressList, filter
+        )
 
-    def phones(self, filter: Union[dict, None] = None) -> 'XAContactsPhoneList':
+    def phones(self, filter: Union[dict, None] = None) -> "XAContactsPhoneList":
         """Returns a list of phone numbers, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned phone numbers will have, or None
@@ -1212,7 +1240,7 @@ class XAContactsPerson(XAContactsEntry):
         """
         return self._new_element(self.xa_elem.phones(), XAContactsPhoneList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'XAContactsGroupList':
+    def groups(self, filter: Union[dict, None] = None) -> "XAContactsGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -1224,7 +1252,9 @@ class XAContactsPerson(XAContactsEntry):
         """
         return self._new_element(self.xa_elem.phones(), XAContactsGroupList, filter)
 
-    def custom_dates(self, filter: Union[dict, None] = None) -> 'XAContactsCustomDateList':
+    def custom_dates(
+        self, filter: Union[dict, None] = None
+    ) -> "XAContactsCustomDateList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -1234,9 +1264,13 @@ class XAContactsPerson(XAContactsEntry):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.customDates(), XAContactsCustomDateList, filter)
+        return self._new_element(
+            self.xa_elem.customDates(), XAContactsCustomDateList, filter
+        )
 
-    def instant_messages(self, filter: Union[dict, None] = None) -> 'XAContactsInstantMessageList':
+    def instant_messages(
+        self, filter: Union[dict, None] = None
+    ) -> "XAContactsInstantMessageList":
         """Returns a list of IM addresses, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned IM addresses will have, or None
@@ -1246,9 +1280,13 @@ class XAContactsPerson(XAContactsEntry):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.instantMessages(), XAContactsInstantMessageList, filter)
+        return self._new_element(
+            self.xa_elem.instantMessages(), XAContactsInstantMessageList, filter
+        )
 
-    def social_profiles(self, filter: Union[dict, None] = None) -> 'XAContactsSocialProfileList':
+    def social_profiles(
+        self, filter: Union[dict, None] = None
+    ) -> "XAContactsSocialProfileList":
         """Returns a list of social profiles, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned social profiles will have, or None
@@ -1258,9 +1296,13 @@ class XAContactsPerson(XAContactsEntry):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.socialProfiles(), XAContactsSocialProfileList, filter)
+        return self._new_element(
+            self.xa_elem.socialProfiles(), XAContactsSocialProfileList, filter
+        )
 
-    def related_names(self, filter: Union[dict, None] = None) -> 'XAContactsRelatedNameList':
+    def related_names(
+        self, filter: Union[dict, None] = None
+    ) -> "XAContactsRelatedNameList":
         """Returns a list of related names, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned related names will have, or None
@@ -1270,9 +1312,11 @@ class XAContactsPerson(XAContactsEntry):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.relatedNames(), XAContactsRelatedNameList, filter)
+        return self._new_element(
+            self.xa_elem.relatedNames(), XAContactsRelatedNameList, filter
+        )
 
-    def emails(self, filter: Union[dict, None] = None) -> 'XAContactsEmailList':
+    def emails(self, filter: Union[dict, None] = None) -> "XAContactsEmailList":
         """Returns a list of email addresses, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned email addresses will have, or None
@@ -1288,8 +1332,6 @@ class XAContactsPerson(XAContactsEntry):
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
-
 class XAContactsPhoneList(XAContactsContactInfoList):
     """A wrapper around lists of contact phone numbers that employs fast enumeration techniques.
 
@@ -1297,18 +1339,19 @@ class XAContactsPhoneList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsPhone)
+
 
 class XAContactsPhone(XAContactsContactInfo):
     """A phone number associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAContactsRelatedNameList(XAContactsContactInfoList):
@@ -1318,18 +1361,19 @@ class XAContactsRelatedNameList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsRelatedName)
+
 
 class XAContactsRelatedName(XAContactsContactInfo):
     """A related name of a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAContactsSocialProfileList(XABase.XAList):
@@ -1339,6 +1383,7 @@ class XAContactsSocialProfileList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsSocialProfile, filter)
 
@@ -1357,82 +1402,81 @@ class XAContactsSocialProfileList(XABase.XAList):
     def url(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("URL") or [])
 
-    def by_id(self, id: str) -> Union['XAContactsSocialProfile', None]:
+    def by_id(self, id: str) -> Union["XAContactsSocialProfile", None]:
         return self.by_property("id", id)
 
-    def by_service_name(self, service_name: str) -> Union['XAContactsSocialProfile', None]:
+    def by_service_name(
+        self, service_name: str
+    ) -> Union["XAContactsSocialProfile", None]:
         return self.by_property("serviceName", service_name)
 
-    def by_user_name(self, user_name: str) -> Union['XAContactsSocialProfile', None]:
+    def by_user_name(self, user_name: str) -> Union["XAContactsSocialProfile", None]:
         return self.by_property("userName", user_name)
 
-    def by_user_identifier(self, user_identifier: str) -> Union['XAContactsSocialProfile', None]:
+    def by_user_identifier(
+        self, user_identifier: str
+    ) -> Union["XAContactsSocialProfile", None]:
         return self.by_property("userIdentifier", user_identifier)
 
-    def by_url(self, url: str) -> Union['XAContactsSocialProfile', None]:
+    def by_url(self, url: str) -> Union["XAContactsSocialProfile", None]:
         return self.by_property("URL", url)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.user_name()) + ">"
+
 
 class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
     """A social profile associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """A persistent unique identifier for this profile.
-        """
+        """A persistent unique identifier for this profile."""
         return self.xa_elem.id()
 
     @property
     def service_name(self) -> str:
-        """The service name of this social profile.
-        """
+        """The service name of this social profile."""
         return self.xa_elem.serviceName().get()
 
     @service_name.setter
     def service_name(self, service_name: str):
-        self.set_property('serviceName', service_name)
+        self.set_property("serviceName", service_name)
 
     @property
     def user_name(self) -> str:
-        """The user name used with this social profile.
-        """
+        """The user name used with this social profile."""
         return self.xa_elem.userName().get()
 
     @user_name.setter
     def user_name(self, user_name: str):
-        self.set_property('userName', user_name)
+        self.set_property("userName", user_name)
 
     @property
     def user_identifier(self) -> str:
-        """A service-specific identifier used with this social profile.
-        """
+        """A service-specific identifier used with this social profile."""
         return self.xa_elem.userIdentifier().get()
 
     @user_identifier.setter
     def user_identifier(self, user_identifier: str):
-        self.set_property('userIdentifier', user_identifier)
+        self.set_property("userIdentifier", user_identifier)
 
     @property
     def url(self) -> str:
-        """The URL of the social profile.
-        """
+        """The URL of the social profile."""
         return self.xa_elem.url()
 
     @url.setter
     def url(self, url: str):
-        self.set_property('url', url)
+        self.set_property("url", url)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.user_name) + ">"
-
-
 
 
 class XAContactsURLList(XAContactsContactInfoList):
@@ -1442,13 +1486,16 @@ class XAContactsURLList(XAContactsContactInfoList):
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsURL)
+
 
 class XAContactsURL(XAContactsContactInfo):
     """A URL associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
     """
+
     def __init__(self, properties):
         super().__init__(properties)

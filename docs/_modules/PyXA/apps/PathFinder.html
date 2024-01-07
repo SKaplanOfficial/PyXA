@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.PathFinder &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=000c92bf"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Package Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.PathFinder</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.PathFinder</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.3.0</span>
+
+<span class="sd">Control OmniWeb using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">XACanOpenPath</span><span class="p">,</span>
+    <span class="n">XACanPrintPath</span><span class="p">,</span>
+    <span class="n">XAClipboardCodable</span><span class="p">,</span>
+    <span class="n">XACloseable</span><span class="p">,</span>
+    <span class="n">XADeletable</span><span class="p">,</span>
+    <span class="n">XAPrintable</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..XAErrors</span> <span class="kn">import</span> <span class="n">UnconstructableClassError</span>
+<span class="kn">from</span> <span class="nn">..XAEvents</span> <span class="kn">import</span> <span class="n">event_from_str</span>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderApplication</span><span class="p">(</span>
+    <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XACanPrintPath</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for managing and interacting with Path Finder.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAPathFinderWindow</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether Path Finder is the frontmost application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The version of Path Finder.app.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFolder&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">home</span><span class="p">(),</span> <span class="n">XAPathFinderFolder</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderItemList&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">selection</span><span class="p">(),</span> <span class="n">XAPathFinderItemList</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">startup_disk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">startupDisk</span><span class="p">(),</span> <span class="n">XAPathFinderDisk</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">desktop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFolder&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">desktop</span><span class="p">(),</span> <span class="n">XAPathFinderFolder</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">trash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFolder&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">trash</span><span class="p">(),</span> <span class="n">XAPathFinderFolder</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderApplication.disks">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.disks">[docs]</a>
+    <span class="k">def</span> <span class="nf">disks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderDiskList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the disks in Path Finder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">disks</span><span class="p">(),</span> <span class="n">XAPathFinderDiskList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication.finder_windows">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.finder_windows">[docs]</a>
+    <span class="k">def</span> <span class="nf">finder_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFinderWindowList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the finder windows in Path Finder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">finderWindows</span><span class="p">(),</span> <span class="n">XAPathFinderFinderWindowList</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication.info_windows">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.info_windows">[docs]</a>
+    <span class="k">def</span> <span class="nf">info_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderInfoWindowList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the info windows in Path Finder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">infoWindows</span><span class="p">(),</span> <span class="n">XAPathFinderInfoWindowList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication.add_toolbar_item">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.add_toolbar_item">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_toolbar_item</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;XAPathFinderItem&quot;</span><span class="p">,</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">],</span> <span class="n">position</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an item to the toolbar.</span>
+
+<span class="sd">        :param item: The item to add.</span>
+<span class="sd">        :type item: Union[str, XAPathFinderItem]</span>
+<span class="sd">        :param position: The target position to add the item at, defaults to 0.</span>
+<span class="sd">        :type position: int, optional</span>
+<span class="sd">        :returns: The actual position of the item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XAPathFinderItem</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">posix_path</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">addToolbarItem_atPosition_</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication.remove_toolbar_item">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.remove_toolbar_item">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_toolbar_item</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;XAPathFinderItem&quot;</span><span class="p">,</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes an item from the toolbar.</span>
+
+<span class="sd">        :param item: The item to remove.</span>
+<span class="sd">        :type item: Union[str, XAPathFinderItem]</span>
+<span class="sd">        :returns: The position of the item prior to removal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XAPathFinderItem</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">removeToolbarItem_</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderApplication.empty">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderApplication.empty">[docs]</a>
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Empties the trash.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderWindow">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A window of Path Finder.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderDocument&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The active document.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAPathFinderDocument</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFinderWindowList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindowList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFinderWindowList</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindowList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder finder windows that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of windows can be called as methods on the wrapped list, returning a list containing each window&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderFinderWindow</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderFinderWindowList.target">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.target">[docs]</a>
+    <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderContainerList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The active target.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[],</span>
+            <span class="n">XAPathFinderContainerList</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFinderWindowList.current_view">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.current_view">[docs]</a>
+    <span class="k">def</span> <span class="nf">current_view</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The current view.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;currentView&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFinderWindowList.by_target">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_target">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_target</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">&quot;XAPathFinderContainer&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderFinderWindow&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFinderWindowList.by_current_view">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_current_view">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_current_view</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">current_view</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderFinderWindow&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;currentView&quot;</span><span class="p">,</span> <span class="n">current_view</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFinderWindow">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFinderWindow</span><span class="p">(</span><span class="n">XAPathFinderWindow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with finder windows in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderContainer&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The active target.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">target</span><span class="p">(),</span> <span class="n">XAPathFinderContainer</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_view</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The current view.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentView</span><span class="p">()</span>
+
+    <span class="nd">@current_view</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_view</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentView&quot;</span><span class="p">,</span> <span class="n">current_view</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderFinderWindow.open">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFinderWindow.open">[docs]</a>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens the window.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">open</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderInfoWindowList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderInfoWindowList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderInfoWindowList</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindowList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder info windows that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of windows can be called as methods on the wrapped list, returning a list containing each window&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderInfoWindow</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderInfoWindowList.item">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.item">[docs]</a>
+    <span class="k">def</span> <span class="nf">item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderItemList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The active item.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;item&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">XAPathFinderItemList</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderInfoWindowList.by_item">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.by_item">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_item</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="s2">&quot;XAPathFinderItem&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderInfoWindow&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;item&quot;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderInfoWindow">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderInfoWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderInfoWindow</span><span class="p">(</span><span class="n">XAPathFinderWindow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with info windows in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderItem&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The active item.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">XAPathFinderItem</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder documents that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of documents can be called as methods on the wrapped list, returning a list containing each document&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPathFinderDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.name">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.modified">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.modified">[docs]</a>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.file">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.file">[docs]</a>
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.by_name">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.by_modified">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_modified">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">,</span> <span class="n">modified</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDocumentList.by_file">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderDocument">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDocument">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with documents in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">file</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderItemList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItemList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderItemList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder items that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of items can be called as methods on the wrapped list, returning a list containing each item&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPathFinderItemList</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderItemList.name">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItemList.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItemList.by_name">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItemList.by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderItem&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderItem">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderItem</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with items in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extension_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">extensionHidden</span><span class="p">()</span>
+
+    <span class="nd">@extension_hidden</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">extension_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extension_hidden</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;extensionHidden&quot;</span><span class="p">,</span> <span class="n">extension_hidden</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">locked</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">locked</span><span class="p">()</span>
+
+    <span class="nd">@locked</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">locked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">locked</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="n">locked</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">kind</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modification_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">group_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">groupPrivileges</span><span class="p">()</span>
+
+    <span class="nd">@group_privileges</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">group_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_privileges</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;groupPrivileges&quot;</span><span class="p">,</span> <span class="n">group_privileges</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">displayed_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">displayedName</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">label_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">labelIndex</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">everyones_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">everyonesPrivileges</span><span class="p">()</span>
+
+    <span class="nd">@everyones_privileges</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">everyones_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">everyones_privileges</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;everyonesPrivileges&quot;</span><span class="p">,</span> <span class="n">everyones_privileges</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">disk</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">disk</span><span class="p">(),</span> <span class="n">XAPathFinderDisk</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+
+    <span class="nd">@group</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;group&quot;</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">owner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">owner</span><span class="p">()</span>
+
+    <span class="nd">@owner</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">owner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;owner&quot;</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">information_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderInfoWindow&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">informationWindow</span><span class="p">(),</span> <span class="n">XAPathFinderInfoWindow</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">owner_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ownerPrivileges</span><span class="p">()</span>
+
+    <span class="nd">@owner_privileges</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">owner_privileges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner_privileges</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;ownerPrivileges&quot;</span><span class="p">,</span> <span class="n">owner_privileges</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">creation_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">nameExtension</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">physical_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">physicalSize</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderContainer&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">container</span><span class="p">(),</span> <span class="n">XAPathFinderContainer</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XABase.XAURL&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">posix_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">posixPath</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
+
+<div class="viewcode-block" id="XAPathFinderItem.reveal">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.reveal">[docs]</a>
+    <span class="k">def</span> <span class="nf">reveal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reveals the item in Path Finder.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.select">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.select">[docs]</a>
+    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selects the item in Path Finder.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">select</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.exists">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.exists">[docs]</a>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns whether the item exists.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.delete">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes the item.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.eject">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.eject">[docs]</a>
+    <span class="k">def</span> <span class="nf">eject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ejects the item.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">eject</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.open">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.open">[docs]</a>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Path Finder&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens the item.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">):</span>
+            <span class="n">application</span> <span class="o">=</span> <span class="n">application</span><span class="o">.</span><span class="n">bundle_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">PFOpenUsing_</span><span class="p">(</span><span class="n">application</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderItem.show_info">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderItem.show_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens the item&#39;s info window.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">PFInfo</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderContainerList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderContainerList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderContainerList</span><span class="p">(</span><span class="n">XAPathFinderItemList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder containers that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of containers can be called as methods on the wrapped list, returning a list containing each container&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPathFinderContainer</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderContainer">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderContainer">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderContainer</span><span class="p">(</span><span class="n">XAPathFinderItem</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with containers in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderContainer.folders">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderContainer.folders">[docs]</a>
+    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFolderList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the folders in the container.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fsFolders</span><span class="p">(),</span> <span class="n">XAPathFinderFolderList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderContainer.files">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderContainer.files">[docs]</a>
+    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAPathFinderFileList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the files in the container.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fsFiles</span><span class="p">(),</span> <span class="n">XAPathFinderFileList</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFolderList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFolderList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFolderList</span><span class="p">(</span><span class="n">XAPathFinderContainerList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder folders that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of folders can be called as methods on the wrapped list, returning a list containing each folder&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderFolder</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFolder">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFolder">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFolder</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with Path Finder folders and their contents.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderDiskList</span><span class="p">(</span><span class="n">XAPathFinderContainerList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder disks that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of disks can be called as methods on the wrapped list, returning a list containing each disk&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderDisk</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderDiskList.local_volume">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.local_volume">[docs]</a>
+    <span class="k">def</span> <span class="nf">local_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;localVolume&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.startup">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.startup">[docs]</a>
+    <span class="k">def</span> <span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;startup&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.ejectable">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.ejectable">[docs]</a>
+    <span class="k">def</span> <span class="nf">ejectable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ejectable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.capacity">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.capacity">[docs]</a>
+    <span class="k">def</span> <span class="nf">capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;capacity&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.free_space">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.free_space">[docs]</a>
+    <span class="k">def</span> <span class="nf">free_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;freeSpace&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.by_local_volume">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.by_local_volume">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_local_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_volume</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;localVolume&quot;</span><span class="p">,</span> <span class="n">local_volume</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.by_startup">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.by_startup">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startup</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span> <span class="n">startup</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.by_ejectable">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.by_ejectable">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_ejectable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ejectable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;ejectable&quot;</span><span class="p">,</span> <span class="n">ejectable</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.by_capacity">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.by_capacity">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;capacity&quot;</span><span class="p">,</span> <span class="n">capacity</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderDiskList.by_free_space">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDiskList.by_free_space">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_free_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">free_space</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderDisk&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;freeSpace&quot;</span><span class="p">,</span> <span class="n">free_space</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderDisk">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderDisk">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderDisk</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with disks in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">local_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">localVolume</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">startup</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ejectable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ejectable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">capacity</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">free_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">freeSpace</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFileList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFileList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFileList</span><span class="p">(</span><span class="n">XAPathFinderItemList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder files that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of files can be called as methods on the wrapped list, returning a list containing each file&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderFile</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPathFinderFileList.file_type">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFileList.file_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileType&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFileList.creator_type">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFileList.creator_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">creator_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;creatorType&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFileList.by_file_type">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFileList.by_file_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderFile&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;fileType&quot;</span><span class="p">,</span> <span class="n">file_type</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAPathFinderFileList.by_creator_type">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFileList.by_creator_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_creator_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creator_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAPathFinderFile&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;creatorType&quot;</span><span class="p">,</span> <span class="n">creator_type</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderFile">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderFile">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderFile</span><span class="p">(</span><span class="n">XAPathFinderItem</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with files in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileType</span><span class="p">()</span>
+
+    <span class="nd">@file_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;fileType&quot;</span><span class="p">,</span> <span class="n">file_type</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">creator_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creatorType</span><span class="p">()</span>
+
+    <span class="nd">@creator_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">creator_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creator_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;creatorType&quot;</span><span class="p">,</span> <span class="n">creator_type</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderActiveTargetList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderActiveTargetList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderActiveTargetList</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder active targets that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of active targets can be called as methods on the wrapped list, returning a list containing each active target&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderActiveTarget</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderActiveTarget">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderActiveTarget">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderActiveTarget</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with active targets in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderLeftTargetList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderLeftTargetList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderLeftTargetList</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder left targets that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of left targets can be called as methods on the wrapped list, returning a list containing each left target&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderLeftTarget</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderLeftTarget">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderLeftTarget">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderLeftTarget</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with left targets in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderRightTargetList">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderRightTargetList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderRightTargetList</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of Path Finder right targets that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of right targets can be called as methods on the wrapped list, returning a list containing each right target&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPathFinderRightTarget</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="XAPathFinderRightTarget">
+<a class="viewcode-back" href="../../../reference/apps/pathfinder.html#PyXA.apps.PathFinder.XAPathFinderRightTarget">[docs]</a>
+<span class="k">class</span> <span class="nc">XAPathFinderRightTarget</span><span class="p">(</span><span class="n">XAPathFinderContainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for interacting with right targets in Path Finder.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

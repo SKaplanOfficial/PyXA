@@ -1,19 +1,25 @@
 # PyXA Changelog
 
-## [PyXA 0.2.3] - 2023-04-13
+## [PyXA 0.3.0] - 2023-04-13
 
 **Additions**
 
 - Added _XACamera_.
 - Added _XAMicrophone_.
+- Added _XAScreen_.
 - Added _XADatetimeBlock_ type representing dates with a duration attached.
 - Added _XAList.map()_.
 - Added _XAText.extract_urls()_. Returns a list of _XAURL_ objects.
 - Added _XAText.extract_dates()_. Returns a list of _XADatetimeBlock_ objects.
 - Added _XAText.extract_addresses()_. Returns a list of _XALocation_ objects.
 - Added _XAText.extract_phone_numbers()_. Returns a list of _XAText_ objects.
+- Script Editor:
+  - Added _XAScriptEditorApplication.make()_.
+- Shortcuts:
+  - Added _XAShortcutsApplication.make()_.
 - Bike Outliner:
   - Added _XABikeApplication.RowType_ enum.
+  - Added _XABikeApplication.query()_.
   - Added _XABikeRowList.type()_. Returns a list of _XABikeApplication.RowType_.
   - Added _XABikeRowList.by_type()_. Returns a _XABikeRowList_.
   - Added _XABikeRowList.delete()_.
@@ -23,8 +29,10 @@
   - Added _XABikeRow.delete()_.
 - Added _XAErrors.AppleScriptError_ for handling AppleScript compilation and runtime errors.
 - New Applications:
-  - Added support for OmniWeb
-  - Added support for Path Finder
+  - Added support for Arc.
+  - Added greater support for various Chromium browsers.
+  - Added support for OmniWeb.
+  - Added support for Path Finder.
 
 **Changes**
 

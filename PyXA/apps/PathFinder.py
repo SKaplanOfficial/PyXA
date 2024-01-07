@@ -1,4 +1,4 @@
-""".. versionadded:: 0.2.3
+""".. versionadded:: 0.3.0
 
 Control OmniWeb using JXA-like syntax.
 """
@@ -29,7 +29,7 @@ class XAPathFinderApplication(
 ):
     """A class for managing and interacting with Path Finder.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -125,7 +125,7 @@ class XAPathFinderApplication(
 class XAPathFinderWindow(XABaseScriptable.XASBWindow):
     """A window of Path Finder.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict):
@@ -142,7 +142,7 @@ class XAPathFinderFinderWindowList(XABaseScriptable.XASBWindowList):
 
     All properties of windows can be called as methods on the wrapped list, returning a list containing each window's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -173,7 +173,7 @@ class XAPathFinderFinderWindowList(XABaseScriptable.XASBWindowList):
 class XAPathFinderFinderWindow(XAPathFinderWindow):
     """A class for interacting with finder windows in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -203,7 +203,7 @@ class XAPathFinderInfoWindowList(XABaseScriptable.XASBWindowList):
 
     All properties of windows can be called as methods on the wrapped list, returning a list containing each window's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -224,7 +224,7 @@ class XAPathFinderInfoWindowList(XABaseScriptable.XASBWindowList):
 class XAPathFinderInfoWindow(XAPathFinderWindow):
     """A class for interacting with info windows in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -241,7 +241,7 @@ class XAPathFinderDocumentList(XABase.XAList):
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -279,7 +279,7 @@ class XAPathFinderDocumentList(XABase.XAList):
 class XAPathFinderDocument(XABase.XAObject):
     """A class for interacting with documents in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -303,7 +303,7 @@ class XAPathFinderItemList(XABase.XAList):
 
     All properties of items can be called as methods on the wrapped list, returning a list containing each item's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(
@@ -326,7 +326,7 @@ class XAPathFinderItemList(XABase.XAList):
 class XAPathFinderItem(XABase.XAObject):
     """A class for interacting with items in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -491,7 +491,7 @@ class XAPathFinderContainerList(XAPathFinderItemList):
 
     All properties of containers can be called as methods on the wrapped list, returning a list containing each container's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(
@@ -505,7 +505,7 @@ class XAPathFinderContainerList(XAPathFinderItemList):
 class XAPathFinderContainer(XAPathFinderItem):
     """A class for interacting with containers in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -525,7 +525,7 @@ class XAPathFinderFolderList(XAPathFinderContainerList):
 
     All properties of folders can be called as methods on the wrapped list, returning a list containing each folder's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -535,7 +535,7 @@ class XAPathFinderFolderList(XAPathFinderContainerList):
 class XAPathFinderFolder(XAPathFinderContainer):
     """A class for interacting with Path Finder folders and their contents.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -547,7 +547,7 @@ class XAPathFinderDiskList(XAPathFinderContainerList):
 
     All properties of disks can be called as methods on the wrapped list, returning a list containing each disk's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -587,7 +587,7 @@ class XAPathFinderDiskList(XAPathFinderContainerList):
 class XAPathFinderDisk(XAPathFinderContainer):
     """A class for interacting with disks in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -619,7 +619,7 @@ class XAPathFinderFileList(XAPathFinderItemList):
 
     All properties of files can be called as methods on the wrapped list, returning a list containing each file's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -641,7 +641,7 @@ class XAPathFinderFileList(XAPathFinderItemList):
 class XAPathFinderFile(XAPathFinderItem):
     """A class for interacting with files in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -669,7 +669,7 @@ class XAPathFinderActiveTargetList(XAPathFinderContainer):
 
     All properties of active targets can be called as methods on the wrapped list, returning a list containing each active target's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -679,7 +679,7 @@ class XAPathFinderActiveTargetList(XAPathFinderContainer):
 class XAPathFinderActiveTarget(XAPathFinderContainer):
     """A class for interacting with active targets in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -691,7 +691,7 @@ class XAPathFinderLeftTargetList(XAPathFinderContainer):
 
     All properties of left targets can be called as methods on the wrapped list, returning a list containing each left target's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -701,7 +701,7 @@ class XAPathFinderLeftTargetList(XAPathFinderContainer):
 class XAPathFinderLeftTarget(XAPathFinderContainer):
     """A class for interacting with left targets in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -713,7 +713,7 @@ class XAPathFinderRightTargetList(XAPathFinderContainer):
 
     All properties of right targets can be called as methods on the wrapped list, returning a list containing each right target's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -723,7 +723,7 @@ class XAPathFinderRightTargetList(XAPathFinderContainer):
 class XAPathFinderRightTarget(XAPathFinderContainer):
     """A class for interacting with right targets in Path Finder.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):

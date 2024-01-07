@@ -52,6 +52,7 @@ Third-Party Application Module Reference
 .. toctree::
    :maxdepth: 2
 
+   apps/arc
    apps/bike
    apps/cardhop
    apps/chromium
@@ -62,6 +63,8 @@ Third-Party Application Module Reference
    apps/iina
    apps/iterm
    apps/omnioutliner
+   apps/omniweb
+   apps/pathfinder
    apps/spotify
    apps/vlc
    apps/rstudio

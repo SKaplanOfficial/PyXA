@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Path Finder Module Reference &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Spotify Module Reference" href="spotify.html" />
+    <link rel="prev" title="OmniWeb Module Reference" href="omniweb.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Package Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arc.html">Arc Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="drafts.html">Drafts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iina.html">IINA+ Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omniweb.html">OmniWeb Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Path Finder Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderActiveTarget"><code class="docutils literal notranslate"><span class="pre">XAPathFinderActiveTarget</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderActiveTargetList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderActiveTargetList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication"><code class="docutils literal notranslate"><span class="pre">XAPathFinderApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer"><code class="docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainerList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderContainerList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk"><code class="docutils literal notranslate"><span class="pre">XAPathFinderDisk</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderDiskList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument"><code class="docutils literal notranslate"><span class="pre">XAPathFinderDocument</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderDocumentList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFileList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFinderWindow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFinderWindowList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolder"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFolder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolderList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderFolderList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow"><code class="docutils literal notranslate"><span class="pre">XAPathFinderInfoWindow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderInfoWindowList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem"><code class="docutils literal notranslate"><span class="pre">XAPathFinderItem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderItemList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderLeftTarget"><code class="docutils literal notranslate"><span class="pre">XAPathFinderLeftTarget</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderLeftTargetList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderLeftTargetList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderRightTarget"><code class="docutils literal notranslate"><span class="pre">XAPathFinderRightTarget</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderRightTargetList"><code class="docutils literal notranslate"><span class="pre">XAPathFinderRightTargetList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderWindow"><code class="docutils literal notranslate"><span class="pre">XAPathFinderWindow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Path Finder Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/pathfinder.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.PathFinder">
+<span id="path-finder-module-reference"></span><h1>Path Finder Module Reference<a class="headerlink" href="#module-PyXA.apps.PathFinder" title="Link to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p>Control OmniWeb using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderActiveTarget" title="PyXA.apps.PathFinder.XAPathFinderActiveTarget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderActiveTarget</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with active targets in Path Finder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderActiveTargetList" title="PyXA.apps.PathFinder.XAPathFinderActiveTargetList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderActiveTargetList</span></code></a>(properties[, ...])</p></td>
+<td><p>A wrapper around lists of Path Finder active targets that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication" title="PyXA.apps.PathFinder.XAPathFinderApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Path Finder.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with containers in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainerList" title="PyXA.apps.PathFinder.XAPathFinderContainerList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderContainerList</span></code></a>(properties[, ...])</p></td>
+<td><p>A wrapper around lists of Path Finder containers that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderDisk</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with disks in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList" title="PyXA.apps.PathFinder.XAPathFinderDiskList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderDiskList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder disks that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="PyXA.apps.PathFinder.XAPathFinderDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderDocument</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with documents in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList" title="PyXA.apps.PathFinder.XAPathFinderDocumentList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderDocumentList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder documents that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile" title="PyXA.apps.PathFinder.XAPathFinderFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFile</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with files in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList" title="PyXA.apps.PathFinder.XAPathFinderFileList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFileList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder files that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFinderWindow</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with finder windows in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFinderWindowList</span></code></a>(properties[, ...])</p></td>
+<td><p>A wrapper around lists of Path Finder finder windows that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolder" title="PyXA.apps.PathFinder.XAPathFinderFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFolder</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with Path Finder folders and their contents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolderList" title="PyXA.apps.PathFinder.XAPathFinderFolderList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderFolderList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder folders that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow" title="PyXA.apps.PathFinder.XAPathFinderInfoWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderInfoWindow</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with info windows in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList" title="PyXA.apps.PathFinder.XAPathFinderInfoWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderInfoWindowList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder info windows that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderItem</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with items in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="PyXA.apps.PathFinder.XAPathFinderItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderItemList</span></code></a>(properties[, filter, ...])</p></td>
+<td><p>A wrapper around lists of Path Finder items that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderLeftTarget" title="PyXA.apps.PathFinder.XAPathFinderLeftTarget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderLeftTarget</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with left targets in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderLeftTargetList" title="PyXA.apps.PathFinder.XAPathFinderLeftTargetList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderLeftTargetList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder left targets that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderRightTarget" title="PyXA.apps.PathFinder.XAPathFinderRightTarget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderRightTarget</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with right targets in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderRightTargetList" title="PyXA.apps.PathFinder.XAPathFinderRightTargetList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderRightTargetList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of Path Finder right targets that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPathFinderWindow</span></code></a>(properties)</p></td>
+<td><p>A window of Path Finder.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderActiveTarget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderActiveTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderActiveTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderActiveTarget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A class for interacting with active targets in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderActiveTargetList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderActiveTargetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderActiveTargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderActiveTargetList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A wrapper around lists of Path Finder active targets that employs fast enumeration techniques.</p>
+<p>All properties of active targets can be called as methods on the wrapped list, returning a list containing each active target’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a></p>
+<p>A class for managing and interacting with Path Finder.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.add_toolbar_item" title="PyXA.apps.PathFinder.XAPathFinderApplication.add_toolbar_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_toolbar_item</span></code></a>(item[, position])</p></td>
+<td><p>Adds an item to the toolbar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.disks" title="PyXA.apps.PathFinder.XAPathFinderApplication.disks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disks</span></code></a>()</p></td>
+<td><p>Returns a list of the disks in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.empty" title="PyXA.apps.PathFinder.XAPathFinderApplication.empty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">empty</span></code></a>()</p></td>
+<td><p>Empties the trash.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.finder_windows" title="PyXA.apps.PathFinder.XAPathFinderApplication.finder_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finder_windows</span></code></a>()</p></td>
+<td><p>Returns a list of the finder windows in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.info_windows" title="PyXA.apps.PathFinder.XAPathFinderApplication.info_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">info_windows</span></code></a>()</p></td>
+<td><p>Returns a list of the info windows in Path Finder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.remove_toolbar_item" title="PyXA.apps.PathFinder.XAPathFinderApplication.remove_toolbar_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_toolbar_item</span></code></a>(item)</p></td>
+<td><p>Removes an item from the toolbar.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.desktop" title="PyXA.apps.PathFinder.XAPathFinderApplication.desktop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">desktop</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.frontmost" title="PyXA.apps.PathFinder.XAPathFinderApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Whether Path Finder is the frontmost application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.home" title="PyXA.apps.PathFinder.XAPathFinderApplication.home"><code class="xref py py-obj docutils literal notranslate"><span class="pre">home</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.name" title="PyXA.apps.PathFinder.XAPathFinderApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.selection" title="PyXA.apps.PathFinder.XAPathFinderApplication.selection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selection</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.startup_disk" title="PyXA.apps.PathFinder.XAPathFinderApplication.startup_disk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startup_disk</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.trash" title="PyXA.apps.PathFinder.XAPathFinderApplication.trash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trash</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderApplication.version" title="PyXA.apps.PathFinder.XAPathFinderApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of Path Finder.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.add_toolbar_item">
+<span class="sig-name descname"><span class="pre">add_toolbar_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><span class="pre">XAPathFinderItem</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.add_toolbar_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.add_toolbar_item" title="Link to this definition"></a></dt>
+<dd><p>Adds an item to the toolbar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><em>XAPathFinderItem</em></a><em>]</em>) – The item to add.</p></li>
+<li><p><strong>position</strong> (<em>int</em><em>, </em><em>optional</em>) – The target position to add the item at, defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The actual position of the item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.desktop">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">desktop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolder" title="PyXA.apps.PathFinder.XAPathFinderFolder"><span class="pre">XAPathFinderFolder</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.desktop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.disks">
+<span class="sig-name descname"><span class="pre">disks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList" title="PyXA.apps.PathFinder.XAPathFinderDiskList"><span class="pre">XAPathFinderDiskList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.disks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.disks" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of the disks in Path Finder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.empty">
+<span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.empty" title="Link to this definition"></a></dt>
+<dd><p>Empties the trash.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.finder_windows">
+<span class="sig-name descname"><span class="pre">finder_windows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList"><span class="pre">XAPathFinderFinderWindowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.finder_windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.finder_windows" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of the finder windows in Path Finder.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.frontmost" title="Link to this definition"></a></dt>
+<dd><p>Whether Path Finder is the frontmost application.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.home">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">home</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolder" title="PyXA.apps.PathFinder.XAPathFinderFolder"><span class="pre">XAPathFinderFolder</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.home" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.info_windows">
+<span class="sig-name descname"><span class="pre">info_windows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList" title="PyXA.apps.PathFinder.XAPathFinderInfoWindowList"><span class="pre">XAPathFinderInfoWindowList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.info_windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.info_windows" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of the info windows in Path Finder.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.remove_toolbar_item">
+<span class="sig-name descname"><span class="pre">remove_toolbar_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><span class="pre">XAPathFinderItem</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderApplication.remove_toolbar_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.remove_toolbar_item" title="Link to this definition"></a></dt>
+<dd><p>Removes an item from the toolbar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><em>XAPathFinderItem</em></a><em>]</em>) – The item to remove.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The position of the item prior to removal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.selection">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="PyXA.apps.PathFinder.XAPathFinderItemList"><span class="pre">XAPathFinderItemList</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.selection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.startup_disk">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">startup_disk</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.startup_disk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.trash">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolder" title="PyXA.apps.PathFinder.XAPathFinderFolder"><span class="pre">XAPathFinderFolder</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.trash" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderApplication.version" title="Link to this definition"></a></dt>
+<dd><p>The version of Path Finder.app.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderItem</span></code></a></p>
+<p>A class for interacting with containers in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer.files" title="PyXA.apps.PathFinder.XAPathFinderContainer.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a>()</p></td>
+<td><p>Returns a list of the files in the container.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer.folders" title="PyXA.apps.PathFinder.XAPathFinderContainer.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>()</p></td>
+<td><p>Returns a list of the folders in the container.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderContainer.files">
+<span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList" title="PyXA.apps.PathFinder.XAPathFinderFileList"><span class="pre">XAPathFinderFileList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderContainer.files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderContainer.files" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of the files in the container.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderContainer.folders">
+<span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFolderList" title="PyXA.apps.PathFinder.XAPathFinderFolderList"><span class="pre">XAPathFinderFolderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderContainer.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderContainer.folders" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of the folders in the container.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderContainerList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderContainerList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderContainerList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderContainerList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="PyXA.apps.PathFinder.XAPathFinderItemList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderItemList</span></code></a></p>
+<p>A wrapper around lists of Path Finder containers that employs fast enumeration techniques.</p>
+<p>All properties of containers can be called as methods on the wrapped list, returning a list containing each container’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderDisk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDisk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A class for interacting with disks in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk.capacity" title="PyXA.apps.PathFinder.XAPathFinderDisk.capacity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capacity</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk.ejectable" title="PyXA.apps.PathFinder.XAPathFinderDisk.ejectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ejectable</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk.free_space" title="PyXA.apps.PathFinder.XAPathFinderDisk.free_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free_space</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk.local_volume" title="PyXA.apps.PathFinder.XAPathFinderDisk.local_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_volume</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk.startup" title="PyXA.apps.PathFinder.XAPathFinderDisk.startup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startup</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk.capacity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk.capacity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk.ejectable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ejectable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk.ejectable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk.free_space">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">free_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk.free_space" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk.local_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_volume</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk.local_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDisk.startup">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">startup</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDisk.startup" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderDiskList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainerList" title="PyXA.apps.PathFinder.XAPathFinderContainerList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainerList</span></code></a></p>
+<p>A wrapper around lists of Path Finder disks that employs fast enumeration techniques.</p>
+<p>All properties of disks can be called as methods on the wrapped list, returning a list containing each disk’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_capacity" title="PyXA.apps.PathFinder.XAPathFinderDiskList.by_capacity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_capacity</span></code></a>(capacity)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_ejectable" title="PyXA.apps.PathFinder.XAPathFinderDiskList.by_ejectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_ejectable</span></code></a>(ejectable)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_free_space" title="PyXA.apps.PathFinder.XAPathFinderDiskList.by_free_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_free_space</span></code></a>(free_space)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_local_volume" title="PyXA.apps.PathFinder.XAPathFinderDiskList.by_local_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_local_volume</span></code></a>(local_volume)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_startup" title="PyXA.apps.PathFinder.XAPathFinderDiskList.by_startup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_startup</span></code></a>(startup)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.capacity" title="PyXA.apps.PathFinder.XAPathFinderDiskList.capacity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capacity</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.ejectable" title="PyXA.apps.PathFinder.XAPathFinderDiskList.ejectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ejectable</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.free_space" title="PyXA.apps.PathFinder.XAPathFinderDiskList.free_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free_space</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.local_volume" title="PyXA.apps.PathFinder.XAPathFinderDiskList.local_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_volume</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.startup" title="PyXA.apps.PathFinder.XAPathFinderDiskList.startup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startup</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.by_capacity">
+<span class="sig-name descname"><span class="pre">by_capacity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.by_capacity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_capacity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.by_ejectable">
+<span class="sig-name descname"><span class="pre">by_ejectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ejectable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.by_ejectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_ejectable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.by_free_space">
+<span class="sig-name descname"><span class="pre">by_free_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">free_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.by_free_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_free_space" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.by_local_volume">
+<span class="sig-name descname"><span class="pre">by_local_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.by_local_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_local_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.by_startup">
+<span class="sig-name descname"><span class="pre">by_startup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">startup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.by_startup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.by_startup" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.capacity">
+<span class="sig-name descname"><span class="pre">capacity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.capacity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.capacity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.ejectable">
+<span class="sig-name descname"><span class="pre">ejectable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.ejectable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.ejectable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.free_space">
+<span class="sig-name descname"><span class="pre">free_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.free_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.free_space" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.local_volume">
+<span class="sig-name descname"><span class="pre">local_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.local_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.local_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDiskList.startup">
+<span class="sig-name descname"><span class="pre">startup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDiskList.startup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDiskList.startup" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocument">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A class for interacting with documents in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument.file" title="PyXA.apps.PathFinder.XAPathFinderDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument.modified" title="PyXA.apps.PathFinder.XAPathFinderDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument.name" title="PyXA.apps.PathFinder.XAPathFinderDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocument.file">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocument.file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocument.modified">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocument.modified" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocument.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocument.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
+<p>A wrapper around lists of Path Finder documents that employs fast enumeration techniques.</p>
+<p>All properties of documents can be called as methods on the wrapped list, returning a list containing each document’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_file" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file</span></code></a>(file)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_modified" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_modified</span></code></a>(modified)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_name" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.file" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.modified" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.name" title="PyXA.apps.PathFinder.XAPathFinderDocumentList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_file">
+<span class="sig-name descname"><span class="pre">by_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="PyXA.apps.PathFinder.XAPathFinderDocument"><span class="pre">XAPathFinderDocument</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.by_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_modified">
+<span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="PyXA.apps.PathFinder.XAPathFinderDocument"><span class="pre">XAPathFinderDocument</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_modified" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="PyXA.apps.PathFinder.XAPathFinderDocument"><span class="pre">XAPathFinderDocument</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.by_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.file">
+<span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.modified">
+<span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.modified" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderDocumentList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderDocumentList.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderItem</span></code></a></p>
+<p>A class for interacting with files in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile.creator_type" title="PyXA.apps.PathFinder.XAPathFinderFile.creator_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creator_type</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile.file_type" title="PyXA.apps.PathFinder.XAPathFinderFile.file_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_type</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFile.creator_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">creator_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFile.creator_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFile.file_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFile.file_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFileList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFileList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFileList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFileList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="PyXA.apps.PathFinder.XAPathFinderItemList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderItemList</span></code></a></p>
+<p>A wrapper around lists of Path Finder files that employs fast enumeration techniques.</p>
+<p>All properties of files can be called as methods on the wrapped list, returning a list containing each file’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList.by_creator_type" title="PyXA.apps.PathFinder.XAPathFinderFileList.by_creator_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_creator_type</span></code></a>(creator_type)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList.by_file_type" title="PyXA.apps.PathFinder.XAPathFinderFileList.by_file_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file_type</span></code></a>(file_type)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList.creator_type" title="PyXA.apps.PathFinder.XAPathFinderFileList.creator_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creator_type</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFileList.file_type" title="PyXA.apps.PathFinder.XAPathFinderFileList.file_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_type</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFileList.by_creator_type">
+<span class="sig-name descname"><span class="pre">by_creator_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">creator_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile" title="PyXA.apps.PathFinder.XAPathFinderFile"><span class="pre">XAPathFinderFile</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFileList.by_creator_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFileList.by_creator_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFileList.by_file_type">
+<span class="sig-name descname"><span class="pre">by_file_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFile" title="PyXA.apps.PathFinder.XAPathFinderFile"><span class="pre">XAPathFinderFile</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFileList.by_file_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFileList.by_file_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFileList.creator_type">
+<span class="sig-name descname"><span class="pre">creator_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFileList.creator_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFileList.creator_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFileList.file_type">
+<span class="sig-name descname"><span class="pre">file_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFileList.file_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFileList.file_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFinderWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderWindow</span></code></a></p>
+<p>A class for interacting with finder windows in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.current_view" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow.current_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_view</span></code></a></p></td>
+<td><p>The current view.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.target" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow.target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">target</span></code></a></p></td>
+<td><p>The active target.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.open" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>()</p></td>
+<td><p>Opens the window.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindow.current_view">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_view</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.current_view" title="Link to this definition"></a></dt>
+<dd><p>The current view.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindow.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindow.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.open" title="Link to this definition"></a></dt>
+<dd><p>Opens the window.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindow.target">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><span class="pre">XAPathFinderContainer</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow.target" title="Link to this definition"></a></dt>
+<dd><p>The active target.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindowList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFinderWindowList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindowList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList" title="PyXA.XABaseScriptable.XASBWindowList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindowList</span></code></a></p>
+<p>A wrapper around lists of Path Finder finder windows that employs fast enumeration techniques.</p>
+<p>All properties of windows can be called as methods on the wrapped list, returning a list containing each window’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_current_view" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_current_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_current_view</span></code></a>(current_view)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_target" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_target</span></code></a>(target)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.current_view" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.current_view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_view</span></code></a>()</p></td>
+<td><p>The current view.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.target" title="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">target</span></code></a>()</p></td>
+<td><p>The active target.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_current_view">
+<span class="sig-name descname"><span class="pre">by_current_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_view</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow"><span class="pre">XAPathFinderFinderWindow</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindowList.by_current_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_current_view" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_target">
+<span class="sig-name descname"><span class="pre">by_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><span class="pre">XAPathFinderContainer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderFinderWindow"><span class="pre">XAPathFinderFinderWindow</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindowList.by_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.by_target" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.current_view">
+<span class="sig-name descname"><span class="pre">current_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindowList.current_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.current_view" title="Link to this definition"></a></dt>
+<dd><p>The current view.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFinderWindowList.target">
+<span class="sig-name descname"><span class="pre">target</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainerList" title="PyXA.apps.PathFinder.XAPathFinderContainerList"><span class="pre">XAPathFinderContainerList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFinderWindowList.target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFinderWindowList.target" title="Link to this definition"></a></dt>
+<dd><p>The active target.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFolder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFolder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A class for interacting with Path Finder folders and their contents.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderFolderList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderFolderList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderFolderList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderFolderList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainerList" title="PyXA.apps.PathFinder.XAPathFinderContainerList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainerList</span></code></a></p>
+<p>A wrapper around lists of Path Finder folders that employs fast enumeration techniques.</p>
+<p>All properties of folders can be called as methods on the wrapped list, returning a list containing each folder’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderInfoWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderInfoWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderInfoWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderWindow" title="PyXA.apps.PathFinder.XAPathFinderWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderWindow</span></code></a></p>
+<p>A class for interacting with info windows in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow.item" title="PyXA.apps.PathFinder.XAPathFinderInfoWindow.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a></p></td>
+<td><p>The active item.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderInfoWindow.item">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">item</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><span class="pre">XAPathFinderItem</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow.item" title="Link to this definition"></a></dt>
+<dd><p>The active item.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderInfoWindowList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderInfoWindowList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderInfoWindowList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList" title="PyXA.XABaseScriptable.XASBWindowList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindowList</span></code></a></p>
+<p>A wrapper around lists of Path Finder info windows that employs fast enumeration techniques.</p>
+<p>All properties of windows can be called as methods on the wrapped list, returning a list containing each window’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.by_item" title="PyXA.apps.PathFinder.XAPathFinderInfoWindowList.by_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_item</span></code></a>(item)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.item" title="PyXA.apps.PathFinder.XAPathFinderInfoWindowList.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>()</p></td>
+<td><p>The active item.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderInfoWindowList.by_item">
+<span class="sig-name descname"><span class="pre">by_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><span class="pre">XAPathFinderItem</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow" title="PyXA.apps.PathFinder.XAPathFinderInfoWindow"><span class="pre">XAPathFinderInfoWindow</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderInfoWindowList.by_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.by_item" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderInfoWindowList.item">
+<span class="sig-name descname"><span class="pre">item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="PyXA.apps.PathFinder.XAPathFinderItemList"><span class="pre">XAPathFinderItemList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderInfoWindowList.item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindowList.item" title="Link to this definition"></a></dt>
+<dd><p>The active item.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A class for interacting with items in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.container" title="PyXA.apps.PathFinder.XAPathFinderItem.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.creation_date" title="PyXA.apps.PathFinder.XAPathFinderItem.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.disk" title="PyXA.apps.PathFinder.XAPathFinderItem.disk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disk</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.displayed_name" title="PyXA.apps.PathFinder.XAPathFinderItem.displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">displayed_name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.everyones_privileges" title="PyXA.apps.PathFinder.XAPathFinderItem.everyones_privileges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">everyones_privileges</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.extension_hidden" title="PyXA.apps.PathFinder.XAPathFinderItem.extension_hidden"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extension_hidden</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.group" title="PyXA.apps.PathFinder.XAPathFinderItem.group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.group_privileges" title="PyXA.apps.PathFinder.XAPathFinderItem.group_privileges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">group_privileges</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.information_window" title="PyXA.apps.PathFinder.XAPathFinderItem.information_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">information_window</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.kind" title="PyXA.apps.PathFinder.XAPathFinderItem.kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kind</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.label_index" title="PyXA.apps.PathFinder.XAPathFinderItem.label_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_index</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.locked" title="PyXA.apps.PathFinder.XAPathFinderItem.locked"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locked</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.modification_date" title="PyXA.apps.PathFinder.XAPathFinderItem.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.name" title="PyXA.apps.PathFinder.XAPathFinderItem.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.name_extension" title="PyXA.apps.PathFinder.XAPathFinderItem.name_extension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_extension</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.owner" title="PyXA.apps.PathFinder.XAPathFinderItem.owner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">owner</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.owner_privileges" title="PyXA.apps.PathFinder.XAPathFinderItem.owner_privileges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">owner_privileges</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.path" title="PyXA.apps.PathFinder.XAPathFinderItem.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.physical_size" title="PyXA.apps.PathFinder.XAPathFinderItem.physical_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_size</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.posix_path" title="PyXA.apps.PathFinder.XAPathFinderItem.posix_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">posix_path</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.size" title="PyXA.apps.PathFinder.XAPathFinderItem.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.url" title="PyXA.apps.PathFinder.XAPathFinderItem.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.delete" title="PyXA.apps.PathFinder.XAPathFinderItem.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Deletes the item.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.eject" title="PyXA.apps.PathFinder.XAPathFinderItem.eject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eject</span></code></a>()</p></td>
+<td><p>Ejects the item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.exists" title="PyXA.apps.PathFinder.XAPathFinderItem.exists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exists</span></code></a>()</p></td>
+<td><p>Returns whether the item exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.open" title="PyXA.apps.PathFinder.XAPathFinderItem.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>([application])</p></td>
+<td><p>Opens the item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.reveal" title="PyXA.apps.PathFinder.XAPathFinderItem.reveal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reveal</span></code></a>()</p></td>
+<td><p>Reveals the item in Path Finder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.select" title="PyXA.apps.PathFinder.XAPathFinderItem.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a>()</p></td>
+<td><p>Selects the item in Path Finder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem.show_info" title="PyXA.apps.PathFinder.XAPathFinderItem.show_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_info</span></code></a>()</p></td>
+<td><p>Opens the item's info window.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.container">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">container</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><span class="pre">XAPathFinderContainer</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.container" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.creation_date">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.creation_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.delete" title="Link to this definition"></a></dt>
+<dd><p>Deletes the item.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.disk">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disk</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDisk" title="PyXA.apps.PathFinder.XAPathFinderDisk"><span class="pre">XAPathFinderDisk</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.disk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.displayed_name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">displayed_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.displayed_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.eject">
+<span class="sig-name descname"><span class="pre">eject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.eject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.eject" title="Link to this definition"></a></dt>
+<dd><p>Ejects the item.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.everyones_privileges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">everyones_privileges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.everyones_privileges" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.exists" title="Link to this definition"></a></dt>
+<dd><p>Returns whether the item exists.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.extension_hidden">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extension_hidden</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.extension_hidden" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.group">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">group</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.group" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.group_privileges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">group_privileges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.group_privileges" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.information_window">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">information_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderInfoWindow" title="PyXA.apps.PathFinder.XAPathFinderInfoWindow"><span class="pre">XAPathFinderInfoWindow</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.information_window" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.kind">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.kind" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.label_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.label_index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.locked">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locked</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.locked" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.modification_date">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.modification_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.name_extension">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name_extension</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.name_extension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">XAApplication</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Path</span> <span class="pre">Finder'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.open" title="Link to this definition"></a></dt>
+<dd><p>Opens the item.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.owner">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">owner</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.owner" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.owner_privileges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">owner_privileges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.owner_privileges" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.physical_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">physical_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.physical_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.posix_path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">posix_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.posix_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.reveal">
+<span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.reveal" title="Link to this definition"></a></dt>
+<dd><p>Reveals the item in Path Finder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.select" title="Link to this definition"></a></dt>
+<dd><p>Selects the item in Path Finder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.show_info">
+<span class="sig-name descname"><span class="pre">show_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItem.show_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.show_info" title="Link to this definition"></a></dt>
+<dd><p>Opens the item’s info window.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItem.url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItem.url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItemList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderItemList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItemList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItemList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
+<p>A wrapper around lists of Path Finder items that employs fast enumeration techniques.</p>
+<p>All properties of items can be called as methods on the wrapped list, returning a list containing each item’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList.by_name" title="PyXA.apps.PathFinder.XAPathFinderItemList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItemList.name" title="PyXA.apps.PathFinder.XAPathFinderItemList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItemList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderItem" title="PyXA.apps.PathFinder.XAPathFinderItem"><span class="pre">XAPathFinderItem</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItemList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItemList.by_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderItemList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderItemList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderItemList.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderLeftTarget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderLeftTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderLeftTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderLeftTarget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A class for interacting with left targets in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderLeftTargetList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderLeftTargetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderLeftTargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderLeftTargetList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A wrapper around lists of Path Finder left targets that employs fast enumeration techniques.</p>
+<p>All properties of left targets can be called as methods on the wrapped list, returning a list containing each left target’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderRightTarget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderRightTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderRightTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderRightTarget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A class for interacting with right targets in Path Finder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderRightTargetList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderRightTargetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderRightTargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderRightTargetList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderContainer" title="PyXA.apps.PathFinder.XAPathFinderContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPathFinderContainer</span></code></a></p>
+<p>A wrapper around lists of Path Finder right targets that employs fast enumeration techniques.</p>
+<p>All properties of right targets can be called as methods on the wrapped list, returning a list containing each right target’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PathFinder.</span></span><span class="sig-name descname"><span class="pre">XAPathFinderWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PathFinder.html#XAPathFinderWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a></p>
+<p>A window of Path Finder.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderWindow.document" title="PyXA.apps.PathFinder.XAPathFinderWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
+<td><p>The active document.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PathFinder.XAPathFinderWindow.document">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.PathFinder.XAPathFinderDocument" title="PyXA.apps.PathFinder.XAPathFinderDocument"><span class="pre">XAPathFinderDocument</span></a></em><a class="headerlink" href="#PyXA.apps.PathFinder.XAPathFinderWindow.document" title="Link to this definition"></a></dt>
+<dd><p>The active document.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="omniweb.html" class="btn btn-neutral float-left" title="OmniWeb Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spotify.html" class="btn btn-neutral float-right" title="Spotify Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

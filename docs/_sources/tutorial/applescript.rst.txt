@@ -47,6 +47,35 @@ You can also modify :class:`~PyXA.XABase.AppleScript` objects after instantiatio
    print(script)
    # <<class 'PyXA.XABase.AppleScript'>['tell application "Notes"', 'set note1 to the note "PyXA Ideas"', 'show note1', 'end tell']>
 
+When a script encounters an error, PyXA will raise an :class:`~PyXA.XAErrors.AppleScriptError` exception. This exception contains the error message and the line number of the error, allowing you to easily debug your scripts.
+
+Working With Arguments
+######################
+
+The :func:`~PyXA.XABase.AppleScript.run` method accepts an optional argument specifying a list of arguments to pass to the script. This allows you to pass data from Python to AppleScript. Each argument will be passed as a string, so you may need to parse the data within the AppleScript script (however, in many cases, AppleScript can intelligently infer the proper data type, as in the script below). The example below shows a typical implementation of a run handler in AppleScript, which accepts three arguments: two numbers and a string representing an operator. The arguments are stored in the `argv` variable, which is a list of strings. Note that while `argv` is customary, any valid variable name can be used.
+
+.. code-block:: Python
+
+   import PyXA
+   script = PyXA.AppleScript(f"""on run argv
+      set x to item 1 of argv
+      set y to item 2 of argv
+      set op to item 3 of argv
+
+      if op is "+" then
+         return x + y
+      else if op is "-" then
+         return x - y
+      else if op is "*" then
+         return x * y
+      else if op is "/" then
+         return x / y
+      else
+         error "Unknown operator"
+      end if
+   end run""")
+   result = script.run([5, 6, "*"])
+   print(result["float"])
 
 Reading Execution Results
 -------------------------

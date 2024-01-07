@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.OmniWeb &mdash; PyXA 0.2.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=000c92bf"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Package Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.OmniWeb</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.OmniWeb</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.3.0</span>
+
+<span class="sd">Control OmniWeb using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">XACanOpenPath</span><span class="p">,</span>
+    <span class="n">XACanPrintPath</span><span class="p">,</span>
+    <span class="n">XAClipboardCodable</span><span class="p">,</span>
+    <span class="n">XACloseable</span><span class="p">,</span>
+    <span class="n">XADeletable</span><span class="p">,</span>
+    <span class="n">XAPrintable</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..XAErrors</span> <span class="kn">import</span> <span class="n">UnconstructableClassError</span>
+<span class="kn">from</span> <span class="nn">..XAEvents</span> <span class="kn">import</span> <span class="n">event_from_str</span>
+
+
+<div class="viewcode-block" id="XAOmniWebApplication">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XACanPrintPath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for managing and interacting with OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="XAOmniWebApplication.ObjectType">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.ObjectType">[docs]</a>
+    <span class="k">class</span> <span class="nc">ObjectType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Types of objects that can be created using :func:`XAOmniWebApplication.make`.&quot;&quot;&quot;</span>
+        <span class="n">Document</span> <span class="o">=</span> <span class="s2">&quot;document&quot;</span>
+        <span class="n">Window</span> <span class="o">=</span> <span class="s2">&quot;window&quot;</span>
+        <span class="n">Workspace</span> <span class="o">=</span> <span class="s2">&quot;workspace&quot;</span>
+        <span class="n">Browser</span> <span class="o">=</span> <span class="s2">&quot;browser&quot;</span>
+        <span class="n">Tab</span> <span class="o">=</span> <span class="s2">&quot;tab&quot;</span>
+        <span class="n">Bookmark</span> <span class="o">=</span> <span class="s2">&quot;bookmark&quot;</span>
+        <span class="n">BookmarksDocument</span> <span class="o">=</span> <span class="s2">&quot;bookmarks_document&quot;</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAOmniWebWindow</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether OmniWeb is the frontmost application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The version of OmniWeb.app.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">active_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebWorkspace&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The currently active workspace.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">activeWorkspace</span><span class="p">(),</span> <span class="n">XAOmniWebWorkspace</span><span class="p">)</span>
+
+    <span class="nd">@active_workspace</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">active_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_workspace</span><span class="p">:</span> <span class="s2">&quot;XAOmniWebWorkspace&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;activeWorkspace&quot;</span><span class="p">,</span> <span class="n">active_workspace</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">favorites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The bookmark item whose contents are displayed in the Favorites bar.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">favorites</span><span class="p">(),</span> <span class="n">XAOmniWebBookmark</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">full_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The complete version string for this instance of OmniWeb.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fullVersion</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">personal_bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebBookmarksDocument&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The default bookmarks document.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">personalBookmarks</span><span class="p">(),</span> <span class="n">XAOmniWebBookmarksDocument</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebApplication.documents">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.documents">[docs]</a>
+    <span class="k">def</span> <span class="nf">documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebDocumentList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of documents, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of documents</span>
+<span class="sd">        :rtype: XAOmniWebDocumentList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.documents())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeDocumentList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">documents</span><span class="p">(),</span> <span class="n">XAOmniWebDocumentList</span><span class="p">,</span> <span class="nb">filter</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebApplication.workspaces">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.workspaces">[docs]</a>
+    <span class="k">def</span> <span class="nf">workspaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebWorkspaceList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of workspaces, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned workspaces will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of workspaces</span>
+<span class="sd">        :rtype: XAOmniWebWorkspaceList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.workspaces())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeWorkspaceList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">workspaces</span><span class="p">(),</span> <span class="n">XAOmniWebWorkspaceList</span><span class="p">,</span> <span class="nb">filter</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebApplication.browsers">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.browsers">[docs]</a>
+    <span class="k">def</span> <span class="nf">browsers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowserList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of browsers, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned browsers will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of browsers</span>
+<span class="sd">        :rtype: XAOmniWebBrowserList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.browsers())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeBrowserList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">browsers</span><span class="p">(),</span> <span class="n">XAOmniWebBrowserList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebApplication.bookmarks_documents">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.bookmarks_documents">[docs]</a>
+    <span class="k">def</span> <span class="nf">bookmarks_documents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmarksDocumentList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of bookmarks documents, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned bookmarks documents will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of bookmarks documents</span>
+<span class="sd">        :rtype: XAOmniWebBookmarksDocumentList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.bookmarks_documents())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeBookmarksDocumentList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">bookmarksDocuments</span><span class="p">(),</span> <span class="n">XAOmniWebBookmarksDocumentList</span><span class="p">,</span> <span class="nb">filter</span>
+        <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebApplication.open">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.open">[docs]</a>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens the file/website at the given filepath/URL.</span>
+
+<span class="sd">        :param target: The path to a file or the URL to a website to open.</span>
+<span class="sd">        :type target: Union[XABase.XAURL, XABase.XAPath, str]</span>
+
+<span class="sd">        :Example 1: Open files from file paths</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;VLC&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app.open(&quot;/Users/exampleUser/Downloads/Example.avi&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; path = PyXA.XAPath(&quot;/Users/exampleUser/Documents/Example.m4v&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app.open(path)</span>
+
+<span class="sd">        :Example 2: Open URLs</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;VLC&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app.open(&quot;https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0f/Baby_pelican.ogg/Baby_pelican.ogg.mp3&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; url = PyXA.XAURL(&quot;https://www.youtube.com/watch?v=e9B3E_DnnWw&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app.open(url)</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_</span><span class="p">([</span><span class="n">target</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+    <span class="c1"># def print(self, item: Union[str, &#39;XAOmniWebDocument&#39;], properties: dict = None, show_dialog: bool = True):</span>
+    <span class="c1">#     &quot;&quot;&quot;Prints or opens the print dialog for the document.</span>
+
+    <span class="c1">#     :param properties: The print properties to pre-set for the print, defaults to None</span>
+    <span class="c1">#     :type properties: dict, optional</span>
+    <span class="c1">#     :param show_dialog: Whether to display the print dialog, defaults to True</span>
+    <span class="c1">#     :type show_dialog: bool, optional</span>
+
+    <span class="c1">#     .. versionadded:: 0.0.5</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     if properties is None:</span>
+    <span class="c1">#         properties = {}</span>
+
+    <span class="c1">#     if isinstance(item, XABase.XAObject):</span>
+    <span class="c1">#         item = item.xa_elem</span>
+
+    <span class="c1">#     print_thread = threading.Thread(target=self.xa_scel.print_printDialog_withProperties_, args=(item, show_dialog, properties), name=&quot;Print Document&quot;)</span>
+    <span class="c1">#     print_thread.start()</span>
+    
+<div class="viewcode-block" id="XAOmniWebApplication.list_windows">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.list_windows">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of the numeric IDs of all open browser windows.</span>
+
+<span class="sd">        :return: The list of IDs</span>
+<span class="sd">        :rtype: list[int]</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">ListWindows</span><span class="p">())</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebApplication.get_window_info">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.get_window_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_window_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dictionary containing information about the frontmost window.</span>
+
+<span class="sd">        :return: The window&#39;s information</span>
+<span class="sd">        :rtype: dict</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">GetWindowInfo</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebApplication.make">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebApplication.make">[docs]</a>
+    <span class="k">def</span> <span class="nf">make</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;XAOmniWebApplication.ObjectType&#39;</span><span class="p">],</span> <span class="n">properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new element of the given specifier class without adding it to any list.</span>
+
+<span class="sd">        Use :func:`XABase.XAList.push` to push the element onto a list.</span>
+
+<span class="sd">        :param specifier: The classname of the object to create</span>
+<span class="sd">        :type specifier: Union[str, XAOmniWebApplication.ObjectType]</span>
+<span class="sd">        :param properties: The properties to give the object</span>
+<span class="sd">        :type properties: dict</span>
+<span class="sd">        :param data: The data to give the object, defaults to None</span>
+<span class="sd">        :type data: Any, optional</span>
+<span class="sd">        :return: A PyXA wrapped form of the object</span>
+<span class="sd">        :rtype: XABase.XAObject</span>
+
+<span class="sd">        :Example 1: Add new rows to the current document</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; front_doc_rows = app.front_window.document.rows()</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; row1 = app.make(&quot;row&quot;, {&quot;name&quot;: &quot;This is a new row!&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; row2 = app.make(&quot;row&quot;, {&quot;name&quot;: &quot;This is another new row!&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; row3 = app.make(&quot;row&quot;, {&quot;name&quot;: &quot;This is a third new row!&quot;})</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; front_doc_rows.push(row1) # Add to the end of the document</span>
+<span class="sd">        &gt;&gt;&gt; front_doc_rows.insert(row2, 0) # Insert at the beginning of the document</span>
+<span class="sd">        &gt;&gt;&gt; front_doc_rows.insert(row3, 5) # Insert at the middle of the document</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">specifier</span><span class="p">,</span> <span class="n">XAOmniWebApplication</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+            <span class="n">specifier</span> <span class="o">=</span> <span class="n">specifier</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">camelized_properties</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;URL&quot;</span>
+
+                <span class="n">camelized_properties</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">camelize</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">alloc</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">initWithProperties_</span><span class="p">(</span><span class="n">camelized_properties</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">alloc</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">initWithData_</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;window&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebWindow</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;document&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebDocument</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;tab&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebTab</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;bookmark&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebBookmark</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;bookmarks_document&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebBookmarksDocument</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;browser&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebBrowser</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;workspace&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAOmniWebWorkspace</span><span class="p">)</span></div>
+</div>
+
+
+
+
+<div class="viewcode-block" id="XAOmniWebWindow">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWindow">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A window of OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebDocument&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The document whose contents are currently displayed in the window.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAOmniWebDocument</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb documents that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of documents can be called as methods on the wrapped list, returning a list containing each document&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.modified">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.modified">[docs]</a>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.path">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.path">[docs]</a>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.by_name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.by_modified">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.by_modified">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">,</span> <span class="n">modified</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebDocumentList.by_path">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocumentList.by_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_path</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAOmniWebDocument">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebDocument">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A document of OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the document.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+    
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the document has been modified since it was last saved.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The location of the document on disk, if it has one.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebWorkspaceList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb workspaces that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of workspaces can be called as methods on the wrapped list, returning a list containing each workspace&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebWorkspace</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList.autosaves">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList.autosaves">[docs]</a>
+    <span class="k">def</span> <span class="nf">autosaves</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;autosaves&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList.name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList.by_autosaves">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList.by_autosaves">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_autosaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">autosaves</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebWorkspace&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;autosaves&quot;</span><span class="p">,</span> <span class="n">autosaves</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList.by_name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList.by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebWorkspace&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspaceList.browsers">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspaceList.browsers">[docs]</a>
+    <span class="k">def</span> <span class="nf">browsers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebBrowserList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all browsers contained by the workspaces in the list.</span>
+
+<span class="sd">        :return: The list of browsers</span>
+<span class="sd">        :rtype: XAOmniWebBrowserList</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;browsers&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniWebBrowserList</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebWorkspace">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspace">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebWorkspace</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A workspace in OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">autosaves</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the workspace saves its browser windows automatically.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">autosaves</span><span class="p">()</span>
+
+    <span class="nd">@autosaves</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">autosaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">autosaves</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;autosaves&quot;</span><span class="p">,</span> <span class="n">autosaves</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the workspace.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebWorkspace.browsers">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebWorkspace.browsers">[docs]</a>
+    <span class="k">def</span> <span class="nf">browsers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowserList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of browsers, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned browsers will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of browsers</span>
+<span class="sd">        :rtype: XAOmniWebBrowserList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.browsers())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeBrowserList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">browsers</span><span class="p">(),</span> <span class="n">XAOmniWebBrowserList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBrowserList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb browsers that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of browsers can be called as methods on the wrapped list, returning a list containing each browser&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebBrowser</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.active_tab">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.active_tab">[docs]</a>
+    <span class="k">def</span> <span class="nf">active_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebTabList&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;activeTab&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">XAOmniWebTabList</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.address">[docs]</a>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.has_favorites">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.has_favorites">[docs]</a>
+    <span class="k">def</span> <span class="nf">has_favorites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;hasFavorites&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.has_tabs">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.has_tabs">[docs]</a>
+    <span class="k">def</span> <span class="nf">has_tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;hasTabs&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.has_toolbar">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.has_toolbar">[docs]</a>
+    <span class="k">def</span> <span class="nf">has_toolbar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;hasToolbar&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.is_busy">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.is_busy">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;isBusy&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.shows_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.shows_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">shows_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;showsAddress&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_active_tab">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_active_tab">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_active_tab</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">active_tab</span><span class="p">:</span> <span class="s2">&quot;XAOmniWebTab&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;activeTab&quot;</span><span class="p">,</span> <span class="n">active_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_address</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_has_favorites">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_has_favorites">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_has_favorites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_favorites</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;hasFavorites&quot;</span><span class="p">,</span> <span class="n">has_favorites</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_has_tabs">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_has_tabs">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_has_tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_tabs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;hasTabs&quot;</span><span class="p">,</span> <span class="n">has_tabs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_has_toolbar">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_has_toolbar">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_has_toolbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_toolbar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;hasToolbar&quot;</span><span class="p">,</span> <span class="n">has_toolbar</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_is_busy">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_is_busy">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_busy</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;isBusy&quot;</span><span class="p">,</span> <span class="n">is_busy</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.by_shows_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.by_shows_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_shows_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shows_address</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBrowser&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;showsAddress&quot;</span><span class="p">,</span> <span class="n">shows_address</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowserList.tabs">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowserList.tabs">[docs]</a>
+    <span class="k">def</span> <span class="nf">tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebTabList&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all tabs contained by the browsers in the list.</span>
+
+<span class="sd">        :return: The list of tabs</span>
+<span class="sd">        :rtype: XAOmniWebTabList</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniWebTabList</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBrowser">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowser">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBrowser</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A browser in OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">active_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The tab currently being displayed in the browser.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">activeTab</span><span class="p">(),</span> <span class="n">XAOmniWebTab</span><span class="p">)</span>
+
+    <span class="nd">@active_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">active_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_tab</span><span class="p">:</span> <span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;activeTab&quot;</span><span class="p">,</span> <span class="n">active_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The URL currently being displayed in the browser.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">address</span><span class="p">())</span>
+
+    <span class="nd">@address</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_favorites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the browser window displays the favorites shelf.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasFavorites</span><span class="p">()</span>
+
+    <span class="nd">@has_favorites</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">has_favorites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_favorites</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;hasFavorites&quot;</span><span class="p">,</span> <span class="n">has_favorites</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the browser window displays the tabs drawer.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasTabs</span><span class="p">()</span>
+
+    <span class="nd">@has_tabs</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">has_tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_tabs</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;hasTabs&quot;</span><span class="p">,</span> <span class="n">has_tabs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_toolbar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the browser window displays the toolbar.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasToolbar</span><span class="p">()</span>
+
+    <span class="nd">@has_toolbar</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">has_toolbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_toolbar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;hasToolbar&quot;</span><span class="p">,</span> <span class="n">has_toolbar</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the browser is currently loading a page.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isBusy</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shows_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the browser window displays the address (URL) field.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">showsAddress</span><span class="p">()</span>
+
+    <span class="nd">@shows_address</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">shows_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shows_address</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;showsAddress&quot;</span><span class="p">,</span> <span class="n">shows_address</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebBrowser.tabs">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBrowser.tabs">[docs]</a>
+    <span class="k">def</span> <span class="nf">tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebTabList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned tabs will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of tabs</span>
+<span class="sd">        :rtype: XAOmniWebTabList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.tabs())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeTabList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tabs</span><span class="p">(),</span> <span class="n">XAOmniWebTabList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XAOmniWebTabList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebTabList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb tabs that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebTab</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebTabList.address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.address">[docs]</a>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.is_busy">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.is_busy">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;isBusy&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.source">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.source">[docs]</a>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.title">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.title">[docs]</a>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.by_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.by_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_address</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.by_is_busy">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.by_is_busy">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_busy</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;isBusy&quot;</span><span class="p">,</span> <span class="n">is_busy</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.by_source">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.by_source">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.by_title">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.by_title">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebTab&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebTabList.delete">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTabList.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes all tabs in the list.</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">makeObjectsPerformSelector_</span><span class="p">(</span><span class="s2">&quot;delete&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="XAOmniWebTab">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTab">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebTab</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A tab in OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The URL currently being displayed in the tab.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">address</span><span class="p">())</span>
+
+    <span class="nd">@address</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_busy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the tab is currently loading a page.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isBusy</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The source code of the page currently being displayed in the tab.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">source</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The title of the page currently being displayed in the tab.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebTab.delete">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebTab.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes the tab.</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBookmarksDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb bookmarks documents that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of bookmarks documents can be called as methods on the wrapped list, returning a list containing each bookmarks document&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebBookmarksDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList.address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList.address">[docs]</a>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList.is_read_only">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList.is_read_only">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;isReadOnly&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList.by_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList.by_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmarksDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList.by_is_read_only">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList.by_is_read_only">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_is_read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_read_only</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmarksDocument&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;isReadOnly&quot;</span><span class="p">,</span> <span class="n">is_read_only</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarksDocumentList.bookmarks">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocumentList.bookmarks">[docs]</a>
+    <span class="k">def</span> <span class="nf">bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniWebBookmarkList&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all bookmarks contained by the bookmarks documents in the list.</span>
+
+<span class="sd">        :return: The list of bookmarks</span>
+<span class="sd">        :rtype: XAOmniWebBookmarkList</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;bookmarks&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniWebBookmarkList</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarksDocument">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocument">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBookmarksDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A bookmarks document in OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The URL at which these bookmarks are stored.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">address</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_read_only</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the bookmarks document is read-only.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isReadOnly</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="XAOmniWebBookmarksDocument.bookmarks">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarksDocument.bookmarks">[docs]</a>
+    <span class="k">def</span> <span class="nf">bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmarkList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of bookmarks, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned bookmarks will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of bookmarks</span>
+<span class="sd">        :rtype: XAOmniWebBookmarkList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.bookmarks())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeBookmarkList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bookmarks</span><span class="p">(),</span> <span class="n">XAOmniWebBookmarkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBookmarkList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A wrapper around lists of OmniWeb bookmarks that employs fast enumeration techniques.</span>
+
+<span class="sd">    All properties of bookmarks can be called as methods on the wrapped list, returning a list containing each bookmark&#39;s value for the property.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniWebBookmark</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.address">[docs]</a>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURLList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.check_interval">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.check_interval">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;checkInterval&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.is_new">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.is_new">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_new</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;isNew&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.is_reachable">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.is_reachable">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_reachable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;isReachable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.last_checked_date">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.last_checked_date">[docs]</a>
+    <span class="k">def</span> <span class="nf">last_checked_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;lastCheckedDate&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.note">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.note">[docs]</a>
+    <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextList</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_address">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_address">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_check_interval">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_check_interval">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_check_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_interval</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;checkInterval&quot;</span><span class="p">,</span> <span class="n">check_interval</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_is_new">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_is_new">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_is_new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_new</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;isNew&quot;</span><span class="p">,</span> <span class="n">is_new</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_is_reachable">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_is_reachable">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_is_reachable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_reachable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;isReachable&quot;</span><span class="p">,</span> <span class="n">is_reachable</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_last_checked_date">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_last_checked_date">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_last_checked_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">last_checked_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;lastCheckedDate&quot;</span><span class="p">,</span> <span class="n">last_checked_date</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_name">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">xa_elem</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.by_note">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.by_note">[docs]</a>
+    <span class="k">def</span> <span class="nf">by_note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmark&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">note</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">note</span> <span class="o">=</span> <span class="n">note</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="n">note</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmarkList.bookmarks">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmarkList.bookmarks">[docs]</a>
+    <span class="k">def</span> <span class="nf">bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniWebBookmarkList&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all bookmarks contained by the bookmarks documents in the list.</span>
+
+<span class="sd">        :return: The list of bookmarks</span>
+<span class="sd">        :rtype: XAOmniWebBookmarkList</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;bookmarks&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniWebBookmarkList</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAOmniWebBookmark">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmark">[docs]</a>
+<span class="k">class</span> <span class="nc">XAOmniWebBookmark</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A bookmark in OmniWeb.app.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The URL of the bookmark.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">address</span><span class="p">())</span>
+
+    <span class="nd">@address</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">check_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The number of seconds between checks for updates to the bookmark.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">checkInterval</span><span class="p">()</span>
+
+    <span class="nd">@check_interval</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">check_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_interval</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;checkInterval&quot;</span><span class="p">,</span> <span class="n">check_interval</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_new</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the bookmark has been added since the last time it was checked for updates.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isNew</span><span class="p">()</span>
+
+    <span class="nd">@is_new</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">is_new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_new</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;isNew&quot;</span><span class="p">,</span> <span class="n">is_new</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_reachable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether this page could be retrieved last time it was checked.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isReachable</span><span class="p">()</span>
+
+    <span class="nd">@is_reachable</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">is_reachable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_reachable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;isReachable&quot;</span><span class="p">,</span> <span class="n">is_reachable</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_checked_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The date and time the bookmark was last checked for updates.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">lastCheckedDate</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The label text of the bookmark item.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The annotation text of the bookmark item.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">note</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
+
+    <span class="nd">@note</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">note</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">note</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">):</span>
+            <span class="n">note</span> <span class="o">=</span> <span class="n">note</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="n">note</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAOmniWebBookmark.bookmarks">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmark.bookmarks">[docs]</a>
+    <span class="k">def</span> <span class="nf">bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XAOmniWebBookmarkList&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of bookmarks, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned bookmarks will have, or None</span>
+<span class="sd">        :type filter: Union[dict, None]</span>
+<span class="sd">        :return: The list of bookmarks</span>
+<span class="sd">        :rtype: XAOmniWebBookmarkList</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Bike&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.bookmarks())</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Bike.XABikeBookmarkList&#39;&gt;[&#39;Untitled&#39;, &#39;PyXA Notes.bike&#39;]&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bookmarks</span><span class="p">(),</span> <span class="n">XAOmniWebBookmarkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="XAOmniWebBookmark.check_for_updates">
+<a class="viewcode-back" href="../../../reference/apps/omniweb.html#PyXA.apps.OmniWeb.XAOmniWebBookmark.check_for_updates">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_for_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">including_children</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks the bookmark for updates of its resources.</span>
+
+<span class="sd">        :param including_children: Whether to check all of the bookmark&#39;s children for updates as well, defaults to False</span>
+<span class="sd">        :type including_children: bool, optional</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">checkForUpdatesIncludingChildren_</span><span class="p">(</span><span class="n">including_children</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

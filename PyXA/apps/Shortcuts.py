@@ -2,7 +2,8 @@
 
 Control the macOS Shortcuts application using JXA-like syntax.
 """
-from typing import Any, Union
+from typing import Any, Union, Any
+from enum import Enum
 
 import AppKit
 
@@ -16,6 +17,12 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.2
     """
+
+    class ObjectType(Enum):
+        """Types of objects that can be created using :func:`make`."""
+
+        SHORTCUT = "shortcut"
+        FOLDER = "folder"
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -97,6 +104,59 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_scel.shortcuts(), XAShortcutList, filter)
+
+    def make(
+        self,
+        specifier: Union[str, "XAShortcutsApplication.ObjectType"],
+        properties: Union[dict, None] = None,
+        data: Any = None,
+    ) -> XABase.XAObject:
+        """Creates a new element of the given specifier class without adding it to any list.
+
+        Use :func:`XABase.XAList.push` to push the element onto a list.
+
+        :param specifier: The classname of the object to create
+        :type specifier: Union[str, XAShortcutsApplication.ObjectType]
+        :param properties: The properties to give the object
+        :type properties: dict
+        :param data: The data to give the object
+        :type data: Any
+        :return: A PyXA wrapped form of the object
+        :rtype: XABase.XAObject
+
+        .. versionadded:: 0.3.0
+        """
+        if isinstance(specifier, XAShortcutsApplication.ObjectType):
+            specifier = specifier.value
+
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
+
+        if specifier == "shortcut":
+            return self._new_element(obj, XAShortcut)
+        elif specifier == "folder":
+            return self._new_element(obj, XAShortcutFolder)
 
 
 class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):

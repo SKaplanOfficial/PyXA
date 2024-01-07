@@ -454,7 +454,7 @@ class XABikeDocument(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
         :return: The queried row(s), numbers, booleans, or texts
         :rtype: Union['XABikeRowList', int, str, bool]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         result = self.xa_elem.queryOutlinePath_(outline_path)
         if isinstance(result, float) or isinstance(result, int):
@@ -709,7 +709,7 @@ class XABikeRowList(XABase.XAList):
         :return: The list of rows
         :rtype: XABikeRowList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("rows") or []
         ls = [row for row in ls]
@@ -721,7 +721,7 @@ class XABikeRowList(XABase.XAList):
         :return: The list of attributes
         :rtype: XABikeAttributeList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("attributes") or []
         ls = [attribute for attribute in ls]
@@ -730,7 +730,7 @@ class XABikeRowList(XABase.XAList):
     def delete(self) -> None:
         """Deletes all rows in the list.
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.xa_elem.makeObjectsPerformSelector_("delete")
 
@@ -879,7 +879,7 @@ class XABikeRow(XABase.XAObject, XADeletable):
     def delete(self) -> None:
         """Deletes the row.
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.xa_elem.delete()
 

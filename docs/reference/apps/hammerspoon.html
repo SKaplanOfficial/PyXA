@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hammerspoon Module Reference &mdash; PyXA 0.2.2 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <title>Hammerspoon Module Reference &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -30,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> PyXA
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyXA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -42,12 +47,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Package Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="arc.html">Arc Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
@@ -61,6 +67,8 @@
 <li class="toctree-l3"><a class="reference internal" href="iina.html">IINA+ Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omniweb.html">OmniWeb Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pathfinder.html">Path Finder Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
@@ -85,7 +93,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
       <li class="breadcrumb-item active">Hammerspoon Module Reference</li>
       <li class="wy-breadcrumbs-aside">
@@ -98,7 +106,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.Hammerspoon">
-<span id="hammerspoon-module-reference"></span><h1>Hammerspoon Module Reference<a class="headerlink" href="#module-PyXA.apps.Hammerspoon" title="Permalink to this heading"></a></h1>
+<span id="hammerspoon-module-reference"></span><h1>Hammerspoon Module Reference<a class="headerlink" href="#module-PyXA.apps.Hammerspoon" title="Link to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
@@ -113,7 +121,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Hammerspoon.XAHammerspoonApplication">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Hammerspoon.</span></span><span class="sig-name descname"><span class="pre">XAHammerspoonApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Hammerspoon.html#XAHammerspoonApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Hammerspoon.</span></span><span class="sig-name descname"><span class="pre">XAHammerspoonApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Hammerspoon.html#XAHammerspoonApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a></p>
 <p>A class for managing and interacting with Hammerspoon.app.</p>
 <div class="versionadded">
@@ -143,7 +151,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Hammerspoon.XAHammerspoonApplication.execute_lua_code">
-<span class="sig-name descname"><span class="pre">execute_lua_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Hammerspoon.html#XAHammerspoonApplication.execute_lua_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.execute_lua_code" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">execute_lua_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Hammerspoon.html#XAHammerspoonApplication.execute_lua_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.execute_lua_code" title="Link to this definition"></a></dt>
 <dd><p>Executes Lua code via Hammerspoon, with support for all Hammerspoon features.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -180,19 +188,19 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Hammerspoon.XAHammerspoonApplication.frontmost">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.frontmost" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.frontmost" title="Link to this definition"></a></dt>
 <dd><p>Whether Hammerspoon is the active application.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Hammerspoon.XAHammerspoonApplication.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.name" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.name" title="Link to this definition"></a></dt>
 <dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Hammerspoon.XAHammerspoonApplication.version">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.version" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Hammerspoon.XAHammerspoonApplication.version" title="Link to this definition"></a></dt>
 <dd><p>The version of Hammerspoon.app.</p>
 </dd></dl>
 

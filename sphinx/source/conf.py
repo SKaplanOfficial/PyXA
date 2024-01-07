@@ -22,7 +22,7 @@ copyright = '2023, Stephen Kaplan'
 author = 'Stephen Kaplan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.2'
+release = '0.2.3'
 
 
 # -- General configuration ---------------------------------------------------

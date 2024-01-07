@@ -24,7 +24,7 @@ class AppBuilder:
 
     .. warning:: This is an experimental feature and may not work as expected.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, name: str):
@@ -33,7 +33,7 @@ class AppBuilder:
         :param name: The name of the application to build a class for.
         :type name: str
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.name = name
 

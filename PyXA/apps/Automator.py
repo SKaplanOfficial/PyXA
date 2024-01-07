@@ -24,7 +24,7 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     class ObjectType(Enum):
         """The object types available for creation in Automator.
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
 
         ACTION = "action"

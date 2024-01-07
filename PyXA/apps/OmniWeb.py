@@ -1,4 +1,4 @@
-""".. versionadded:: 0.2.3
+""".. versionadded:: 0.3.0
 
 Control OmniWeb using JXA-like syntax.
 """
@@ -27,7 +27,7 @@ from ..XAEvents import event_from_str
 class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """A class for managing and interacting with OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     class ObjectType(Enum):
@@ -100,7 +100,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         >>> print(app.documents())
         <<class 'PyXA.apps.Bike.XABikeDocumentList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(
             self.xa_scel.documents(), XAOmniWebDocumentList, filter
@@ -121,7 +121,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         >>> print(app.workspaces())
         <<class 'PyXA.apps.Bike.XABikeWorkspaceList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(
             self.xa_scel.workspaces(), XAOmniWebWorkspaceList, filter
@@ -142,7 +142,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         >>> print(app.browsers())
         <<class 'PyXA.apps.Bike.XABikeBrowserList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(self.xa_scel.browsers(), XAOmniWebBrowserList, filter)
 
@@ -163,7 +163,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         >>> print(app.bookmarks_documents())
         <<class 'PyXA.apps.Bike.XABikeBookmarksDocumentList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(
             self.xa_scel.bookmarksDocuments(), XAOmniWebBookmarksDocumentList, filter
@@ -227,7 +227,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         :return: The list of IDs
         :rtype: list[int]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return list(self.xa_scel.ListWindows())
     
@@ -237,7 +237,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         :return: The window's information
         :rtype: dict
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return list(self.xa_scel.GetWindowInfo())
 
@@ -269,7 +269,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         >>> front_doc_rows.insert(row2, 0) # Insert at the beginning of the document
         >>> front_doc_rows.insert(row3, 5) # Insert at the middle of the document
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         if isinstance(specifier, XAOmniWebApplication.ObjectType):
             specifier = specifier.value
@@ -318,7 +318,7 @@ class XAOmniWebApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
 class XAOmniWebWindow(XABaseScriptable.XASBWindow):
     """A window of OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -339,7 +339,7 @@ class XAOmniWebDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -378,7 +378,7 @@ class XAOmniWebDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 class XAOmniWebDocument(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A document of OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -414,7 +414,7 @@ class XAOmniWebWorkspaceList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     All properties of workspaces can be called as methods on the wrapped list, returning a list containing each workspace's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -441,7 +441,7 @@ class XAOmniWebWorkspaceList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         :return: The list of browsers
         :rtype: XAOmniWebBrowserList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("browsers")]
         return self._new_element(ls, XAOmniWebBrowserList)
@@ -452,7 +452,7 @@ class XAOmniWebWorkspaceList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 class XAOmniWebWorkspace(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A workspace in OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -493,7 +493,7 @@ class XAOmniWebWorkspace(XABase.XAObject, XACloseable, XAPrintable, XADeletable)
         >>> print(app.browsers())
         <<class 'PyXA.apps.Bike.XABikeBrowserList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(self.xa_elem.browsers(), XAOmniWebBrowserList, filter)
 
@@ -506,7 +506,7 @@ class XAOmniWebBrowserList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     All properties of browsers can be called as methods on the wrapped list, returning a list containing each browser's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -569,7 +569,7 @@ class XAOmniWebBrowserList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         :return: The list of tabs
         :rtype: XAOmniWebTabList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("tabs")]
         return self._new_element(ls, XAOmniWebTabList)
@@ -580,7 +580,7 @@ class XAOmniWebBrowserList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 class XAOmniWebBrowser(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A browser in OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -662,7 +662,7 @@ class XAOmniWebBrowser(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
         >>> print(app.tabs())
         <<class 'PyXA.apps.Bike.XABikeTabList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(self.xa_elem.tabs(), XAOmniWebTabList, filter)
 
@@ -676,7 +676,7 @@ class XAOmniWebTabList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -720,7 +720,7 @@ class XAOmniWebTabList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
     def delete(self) -> None:
         """Closes all tabs in the list.
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.xa_elem.makeObjectsPerformSelector_("delete")
 
@@ -731,7 +731,7 @@ class XAOmniWebTabList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 class XAOmniWebTab(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A tab in OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -766,7 +766,7 @@ class XAOmniWebTab(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     def delete(self) -> None:
         """Closes the tab.
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.xa_elem.delete()
 
@@ -780,7 +780,7 @@ class XAOmniWebBookmarksDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCo
 
     All properties of bookmarks documents can be called as methods on the wrapped list, returning a list containing each bookmarks document's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -807,7 +807,7 @@ class XAOmniWebBookmarksDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCo
         :return: The list of bookmarks
         :rtype: XAOmniWebBookmarkList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = [x for x in self.xa_elem.arrayByApplyingSelector_("bookmarks")]
         return self._new_element(ls, XAOmniWebBookmarkList)
@@ -818,7 +818,7 @@ class XAOmniWebBookmarksDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCo
 class XAOmniWebBookmarksDocument(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A bookmarks document in OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -849,7 +849,7 @@ class XAOmniWebBookmarksDocument(XABase.XAObject, XACloseable, XAPrintable, XADe
         >>> print(app.bookmarks())
         <<class 'PyXA.apps.Bike.XABikeBookmarkList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(self.xa_elem.bookmarks(), XAOmniWebBookmarkList, filter)
 
@@ -863,7 +863,7 @@ class XAOmniWebBookmarkList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 
     All properties of bookmarks can be called as methods on the wrapped list, returning a list containing each bookmark's value for the property.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -926,7 +926,7 @@ class XAOmniWebBookmarkList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         :return: The list of bookmarks
         :rtype: XAOmniWebBookmarkList
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("bookmarks") or []
         return self._new_element(ls, XAOmniWebBookmarkList)
@@ -937,7 +937,7 @@ class XAOmniWebBookmarkList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
 class XAOmniWebBookmark(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
     """A bookmark in OmniWeb.app.
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
 
     def __init__(self, properties):
@@ -1023,7 +1023,7 @@ class XAOmniWebBookmark(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
         >>> print(app.bookmarks())
         <<class 'PyXA.apps.Bike.XABikeBookmarkList'>['Untitled', 'PyXA Notes.bike']>
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         return self._new_element(self.xa_elem.bookmarks(), XAOmniWebBookmarkList, filter)
     
@@ -1033,7 +1033,7 @@ class XAOmniWebBookmark(XABase.XAObject, XACloseable, XAPrintable, XADeletable):
         :param including_children: Whether to check all of the bookmark's children for updates as well, defaults to False
         :type including_children: bool, optional
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         self.xa_elem.checkForUpdatesIncludingChildren_(including_children)
 

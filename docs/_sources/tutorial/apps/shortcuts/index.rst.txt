@@ -7,6 +7,9 @@ Shortcuts Module Overview
 
 Most of Shortcuts.app's scripting interface is available via PyXA, however some significant features are currently limited by sandboxing constraints. PyXA is able to interact with existing shortcuts, including run them, but it is currently unable to create new shortcuts or shortcut folders. That said, it is possible to use Shortcuts links to install new shortcuts. It would be feasible to use functional, atomically constructed shortcuts (i.e. each shortcut accomplishes a single task and returns a transformed value) to construct larger sequences of actions, effectively re-instituting an ability to create shortcuts. For now, that is left as an exercise for PyXA users. Future versions of PyXA may utilize the Shortcuts URI scheme, in combination with the Intents framework, to re-implement these features in a more straightforward way.
 
+> [!NOTE]
+> In most cases, to work with shortcuts, you should use the 'Shortcuts Events' application as used in the examples below. This allows you to work with shortcuts without having to open the Shortcuts app.
+
 Shortcuts Tutorials
 ###################
 There are currently no tutorials for the Shortcuts module.

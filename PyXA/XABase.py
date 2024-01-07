@@ -54,7 +54,7 @@ def snakify(text: str) -> str:
     :return: The snakeized string
     :rtype: str
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
     return re.sub(r"([A-Z])", r"_\1", text).lower()
 
@@ -67,13 +67,13 @@ def camelize(text: str) -> str:
     :return: The camelized string
     :rtype: str
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
     parts = text.split("_")
     return parts[0] + "".join([part.title() for part in parts[1:]])
 
 
-VERSION = "0.2.3"  #: The installed version of PyXA
+VERSION = "0.3.0"  #: The installed version of PyXA
 supported_applications: list[str] = list(
     application_classes.keys()
 )  #: A list of names of supported scriptable applications
@@ -387,7 +387,7 @@ class XAList(XAObject):
         >>> print(indexed_notes[0])
         {'element': <<class 'PyXA.apps.Notes.XANote'>Example Note, x-coredata://314D805E-C349-42A0-96EC-380EE21392E2/ICNote/p9527>, 'id': 0}
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         new_arr = AppKit.NSMutableArray.alloc().initWithArray_(self.xa_elem)
 
@@ -1387,7 +1387,7 @@ def running_applications(unique=True) -> list["XAApplication"]:
     >>> print(apps.localized_name())
     ['GitHub Desktop', 'Safari', 'Code', 'Terminal', 'Notes', 'Messages', 'TV']
 
-    .. versionchanged:: 0.2.3
+    .. versionchanged:: 0.3.0
 
         Added the :attr:`unique` parameter.
 
@@ -1454,7 +1454,7 @@ def active_browser() -> "XAApplication":
     :return: A PyXA application object referencing the current browser application.
     :rtype: XAApplication
 
-    .. versionadded:: 0.2.3
+    .. versionadded:: 0.3.0
     """
     running_app_names = running_applications().localized_name()
     for browser in running_app_names:
@@ -2253,7 +2253,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
         :return: The filtered array
         :rtype: AppKit.NSArray
 
-        .. versionchanged:: 0.2.3
+        .. versionchanged:: 0.3.0
 
             Added the :attr:`fmt_parameters` parameter.
 
@@ -3951,7 +3951,7 @@ class XAText(XAObject):
         :return: The list of URLs.
         :rtype: list[XAURL]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(
             AppKit.NSTextCheckingTypeLink, None
@@ -3970,7 +3970,7 @@ class XAText(XAObject):
         :return: The list of dates.
         :rtype: list[XADatetimeBlock]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(
             AppKit.NSTextCheckingTypeDate, None
@@ -3989,7 +3989,7 @@ class XAText(XAObject):
         :return: The list of addresses.
         :rtype: list[XALocation]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         import CoreLocation
 
@@ -4045,7 +4045,7 @@ class XAText(XAObject):
         :return: The list of phone numbers.
         :rtype: list[XAText]
 
-        .. versionadded:: 0.2.3
+        .. versionadded:: 0.3.0
         """
         detector = AppKit.NSDataDetector.dataDetectorWithTypes_error_(
             AppKit.NSTextCheckingTypePhoneNumber, None

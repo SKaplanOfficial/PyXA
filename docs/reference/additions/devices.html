@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devices Module &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Speech Module" href="speech.html" />
+    <link rel="prev" title="Learn Module" href="learn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Package Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="learn.html">Learn Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Devices Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.Additions.Devices.XACamera"><code class="docutils literal notranslate"><span class="pre">XACamera</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.Additions.Devices.XAMicrophone"><code class="docutils literal notranslate"><span class="pre">XAMicrophone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen"><code class="docutils literal notranslate"><span class="pre">XAScreen</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="speech.html">Speech Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui.html">UI Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html">Utils Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="web.html">Web Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Devices Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/additions/devices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.Additions.Devices">
+<span id="devices-module"></span><h1>Devices Module<a class="headerlink" href="#module-PyXA.Additions.Devices" title="Link to this heading"></a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XACamera" title="PyXA.Additions.Devices.XACamera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACamera</span></code></a>()</p></td>
+<td><p>A reusable controller for camera-related functionality.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAMicrophone" title="PyXA.Additions.Devices.XAMicrophone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMicrophone</span></code></a>()</p></td>
+<td><p>A reusable controller for microphone-related functionality.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen" title="PyXA.Additions.Devices.XAScreen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAScreen</span></code></a>()</p></td>
+<td><p>A reusable controller for screen-related functionality.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XACamera">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.Additions.Devices.</span></span><span class="sig-name descname"><span class="pre">XACamera</span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XACamera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XACamera" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A reusable controller for camera-related functionality.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XACamera.capture" title="PyXA.Additions.Devices.XACamera.capture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capture</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XACamera.record" title="PyXA.Additions.Devices.XACamera.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(file_path[, duration])</p></td>
+<td><p>Records a video for the specified duration, saving into the provided file path.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XACamera.capture">
+<span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XACamera.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XACamera.capture" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XACamera.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAVideo" title="PyXA.XABase.XAVideo"><span class="pre">XAVideo</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XACamera.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XACamera.record" title="Link to this definition"></a></dt>
+<dd><p>Records a video for the specified duration, saving into the provided file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XAPath</em></a><em>]</em>) – The file path to save the video at.</p></li>
+<li><p><strong>duration</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The duration of the video, in seconds, or None to record continuously until the script is canceled, defaults to 10.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting video as a PyXA object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAVideo" title="PyXA.XABase.XAVideo">XAVideo</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAMicrophone">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.Additions.Devices.</span></span><span class="sig-name descname"><span class="pre">XAMicrophone</span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAMicrophone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAMicrophone" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A reusable controller for microphone-related functionality.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAMicrophone.record" title="PyXA.Additions.Devices.XAMicrophone.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(file_path[, duration])</p></td>
+<td><p>Records audio for the specified duration, saving into the provided file path.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAMicrophone.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">XASound</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAMicrophone.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAMicrophone.record" title="Link to this definition"></a></dt>
+<dd><p>Records audio for the specified duration, saving into the provided file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XAPath</em></a><em>]</em>) – The file path to save the audio at.</p></li>
+<li><p><strong>duration</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The duration of the audio, in seconds, or None to record continuously until the script is canceled, defaults to 10.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting audio as a PyXA object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.Additions.Devices.</span></span><span class="sig-name descname"><span class="pre">XAScreen</span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAScreen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAScreen" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A reusable controller for screen-related functionality.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen.capture" title="PyXA.Additions.Devices.XAScreen.capture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capture</span></code></a>()</p></td>
+<td><p>Captures the screen and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen.capture_rect" title="PyXA.Additions.Devices.XAScreen.capture_rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capture_rect</span></code></a>(x, y, width, height)</p></td>
+<td><p>Captures the screen within the specified rectangle and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen.capture_window" title="PyXA.Additions.Devices.XAScreen.capture_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capture_window</span></code></a>(app, window_index)</p></td>
+<td><p>Captures the specified window and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.Additions.Devices.XAScreen.record" title="PyXA.Additions.Devices.XAScreen.record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record</span></code></a>(file_path[, duration])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAScreen.capture">
+<span class="sig-name descname"><span class="pre">capture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAScreen.capture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAScreen.capture" title="Link to this definition"></a></dt>
+<dd><p>Captures the screen and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting image.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAScreen.capture_rect">
+<span class="sig-name descname"><span class="pre">capture_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAScreen.capture_rect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAScreen.capture_rect" title="Link to this definition"></a></dt>
+<dd><p>Captures the screen within the specified rectangle and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rect</strong> (<em>XARect</em>) – The rectangle to capture.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAScreen.capture_window">
+<span class="sig-name descname"><span class="pre">capture_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">XAApplication</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAScreen.capture_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAScreen.capture_window" title="Link to this definition"></a></dt>
+<dd><p>Captures the specified window and returns it as a <a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAImage</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><em>XAApplication</em></a>) – The application to capture the window from.</p></li>
+<li><p><strong>window_index</strong> (<em>int</em>) – The index of the window to capture.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XAImage</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.Additions.Devices.XAScreen.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAVideo" title="PyXA.XABase.XAVideo"><span class="pre">XAVideo</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/Additions/Devices.html#XAScreen.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.Additions.Devices.XAScreen.record" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="learn.html" class="btn btn-neutral float-left" title="Learn Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="speech.html" class="btn btn-neutral float-right" title="Speech Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

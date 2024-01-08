@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Device Interaction &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reading RSS Feeds" href="extensions/web/rssfeed.html" />
+    <link rel="prev" title="Add Items to the Menu Bar" href="menubar.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Package Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Device Interaction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#device-classes">Device Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#camera">Camera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#microphone">Microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#screen">Screen</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Device Interaction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/devices.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="device-interaction">
+<h1>Device Interaction<a class="headerlink" href="#device-interaction" title="Link to this heading"></a></h1>
+<p>PyXA offers a _Devices_ addition that provides a simple interface to your device’s hardware such as its camera, microphone, and screen.</p>
+<section id="device-classes">
+<h2>Device Classes<a class="headerlink" href="#device-classes" title="Link to this heading"></a></h2>
+<p>The following device classes are available:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XACamera" title="PyXA.Additions.Devices.XACamera"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACamera</span></code></a> - for capturing photos and videos</p></li>
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAMicrophone" title="PyXA.Additions.Devices.XAMicrophone"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAMicrophone</span></code></a> - for recording audio</p></li>
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen" title="PyXA.Additions.Devices.XAScreen"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAScreen</span></code></a> - for capturing screenshots and screen recordings</p></li>
+</ul>
+<p>An overview of each class is provided below.</p>
+</section>
+<section id="camera">
+<h2>Camera<a class="headerlink" href="#camera" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XACamera" title="PyXA.Additions.Devices.XACamera"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACamera</span></code></a> class provides two methods: one to capture photos (<a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XACamera.capture" title="PyXA.Additions.Devices.XACamera.capture"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture()</span></code></a>) and another to record videos (<a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XACamera.record" title="PyXA.Additions.Devices.XACamera.record"><code class="xref py py-func docutils literal notranslate"><span class="pre">record()</span></code></a>). Both methods return an instance of the corresponding PyXA class—either <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> or <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAVideo" title="PyXA.XABase.XAVideo"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAVideo</span></code></a>—that can be used alongside other areas of PyXA.</p>
+<p>For example, to capture a photo and save it to the desktop, you could use the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">cam</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XACamera</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span>
+<span class="n">homedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">homedir</span><span class="si">}</span><span class="s2">/Desktop/test.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can combine this with other PyXA features to create powerful automations. For example, you could use the <a class="reference internal" href="../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech" title="PyXA.Additions.Speech.XASpeech"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASpeech</span></code></a> class to speak any text detected in the image:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+
+<span class="n">cam</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XACamera</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span>
+<span class="n">img_text</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span>
+
+<span class="n">PyXA</span><span class="o">.</span><span class="n">XASpeech</span><span class="p">(</span><span class="n">img_text</span><span class="p">)</span><span class="o">.</span><span class="n">speak</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="microphone">
+<h2>Microphone<a class="headerlink" href="#microphone" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAMicrophone" title="PyXA.Additions.Devices.XAMicrophone"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAMicrophone</span></code></a> class provides a single method, <a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAMicrophone.record" title="PyXA.Additions.Devices.XAMicrophone.record"><code class="xref py py-func docutils literal notranslate"><span class="pre">record()</span></code></a>, that records audio from the device’s microphone and returns an instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">XAAudio</span></code> class.</p>
+<p>For example, to record 5 seconds of audio and play it back, you could use the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">mic</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMicrophone</span><span class="p">()</span>
+<span class="n">homedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span>
+<span class="n">recording</span> <span class="o">=</span> <span class="n">mic</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">homedir</span><span class="si">}</span><span class="s2">/Downloads/test.wav&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">recording</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="screen">
+<h2>Screen<a class="headerlink" href="#screen" title="Link to this heading"></a></h2>
+<p>PyXA’s <a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen" title="PyXA.Additions.Devices.XAScreen"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAScreen</span></code></a> class provides methods for capturing screenshots and screen recordings. Each method returns either a <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> or <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAVideo" title="PyXA.XABase.XAVideo"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAVideo</span></code></a> object. The available methods are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen.capture" title="PyXA.Additions.Devices.XAScreen.capture"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture()</span></code></a> - captures a screenshot</p></li>
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen.capture_rect" title="PyXA.Additions.Devices.XAScreen.capture_rect"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture_rect()</span></code></a> - captures a screenshot of a specific area of the screen</p></li>
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen.capture_window" title="PyXA.Additions.Devices.XAScreen.capture_window"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture_window()</span></code></a> - captures a screenshot of a specific window</p></li>
+<li><p><a class="reference internal" href="../reference/additions/devices.html#PyXA.Additions.Devices.XAScreen.record" title="PyXA.Additions.Devices.XAScreen.record"><code class="xref py py-func docutils literal notranslate"><span class="pre">record()</span></code></a> - records a screen recording</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="menubar.html" class="btn btn-neutral float-left" title="Add Items to the Menu Bar" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="extensions/web/rssfeed.html" class="btn btn-neutral float-right" title="Reading RSS Feeds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

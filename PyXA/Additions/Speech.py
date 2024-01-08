@@ -257,7 +257,7 @@ class XASpeech:
             for x in ls
         ]
 
-    def speak(self, path: Union[str, XABase.XAPath, None] = None):
+    def speak(self, path: Union[str, XABase.XAPath, None, list[str]] = None):
         """Speaks the provided message using the desired voice, volume, and speaking rate.
 
         :param path: The path to a .AIFF file to output sound to, defaults to None
@@ -287,10 +287,16 @@ class XASpeech:
 
         .. versionadded:: 0.0.9
         """
+        if isinstance(self.message, list):
+            self.message = "\n".join(self.message)
+
+        if self.message.strip() == "":
+            return
+        
         # Get the selected voice by name
         voice = None
         for v in AppKit.NSSpeechSynthesizer.availableVoices():
-            if self.voice.lower() in v.lower():
+            if self.voice is not None and self.voice.lower() in v.lower():
                 voice = v
 
         # Set up speech synthesis object

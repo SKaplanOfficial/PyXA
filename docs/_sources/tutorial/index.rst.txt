@@ -136,6 +136,7 @@ Additional Tutorial Topics
    ui_scripting
    applescript
    menubar
+   devices
    extensions/web/rssfeed
    appscript
    tips_tricks

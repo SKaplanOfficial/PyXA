@@ -8292,11 +8292,13 @@ class XASound(XAObject, XAClipboardCodable):
         """
         ).run()
 
-    def play(self) -> "XASound":
+    def play(self, new_thread = False) -> "XASound":
         """Plays the sound from the beginning.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
+        :param new_thread: Whether to play the sound in a new thread, defaults to False
+        :type new_thread: bool, optional
         :return: A reference to this sound object.
         :rtype: XASound
 
@@ -8319,12 +8321,16 @@ class XASound(XAObject, XAClipboardCodable):
             )
             self.__audio_engine.startAndReturnError_(None)
             self.__player_node.play()
-            while self.__player_node.isPlaying():
+            start_date = AppKit.NSDate.date()
+            while AppKit.NSDate.date().timeIntervalSinceDate_(start_date) < self.duration:
                 AppKit.NSRunLoop.currentRunLoop().runUntilDate_(
                     datetime.now() + timedelta(seconds=0.1)
                 )
 
-        self._spawn_thread(play_sound, [self])
+        if new_thread:
+            self._spawn_thread(play_sound, [self])
+        else:
+            play_sound(self)
         return self
 
     def pause(self) -> "XASound":

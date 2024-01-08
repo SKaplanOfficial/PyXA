@@ -28,6 +28,7 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """
 
     class ObjectType(Enum):
+        """Types of objects that can be created with :func:`XABikeApplication.make`."""
         WINDOW = "window"
         DOCUMENT = "document"
         ROW = "row"

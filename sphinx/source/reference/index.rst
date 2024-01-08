@@ -75,6 +75,7 @@ PyXA Additions
    :maxdepth: 2
 
    additions/learn
+   additions/devices
    additions/speech
    additions/ui
    additions/utils

@@ -7,24 +7,24 @@ from typing import Any
 
 from PyXA import XABaseScriptable
 
+
 class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Hammerspoon.app.
 
     .. versionadded:: 0.0.8
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Hammerspoon is the active application.
-        """
+        """Whether Hammerspoon is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -33,8 +33,7 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
 
     @property
     def version(self) -> str:
-        """The version of Hammerspoon.app.
-        """
+        """The version of Hammerspoon.app."""
         return self.xa_scel.version()
 
     def execute_lua_code(self, code: str) -> Any:

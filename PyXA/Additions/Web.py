@@ -19,6 +19,7 @@ class RSSFeed(XABase.XAObject):
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, url: Union[str, XABase.XAURL]):
         self.xa_apsp = AppKit.NSApplication.sharedApplication()
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
@@ -29,9 +30,9 @@ class RSSFeed(XABase.XAObject):
             url = url.url
         self.url = url
         request = requests.get(url)
-        self.__soup = BeautifulSoup(request.content, features='xml')
+        self.__soup = BeautifulSoup(request.content, features="xml")
 
-    def items(self) -> 'RSSItemList':
+    def items(self) -> "RSSItemList":
         """Retrieves all item and/or entry tags in the RSS feed as :class:`RSSItem` objects.
 
         :return: The list of items and/or entries
@@ -46,10 +47,10 @@ class RSSFeed(XABase.XAObject):
 
         .. versionadded:: 0.1.0
         """
-        articles = self.__soup.findAll('entry')
+        articles = self.__soup.findAll("entry")
         if articles == []:
-            articles = self.__soup.findAll('item')
-        
+            articles = self.__soup.findAll("item")
+
         return self._new_element(articles, RSSItemList)
 
     def refetch(self):
@@ -68,9 +69,7 @@ class RSSFeed(XABase.XAObject):
         .. versionadded:: 0.1.0
         """
         request = requests.get(self.url)
-        self.__soup = BeautifulSoup(request.content, features='xml')
-
-
+        self.__soup = BeautifulSoup(request.content, features="xml")
 
 
 class RSSItemList(XABase.XAList):
@@ -87,7 +86,7 @@ class RSSItemList(XABase.XAList):
         """
         return [str(x) for x in self.xa_elem]
 
-    def content(self) -> 'RSSItemContentList':
+    def content(self) -> "RSSItemContentList":
         """Gets the content of each item as :class:`RSSItemContent` objects.
 
         :return: The list of item contents
@@ -98,7 +97,7 @@ class RSSItemList(XABase.XAList):
         contents = []
         for item in self.xa_elem:
             html = str(item.find("content").string)
-            content_object = BeautifulSoup(html, 'html.parser')
+            content_object = BeautifulSoup(html, "html.parser")
             contents.append(content_object)
         return self._new_element(contents, RSSItemContentList)
 
@@ -142,7 +141,7 @@ class RSSItemList(XABase.XAList):
         """
         return [x.find("comments").text for x in self.xa_elem]
 
-    def description(self) -> 'RSSItemContentList':
+    def description(self) -> "RSSItemContentList":
         """Gets the description of each item as :class:`RSSItemContent` objects.
 
         :return: The list of item descriptions
@@ -153,7 +152,7 @@ class RSSItemList(XABase.XAList):
         contents = []
         for item in self.xa_elem:
             html = str(item.find("description").string)
-            content_object = BeautifulSoup(html, 'html.parser')
+            content_object = BeautifulSoup(html, "html.parser")
             contents.append(content_object)
         return self._new_element(contents, RSSItemContentList)
 
@@ -230,27 +229,29 @@ class RSSItemList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.title()) + ">"
 
+
 class RSSItem(XABase.XAObject):
     """An item or entry in an RSS feed.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.xml: str #: The raw XML of the entry
-        self.content: str #: The raw content of the entry
-        self.author: str #: The author of the entry
-        self.category: str #: The category of the entry
-        self.comments: str #: The comments of the entry
-        self.description: str #: The description of the entry
-        self.enclosure: str #: The media idea enclosed in the entry
-        self.link: str #: The hyperlink to the entry
-        self.publication_date: datetime #: The most recent publication date of the entry
-        self.source: str #: The third-party source of the entry
-        self.title: str #: The title of the RSS entry
-        self.copyright: str #: The copyright text of the entry
-        self.text: str #: All text within the entry (not just the description/content text!)
+
+        self.xml: str  #: The raw XML of the entry
+        self.content: str  #: The raw content of the entry
+        self.author: str  #: The author of the entry
+        self.category: str  #: The category of the entry
+        self.comments: str  #: The comments of the entry
+        self.description: str  #: The description of the entry
+        self.enclosure: str  #: The media idea enclosed in the entry
+        self.link: str  #: The hyperlink to the entry
+        self.publication_date: datetime  #: The most recent publication date of the entry
+        self.source: str  #: The third-party source of the entry
+        self.title: str  #: The title of the RSS entry
+        self.copyright: str  #: The copyright text of the entry
+        self.text: str  #: All text within the entry (not just the description/content text!)
 
     @property
     def xml(self) -> str:
@@ -259,7 +260,7 @@ class RSSItem(XABase.XAObject):
     @property
     def content(self) -> type:
         html = str(self.xa_elem.find("content").string)
-        content_object = BeautifulSoup(html, 'html.parser')
+        content_object = BeautifulSoup(html, "html.parser")
         return self._new_element(content_object, RSSItemContent)
 
     @property
@@ -349,8 +350,6 @@ class RSSItem(XABase.XAObject):
         return "<" + str(type(self)) + self.title + ">"
 
 
-
-
 class RSSItemContentList(XABase.XAList):
     def __init__(self, properties):
         super().__init__(properties, RSSItemContent)
@@ -396,22 +395,31 @@ class RSSItemContentList(XABase.XAList):
         img_objects = []
         for content_item in self.xa_elem:
             imgs = content_item.findAll("img")
-            img_objects.extend([AppKit.NSImage.alloc().initWithContentsOfURL_(AppKit.NSURL.alloc().initWithString_(x.get("src"))) for x in imgs])
+            img_objects.extend(
+                [
+                    AppKit.NSImage.alloc().initWithContentsOfURL_(
+                        AppKit.NSURL.alloc().initWithString_(x.get("src"))
+                    )
+                    for x in imgs
+                ]
+            )
         return self._new_element(img_objects, XABase.XAImageList)
 
     def __repr__(self):
         return "<" + str(type(self)) + "Length: " + str(len(self)) + ">"
+
 
 class RSSItemContent(XABase.XAObject):
     """The content of an RSS entry.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.html: str #: The raw html of the content
-        self.text: str #: The visible text of the content
+        self.html: str  #: The raw html of the content
+        self.text: str  #: The visible text of the content
 
     @property
     def html(self) -> str:
@@ -457,5 +465,10 @@ class RSSItemContent(XABase.XAObject):
         .. versionadded:: 0.1.0
         """
         imgs = self.xa_elem.findAll("img")
-        img_objects = [AppKit.NSImage.alloc().initWithContentsOfURL_(AppKit.NSURL.alloc().initWithString_(x.get("src"))) for x in imgs]
+        img_objects = [
+            AppKit.NSImage.alloc().initWithContentsOfURL_(
+                AppKit.NSURL.alloc().initWithString_(x.get("src"))
+            )
+            for x in imgs
+        ]
         return self._new_element(img_objects, XABase.XAImageList)

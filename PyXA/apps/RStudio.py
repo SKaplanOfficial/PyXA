@@ -6,11 +6,13 @@ Control RStudio using JXA-like syntax.
 from typing import Any
 from PyXA import XABaseScriptable
 
+
 class XARStudioApplication(XABaseScriptable.XASBApplication):
     """A class for interacting with RStudio.app.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 

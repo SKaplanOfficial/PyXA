@@ -11,16 +11,27 @@ from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XADeletable, XAPrintable, XAShowable
+from ..XAProtocols import (
+    XACanOpenPath,
+    XACanPrintPath,
+    XAClipboardCodable,
+    XADeletable,
+    XAPrintable,
+    XAShowable,
+)
 
-class XACardhopAppplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
+
+class XACardhopAppplication(
+    XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath
+):
     """A class for interacting with Cardhop.app.
 
     .. versionadded:: 0.1.0
     """
+
     class ZoomType(Enum):
-        """Options for zoom type to use when opening a new document.
-        """
+        """Options for zoom type to use when opening a new document."""
+
         NO_VARY = 0
         FIT_PAGE = 1
         FIT_WIDTH = 2
@@ -33,20 +44,17 @@ class XACardhopAppplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Cardhop is the active application.
-        """
+        """Whether Cardhop is the active application."""
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
-        """The version of Cardhop.app.
-        """
+        """The version of Cardhop.app."""
         return self.xa_scel.version()
 
     def parse_sentence(self, sentence: str, add_immediately: bool = True):
@@ -59,7 +67,7 @@ class XACardhopAppplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         """
         self.xa_scel.parseSentence_addImmediately_(sentence, add_immediately)
 
-    def documents(self, filter: dict = None) -> 'XACardhopDocumentList':
+    def documents(self, filter: dict = None) -> "XACardhopDocumentList":
         """Returns a list of documents, as PyXA objects, matching the filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have
@@ -69,9 +77,9 @@ class XACardhopAppplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.documents(), XACardhopDocumentList, filter)
-
-
+        return self._new_element(
+            self.xa_scel.documents(), XACardhopDocumentList, filter
+        )
 
 
 class XACardhopWindow(XABaseScriptable.XASBWindow, XAPrintable):
@@ -79,16 +87,14 @@ class XACardhopWindow(XABaseScriptable.XASBWindow, XAPrintable):
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
-    def document(self) -> 'XACardhopDocument':
-        """The document whose contents are displayed in the window.
-        """
+    def document(self) -> "XACardhopDocument":
+        """The document whose contents are displayed in the window."""
         return self._new_element(self.xa_elem.document(), XACardhopDocument)
-
-
 
 
 class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
@@ -98,6 +104,7 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACardhopDocument, filter)
 
@@ -111,13 +118,15 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return [XABase.XAPath(x) for x in ls]
 
-    def by_name(self, name: str) -> Union['XACardhopDocument', None]:
+    def by_name(self, name: str) -> Union["XACardhopDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XACardhopDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XACardhopDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: Union[XABase.XAPath, str]) -> Union['XACardhopDocument', None]:
+    def by_file(
+        self, file: Union[XABase.XAPath, str]
+    ) -> Union["XACardhopDocument", None]:
         if isinstance(file, str):
             file = XABase.XAPath(file)
         return self.by_property("file", file.xa_elem)
@@ -142,28 +151,27 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XACardhopDocument(XABase.XAObject):
     """A document of Cardhop.app.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The title of the document.
-        """
+        """The title of the document."""
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since its last save.
-        """
+        """Whether the document has been modified since its last save."""
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
-        """The location of the document on disk, if it has one.
-        """
+        """The location of the document on disk, if it has one."""
         return XABase.XAPath(self.xa_elem.file())

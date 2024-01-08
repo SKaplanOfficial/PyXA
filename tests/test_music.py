@@ -5,7 +5,6 @@ import unittest
 import ScriptingBridge
 
 from PyXA.apps.Music import *
-from PyXA.apps.MediaApplicationBase import XAMediaApplication
 
 class TestMusic(unittest.TestCase):
     def setUp(self):
@@ -14,7 +13,6 @@ class TestMusic(unittest.TestCase):
     def test_music_application_type(self):
         app2 = PyXA.Music()
         self.assertEqual(self.app, app2)
-        self.assertIsInstance(self.app, XAMediaApplication)
         self.assertIsInstance(self.app, XAMusicApplication)
 
     def test_music_application_attributes(self):

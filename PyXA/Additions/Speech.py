@@ -15,12 +15,15 @@ from PyObjCTools import AppHelper
 from PyXA import XABase
 
 
-class XACommandDetector():
+class XACommandDetector:
     """A command-based query detector.
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, command_function_map: Union[dict[str, Callable[[], Any]], None] = None):
+
+    def __init__(
+        self, command_function_map: Union[dict[str, Callable[[], Any]], None] = None
+    ):
         """Creates a command detector object.
 
         :param command_function_map: A dictionary mapping command strings to function objects
@@ -28,7 +31,9 @@ class XACommandDetector():
 
         .. versionadded:: 0.0.9
         """
-        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
+        self.command_function_map = (
+            command_function_map or {}
+        )  #: The dictionary of commands and corresponding functions to run upon detection
 
     def on_detect(self, command: str, function: Callable[[], Any]):
         """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
@@ -76,6 +81,7 @@ class XACommandDetector():
         """
         command_function_map = self.command_function_map
         return_value = None
+
         class NSSpeechRecognizerDelegate(AppKit.NSObject):
             def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
                 return_value = command_function_map[cmd]()
@@ -91,14 +97,18 @@ class XACommandDetector():
         return return_value
 
 
-
-
-class XASpeechRecognizer():
+class XASpeechRecognizer:
     """A rule-based query detector.
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]] = None):
+
+    def __init__(
+        self,
+        finish_conditions: Union[
+            None, dict[Callable[[str], bool], Callable[[str], bool]]
+        ] = None,
+    ):
         """Creates a speech recognizer object.
 
         By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
@@ -109,12 +119,15 @@ class XASpeechRecognizer():
         .. versionadded:: 0.0.9
         """
         default_conditions = {
-            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
+            lambda x: self.time_elapsed
+            > timedelta(seconds=10): lambda x: self.spoken_query,
         }
-        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
-        self.spoken_query: str = "" #: The recognized spoken input
-        self.start_time: datetime #: The time that the Speech Recognizer begins listening
-        self.time_elapsed: timedelta #: The amount of time passed since the start time
+        self.finish_conditions: Callable[[str], bool] = (
+            finish_conditions or default_conditions
+        )  #: A dictionary of rules and associated methods to call when a rule evaluates to true
+        self.spoken_query: str = ""  #: The recognized spoken input
+        self.start_time: datetime  #: The time that the Speech Recognizer begins listening
+        self.time_elapsed: timedelta  #: The amount of time passed since the start time
 
     def __prepare(self):
         # Request microphone access if we don't already have it
@@ -122,20 +135,37 @@ class XASpeechRecognizer():
 
         # Set up audio session
         self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
-        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
-        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
+        self.audio_session.setCategory_mode_options_error_(
+            AVFoundation.AVAudioSessionCategoryRecord,
+            AVFoundation.AVAudioSessionModeMeasurement,
+            AVFoundation.AVAudioSessionCategoryOptionDuckOthers,
+            None,
+        )
+        self.audio_session.setActive_withOptions_error_(
+            True,
+            AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation,
+            None,
+        )
 
         # Set up recognition request
         self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
-        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
+        self.recognition_request = (
+            Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
+        )
         self.recognition_request.setShouldReportPartialResults_(True)
 
         # Set up audio engine
         self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
         self.input_node = self.audio_engine.inputNode()
         recording_format = self.input_node.outputFormatForBus_(0)
-        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
-            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
+        self.input_node.installTapOnBus_bufferSize_format_block_(
+            0,
+            1024,
+            recording_format,
+            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(
+                buffer
+            ),
+        )
         self.audio_engine.prepare()
         self.audio_engine.startAndReturnError_(None)
 
@@ -164,17 +194,26 @@ class XASpeechRecognizer():
         self.__prepare()
 
         old_self = self
+
         def detect_speech(transcription, error):
             if error is not None:
                 print("Failed to detect speech. Error: ", error)
             else:
-                old_self.spoken_query = transcription.bestTranscription().formattedString()
+                old_self.spoken_query = (
+                    transcription.bestTranscription().formattedString()
+                )
                 print(old_self.spoken_query)
 
-        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
-        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
+        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(
+            self.recognition_request, detect_speech
+        )
+        while self.spoken_query == "" or not any(
+            x(self.spoken_query) for x in self.finish_conditions
+        ):
             self.time_elapsed = datetime.now() - self.start_time
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(
+                datetime.now() + timedelta(seconds=0.5)
+            )
 
         self.audio_engine.stop()
         for rule, method in self.finish_conditions.items():
@@ -182,14 +221,18 @@ class XASpeechRecognizer():
                 return method(self.spoken_query)
 
 
-
-
-class XASpeech():
-    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
-        self.message: str = message #: The message to speak
-        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
-        self.volume: float = volume #: The speaking volume
-        self.rate: int = rate #: The speaking rate
+class XASpeech:
+    def __init__(
+        self,
+        message: str = "",
+        voice: Union[str, None] = None,
+        volume: float = 0.5,
+        rate: int = 200,
+    ):
+        self.message: str = message  #: The message to speak
+        self.voice: Union[str, None] = voice  #: The voice that the message is spoken in
+        self.volume: float = volume  #: The speaking volume
+        self.rate: int = rate  #: The speaking rate
 
     def voices(self) -> list[str]:
         """Gets the list of voice names available on the system.
@@ -207,10 +250,15 @@ class XASpeech():
         .. versionadded:: 0.0.9
         """
         ls = AppKit.NSSpeechSynthesizer.availableVoices()
-        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
-    
-    def speak(self, path: Union[str, XABase.XAPath, None] = None):
-        """Speaks the provided message using the desired voice, volume, and speaking rate. 
+        return [
+            x.replace("com.apple.speech.synthesis.voice.", "")
+            .replace(".premium", "")
+            .title()
+            for x in ls
+        ]
+
+    def speak(self, path: Union[str, XABase.XAPath, None, list[str]] = None):
+        """Speaks the provided message using the desired voice, volume, and speaking rate.
 
         :param path: The path to a .AIFF file to output sound to, defaults to None
         :type path: Union[str, XAPath, None], optional
@@ -239,10 +287,16 @@ class XASpeech():
 
         .. versionadded:: 0.0.9
         """
+        if isinstance(self.message, list):
+            self.message = "\n".join(self.message)
+
+        if self.message.strip() == "":
+            return
+        
         # Get the selected voice by name
         voice = None
         for v in AppKit.NSSpeechSynthesizer.availableVoices():
-            if self.voice.lower() in v.lower():
+            if self.voice is not None and self.voice.lower() in v.lower():
                 voice = v
 
         # Set up speech synthesis object

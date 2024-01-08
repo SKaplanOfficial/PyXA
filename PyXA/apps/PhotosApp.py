@@ -10,6 +10,7 @@ Control the macOS Photos application using JXA-like syntax.
    - Add ability to move photos to albums/folders
 """
 from curses import meta
+from enum import Enum
 from datetime import datetime
 from pprint import pprint
 from typing import Any, Union
@@ -26,22 +27,38 @@ from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XAImageLike
 from ..XAErrors import AuthenticationError
 
+
 class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Photos.app.
 
     .. versionadded:: 0.0.2
     """
+
+    class ObjectType(Enum):
+        """Types of objects that can be created using :func:`XAPhotosApplication.make`."""
+
+        ALBUM = "album"
+        FOLDER = "folder"
+
     def __check_authorization(self):
         # Check current authorization status
-        auth_status = Photos.PHPhotoLibrary.authorizationStatusForAccessLevel_(Photos.PHAccessLevelReadWrite)
+        auth_status = Photos.PHPhotoLibrary.authorizationStatusForAccessLevel_(
+            Photos.PHAccessLevelReadWrite
+        )
 
         # Request authorization if necessary
         if auth_status != Photos.PHAuthorizationStatusAuthorized:
-            auth_status = Photos.PHPhotoLibrary.requestAuthorizationForAccessLevel_handler_(Photos.PHAccessLevelReadWrite, None)
+            auth_status = (
+                Photos.PHPhotoLibrary.requestAuthorizationForAccessLevel_handler_(
+                    Photos.PHAccessLevelReadWrite, None
+                )
+            )
 
         # Raise error on insufficient authorization status
         if auth_status != Photos.PHAuthorizationStatusAuthorized:
-            raise AuthenticationError("You must grant PyXA access to the Photos library in order to use this module.")
+            raise AuthenticationError(
+                "You must grant PyXA access to the Photos library in order to use this module."
+            )
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -54,59 +71,52 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def properties(self) -> dict:
-        """All properties of the application.
-        """
+        """All properties of the application."""
         return self.xa_scel.properties()
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Photos is the frontmost application.
-        """
+        """Whether Photos is the frontmost application."""
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
-        """The version of Photos.app.
-        """
+        """The version of Photos.app."""
         return self.xa_scel.version()
 
     @property
-    def selection(self) -> 'XAPhotosMediaItemList':
-        """The currently selected media items in the application.
-        """
+    def selection(self) -> "XAPhotosMediaItemList":
+        """The currently selected media items in the application."""
         return self._new_element(self.xa_scel.selection(), XAPhotosMediaItemList)
 
     @property
-    def favorites_album(self) -> 'XAPhotosAlbum':
-        """Favorited media items album.
-        """
+    def favorites_album(self) -> "XAPhotosAlbum":
+        """Favorited media items album."""
         return self._new_element(self.xa_scel.favoritesAlbum(), XAPhotosAlbum)
 
     @property
     def slideshow_running(self) -> bool:
-        """Returns true if a slideshow is currently running.
-        """
+        """Returns true if a slideshow is currently running."""
         return self.xa_scel.slideshowRunning()
 
     @property
-    def recently_deleted_album(self) -> 'XAPhotosAlbum':
-        """The set of recently deleted media items.
-        """
+    def recently_deleted_album(self) -> "XAPhotosAlbum":
+        """The set of recently deleted media items."""
         return self._new_element(self.xa_scel.recentlyDeletedAlbum(), XAPhotosAlbum)
 
     @property
     def library_path(self) -> XABase.XAPath:
-        """The path to the Photos library container.
-        """
+        """The path to the Photos library container."""
         return XABase.XAPath(self.__photos_library.photoLibraryURL())
 
-    def open(self, path: Union[str, XABase.XAPath, list[Union[str, XABase.XAPath]]]) -> 'XAPhotosApplication':
+    def open(
+        self, path: Union[str, XABase.XAPath, list[Union[str, XABase.XAPath]]]
+    ) -> "XAPhotosApplication":
         """Imports the file at the given filepath without adding it to any particular album.
 
         :param target: The path to a file to import into photos.
@@ -127,7 +137,12 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         return self.import_files([path])
 
-    def import_files(self, files: list[Union[str, NSURL]], destination_album: Union['XAPhotosAlbum', None] = None, skip_duplicate_checking: bool = False) -> 'XAPhotosMediaItemList':
+    def import_files(
+        self,
+        files: list[Union[str, NSURL]],
+        destination_album: Union["XAPhotosAlbum", None] = None,
+        skip_duplicate_checking: bool = False,
+    ) -> "XAPhotosMediaItemList":
         """Imports a list of files into the specified album.
 
         :param files: The files to import
@@ -149,12 +164,21 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         ls = None
         if destination_album is None:
-            ls = self.xa_scel.import_into_skipCheckDuplicates_(urls, None, skip_duplicate_checking)
+            ls = self.xa_scel.import_into_skipCheckDuplicates_(
+                urls, None, skip_duplicate_checking
+            )
         else:
-            ls = self.xa_scel.import_into_skipCheckDuplicates_(urls, destination_album.xa_elem, skip_duplicate_checking)
+            ls = self.xa_scel.import_into_skipCheckDuplicates_(
+                urls, destination_album.xa_elem, skip_duplicate_checking
+            )
         return self._new_element(ls, XAPhotosMediaItemList)
 
-    def export(self, media_items: Union['XAPhotosMediaItemList', list['XAPhotosMediaItem']], destination_path: Union[str, NSURL], use_originals: bool = False) -> 'XAPhotosApplication':
+    def export(
+        self,
+        media_items: Union["XAPhotosMediaItemList", list["XAPhotosMediaItem"]],
+        destination_path: Union[str, NSURL],
+        use_originals: bool = False,
+    ) -> "XAPhotosApplication":
         """Exports a list of media items to the specified folder.
 
         :param media_items: The media items to export
@@ -171,12 +195,16 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         if not isinstance(destination_path, NSURL):
             destination_path = XABase.XAPath(destination_path).xa_elem
         if isinstance(media_items, XAPhotosMediaItemList):
-            self.xa_scel.export_to_usingOriginals_(media_items.xa_elem, destination_path, use_originals)
+            self.xa_scel.export_to_usingOriginals_(
+                media_items.xa_elem, destination_path, use_originals
+            )
         else:
-            self.xa_scel.export_to_usingOriginals_(media_items, destination_path, use_originals)
+            self.xa_scel.export_to_usingOriginals_(
+                media_items, destination_path, use_originals
+            )
         return self
 
-    def search(self, query: str) -> 'XAPhotosMediaItemList':
+    def search(self, query: str) -> "XAPhotosMediaItemList":
         """Searches for items matching the given search string.
 
         :param query: The string to search
@@ -189,7 +217,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         ls = self.xa_scel.searchFor_(query)
         return self._new_element(ls, XAPhotosMediaItemList)
 
-    def add(self, media_items: Union['XAPhotosMediaItemList', list['XAPhotosMediaItem']], album: 'XAPhotosAlbum') -> 'XAPhotosApplication':
+    def add(
+        self,
+        media_items: Union["XAPhotosMediaItemList", list["XAPhotosMediaItem"]],
+        album: "XAPhotosAlbum",
+    ) -> "XAPhotosApplication":
         """Adds the given list of media items to the specified album.
 
         :param media_items: The media items to add
@@ -207,7 +239,10 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             self.xa_scel.add_to_(media_items, album.xa_elem)
         return self
 
-    def start_slideshow(self, item_list: Union['XAPhotosMediaItemList', 'XAPhotosAlbum', 'XAPhotosFolder']) -> 'XAPhotosApplication':
+    def start_slideshow(
+        self,
+        item_list: Union["XAPhotosMediaItemList", "XAPhotosAlbum", "XAPhotosFolder"],
+    ) -> "XAPhotosApplication":
         """Starts an ad-hoc slideshow from the given list of media items, an album, or a folder.
 
         :param item_list: The list of media items, an album, or a folder to create a slideshow from
@@ -220,7 +255,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.startSlideshowUsing_(item_list.xa_elem)
         return self
 
-    def stop_slideshow(self) -> 'XAPhotosApplication':
+    def stop_slideshow(self) -> "XAPhotosApplication":
         """Stops the currently playing slideshow.
 
         :return: The Photos application object
@@ -231,7 +266,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.endSlideshow()
         return self
 
-    def next_slide(self) -> 'XAPhotosApplication':
+    def next_slide(self) -> "XAPhotosApplication":
         """Skips to the next slide in the currently playing slideshow.
 
         :return: The Photos application object
@@ -242,7 +277,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.nextSlide()
         return self
 
-    def previous_slide(self) -> 'XAPhotosApplication':
+    def previous_slide(self) -> "XAPhotosApplication":
         """Skips to the previous slide in the currently playing slideshow.
 
         :return: The Photos application object
@@ -253,7 +288,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.previousSlide()
         return self
 
-    def pause_slideshow(self) -> 'XAPhotosApplication':
+    def pause_slideshow(self) -> "XAPhotosApplication":
         """Pauses the currently playing slideshow.
 
         :return: The Photos application object
@@ -264,7 +299,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.pauseSlideshow()
         return self
 
-    def resume_slideshow(self) -> 'XAPhotosApplication':
+    def resume_slideshow(self) -> "XAPhotosApplication":
         """Resumes the currently playing slideshow (from a paused state).
 
         :return: The Photos application object
@@ -275,7 +310,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.resumeSlideshow()
         return self
 
-    def containers(self, filter: Union[dict, None] = None) -> 'XAPhotosContainerList':
+    def containers(self, filter: Union[dict, None] = None) -> "XAPhotosContainerList":
         """Returns a list of containers, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned containers will have, or None
@@ -285,9 +320,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_scel.containers(), XAPhotosContainerList, filter)
+        return self._new_element(
+            self.xa_scel.containers(), XAPhotosContainerList, filter
+        )
 
-    def albums(self, filter: Union[dict, None] = None) -> 'XAPhotosAlbumList':
+    def albums(self, filter: Union[dict, None] = None) -> "XAPhotosAlbumList":
         """Returns a list of albums, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned albums will have, or None
@@ -299,7 +336,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.albums(), XAPhotosAlbumList, filter)
 
-    def folders(self, filter: Union[dict, None] = None) -> 'XAPhotosFolderList':
+    def folders(self, filter: Union[dict, None] = None) -> "XAPhotosFolderList":
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
@@ -311,7 +348,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.folders(), XAPhotosFolderList, filter)
 
-    def media_items(self, filter: Union[dict, None] = None) -> 'XAPhotosMediaItemList':
+    def media_items(self, filter: Union[dict, None] = None) -> "XAPhotosMediaItemList":
         """Returns a list of media items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned media items will have, or None
@@ -323,21 +360,30 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         fetch_options = Photos.PHFetchOptions.alloc().init()
         all_photos = Photos.PHAsset.fetchAssetsWithOptions_(fetch_options)
-        all_photos_list = all_photos.objectsAtIndexes_(AppKit.NSIndexSet.alloc().initWithIndexesInRange_((0, all_photos.count())))
+        all_photos_list = all_photos.objectsAtIndexes_(
+            AppKit.NSIndexSet.alloc().initWithIndexesInRange_((0, all_photos.count()))
+        )
 
         list_obj = self._new_element(all_photos_list, XAPhotosMediaItemList, filter)
         list_obj.xa_scel = self.xa_scel.mediaItems()
         return list_obj
 
-    def make(self, specifier: str, properties: dict = None):
+    def make(
+        self,
+        specifier: Union[str, "XAPhotosApplication.ObjectType"],
+        properties: dict = None,
+        data: Any = None,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAPhotosApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to initialize the object with, defaults to None
+        :type data: Any, optional
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
@@ -350,10 +396,32 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        if properties is None:
-            properties = {}
+        if isinstance(specifier, XAPhotosApplication.ObjectType):
+            specifier = specifier.value
 
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "album":
             elem = self._new_element(obj, XAPhotosAlbum)
@@ -363,8 +431,6 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             return elem
 
 
-
-
 class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of media items that employs fast enumeration techniques.
 
@@ -372,6 +438,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPhotosMediaItem, filter)
 
@@ -381,19 +448,29 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
 
     def __get_metadata(self, asset, storage):
         def result_handler(img_data, img_uti, img_orientation, img_info):
-            source = Quartz.CGImageSourceCreateWithData(img_data, {Quartz.kCGImageSourceShouldCache: True})
-            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(source, 0, {Quartz.kCGImageSourceShouldCache: True})
+            source = Quartz.CGImageSourceCreateWithData(
+                img_data, {Quartz.kCGImageSourceShouldCache: True}
+            )
+            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(
+                source, 0, {Quartz.kCGImageSourceShouldCache: True}
+            )
             if metadata is not None:
                 storage.append(metadata)
                 print(metadata)
 
         options = Photos.PHImageRequestOptions.alloc().init()
         options.setSynchronous_(True)
-        options.setDeliveryMode_(Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat)
+        options.setDeliveryMode_(
+            Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat
+        )
 
-        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(asset, options, result_handler)
+        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(
+            asset, options, result_handler
+        )
 
-    def _new_element(self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: list[Any]) -> 'XABase.XAObject':
+    def _new_element(
+        self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: list[Any]
+    ) -> "XABase.XAObject":
         element = super()._new_element(obj, obj_class, *args)
 
         try:
@@ -465,59 +542,72 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     def size(self) -> list[tuple[float, float]]:
         paths = self.file_path()
         file_manager = AppKit.NSFileManager.defaultManager()
-        attributes = [file_manager.attributesOfItemAtPath_error_(x.path, None) for x in paths]
-        return [x[0][AppKit.NSFileSize] for x in attributes if x is not None and x[0] is not None]
+        attributes = [
+            file_manager.attributesOfItemAtPath_error_(x.path, None) for x in paths
+        ]
+        return [
+            x[0][AppKit.NSFileSize]
+            for x in attributes
+            if x is not None and x[0] is not None
+        ]
 
     def location(self) -> list[list[Union[float, None]]]:
         ls = self.xa_elem.arrayByApplyingSelector_("location") or []
-        return [XABase.XALocation(
-            latitude = x.coordinate()[0],
-            longitude = x.coordinate()[1],
-            altitude = x.altitude(),
-            radius = x.horizontalAccuracy()
-        ) for x in ls]
+        return [
+            XABase.XALocation(
+                latitude=x.coordinate()[0],
+                longitude=x.coordinate()[1],
+                altitude=x.altitude(),
+                radius=x.horizontalAccuracy(),
+            )
+            for x in ls
+        ]
 
-    def by_properties(self, properties: dict) -> Union['XAPhotosMediaItem', None]:
+    def by_properties(self, properties: dict) -> Union["XAPhotosMediaItem", None]:
         predicate = XABase.XAPredicate()
         predicate.add_eq_condition("properties", properties)
         ls = predicate.evaluate(self.xa_scel).get()
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
-    def by_keywords(self, keywords: list[str]) -> Union['XAPhotosMediaItem', None]:
+    def by_keywords(self, keywords: list[str]) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("keywords", keywords)
 
-    def by_title(self, title: str) -> Union['XAPhotosMediaItem', None]:
+    def by_title(self, title: str) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("title", title)
 
-    def by_object_description(self, object_description: str) -> Union['XAPhotosMediaItem', None]:
+    def by_object_description(
+        self, object_description: str
+    ) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("objectDescription", object_description)
 
-    def by_favorite(self, favorite: bool) -> Union['XAPhotosMediaItem', None]:
+    def by_favorite(self, favorite: bool) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("favorite", favorite)
 
-    def by_date(self, date: datetime) -> Union['XAPhotosMediaItem', None]:
+    def by_date(self, date: datetime) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("date", date)
 
-    def by_id(self, id: str) -> Union['XAPhotosMediaItem', None]:
+    def by_id(self, id: str) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("id", id)
 
-    def by_height(self, height: int) -> Union['XAPhotosMediaItem', None]:
+    def by_height(self, height: int) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("height", height)
 
-    def by_width(self, width: int) -> Union['XAPhotosMediaItem', None]:
+    def by_width(self, width: int) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("width", width)
 
-    def by_filename(self, filename: str) -> Union['XAPhotosMediaItem', None]:
+    def by_filename(self, filename: str) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("filename", filename)
 
-    def by_altitude(self, altitude: float) -> Union['XAPhotosMediaItem', None]:
+    def by_altitude(self, altitude: float) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("altitude", altitude)
 
-    def by_size(self, size: int) -> Union['XAPhotosMediaItem', None]:
+    def by_size(self, size: int) -> Union["XAPhotosMediaItem", None]:
         return self.by_property("size", size)
 
-    def by_location(self, location: XABase.XALocation) -> Union['XAPhotosMediaItem', None]:
+    def by_location(
+        self, location: XABase.XALocation
+    ) -> Union["XAPhotosMediaItem", None]:
         loc = (location.latitude, location.longitude)
         return self.by_property("location", loc)
 
@@ -536,11 +626,13 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
+
 class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
     """A photo or video in Photos.app.
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -556,38 +648,43 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
             return
 
         def result_handler(img_data, img_uti, img_orientation, img_info):
-            source = Quartz.CGImageSourceCreateWithData(img_data, {Quartz.kCGImageSourceShouldCache: True})
-            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(source, 0, {Quartz.kCGImageSourceShouldCache: True})
+            source = Quartz.CGImageSourceCreateWithData(
+                img_data, {Quartz.kCGImageSourceShouldCache: True}
+            )
+            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(
+                source, 0, {Quartz.kCGImageSourceShouldCache: True}
+            )
             if metadata is not None:
                 self.__metadata_storage.append(metadata)
 
         options = Photos.PHImageRequestOptions.alloc().init()
         options.setSynchronous_(True)
-        options.setDeliveryMode_(Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat)
+        options.setDeliveryMode_(
+            Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat
+        )
 
-        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(self.xa_elem, options, result_handler)
+        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(
+            self.xa_elem, options, result_handler
+        )
 
     @property
     def properties(self) -> dict:
-        """All properties of the media item.
-        """
+        """All properties of the media item."""
         return self.xa_scel.properties()
 
     @property
     def keywords(self) -> list[str]:
-        """A list of keywords to associate with a media item.
-        """
+        """A list of keywords to associate with a media item."""
         self.xa_scel = self.xa_scel.get()
         return list(self.xa_scel.keywords())
 
     @keywords.setter
     def keywords(self, keywords: list[str]):
-        self.set_scriptable_property('keywords', keywords)
+        self.set_scriptable_property("keywords", keywords)
 
     @property
     def name(self) -> str:
-        """The name (title) of the media item.
-        """
+        """The name (title) of the media item."""
         return self.xa_elem.title()
 
     @name.setter
@@ -596,132 +693,115 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def object_description(self) -> str:
-        """A description of the media item.
-        """
+        """A description of the media item."""
         return self.xa_scel.objectDescription()
 
     @object_description.setter
     def object_description(self, object_description: str):
-        self.set_scriptable_property('objectDescription', object_description)
+        self.set_scriptable_property("objectDescription", object_description)
 
     @property
     def favorite(self) -> bool:
-        """Whether the media item has been favorited.
-        """
+        """Whether the media item has been favorited."""
         return self.xa_elem.favorite()
 
     @favorite.setter
     def favorite(self, favorite: bool):
-        self.set_property('favorite', favorite)
+        self.set_property("favorite", favorite)
 
     @property
     def creation_date(self) -> datetime:
-        """The creation date of the media item.
-        """
+        """The creation date of the media item."""
         return self.xa_elem.creationDate()
 
     @creation_date.setter
     def creation_date(self, creation_date: datetime):
-        self.set_scriptable_property('date', creation_date)
+        self.set_scriptable_property("date", creation_date)
 
     @property
     def modification_date(self) -> datetime:
-        """The last modification date of the media item.
-        """
+        """The last modification date of the media item."""
         return self.xa_elem.modificationDate()
 
     @property
     def is_photo(self) -> bool:
-        """Whether the media item is a photo.
-        """
+        """Whether the media item is a photo."""
         return self.xa_elem.isPhoto()
 
     @property
     def duration(self) -> float:
-        """The duration of the media item.
-        """
+        """The duration of the media item."""
         return self.xa_elem.duration()
 
     @property
     def file_path(self) -> XABase.XAPath:
-        """The path to the main file for the media item.
-        """
+        """The path to the main file for the media item."""
         return XABase.XAPath(self.xa_elem.mainFileURL())
 
     @property
     def is_video(self) -> bool:
-        """Whether the media item is a video.
-        """
+        """Whether the media item is a video."""
         return self.xa_elem.isVideo()
 
     @property
     def is_hidden(self) -> bool:
-        """Whether the media item is hidden.
-        """
+        """Whether the media item is hidden."""
         return self.xa_elem.isHidden()
 
     @property
     def is_burst(self) -> bool:
-        """Whether the media item is a burst photo.
-        """
+        """Whether the media item is a burst photo."""
         return self.xa_elem.representsBurst()
 
     @property
     def id(self) -> str:
-        """The unique ID of the media item.
-        """
+        """The unique ID of the media item."""
         return self.xa_elem.localIdentifier()
 
     @property
     def height(self) -> int:
-        """The height of the media item in pixels.
-        """
+        """The height of the media item in pixels."""
         return self.xa_elem.pixelHeight()
 
     @property
     def width(self) -> int:
-        """The width of the media item in pixels.
-        """
+        """The width of the media item in pixels."""
         return self.xa_elem.pixelWidth()
 
     @property
     def filename(self) -> str:
-        """The name of the file on disk.
-        """
+        """The name of the file on disk."""
         return self.xa_elem.filename()
 
     @property
     def altitude(self) -> float:
-        """The GPS altitude in meters.
-        """
+        """The GPS altitude in meters."""
         return self.xa_scel.altitude()
 
     @property
     def size(self) -> int:
-        """The selected media item file size.
-        """
+        """The selected media item file size."""
         return self.xa_scel.size()
 
     @property
     def location(self) -> XABase.XALocation:
-        """The GPS latitude and longitude, in an ordered list of 2 numbers or missing values. Latitude in range -90.0 to 90.0, longitude in range -180.0 to 180.0.
-        """
+        """The GPS latitude and longitude, in an ordered list of 2 numbers or missing values. Latitude in range -90.0 to 90.0, longitude in range -180.0 to 180.0."""
         loc = self.xa_elem.location()
         return XABase.XALocation(
-            latitude = loc.coordinate()[0],
-            longitude = loc.coordinate()[1],
-            altitude = loc.altitude(),
-            radius = loc.horizontalAccuracy()
+            latitude=loc.coordinate()[0],
+            longitude=loc.coordinate()[1],
+            altitude=loc.altitude(),
+            radius=loc.horizontalAccuracy(),
         )
 
     @location.setter
     def location(self, location: Union[XABase.XALocation, list[float]]):
         if isinstance(location, list):
-            self.set_property('location', location)
+            self.set_property("location", location)
         else:
-            self.set_property('location', [location.latitude, location.longitude])
+            self.set_property("location", [location.latitude, location.longitude])
 
-    def spotlight(self) -> 'XAPhotosMediaItem':
+    def spotlight(self) -> "XAPhotosMediaItem":
         """Shows the media item in the front window of Photos.app.
 
         :return: The media item object
@@ -732,7 +812,7 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         self.xa_scel.spotlight()
         return self
 
-    def duplicate(self) -> 'XAPhotosMediaItem':
+    def duplicate(self) -> "XAPhotosMediaItem":
         """Duplicates the media item.
 
         :return: The newly created media item object
@@ -782,8 +862,6 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         return "<" + str(type(self)) + self.name + ", id=" + self.id + ">"
 
 
-
-
 class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of containers that employs fast enumeration techniques.
 
@@ -791,7 +869,10 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.6
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAPhotosContainer
         super().__init__(properties, obj_class, filter)
@@ -805,20 +886,20 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def parent(self) -> 'XAPhotosFolderList':
+    def parent(self) -> "XAPhotosFolderList":
         ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAPhotosFolderList)
 
-    def by_properties(self, properties: dict) -> Union['XAPhotosContainer', None]:
+    def by_properties(self, properties: dict) -> Union["XAPhotosContainer", None]:
         return self.by_property("properties", properties)
 
-    def by_id(self, id: str) -> Union['XAPhotosContainer', None]:
+    def by_id(self, id: str) -> Union["XAPhotosContainer", None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> Union['XAPhotosContainer', None]:
+    def by_name(self, name: str) -> Union["XAPhotosContainer", None]:
         return self.by_property("name", name)
 
-    def by_parent(self, parent: 'XAPhotosFolder') -> Union['XAPhotosContainer', None]:
+    def by_parent(self, parent: "XAPhotosFolder") -> Union["XAPhotosContainer", None]:
         return self.by_property("parent", parent.xa_elem)
 
     def get_clipboard_representation(self) -> str:
@@ -836,41 +917,38 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
-    """A class for...
-    """
+    """A class for..."""
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the container.
-        """
+        """All properties of the container."""
         return self.xa_elem.properties()
 
     @property
     def id(self) -> str:
-        """The unique ID of this container.
-        """
+        """The unique ID of this container."""
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The name of this container.
-        """
+        """The name of this container."""
         return self.xa_elem.name()
 
     @name.setter
     def name(self, name: str):
-        self.set_property('name', name)
+        self.set_property("name", name)
 
     @property
-    def parent(self) -> 'XAPhotosFolder':
-        """This container's parent folder, if any.
-        """
+    def parent(self) -> "XAPhotosFolder":
+        """This container's parent folder, if any."""
         return self._new_element(self.xa_elem.parent(), XAPhotosFolder)
 
-    def spotlight(self) -> 'XAPhotosContainer':
+    def spotlight(self) -> "XAPhotosContainer":
         """Shows the container in the front window of Photos.app.
 
         :return: The container object
@@ -897,8 +975,6 @@ class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
         return "<" + str(type(self)) + self.name + ", id=" + self.id + ">"
 
 
-
-
 class XAPhotosAlbumList(XAPhotosContainerList):
     """A wrapper around lists of albums that employs fast enumeration techniques.
 
@@ -906,26 +982,29 @@ class XAPhotosAlbumList(XAPhotosContainerList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPhotosAlbum)
 
-    def push(self, container: 'XAPhotosContainer'):
+    def push(self, container: "XAPhotosContainer"):
         name = "New Album"
         desc = container.xa_elem.description()
         if "name" in desc:
-            name = desc[desc.index("name") + 7:desc.index(";")]
+            name = desc[desc.index("name") + 7 : desc.index(";")]
         super().push(container)
         container.set_property("name", name)
+
 
 class XAPhotosAlbum(XAPhotosContainer):
     """An album in Photos.app.
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-    
-    def media_items(self, filter: Union[dict, None] = None) -> 'XAPhotosMediaItemList':
+
+    def media_items(self, filter: Union[dict, None] = None) -> "XAPhotosMediaItemList":
         """Returns a list of media items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned media items will have, or None
@@ -935,9 +1014,9 @@ class XAPhotosAlbum(XAPhotosContainer):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.mediaItems(), XAPhotosMediaItemList, filter)
-
-
+        return self._new_element(
+            self.xa_elem.mediaItems(), XAPhotosMediaItemList, filter
+        )
 
 
 class XAPhotosFolderList(XAPhotosContainerList):
@@ -947,26 +1026,29 @@ class XAPhotosFolderList(XAPhotosContainerList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAPhotosFolder)
 
-    def push(self, container: 'XAPhotosContainer'):
+    def push(self, container: "XAPhotosContainer"):
         name = "New Folder"
         desc = container.xa_elem.description()
         if "name" in desc:
-            name = desc[desc.index("name") + 7:desc.index(";")]
+            name = desc[desc.index("name") + 7 : desc.index(";")]
         super().push(container)
         container.set_property("name", name)
+
 
 class XAPhotosFolder(XAPhotosContainer):
     """A folder in Photos.app.
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
-    def containers(self, filter: Union[dict, None] = None) -> 'XAPhotosContainerList':
+    def containers(self, filter: Union[dict, None] = None) -> "XAPhotosContainerList":
         """Returns a list of containers, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned containers will have, or None
@@ -976,9 +1058,11 @@ class XAPhotosFolder(XAPhotosContainer):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.containers(), XAPhotosContainerList, filter)
+        return self._new_element(
+            self.xa_elem.containers(), XAPhotosContainerList, filter
+        )
 
-    def albums(self, filter: Union[dict, None] = None) -> 'XAPhotosAlbumList':
+    def albums(self, filter: Union[dict, None] = None) -> "XAPhotosAlbumList":
         """Returns a list of albums, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned albums will have, or None
@@ -990,7 +1074,7 @@ class XAPhotosFolder(XAPhotosContainer):
         """
         return self._new_element(self.xa_elem.albums(), XAPhotosAlbumList, filter)
 
-    def folders(self, filter: Union[dict, None] = None) -> 'XAPhotosFolderList':
+    def folders(self, filter: Union[dict, None] = None) -> "XAPhotosFolderList":
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None

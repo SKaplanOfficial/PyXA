@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arc Module Reference &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Bike Module Reference" href="bike.html" />
+    <link rel="prev" title="TV Module Reference" href="tv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Package Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Arc Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication"><code class="docutils literal notranslate"><span class="pre">XAArcApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace"><code class="docutils literal notranslate"><span class="pre">XAArcSpace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList"><code class="docutils literal notranslate"><span class="pre">XAArcSpaceList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab"><code class="docutils literal notranslate"><span class="pre">XAArcTab</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList"><code class="docutils literal notranslate"><span class="pre">XAArcTabList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow"><code class="docutils literal notranslate"><span class="pre">XAArcWindow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList"><code class="docutils literal notranslate"><span class="pre">XAArcWindowList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="drafts.html">Drafts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iina.html">IINA+ Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omniweb.html">OmniWeb Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pathfinder.html">Path Finder Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Arc Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/arc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Arc">
+<span id="arc-module-reference"></span><h1>Arc Module Reference<a class="headerlink" href="#module-PyXA.apps.Arc" title="Link to this heading"></a></h1>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication" title="PyXA.apps.Arc.XAArcApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcApplication</span></code></a>(properties)</p></td>
+<td><p>The application's top-level scripting object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcSpace</span></code></a>(properties)</p></td>
+<td><p>A space.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList" title="PyXA.apps.Arc.XAArcSpaceList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcSpaceList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of spaces that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcTab</span></code></a>(properties)</p></td>
+<td><p>A window's tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList" title="PyXA.apps.Arc.XAArcTabList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcTabList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of tabs that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcWindow</span></code></a>(properties)</p></td>
+<td><p>An application's window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList" title="PyXA.apps.Arc.XAArcWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAArcWindowList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of windows that employs fast enumeration techniques.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
+<p>The application’s top-level scripting object.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType" title="PyXA.apps.Arc.XAArcApplication.ObjectType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjectType</span></code></a>(value)</p></td>
+<td><p>The object types available for creation in Arc.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation" title="PyXA.apps.Arc.XAArcApplication.TabLocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TabLocation</span></code></a>(value)</p></td>
+<td><p>Tab locations for Arc tabs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.WindowMode" title="PyXA.apps.Arc.XAArcApplication.WindowMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WindowMode</span></code></a>(value)</p></td>
+<td><p>Window modes for Arc windows.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.frontmost" title="PyXA.apps.Arc.XAArcApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Is this the frontmost (active) application?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.name" title="PyXA.apps.Arc.XAArcApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.version" title="PyXA.apps.Arc.XAArcApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of the application.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.make" title="PyXA.apps.Arc.XAArcApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(specifier[, properties, data])</p></td>
+<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.windows" title="PyXA.apps.Arc.XAArcApplication.windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows</span></code></a>([filter])</p></td>
+<td><p>Returns a list of windows, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.ObjectType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ObjectType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication.ObjectType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.ObjectType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>The object types available for creation in Arc.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.SPACE" title="PyXA.apps.Arc.XAArcApplication.ObjectType.SPACE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SPACE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.TAB" title="PyXA.apps.Arc.XAArcApplication.ObjectType.TAB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TAB</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.WINDOW" title="PyXA.apps.Arc.XAArcApplication.ObjectType.WINDOW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WINDOW</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.ObjectType.SPACE">
+<span class="sig-name descname"><span class="pre">SPACE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'space'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.SPACE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.ObjectType.TAB">
+<span class="sig-name descname"><span class="pre">TAB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.TAB" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.ObjectType.WINDOW">
+<span class="sig-name descname"><span class="pre">WINDOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'window'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.ObjectType.WINDOW" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.TabLocation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TabLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication.TabLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.TabLocation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Tab locations for Arc tabs.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.PINNED" title="PyXA.apps.Arc.XAArcApplication.TabLocation.PINNED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PINNED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.TOPAPP" title="PyXA.apps.Arc.XAArcApplication.TabLocation.TOPAPP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TOPAPP</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.UNPINNED" title="PyXA.apps.Arc.XAArcApplication.TabLocation.UNPINNED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNPINNED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.TabLocation.PINNED">
+<span class="sig-name descname"><span class="pre">PINNED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pinned'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.PINNED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.TabLocation.TOPAPP">
+<span class="sig-name descname"><span class="pre">TOPAPP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'topApp'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.TOPAPP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.TabLocation.UNPINNED">
+<span class="sig-name descname"><span class="pre">UNPINNED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unpinned'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.TabLocation.UNPINNED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.WindowMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WindowMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication.WindowMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.WindowMode" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Window modes for Arc windows.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.WindowMode.INCOGNITO" title="PyXA.apps.Arc.XAArcApplication.WindowMode.INCOGNITO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INCOGNITO</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.WindowMode.NORMAL" title="PyXA.apps.Arc.XAArcApplication.WindowMode.NORMAL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NORMAL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.WindowMode.INCOGNITO">
+<span class="sig-name descname"><span class="pre">INCOGNITO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'incognito'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.WindowMode.INCOGNITO" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.WindowMode.NORMAL">
+<span class="sig-name descname"><span class="pre">NORMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'normal'</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.WindowMode.NORMAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.frontmost" title="Link to this definition"></a></dt>
+<dd><p>Is this the frontmost (active) application?</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.make">
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType" title="PyXA.apps.Arc.XAArcApplication.ObjectType"><span class="pre">ObjectType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">XAObject</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.make" title="Link to this definition"></a></dt>
+<dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specifier</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.ObjectType" title="PyXA.apps.Arc.XAArcApplication.ObjectType"><em>XAArcApplication.ObjectType</em></a><em>]</em>) – The classname of the object to create</p></li>
+<li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
+<li><p><strong>data</strong> (<em>Any</em>) – The data to give the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PyXA wrapped form of the object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.version" title="Link to this definition"></a></dt>
+<dd><p>The version of the application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcApplication.windows">
+<span class="sig-name descname"><span class="pre">windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcApplication.windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcApplication.windows" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of windows, as PyXA objects, matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpace" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace.focus" title="PyXA.apps.Arc.XAArcSpace.focus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">focus</span></code></a>()</p></td>
+<td><p>Focus the space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace.tabs" title="PyXA.apps.Arc.XAArcSpace.tabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tabs</span></code></a>([filter])</p></td>
+<td><p>Returns a list of tabs, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace.id" title="PyXA.apps.Arc.XAArcSpace.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace.title" title="PyXA.apps.Arc.XAArcSpace.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The full title of the space.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpace.focus">
+<span class="sig-name descname"><span class="pre">focus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpace.focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpace.focus" title="Link to this definition"></a></dt>
+<dd><p>Focus the space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpace.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpace.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpace.tabs">
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpace.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpace.tabs" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of tabs, as PyXA objects, matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpace.title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpace.title" title="Link to this definition"></a></dt>
+<dd><p>The full title of the space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpaceList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcSpaceList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpaceList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpaceList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
+<p>A wrapper around lists of spaces that employs fast enumeration techniques.</p>
+<p>All properties of spaces can be called as methods on the wrapped list, returning a list containing each space’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList.by_id" title="PyXA.apps.Arc.XAArcSpaceList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p>Retrieves the A spacewhose id matches the given id.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList.by_title" title="PyXA.apps.Arc.XAArcSpaceList.by_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title</span></code></a>(title)</p></td>
+<td><p>Retrieves the A spacewhose title matches the given title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList.id" title="PyXA.apps.Arc.XAArcSpaceList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p>The unique identifier of the space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpaceList.title" title="PyXA.apps.Arc.XAArcSpaceList.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a>()</p></td>
+<td><p>The full title of the space.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpaceList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpaceList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpaceList.by_id" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A spacewhose id matches the given id.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpaceList.by_title">
+<span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpaceList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpaceList.by_title" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A spacewhose title matches the given title.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpaceList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpaceList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpaceList.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcSpaceList.title">
+<span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcSpaceList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcSpaceList.title" title="Link to this definition"></a></dt>
+<dd><p>The full title of the space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A window’s tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.close" title="PyXA.apps.Arc.XAArcTab.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.execute_javascript" title="PyXA.apps.Arc.XAArcTab.execute_javascript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute_javascript</span></code></a>(script)</p></td>
+<td><p>Execute JavaScript in the context of the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.go_back" title="PyXA.apps.Arc.XAArcTab.go_back"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go_back</span></code></a>()</p></td>
+<td><p>Go Back (If Possible).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.go_forward" title="PyXA.apps.Arc.XAArcTab.go_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go_forward</span></code></a>()</p></td>
+<td><p>Go Forward (If Possible).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.reload" title="PyXA.apps.Arc.XAArcTab.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span></code></a>()</p></td>
+<td><p>Reload the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.select" title="PyXA.apps.Arc.XAArcTab.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a>()</p></td>
+<td><p>Select the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.stop" title="PyXA.apps.Arc.XAArcTab.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>()</p></td>
+<td><p>Stop loading the tab.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.id" title="PyXA.apps.Arc.XAArcTab.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.loading" title="PyXA.apps.Arc.XAArcTab.loading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loading</span></code></a></p></td>
+<td><p>Is loading?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.location" title="PyXA.apps.Arc.XAArcTab.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
+<td><p>Represents the location of the tab in the sidebar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.title" title="PyXA.apps.Arc.XAArcTab.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The full title of the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab.url" title="PyXA.apps.Arc.XAArcTab.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
+<td><p>The url of the tab.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.close" title="Link to this definition"></a></dt>
+<dd><p>Close the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.execute_javascript">
+<span class="sig-name descname"><span class="pre">execute_javascript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.execute_javascript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.execute_javascript" title="Link to this definition"></a></dt>
+<dd><p>Execute JavaScript in the context of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.go_back">
+<span class="sig-name descname"><span class="pre">go_back</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.go_back"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.go_back" title="Link to this definition"></a></dt>
+<dd><p>Go Back (If Possible).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.go_forward">
+<span class="sig-name descname"><span class="pre">go_forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.go_forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.go_forward" title="Link to this definition"></a></dt>
+<dd><p>Go Forward (If Possible).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.loading">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loading</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.loading" title="Link to this definition"></a></dt>
+<dd><p>Is loading?</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.location">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation" title="PyXA.apps.Arc.XAArcApplication.TabLocation"><span class="pre">TabLocation</span></a></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.location" title="Link to this definition"></a></dt>
+<dd><p>Represents the location of the tab in the sidebar. Can be ‘topApp’, ‘pinned’, or ‘unpinned’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.reload">
+<span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.reload" title="Link to this definition"></a></dt>
+<dd><p>Reload the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.select" title="Link to this definition"></a></dt>
+<dd><p>Select the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTab.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop loading the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.title" title="Link to this definition"></a></dt>
+<dd><p>The full title of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTab.url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcTab.url" title="Link to this definition"></a></dt>
+<dd><p>The url of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
+<p>A wrapper around lists of tabs that employs fast enumeration techniques.</p>
+<p>All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.by_id" title="PyXA.apps.Arc.XAArcTabList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p>Retrieves the A window's tabwhose id matches the given id.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.by_loading" title="PyXA.apps.Arc.XAArcTabList.by_loading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_loading</span></code></a>(loading)</p></td>
+<td><p>Retrieves the A window's tabwhose loading matches the given loading.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.by_location" title="PyXA.apps.Arc.XAArcTabList.by_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_location</span></code></a>(location)</p></td>
+<td><p>Retrieves the A window's tabwhose location matches the given location.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.by_title" title="PyXA.apps.Arc.XAArcTabList.by_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title</span></code></a>(title)</p></td>
+<td><p>Retrieves the A window's tabwhose title matches the given title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.by_url" title="PyXA.apps.Arc.XAArcTabList.by_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_url</span></code></a>(url)</p></td>
+<td><p>Retrieves the A window's tabwhose url matches the given url.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.id" title="PyXA.apps.Arc.XAArcTabList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p>The unique identifier of the tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.loading" title="PyXA.apps.Arc.XAArcTabList.loading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loading</span></code></a>()</p></td>
+<td><p>Is loading?</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.location" title="PyXA.apps.Arc.XAArcTabList.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a>()</p></td>
+<td><p>Represents the location of the tab in the sidebar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.title" title="PyXA.apps.Arc.XAArcTabList.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a>()</p></td>
+<td><p>The full title of the tab.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcTabList.url" title="PyXA.apps.Arc.XAArcTabList.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a>()</p></td>
+<td><p>The url of the tab.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.by_id" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A window’s tabwhose id matches the given id.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.by_loading">
+<span class="sig-name descname"><span class="pre">by_loading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loading</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.by_loading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.by_loading" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A window’s tabwhose loading matches the given loading.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.by_location">
+<span class="sig-name descname"><span class="pre">by_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation" title="PyXA.apps.Arc.XAArcApplication.TabLocation"><span class="pre">TabLocation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.by_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.by_location" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A window’s tabwhose location matches the given location.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.by_title">
+<span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.by_title" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A window’s tabwhose title matches the given title.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.by_url">
+<span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.by_url" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the A window’s tabwhose url matches the given url.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.loading">
+<span class="sig-name descname"><span class="pre">loading</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.loading"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.loading" title="Link to this definition"></a></dt>
+<dd><p>Is loading?</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.location">
+<span class="sig-name descname"><span class="pre">location</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.TabLocation" title="PyXA.apps.Arc.XAArcApplication.TabLocation"><span class="pre">XAArcApplication.TabLocation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.location" title="Link to this definition"></a></dt>
+<dd><p>Represents the location of the tab in the sidebar. Can be ‘topApp’, ‘pinned’, or ‘unpinned’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.title">
+<span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.title" title="Link to this definition"></a></dt>
+<dd><p>The full title of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcTabList.url">
+<span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURLList" title="PyXA.XABase.XAURLList"><span class="pre">XABase.XAURLList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcTabList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcTabList.url" title="Link to this definition"></a></dt>
+<dd><p>The url of the tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a></p>
+<p>An application’s window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.active_space" title="PyXA.apps.Arc.XAArcWindow.active_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_space</span></code></a></p></td>
+<td><p>Returns the currently active space</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.active_tab" title="PyXA.apps.Arc.XAArcWindow.active_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_tab</span></code></a></p></td>
+<td><p>Returns the currently selected tab</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.closeable" title="PyXA.apps.Arc.XAArcWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
+<td><p>Whether the window has a close box.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.id" title="PyXA.apps.Arc.XAArcWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier of the window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.incognito" title="PyXA.apps.Arc.XAArcWindow.incognito"><code class="xref py py-obj docutils literal notranslate"><span class="pre">incognito</span></code></a></p></td>
+<td><p>Whether the window is an incognito window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.index" title="PyXA.apps.Arc.XAArcWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
+<td><p>The index of the window, ordered front to back.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.minimizable" title="PyXA.apps.Arc.XAArcWindow.minimizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimizable</span></code></a></p></td>
+<td><p>Whether the window can be minimized.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.minimized" title="PyXA.apps.Arc.XAArcWindow.minimized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimized</span></code></a></p></td>
+<td><p>Whether the window is currently minimized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.mode" title="PyXA.apps.Arc.XAArcWindow.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a></p></td>
+<td><p>Represents the mode of the window which can be 'normal' or 'incognito', can be set only once during creation of the window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.name" title="PyXA.apps.Arc.XAArcWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The full title of the window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.resizable" title="PyXA.apps.Arc.XAArcWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
+<td><p>Whether the window can be resized.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.visible" title="PyXA.apps.Arc.XAArcWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
+<td><p>Whether the window is currently visible.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.zoomable" title="PyXA.apps.Arc.XAArcWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
+<td><p>Whether the window can be zoomed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.zoomed" title="PyXA.apps.Arc.XAArcWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
+<td><p>Whether the window is currently zoomed.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.close" title="PyXA.apps.Arc.XAArcWindow.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.spaces" title="PyXA.apps.Arc.XAArcWindow.spaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spaces</span></code></a>([filter])</p></td>
+<td><p>Returns a list of spaces, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow.tabs" title="PyXA.apps.Arc.XAArcWindow.tabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tabs</span></code></a>([filter])</p></td>
+<td><p>Returns a list of tabs, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.active_space">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.active_space" title="Link to this definition"></a></dt>
+<dd><p>Returns the currently active space</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.active_tab">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.active_tab" title="Link to this definition"></a></dt>
+<dd><p>Returns the currently selected tab</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindow.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.close" title="Link to this definition"></a></dt>
+<dd><p>Close the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.closeable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.closeable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window has a close box.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.incognito">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">incognito</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.incognito" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is an incognito window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.index" title="Link to this definition"></a></dt>
+<dd><p>The index of the window, ordered front to back.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.minimizable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minimizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.minimizable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.minimized">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minimized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.minimized" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.mode" title="Link to this definition"></a></dt>
+<dd><p>Represents the mode of the window which can be ‘normal’ or ‘incognito’, can be set only once during creation of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.name" title="Link to this definition"></a></dt>
+<dd><p>The full title of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.resizable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.resizable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be resized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.spaces">
+<span class="sig-name descname"><span class="pre">spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindow.spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.spaces" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of spaces, as PyXA objects, matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.tabs">
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.tabs" title="Link to this definition"></a></dt>
+<dd><p>Returns a list of tabs, as PyXA objects, matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.visible">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.visible" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently visible.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.zoomable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.zoomable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be zoomed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindow.zoomed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindow.zoomed" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently zoomed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Arc.</span></span><span class="sig-name descname"><span class="pre">XAArcWindowList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList" title="PyXA.XABaseScriptable.XASBWindowList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindowList</span></code></a></p>
+<p>A wrapper around lists of windows that employs fast enumeration techniques.</p>
+<p>All properties of windows can be called as methods on the wrapped list, returning a list containing each window’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.active_space" title="PyXA.apps.Arc.XAArcWindowList.active_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_space</span></code></a>()</p></td>
+<td><p>Returns the currently active space</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.active_tab" title="PyXA.apps.Arc.XAArcWindowList.active_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_tab</span></code></a>()</p></td>
+<td><p>Returns the currently selected tab</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_active_space" title="PyXA.apps.Arc.XAArcWindowList.by_active_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_active_space</span></code></a>(active_space)</p></td>
+<td><p>Retrieves the An application's window whose active_space matches the given active_space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_active_tab" title="PyXA.apps.Arc.XAArcWindowList.by_active_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_active_tab</span></code></a>(active_tab)</p></td>
+<td><p>Retrieves the An application's window whose active_tab matches the given active_tab.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_closeable" title="PyXA.apps.Arc.XAArcWindowList.by_closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_closeable</span></code></a>(closeable)</p></td>
+<td><p>Retrieves the An application's window whose closeable matches the given closeable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_id" title="PyXA.apps.Arc.XAArcWindowList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p>Retrieves the An application's window whose id matches the given id.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_incognito" title="PyXA.apps.Arc.XAArcWindowList.by_incognito"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_incognito</span></code></a>(incognito)</p></td>
+<td><p>Retrieves the An application's window whose incognito matches the given incognito.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_index" title="PyXA.apps.Arc.XAArcWindowList.by_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_index</span></code></a>(index)</p></td>
+<td><p>Retrieves the An application's window whose index matches the given index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_minimizable" title="PyXA.apps.Arc.XAArcWindowList.by_minimizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_minimizable</span></code></a>(minimizable)</p></td>
+<td><p>Retrieves the An application's window whose minimizable matches the given minimizable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_minimized" title="PyXA.apps.Arc.XAArcWindowList.by_minimized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_minimized</span></code></a>(minimized)</p></td>
+<td><p>Retrieves the An application's window whose minimized matches the given minimized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_mode" title="PyXA.apps.Arc.XAArcWindowList.by_mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_mode</span></code></a>(mode)</p></td>
+<td><p>Retrieves the An application's window whose mode matches the given mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_name" title="PyXA.apps.Arc.XAArcWindowList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p>Retrieves the An application's window whose name matches the given name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_resizable" title="PyXA.apps.Arc.XAArcWindowList.by_resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_resizable</span></code></a>(resizable)</p></td>
+<td><p>Retrieves the An application's window whose resizable matches the given resizable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_visible" title="PyXA.apps.Arc.XAArcWindowList.by_visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_visible</span></code></a>(visible)</p></td>
+<td><p>Retrieves the An application's window whose visible matches the given visible.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_zoomable" title="PyXA.apps.Arc.XAArcWindowList.by_zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_zoomable</span></code></a>(zoomable)</p></td>
+<td><p>Retrieves the An application's window whose zoomable matches the given zoomable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.by_zoomed" title="PyXA.apps.Arc.XAArcWindowList.by_zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_zoomed</span></code></a>(zoomed)</p></td>
+<td><p>Retrieves the An application's window whose zoomed matches the given zoomed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.closeable" title="PyXA.apps.Arc.XAArcWindowList.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a>()</p></td>
+<td><p>Whether the window has a close box.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.id" title="PyXA.apps.Arc.XAArcWindowList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p>The unique identifier of the window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.incognito" title="PyXA.apps.Arc.XAArcWindowList.incognito"><code class="xref py py-obj docutils literal notranslate"><span class="pre">incognito</span></code></a>()</p></td>
+<td><p>Whether the window is an incognito window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.index" title="PyXA.apps.Arc.XAArcWindowList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a>()</p></td>
+<td><p>The index of the window, ordered front to back.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.minimizable" title="PyXA.apps.Arc.XAArcWindowList.minimizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimizable</span></code></a>()</p></td>
+<td><p>Whether the window can be minimized.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.minimized" title="PyXA.apps.Arc.XAArcWindowList.minimized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimized</span></code></a>()</p></td>
+<td><p>Whether the window is currently minimized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.mode" title="PyXA.apps.Arc.XAArcWindowList.mode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></a>()</p></td>
+<td><p>Represents the mode of the window which can be 'normal' or 'incognito', can be set only once during creation of the window.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.name" title="PyXA.apps.Arc.XAArcWindowList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p>The full title of the window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.resizable" title="PyXA.apps.Arc.XAArcWindowList.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a>()</p></td>
+<td><p>Whether the window can be resized.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.visible" title="PyXA.apps.Arc.XAArcWindowList.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a>()</p></td>
+<td><p>Whether the window is currently visible.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.zoomable" title="PyXA.apps.Arc.XAArcWindowList.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a>()</p></td>
+<td><p>Whether the window can be zoomed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindowList.zoomed" title="PyXA.apps.Arc.XAArcWindowList.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a>()</p></td>
+<td><p>Whether the window is currently zoomed.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.active_space">
+<span class="sig-name descname"><span class="pre">active_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.active_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.active_space" title="Link to this definition"></a></dt>
+<dd><p>Returns the currently active space</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.active_tab">
+<span class="sig-name descname"><span class="pre">active_tab</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.active_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.active_tab" title="Link to this definition"></a></dt>
+<dd><p>Returns the currently selected tab</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_active_space">
+<span class="sig-name descname"><span class="pre">by_active_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Arc.XAArcSpace" title="PyXA.apps.Arc.XAArcSpace"><span class="pre">XAArcSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_active_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_active_space" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose active_space matches the given active_space.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_active_tab">
+<span class="sig-name descname"><span class="pre">by_active_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Arc.XAArcTab" title="PyXA.apps.Arc.XAArcTab"><span class="pre">XAArcTab</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_active_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_active_tab" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose active_tab matches the given active_tab.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_closeable">
+<span class="sig-name descname"><span class="pre">by_closeable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closeable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_closeable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_closeable" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose closeable matches the given closeable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_id" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose id matches the given id.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_incognito">
+<span class="sig-name descname"><span class="pre">by_incognito</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incognito</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_incognito"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_incognito" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose incognito matches the given incognito.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_index">
+<span class="sig-name descname"><span class="pre">by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_index" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose index matches the given index.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_minimizable">
+<span class="sig-name descname"><span class="pre">by_minimizable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimizable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_minimizable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_minimizable" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose minimizable matches the given minimizable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_minimized">
+<span class="sig-name descname"><span class="pre">by_minimized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minimized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_minimized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_minimized" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose minimized matches the given minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_mode">
+<span class="sig-name descname"><span class="pre">by_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.WindowMode" title="PyXA.apps.Arc.XAArcApplication.WindowMode"><span class="pre">WindowMode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_mode" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose mode matches the given mode.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_name" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose name matches the given name.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_resizable">
+<span class="sig-name descname"><span class="pre">by_resizable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resizable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_resizable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_resizable" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose resizable matches the given resizable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_visible">
+<span class="sig-name descname"><span class="pre">by_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_visible" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose visible matches the given visible.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_zoomable">
+<span class="sig-name descname"><span class="pre">by_zoomable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zoomable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_zoomable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_zoomable" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose zoomable matches the given zoomable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.by_zoomed">
+<span class="sig-name descname"><span class="pre">by_zoomed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zoomed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Arc.XAArcWindow" title="PyXA.apps.Arc.XAArcWindow"><span class="pre">XAArcWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.by_zoomed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.by_zoomed" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the An application’s window whose zoomed matches the given zoomed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.closeable">
+<span class="sig-name descname"><span class="pre">closeable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.closeable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.closeable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window has a close box.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.incognito">
+<span class="sig-name descname"><span class="pre">incognito</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.incognito"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.incognito" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is an incognito window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.index" title="Link to this definition"></a></dt>
+<dd><p>The index of the window, ordered front to back.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.minimizable">
+<span class="sig-name descname"><span class="pre">minimizable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.minimizable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.minimizable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.minimized">
+<span class="sig-name descname"><span class="pre">minimized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.minimized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.minimized" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Arc.XAArcApplication.WindowMode" title="PyXA.apps.Arc.XAArcApplication.WindowMode"><span class="pre">XAArcApplication.WindowMode</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.mode" title="Link to this definition"></a></dt>
+<dd><p>Represents the mode of the window which can be ‘normal’ or ‘incognito’, can be set only once during creation of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.name" title="Link to this definition"></a></dt>
+<dd><p>The full title of the window.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.resizable">
+<span class="sig-name descname"><span class="pre">resizable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.resizable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.resizable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be resized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.visible">
+<span class="sig-name descname"><span class="pre">visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.visible" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently visible.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.zoomable">
+<span class="sig-name descname"><span class="pre">zoomable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.zoomable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.zoomable" title="Link to this definition"></a></dt>
+<dd><p>Whether the window can be zoomed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Arc.XAArcWindowList.zoomed">
+<span class="sig-name descname"><span class="pre">zoomed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Arc.html#XAArcWindowList.zoomed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Arc.XAArcWindowList.zoomed" title="Link to this definition"></a></dt>
+<dd><p>Whether the window is currently zoomed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tv.html" class="btn btn-neutral float-left" title="TV Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bike.html" class="btn btn-neutral float-right" title="Bike Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

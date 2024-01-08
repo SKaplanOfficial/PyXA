@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PyXA.Additions.Utils &mdash; PyXA 0.2.2 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=000c92bf"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> PyXA
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PyXA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -39,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Package Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
@@ -58,7 +63,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">PyXA.Additions.Utils</li>
       <li class="wy-breadcrumbs-aside">
@@ -75,7 +80,9 @@
 <span class="sd">A collection of classes for interacting with macOS features in various ways.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">AppKit</span>
+<span class="kn">import</span> <span class="nn">ScriptingBridge</span>
 <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
 <span class="kn">from</span> <span class="nn">PyObjCTools</span> <span class="kn">import</span> <span class="n">AppHelper</span>
@@ -84,16 +91,238 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
-<div class="viewcode-block" id="SDEFParser"><a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser">[docs]</a><span class="k">class</span> <span class="nc">SDEFParser</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sdef_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAPath&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<span class="kn">import</span> <span class="nn">PyXA.XABase</span>
+<span class="kn">import</span> <span class="nn">PyXA.XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">PyXA.XAErrors</span> <span class="kn">import</span> <span class="n">ApplicationNotFoundError</span>
+
+
+<div class="viewcode-block" id="AppBuilder">
+<a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.AppBuilder">[docs]</a>
+<span class="k">class</span> <span class="nc">AppBuilder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for constructing on-the-fly PyXA Application classes for scriptable applications that do not have a pre-defined class.</span>
+
+<span class="sd">    .. warning:: This is an experimental feature and may not work as expected.</span>
+
+<span class="sd">    .. versionadded:: 0.3.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a new AppBuilder instance. Does not create the associated application class.</span>
+
+<span class="sd">        :param name: The name of the application to build a class for.</span>
+<span class="sd">        :type name: str</span>
+
+<span class="sd">        .. versionadded:: 0.3.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">app_bundle_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xa_get_path_to_app</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">app_bundle_url</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">fileURLWithPath_</span><span class="p">(</span><span class="n">app_bundle_path</span><span class="p">)</span>
+        <span class="n">app_bundle</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSBundle</span><span class="o">.</span><span class="n">bundleWithURL_</span><span class="p">(</span><span class="n">app_bundle_url</span><span class="p">)</span>
+        <span class="n">app_bundle_id</span> <span class="o">=</span> <span class="n">app_bundle</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sdef_path</span> <span class="o">=</span> <span class="n">app_bundle</span><span class="o">.</span><span class="n">pathsForResourcesOfType_inDirectory_</span><span class="p">(</span>
+            <span class="s2">&quot;sdef&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">firstObject</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xa_wksp</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSWorkspace</span><span class="o">.</span><span class="n">sharedWorkspace</span><span class="p">()</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xa_wksp</span><span class="o">.</span><span class="n">URLForApplicationWithBundleIdentifier_</span><span class="p">(</span><span class="n">app_bundle_id</span><span class="p">)</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSWorkspaceOpenConfiguration</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">setActivates_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">setHides_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">app_ref</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">def</span> <span class="nf">_launch_completion_handler</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_error</span><span class="p">):</span>
+            <span class="k">nonlocal</span> <span class="n">app_ref</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">AppKit</span><span class="o">.</span><span class="n">NSRunningApplication</span><span class="o">.</span><span class="n">runningApplicationsWithBundleIdentifier_</span><span class="p">(</span>
+                    <span class="n">app_bundle_id</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">firstObject</span><span class="p">()</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sdef_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBApplication</span><span class="o">.</span><span class="n">applicationWithURL_</span><span class="p">(</span>
+                    <span class="n">app_bundle_url</span>
+                <span class="p">)</span>
+            <span class="n">app_ref</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xa_wksp</span><span class="o">.</span><span class="n">openApplicationAtURL_configuration_completionHandler_</span><span class="p">(</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">_launch_completion_handler</span>
+        <span class="p">)</span>
+        <span class="k">while</span> <span class="n">app_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__xa_get_path_to_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">app_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xa_load_app_paths</span><span class="p">()</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">app_paths</span><span class="p">:</span>
+            <span class="n">app_path_component</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">app_path_component</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="n">path</span>
+
+            <span class="k">if</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">candidate</span> <span class="o">=</span> <span class="n">path</span>
+
+        <span class="k">if</span> <span class="n">candidate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">candidate</span>
+
+        <span class="k">raise</span> <span class="n">ApplicationNotFoundError</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__xa_load_app_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">()</span>
+        <span class="n">search</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="s2">&quot;kMDItemContentType == &#39;com.apple.application-bundle&#39;&quot;</span>
+        <span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">path</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AppBuilder.application">
+<a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.AppBuilder.application">[docs]</a>
+    <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates and instantiates a new PyXA Application class for the application specified in the AppBuilder&#39;s name attribute.</span>
+
+<span class="sd">        :return: An instance of the newly created PyXA Application class.</span>
+<span class="sd">        :rtype: PyXA.Application</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">SDEFParser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sdef_path</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+
+        <span class="n">app_class</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">def</span> <span class="nf">create_class</span><span class="p">(</span><span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent_classes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">type</span><span class="p">],</span> <span class="n">class_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">new_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="n">parent_classes</span><span class="p">,</span> <span class="n">class_dict</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">new_class</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">new_class</span>
+
+        <span class="k">for</span> <span class="n">suite</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">scripting_suites</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">scripting_class</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]:</span>
+                <span class="n">list_class_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">list_class_dict</span><span class="p">[</span><span class="s2">&quot;__doc__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;A wrapper around lists of &quot;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">+</span> <span class="s2">&quot;s that employs fast enumeration techniques. All properties of &quot;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">+</span> <span class="s2">&quot;s can be called as methods on the wrapped list, returning a list containing each &quot;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">+</span> <span class="s2">&quot;&#39;s value for the property.</span><span class="se">\n\n</span><span class="s2">.. versionadded:: &quot;</span>
+                    <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                <span class="p">)</span>
+
+                <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+                    <span class="nb">super</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;element&quot;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;appref&quot;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">list_class_dict</span><span class="p">[</span><span class="s2">&quot;__init__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="fm">__init__</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">classes</span><span class="p">[</span><span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]],</span> <span class="nb">filter</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
+                    <span class="n">list_class_dict</span><span class="p">[</span>
+                        <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="nb">property</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                    <span class="p">)</span>
+
+                <span class="bp">cls</span> <span class="o">=</span> <span class="n">create_class</span><span class="p">(</span>
+                    <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List&quot;</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,),</span>
+                    <span class="n">list_class_dict</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">classes</span><span class="p">[</span><span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+
+                <span class="n">class_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">class_dict</span><span class="p">[</span><span class="s2">&quot;__doc__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">.. versionadded:: &quot;</span>
+                    <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
+                    <span class="n">class_dict</span><span class="p">[</span>
+                        <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="nb">property</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span>
+                        <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="p">)()</span>
+
+                <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;elements&quot;</span><span class="p">]:</span>
+                    <span class="n">class_dict</span><span class="p">[</span>
+                        <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">element</span><span class="o">=</span><span class="n">element</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])(),</span>
+                        <span class="n">classes</span><span class="p">[</span><span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List&quot;</span><span class="p">],</span>
+                        <span class="nb">filter</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;responds-to&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">]:</span>
+                        <span class="n">class_dict</span><span class="p">[</span>
+                            <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">suite</span><span class="o">=</span><span class="n">suite</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span>
+                            <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="p">)(</span>
+                            <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="p">)</span>
+
+                <span class="bp">cls</span> <span class="o">=</span> <span class="n">create_class</span><span class="p">(</span>
+                    <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,),</span> <span class="n">class_dict</span>
+                <span class="p">)</span>
+                <span class="n">classes</span><span class="p">[</span><span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">cls</span>
+                <span class="k">if</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;Application&quot;</span><span class="p">):</span>
+                    <span class="n">app_class</span> <span class="o">=</span> <span class="bp">cls</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">app_class</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SDEFParser">
+<a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser">[docs]</a>
+<span class="k">class</span> <span class="nc">SDEFParser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for parsing SDEF files and generating Python code for interacting with scriptable applications.</span>
+
+<span class="sd">    .. versionadded:: 0.1.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sdef_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a new SDEFParser instance.</span>
+
+<span class="sd">        :param sdef_file: The full path to the SDEF file to parse.</span>
+<span class="sd">        :type sdef_file: Union[XABase.XAPath, str]</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sdef_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">sdef_file</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">sdef_file</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">sdef_file</span> <span class="c1">#: The full path to the SDEF file to parse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">sdef_file</span>  <span class="c1">#: The full path to the SDEF file to parse</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="SDEFParser.parse"><a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SDEFParser.parse">
+<a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parses the SDEF file specified in the SDEFParser&#39;s file attribute.</span>
+
+<span class="sd">        :return: A list of scripting suites, each containing a list of classes and a dictionary of commands.</span>
+<span class="sd">        :rtype: list[dict[str, Any]]</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
         <span class="n">xa_prefix</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span>
 
@@ -133,39 +362,48 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">property_type</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
-                    <span class="n">property_name</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">property_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
                     <span class="n">property_comment</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
-                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span>
-                    <span class="p">})</span>
+                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
+                            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
 
                 <span class="c1">## Class Extension Elements</span>
                 <span class="n">class_elements</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">class_elements</span><span class="p">:</span>
-                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="n">element_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
+                    <span class="n">element_type</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="p">)</span>
 
-                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span>
-                    <span class="p">})</span>
+                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span><span class="p">})</span>
 
                 <span class="c1">## Class Extension Responds-To Commands</span>
                 <span class="n">class_responds_to_commands</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;responds-to&quot;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">class_responds_to_commands</span><span class="p">:</span>
-                    <span class="n">command_name</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">command_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
                     <span class="n">responds_to_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_name</span><span class="p">)</span>
 
-                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
-                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
-                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
-                    <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
-                    <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span>
-                <span class="p">})</span>
+                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
+                        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
+                        <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+                        <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
 
             <span class="c1">### Classes</span>
             <span class="n">scripting_classes</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
@@ -194,40 +432,48 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">property_type</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
-                    <span class="n">property_name</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">property_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
                     <span class="n">property_comment</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
-                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span>
-                    <span class="p">})</span>
+                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
+                            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
 
                 <span class="c1">## Class Elements</span>
                 <span class="n">class_elements</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">class_elements</span><span class="p">:</span>
-                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="n">element_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
+                    <span class="n">element_type</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                    <span class="p">)</span>
 
-                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span>
-                    <span class="p">})</span>
+                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span><span class="p">})</span>
 
                 <span class="c1">## Class Responds-To Commands</span>
                 <span class="n">class_responds_to_commands</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;responds-to&quot;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">class_responds_to_commands</span><span class="p">:</span>
-                    <span class="n">command_name</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">command_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="p">)</span>
                     <span class="n">responds_to_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_name</span><span class="p">)</span>
 
-                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
-                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
-                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
-                    <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
-                    <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span>
-                <span class="p">})</span>
-
+                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
+                        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
+                        <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+                        <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
 
             <span class="c1">### Commands</span>
             <span class="n">script_commands</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">)</span>
@@ -244,11 +490,13 @@
 
                     <span class="n">direct_parameter_comment</span> <span class="o">=</span> <span class="n">direct_param</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">)</span>
 
-                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;direct_param&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">direct_parameter_type</span><span class="p">,</span>
-                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">direct_parameter_comment</span>
-                    <span class="p">})</span>
+                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;direct_param&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">direct_parameter_type</span><span class="p">,</span>
+                            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">direct_parameter_comment</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">command_name</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">command_name</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
@@ -259,30 +507,39 @@
                     <span class="k">if</span> <span class="n">parameter_type</span> <span class="o">==</span> <span class="s2">&quot;specifier&quot;</span><span class="p">:</span>
                         <span class="n">parameter_type</span> <span class="o">=</span> <span class="s2">&quot;XAObject&quot;</span>
 
-                    <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                    <span class="n">parameter_name</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
                     <span class="n">parameter_comment</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">parameter_name</span><span class="p">,</span>
-                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">parameter_type</span><span class="p">,</span>
-                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">parameter_comment</span><span class="p">,</span>
-                    <span class="p">})</span>
+                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">parameter_name</span><span class="p">,</span>
+                            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">parameter_type</span><span class="p">,</span>
+                            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">parameter_comment</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
 
                 <span class="n">commands</span><span class="p">[</span><span class="n">command_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">command_name</span><span class="p">,</span>
                     <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">command_comment</span><span class="p">,</span>
-                    <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span>
+                    <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
                 <span class="p">}</span>
 
-            <span class="n">suites</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s2">&quot;classes&quot;</span><span class="p">:</span> <span class="n">classes</span><span class="p">,</span>
-                <span class="s2">&quot;commands&quot;</span><span class="p">:</span> <span class="n">commands</span>
-            <span class="p">})</span>
+            <span class="n">suites</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;classes&quot;</span><span class="p">:</span> <span class="n">classes</span><span class="p">,</span> <span class="s2">&quot;commands&quot;</span><span class="p">:</span> <span class="n">commands</span><span class="p">})</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span> <span class="o">=</span> <span class="n">suites</span>
         <span class="k">return</span> <span class="n">suites</span></div>
 
-<div class="viewcode-block" id="SDEFParser.export"><a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser.export">[docs]</a>    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAPath&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="SDEFParser.export">
+<a class="viewcode-back" href="../../../reference/additions/utils.html#PyXA.Additions.Utils.SDEFParser.export">[docs]</a>
+    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;XABase.XAPath&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exports the scripting suites parsed from the SDEF file to a Python module.</span>
+
+<span class="sd">        :param output_file: The full path to the file to export module code to.</span>
+<span class="sd">        :type output_file: Union[XABase.XAPath, str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
             <span class="n">output_file</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">path</span>
 
@@ -296,68 +553,161 @@
         <span class="k">for</span> <span class="n">suite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">scripting_class</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]:</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;class &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List:&quot;</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">A wrapper around lists of &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;s that employs fast enumeration techniques.&quot;</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab&#39;s value for the property.&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;class &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List:&quot;</span>
+                <span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&quot;&quot;&quot;A wrapper around lists of &#39;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">+</span> <span class="s2">&quot;s that employs fast enumeration techniques.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab&#39;s value for the property.&quot;</span>
+                <span class="p">)</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&quot;&quot;&quot;&#39;</span><span class="p">)</span>
 
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def __init__(self, properties: dict, filter: Union[dict, None] = None):&quot;</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">super().__init__(properties, &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, filter)&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def __init__(self, properties: dict, filter: Union[dict, None] = None):&quot;</span>
+                <span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">super().__init__(properties, &quot;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="s2">&quot;, filter)&quot;</span>
+                <span class="p">)</span>
 
                 <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self) -&gt; list[&#39;&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;]:&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return list(self.xa_elem.arrayByApplyingSelector_(</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">))&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;(self) -&gt; list[&#39;&quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;&#39;]:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span>
+                        <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                        <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">return list(self.xa_elem.arrayByApplyingSelector_(&quot;&#39;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s1">&#39;&quot;))&#39;</span>
+                    <span class="p">)</span>
 
                 <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def by_&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">Retrieves the &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;whose &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; matches the given &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return self.by_property(</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">, &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def by_&quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;) -&gt; &#39;&quot;</span>
+                        <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;Retrieves the &#39;</span>
+                        <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;whose &quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot; matches the given &quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;.</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span>
+                        <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                        <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">return self.by_property(&quot;&#39;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s1">&#39;&quot;, &#39;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;class &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                    <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t</span><span class="s2">.. versionadded:: &quot;</span>
+                    <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                    <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                <span class="p">)</span>
 
                 <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">@property&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;(self) -&gt; &#39;&quot;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                        <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span>
+                        <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span>
+                        <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span>
+                    <span class="p">)</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return self.xa_elem.&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;()&quot;</span><span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;elements&quot;</span><span class="p">]:</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;(self, filter: Union[dict, None] = None) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">Returns a list of &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, as PyXA objects, matching the given filter.&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span>
+                        <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;(self, filter: Union[dict, None] = None) -&gt; &#39;&quot;</span>
+                        <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;Returns a list of &#39;</span>
+                        <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;, as PyXA objects, matching the given filter.&quot;</span>
+                    <span class="p">)</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
-                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">self._new_element(self.xa_elem.&quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(), &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List, filter)&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">self._new_element(self.xa_elem.&quot;</span>
+                        <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="s2">&quot;(), &quot;</span>
+                        <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot;List, filter)&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;responds-to&quot;</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">]:</span>
                         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-                        <span class="n">command_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span>
+                        <span class="n">command_str</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span>
+                        <span class="p">)</span>
 
                         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">]:</span>
-                            <span class="n">command_str</span> <span class="o">+=</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &#39;&quot;</span> <span class="o">+</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;, &quot;</span>
+                            <span class="n">command_str</span> <span class="o">+=</span> <span class="p">(</span>
+                                <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &#39;&quot;</span> <span class="o">+</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;, &quot;</span>
+                            <span class="p">)</span>
 
                         <span class="n">command_str</span> <span class="o">=</span> <span class="n">command_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;):&quot;</span>
                         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_str</span><span class="p">)</span>
 
-                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;comment&quot;</span><span class="p">])</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;comment&quot;</span><span class="p">])</span>
                         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
-                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&quot;&quot;&quot;&#39;</span><span class="p">)</span>
 
-                        <span class="n">cmd_call_str</span> <span class="o">=</span> <span class="s2">&quot;self.xa_elem.&quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span>
+                        <span class="n">cmd_call_str</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;self.xa_elem.&quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span>
+                        <span class="p">)</span>
 
                         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">]:</span>
                                 <span class="n">cmd_call_str</span> <span class="o">+=</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
-                            
+
                             <span class="n">cmd_call_str</span> <span class="o">=</span> <span class="n">cmd_call_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">cmd_call_str</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
@@ -366,7 +716,9 @@
 
         <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

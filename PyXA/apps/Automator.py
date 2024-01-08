@@ -12,6 +12,7 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath
 
+
 class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Automator.app.
 
@@ -19,12 +20,25 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.4
     """
-    class WarningLevel(Enum):
-        """Options for warning level in regard to likelihood of data loss.
+
+    class ObjectType(Enum):
+        """The object types available for creation in Automator.
+
+        .. versionadded:: 0.3.0
         """
-        IRREVERSIBLE    = XABase.OSType("irrv")
-        NONE            = XABase.OSType('none')
-        REVERSIBLE      = XABase.OSType('rvbl')
+
+        ACTION = "action"
+        DOCUMENT = "document"
+        REQUIRED_RESOURCE = "required_resource"
+        SETTING = "setting"
+        VARIABLE = "variable"
+
+    class WarningLevel(Enum):
+        """Options for warning level in regard to likelihood of data loss."""
+
+        IRREVERSIBLE = XABase.OSType("irrv")
+        NONE = XABase.OSType("none")
+        REVERSIBLE = XABase.OSType("rvbl")
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -32,27 +46,24 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Automator is the active application.
-        """
+        """Whether Automator is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
     def frontmost(self, frontmost: bool):
-        self.set_property('frontmost', frontmost)
+        self.set_property("frontmost", frontmost)
 
     @property
     def version(self) -> str:
-        """The version of Automator.app.
-        """
+        """The version of Automator.app."""
         return self.xa_scel.version()
 
-    def open(self, path: Union[str, AppKit.NSURL]) -> 'XAAutomatorWorkflow':
+    def open(self, path: Union[str, AppKit.NSURL]) -> "XAAutomatorWorkflow":
         """Opens the file at the given filepath.
 
         :param target: The path to a file or the URL to a website to open.
@@ -64,10 +75,17 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if not isinstance(path, AppKit.NSURL):
             path = XABase.XAPath(path)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_(
+            [path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None
+        )
         return self.workflows()[0]
 
-    def add(self, action: 'XAAutomatorAction', workflow: 'XAAutomatorWorkflow', index: int = -1) -> 'XAAutomatorApplication':
+    def add(
+        self,
+        action: "XAAutomatorAction",
+        workflow: "XAAutomatorWorkflow",
+        index: int = -1,
+    ) -> "XAAutomatorApplication":
         """Adds the specified action to a workflow at the specified index.
 
         :param action: The action to add
@@ -84,8 +102,7 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.add_to_atIndex_(action.xa_elem, workflow.xa_elem, index)
         return self
 
-
-    def documents(self, filter: Union[dict, None] = None) -> 'XAAutomatorDocumentList':
+    def documents(self, filter: Union[dict, None] = None) -> "XAAutomatorDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter documents by, defaults to None
@@ -95,9 +112,13 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.documents(), XAAutomatorDocumentList, filter)
+        return self._new_element(
+            self.xa_scel.documents(), XAAutomatorDocumentList, filter
+        )
 
-    def automator_actions(self, filter: Union[dict, None] = None) -> 'XAAutomatorActionList':
+    def automator_actions(
+        self, filter: Union[dict, None] = None
+    ) -> "XAAutomatorActionList":
         """Returns a list of Automator actions, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter actions by, defaults to None
@@ -107,9 +128,11 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.AutomatorActions(), XAAutomatorActionList, filter)
+        return self._new_element(
+            self.xa_scel.AutomatorActions(), XAAutomatorActionList, filter
+        )
 
-    def variables(self, filter: Union[dict, None] = None) -> 'XAAutomatorVariableList':
+    def variables(self, filter: Union[dict, None] = None) -> "XAAutomatorVariableList":
         """Returns a list of Automator variables, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter variables by, defaults to None
@@ -119,9 +142,11 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.variables(), XAAutomatorVariableList, filter)
+        return self._new_element(
+            self.xa_scel.variables(), XAAutomatorVariableList, filter
+        )
 
-    def workflows(self, filter: Union[dict, None] = None) -> 'XAAutomatorWorkflowList':
+    def workflows(self, filter: Union[dict, None] = None) -> "XAAutomatorWorkflowList":
         """Returns a list of Automator workflows, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter workflows by, defaults to None
@@ -131,32 +156,70 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.workflows(), XAAutomatorWorkflowList, filter)
+        return self._new_element(
+            self.xa_scel.workflows(), XAAutomatorWorkflowList, filter
+        )
 
-    def make(self, specifier: str, properties: dict):
+    def make(
+        self,
+        specifier: Union[str, "XAAutomatorApplication.ObjectType"],
+        properties: dict,
+        data: Any,
+    ):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
 
         :param specifier: The classname of the object to create
-        :type specifier: str
+        :type specifier: Union[str, XAAutomatorApplication.ObjectType]
         :param properties: The properties to give the object
         :type properties: dict
+        :param data: The data to give the object
+        :type data: Any
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
         .. versionadded:: 0.0.4
         """
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if isinstance(specifier, XAAutomatorApplication.ObjectType):
+            specifier = specifier.value
+
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            if specifier == "workflow":
+                if "path" not in properties and "name" in properties:
+                    fm = AppKit.NSFileManager.defaultManager()
+                    properties.update(
+                        {
+                            "path": f"{fm.homeDirectoryForCurrentUser().path()}/Downloads/{properties.get('name')}.workflow"
+                        }
+                    )
+                elif not properties.get("path").endswith(".workflow"):
+                    properties.update({"path": properties.get("path") + ".workflow"})
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
 
         if specifier == "workflow":
-            if "path" not in properties and "name" in properties:
-                fm = AppKit.NSFileManager.defaultManager()
-                properties.update({"path": f"{fm.homeDirectoryForCurrentUser().path()}/Downloads/{properties.get('name')}.workflow"})
-            elif not properties.get("path").endswith(".workflow"):
-                properties.update({"path": properties.get("path") + ".workflow"})
-
-            obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
             return self._new_element(obj, XAAutomatorWorkflow)
         elif specifier == "variable":
             return self._new_element(obj, XAAutomatorVariable)
@@ -164,12 +227,10 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             return self._new_element(obj, XAAutomatorDocument)
         elif specifier == "action":
             return self._new_element(obj, XAAutomatorAction)
-        elif specifier == "requiredResource":
+        elif specifier == "required_resource":
             return self._new_element(obj, XAAutomatorRequiredResource)
         elif specifier == "setting":
             return self._new_element(obj, XAAutomatorSetting)
-
-
 
 
 class XAAutomatorWindow(XABaseScriptable.XASBWindow):
@@ -179,34 +240,29 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def floating(self) -> bool:
-        """Whether the window floats.
-        """
+        """Whether the window floats."""
         return self.xa_elem.floating()
 
     @property
     def modal(self) -> bool:
-        """Whether the window is a modal window.
-        """
+        """Whether the window is a modal window."""
         return self.xa_elem.modal()
 
     @property
     def titled(self) -> bool:
-        """Whether the window has a title bar.
-        """
+        """Whether the window has a title bar."""
         return self.xa_elem.titled()
 
     @property
-    def document(self) -> 'XAAutomatorDocument':
-        """The document currently displayed in the window.
-        """
+    def document(self) -> "XAAutomatorDocument":
+        """The document currently displayed in the window."""
         return self._new_element(self.xa_elem.document(), XAAutomatorDocument)
-
-
 
 
 class XAAutomatorDocumentList(XABase.XAList):
@@ -216,6 +272,7 @@ class XAAutomatorDocumentList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorDocument, filter)
 
@@ -228,17 +285,18 @@ class XAAutomatorDocumentList(XABase.XAList):
     def index(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
-    def by_id(self, id: int) -> Union['XAAutomatorDocument', None]:
+    def by_id(self, id: int) -> Union["XAAutomatorDocument", None]:
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> Union['XAAutomatorDocument', None]:
+    def by_title(self, title: str) -> Union["XAAutomatorDocument", None]:
         return self.by_property("title", title)
 
-    def by_index(self, index: int) -> Union['XAAutomatorDocument', None]:
+    def by_index(self, index: int) -> Union["XAAutomatorDocument", None]:
         return self.by_property("index", index)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorDocument(XABase.XAObject):
     """A class for managing and interacting with Automator windows.
@@ -247,19 +305,18 @@ class XAAutomatorDocument(XABase.XAObject):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since its last save.
-        """
+        """Whether the document has been modified since its last save."""
         return self.xa_elem.modified()
 
     @property
     def name(self) -> str:
-        """The title of the document.
-        """
+        """The title of the document."""
         return self.xa_elem.name()
 
     @name.setter
@@ -268,8 +325,7 @@ class XAAutomatorDocument(XABase.XAObject):
 
     @property
     def path(self) -> XABase.XAPath:
-        """The path to the document on the disk.
-        """
+        """The path to the document on the disk."""
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -282,8 +338,6 @@ class XAAutomatorDocument(XABase.XAObject):
         return "<" + str(type(self)) + self.name + ">"
 
 
-
-
 class XAAutomatorActionList(XABase.XAList):
     """A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.
 
@@ -291,6 +345,7 @@ class XAAutomatorActionList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorAction, filter)
 
@@ -307,7 +362,9 @@ class XAAutomatorActionList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def execution_error_message(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or [])
+        return list(
+            self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or []
+        )
 
     def execution_error_number(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber") or [])
@@ -336,7 +393,7 @@ class XAAutomatorActionList(XABase.XAList):
     def output_types(self) -> list[list[str]]:
         return list(self.xa_elem.arrayByApplyingSelector_("outputTypes") or [])
 
-    def parent_workflow(self) -> 'XAAutomatorWorkflowList':
+    def parent_workflow(self) -> "XAAutomatorWorkflowList":
         ls = self.xa_elem.arrayByApplyingSelector_("parentWorkflow") or []
         return self._new_element(ls, XAAutomatorWorkflowList)
 
@@ -362,74 +419,97 @@ class XAAutomatorActionList(XABase.XAList):
     def warning_message(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("warningMessage") or [])
 
-    def by_bundle_id(self, bundle_id: str) -> Union['XAAutomatorAction', None]:
+    def by_bundle_id(self, bundle_id: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("bundleId", bundle_id)
 
-    def by_category(self, category: list[str]) -> Union['XAAutomatorAction', None]:
+    def by_category(self, category: list[str]) -> Union["XAAutomatorAction", None]:
         return self.by_property("category", category)
 
-    def by_comment(self, comment: str) -> Union['XAAutomatorAction', None]:
+    def by_comment(self, comment: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("comment", comment)
 
-    def by_enabled(self, enabled: bool) -> Union['XAAutomatorAction', None]:
+    def by_enabled(self, enabled: bool) -> Union["XAAutomatorAction", None]:
         return self.by_property("enabled", enabled)
 
-    def by_execution_error_message(self, execution_error_message: str) -> Union['XAAutomatorAction', None]:
+    def by_execution_error_message(
+        self, execution_error_message: str
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("executionErrorMessage", execution_error_message)
 
-    def by_execution_error_number(self, execution_error_number: int) -> Union['XAAutomatorAction', None]:
+    def by_execution_error_number(
+        self, execution_error_number: int
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("executionErrorNumber", execution_error_number)
 
-    def by_execution_result(self, execution_result: Any) -> Union['XAAutomatorAction', None]:
+    def by_execution_result(
+        self, execution_result: Any
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("executionResult", execution_result)
 
-    def by_icon_name(self, icon_name: str) -> Union['XAAutomatorAction', None]:
+    def by_icon_name(self, icon_name: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("iconName", icon_name)
 
-    def by_id(self, id: str) -> Union['XAAutomatorAction', None]:
+    def by_id(self, id: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("id", id)
 
-    def by_ignores_input(self, ignores_input: bool) -> Union['XAAutomatorAction', None]:
+    def by_ignores_input(self, ignores_input: bool) -> Union["XAAutomatorAction", None]:
         return self.by_property("ignoresInput", ignores_input)
 
-    def by_input_types(self, input_types: list[str]) -> Union['XAAutomatorAction', None]:
+    def by_input_types(
+        self, input_types: list[str]
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("inputTypes", input_types)
 
-    def by_keywords(self, keywords: list[str]) -> Union['XAAutomatorAction', None]:
+    def by_keywords(self, keywords: list[str]) -> Union["XAAutomatorAction", None]:
         return self.by_property("keywords", keywords)
 
-    def by_name(self, name: str) -> Union['XAAutomatorAction', None]:
+    def by_name(self, name: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("name", name)
 
-    def by_output_types(self, output_types: list[str]) -> Union['XAAutomatorAction', None]:
+    def by_output_types(
+        self, output_types: list[str]
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("outputTypes", output_types)
 
-    def by_parent_workflow(self, parent_workflow: 'XAAutomatorWorkflow') -> Union['XAAutomatorAction', None]:
+    def by_parent_workflow(
+        self, parent_workflow: "XAAutomatorWorkflow"
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("parentWorkflow", parent_workflow.xa_elem)
 
-    def by_path(self, path: str) -> Union['XAAutomatorAction', None]:
+    def by_path(self, path: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("path", path)
 
-    def by_show_action_when_run(self, show_action_when_run: bool) -> Union['XAAutomatorAction', None]:
+    def by_show_action_when_run(
+        self, show_action_when_run: bool
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("show_action_when_run", show_action_when_run)
 
-    def by_target_application(self, target_application: list[str]) -> Union['XAAutomatorAction', None]:
+    def by_target_application(
+        self, target_application: list[str]
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("targetApplication", target_application)
 
-    def by_version(self, version: str) -> Union['XAAutomatorAction', None]:
+    def by_version(self, version: str) -> Union["XAAutomatorAction", None]:
         return self.by_property("version", version)
 
-    def by_warning_action(self, warning_action: str) -> Union['XAAutomatorAction', None]:
+    def by_warning_action(
+        self, warning_action: str
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("warningAction", warning_action)
 
-    def by_warning_level(self, warning_level: XAAutomatorApplication.WarningLevel) -> Union['XAAutomatorAction', None]:
+    def by_warning_level(
+        self, warning_level: XAAutomatorApplication.WarningLevel
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("warningLevel", warning_level.value)
 
-    def by_warning_message(self, warning_message: str) -> Union['XAAutomatorAction', None]:
+    def by_warning_message(
+        self, warning_message: str
+    ) -> Union["XAAutomatorAction", None]:
         return self.by_property("warningMessage", warning_message)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorAction(XABase.XAObject):
     """A class for managing and interacting with actions in Automator.app.
@@ -438,25 +518,23 @@ class XAAutomatorAction(XABase.XAObject):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def bundle_id(self) -> str:
-        """The bundle identifier for the action.
-        """
+        """The bundle identifier for the action."""
         return self.xa_elem.bundleId()
 
     @property
     def category(self) -> list[str]:
-        """The categories that contain the action
-        """
+        """The categories that contain the action"""
         return self.xa_elem.category()
 
     @property
     def comment(self) -> str:
-        """The comment for the name of the action.
-        """
+        """The comment for the name of the action."""
         return self.xa_elem.comment()
 
     @comment.setter
@@ -465,8 +543,7 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def enabled(self) -> bool:
-        """Whether the action is enabled.
-        """
+        """Whether the action is enabled."""
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -475,38 +552,32 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def execution_error_message(self) -> str:
-        """The text error message generated by execution of the action.
-        """
+        """The text error message generated by execution of the action."""
         return self.xa_elem.executionErrorMessage()
 
     @property
     def execution_error_number(self) -> int:
-        """The numeric error code generated by execution of the action.
-        """
+        """The numeric error code generated by execution of the action."""
         return self.xa_elem.executionErrorNumber()
 
     @property
     def execution_result(self) -> Any:
-        """The result of the action, passed as input to the next action.
-        """
+        """The result of the action, passed as input to the next action."""
         return self.xa_elem.executionResult()
 
     @property
     def icon_name(self) -> str:
-        """The name for the icon associated with the action.
-        """
+        """The name for the icon associated with the action."""
         return self.xa_elem.iconName()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the action.
-        """
+        """The unique identifier for the action."""
         return self.xa_elem.id()
 
     @property
     def ignores_input(self) -> bool:
-        """Whether the action ignores input when run.
-        """
+        """Whether the action ignores input when run."""
         return self.xa_elem.ignoresInput()
 
     @ignores_input.setter
@@ -515,8 +586,7 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def index(self) -> int:
-        """The index of the action from the first action in the workflow.
-        """
+        """The index of the action from the first action in the workflow."""
         return self.xa_elem.index()
 
     @index.setter
@@ -525,44 +595,37 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def input_types(self) -> list[str]:
-        """The input types accepted by the action.
-        """
+        """The input types accepted by the action."""
         return self.xa_elem.inputTypes()
 
     @property
     def keywords(self) -> list[str]:
-        """The keywords that describe the action.
-        """
+        """The keywords that describe the action."""
         return self.xa_elem.keywords()
 
     @property
     def name(self) -> str:
-        """The localized name of the action.
-        """
+        """The localized name of the action."""
         return self.xa_elem.name()
 
     @property
     def output_types(self) -> list[str]:
-        """The output types produced by the action.
-        """
+        """The output types produced by the action."""
         return self.xa_elem.outputTypes()
 
     @property
-    def parent_workflow(self) -> 'XAAutomatorWorkflow':
-        """The workflow that contains the action.
-        """
+    def parent_workflow(self) -> "XAAutomatorWorkflow":
+        """The workflow that contains the action."""
         return self._new_element(self.xa_elem.parentWorkflow(), XAAutomatorWorkflow)
 
     @property
     def path(self) -> XABase.XAPath:
-        """The path of the file that contains the action.
-        """
+        """The path of the file that contains the action."""
         return XABase.XAPath(self.xa_elem.path())
 
     @property
     def show_action_when_run(self) -> bool:
-        """Whether the action should show its user interface when run.
-        """
+        """Whether the action should show its user interface when run."""
         return self.xa_elem.showActionWehnRun()
 
     @show_action_when_run.setter
@@ -571,35 +634,32 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def target_application(self) -> list[str]:
-        """The application(s) with which the action communicates.
-        """
+        """The application(s) with which the action communicates."""
         return self.xa_elem.targetApplication()
 
     @property
     def version(self) -> str:
-        """The version of the action.
-        """
+        """The version of the action."""
         return self.xa_elem.version()
 
     @property
     def warning_action(self) -> str:
-        """The action suggested by the warning, if any.
-        """
+        """The action suggested by the warning, if any."""
         return self.xa_elem.warningAction()
 
     @property
     def warning_level(self) -> XAAutomatorApplication.WarningLevel:
-        """The level of the warning, increasing in likelihood of data loss.
-        """
+        """The level of the warning, increasing in likelihood of data loss."""
         return XAAutomatorApplication.WarningLevel(self.xa_elem.warningLevel())
 
     @property
     def warning_message(self) -> str:
-        """The message that accompanies the warning, if any.
-        """
+        """The message that accompanies the warning, if any."""
         return self.xa_elem.warningMessage()
 
-    def required_resources(self, filter: Union[dict, None] = None) -> 'XAAutomatorRequiredResourceList':
+    def required_resources(
+        self, filter: Union[dict, None] = None
+    ) -> "XAAutomatorRequiredResourceList":
         """Returns a list of required resource, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter resources by, defaults to None
@@ -609,9 +669,11 @@ class XAAutomatorAction(XABase.XAObject):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.requiredResources(), XAAutomatorRequiredResourceList, filter)
+        return self._new_element(
+            self.xa_elem.requiredResources(), XAAutomatorRequiredResourceList, filter
+        )
 
-    def settings(self, filter: Union[dict, None] = None) -> 'XAAutomatorSettingList':
+    def settings(self, filter: Union[dict, None] = None) -> "XAAutomatorSettingList":
         """Returns a list of settings, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter settings by, defaults to None
@@ -621,12 +683,12 @@ class XAAutomatorAction(XABase.XAObject):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.settings(), XAAutomatorSettingList, filter)
+        return self._new_element(
+            self.xa_elem.settings(), XAAutomatorSettingList, filter
+        )
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
-
-
 
 
 class XAAutomatorRequiredResourceList(XABase.XAList):
@@ -636,6 +698,7 @@ class XAAutomatorRequiredResourceList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorRequiredResource, filter)
 
@@ -651,20 +714,21 @@ class XAAutomatorRequiredResourceList(XABase.XAList):
     def version(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
 
-    def by_kind(self, kind: str) -> Union['XAAutomatorRequiredResource', None]:
+    def by_kind(self, kind: str) -> Union["XAAutomatorRequiredResource", None]:
         return self.by_property("kind", kind)
 
-    def by_name(self, name: str) -> Union['XAAutomatorRequiredResource', None]:
+    def by_name(self, name: str) -> Union["XAAutomatorRequiredResource", None]:
         return self.by_property("name", name)
 
-    def by_resource(self, resource: str) -> Union['XAAutomatorRequiredResource', None]:
+    def by_resource(self, resource: str) -> Union["XAAutomatorRequiredResource", None]:
         return self.by_property("resource", resource)
 
-    def by_version(self, version: int) -> Union['XAAutomatorRequiredResource', None]:
+    def by_version(self, version: int) -> Union["XAAutomatorRequiredResource", None]:
         return self.by_property("version", version)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorRequiredResource(XABase.XAObject):
     """A class for managing and interacting with required resources in Automator.app.
@@ -673,37 +737,32 @@ class XAAutomatorRequiredResource(XABase.XAObject):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def kind(self) -> str:
-        """The kind of required resource.
-        """
+        """The kind of required resource."""
         return self.xa_elem.kind()
 
     @property
     def name(self) -> str:
-        """The name of the required resource.
-        """
+        """The name of the required resource."""
         return self.xa_elem.name()
 
     @property
     def resource(self) -> str:
-        """The specification of the required resource.
-        """
+        """The specification of the required resource."""
         return self.xa_elem.resource()
 
     @property
     def version(self) -> int:
-        """The minimum acceptable version of the required resource.
-        """
+        """The minimum acceptable version of the required resource."""
         return self.xa_elem.version()
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
-
-
 
 
 class XAAutomatorSettingList(XABase.XAList):
@@ -713,6 +772,7 @@ class XAAutomatorSettingList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorSetting, filter)
 
@@ -725,21 +785,22 @@ class XAAutomatorSettingList(XABase.XAList):
     def value(self) -> list[Any]:
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
-    def by_default_value(self, default_value: Any) -> Union['XAAutomatorSetting', None]:
+    def by_default_value(self, default_value: Any) -> Union["XAAutomatorSetting", None]:
         if isinstance(default_value, XABase.XAObject):
             default_value = default_value.xa_elem
         return self.by_property("defaultValue", default_value)
 
-    def by_name(self, name: str) -> Union['XAAutomatorSetting', None]:
+    def by_name(self, name: str) -> Union["XAAutomatorSetting", None]:
         return self.by_property("name", name)
 
-    def by_value(self, value: Any) -> Union['XAAutomatorSetting', None]:
+    def by_value(self, value: Any) -> Union["XAAutomatorSetting", None]:
         if isinstance(value, XABase.XAObject):
             value = value.xa_elem
         return self.by_property("value", value)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorSetting(XABase.XAObject):
     """A class for managing and interacting with Automator settings (i.e. named values).
@@ -748,25 +809,23 @@ class XAAutomatorSetting(XABase.XAObject):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def default_value(self) -> Any:
-        """The default value of the setting.
-        """
+        """The default value of the setting."""
         return self.xa_elem.defaultValue()
 
     @property
     def name(self) -> str:
-        """The name of the setting.
-        """
+        """The name of the setting."""
         return self.xa_elem.name()
 
     @property
     def value(self) -> Any:
-        """The value of the setting.
-        """
+        """The value of the setting."""
         return self.xa_elem.value()
 
     @value.setter
@@ -777,8 +836,6 @@ class XAAutomatorSetting(XABase.XAObject):
         return "<" + str(type(self)) + self.name + ">"
 
 
-
-
 class XAAutomatorVariableList(XABase.XAList):
     """A wrapper around a list of Automator variables which utilizes fast enumeration techniques.
 
@@ -786,6 +843,7 @@ class XAAutomatorVariableList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorVariable, filter)
 
@@ -798,19 +856,20 @@ class XAAutomatorVariableList(XABase.XAList):
     def value(self) -> list[Any]:
         return list(self.xa_elem.arrayByApplyingSelector_("value") or [])
 
-    def by_name(self, name: str) -> Union['XAAutomatorVariable', None]:
+    def by_name(self, name: str) -> Union["XAAutomatorVariable", None]:
         return self.by_property("name", name)
 
-    def by_settable(self, settable: bool) -> Union['XAAutomatorVariable', None]:
+    def by_settable(self, settable: bool) -> Union["XAAutomatorVariable", None]:
         return self.by_property("settable", settable)
 
-    def by_value(self, value: Any) -> Union['XAAutomatorVariable', None]:
+    def by_value(self, value: Any) -> Union["XAAutomatorVariable", None]:
         if isinstance(value, XABase.XAObject):
             value = value.xa_elem
         return self.by_property("value", value)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorVariable(XABase.XAObject):
     """A class for managing and interacting with Automator variables.
@@ -819,13 +878,13 @@ class XAAutomatorVariable(XABase.XAObject):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the variable.
-        """
+        """The name of the variable."""
         return self.xa_elem.name()
 
     @name.setter
@@ -834,24 +893,20 @@ class XAAutomatorVariable(XABase.XAObject):
 
     @property
     def settable(self) -> bool:
-        """Whether the name and value of the variable can be changed.
-        """
+        """Whether the name and value of the variable can be changed."""
         return self.xa_elem.settable()
 
     @property
     def value(self) -> Any:
-        """The value of the variable.
-        """
+        """The value of the variable."""
         return self.xa_elem.value()
 
     @value.setter
     def value(self, value: Any):
         self.set_property("value", value)
-        
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
-
-
 
 
 class XAAutomatorWorkflowList(XABase.XAList):
@@ -861,6 +916,7 @@ class XAAutomatorWorkflowList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAutomatorWorkflow, filter)
 
@@ -869,7 +925,9 @@ class XAAutomatorWorkflowList(XABase.XAList):
         return self._new_element(ls, XAAutomatorActionList)
 
     def execution_error_message(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or [])
+        return list(
+            self.xa_elem.arrayByApplyingSelector_("executionErrorMessage") or []
+        )
 
     def execution_error_number(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber") or [])
@@ -883,26 +941,33 @@ class XAAutomatorWorkflowList(XABase.XAList):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_current_action(self, current_action: XAAutomatorAction) -> Union['XAAutomatorWorkflow', None]:
+    def by_current_action(
+        self, current_action: XAAutomatorAction
+    ) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("currentAction", current_action.xa_elem)
 
-    def by_execution_error_message(self, execution_error_message: str) -> Union['XAAutomatorWorkflow', None]:
+    def by_execution_error_message(
+        self, execution_error_message: str
+    ) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("executionErrorMessage", execution_error_message)
 
-    def by_execution_error_number(self, execution_error_number: int) -> Union['XAAutomatorWorkflow', None]:
+    def by_execution_error_number(
+        self, execution_error_number: int
+    ) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("executionErrorNumber", execution_error_number)
 
-    def by_execution_id(self, execution_id: str) -> Union['XAAutomatorWorkflow', None]:
+    def by_execution_id(self, execution_id: str) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("executionId", execution_id)
 
-    def by_execution_result(self, result: Any) -> Union['XAAutomatorWorkflow', None]:
+    def by_execution_result(self, result: Any) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("result", result)
 
-    def by_name(self, name: str) -> Union['XAAutomatorWorkflow', None]:
+    def by_name(self, name: str) -> Union["XAAutomatorWorkflow", None]:
         return self.by_property("name", name)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAAutomatorWorkflow(XAAutomatorDocument):
     """A class for managing and interacting with Automator workflows.
@@ -911,43 +976,38 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def current_action(self) -> XAAutomatorAction:
-        """The current or most recent action of the workflow.
-        """
+        """The current or most recent action of the workflow."""
         return self._new_element(self.xa_elem.currentAction(), XAAutomatorAction)
 
     @property
     def execution_error_message(self) -> str:
-        """The text error message generated by the most recent execution.
-        """
+        """The text error message generated by the most recent execution."""
         return self.xa_elem.executionErrorMessage()
 
     @property
     def execution_error_number(self) -> int:
-        """The numeric error code generated by the most recent execution.
-        """
+        """The numeric error code generated by the most recent execution."""
         return self.xa_elem.executionErrorNumber()
 
     @property
     def execution_id(self) -> str:
-        """The unique identifier for the current or most recent execution.
-        """
+        """The unique identifier for the current or most recent execution."""
         return self.xa_elem.executionId()
 
     @property
     def execution_result(self) -> Any:
-        """The result of the most resent execution.
-        """
+        """The result of the most resent execution."""
         return self.xa_elem.executionResult().get()
 
     @property
     def name(self) -> str:
-        """The name of the workflow.
-        """
+        """The name of the workflow."""
         return self.xa_elem.name()
 
     def execute(self) -> Any:
@@ -960,7 +1020,9 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
         """
         return self.xa_elem.execute()
 
-    def automator_actions(self, filter: Union[dict, None] = None) -> 'XAAutomatorActionList':
+    def automator_actions(
+        self, filter: Union[dict, None] = None
+    ) -> "XAAutomatorActionList":
         """Returns a list of actions, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter actions by, defaults to None
@@ -970,9 +1032,11 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.AutomatorActions(), XAAutomatorActionList, filter)
+        return self._new_element(
+            self.xa_elem.AutomatorActions(), XAAutomatorActionList, filter
+        )
 
-    def variables(self, filter: Union[dict, None] = None) -> 'XAAutomatorVariableList':
+    def variables(self, filter: Union[dict, None] = None) -> "XAAutomatorVariableList":
         """Returns a list of variables, as PyXA objects, matching the given filter.
 
         :param filter: Keys and values to filter variables by, defaults to None
@@ -982,16 +1046,18 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.variables(), XAAutomatorVariableList, filter)
+        return self._new_element(
+            self.xa_elem.variables(), XAAutomatorVariableList, filter
+        )
 
     def delete(self):
         """Closes the workflow.
-        
+
         .. versionadded:: 0.0.4
         """
         self.xa_elem.delete()
 
-    def save(self) -> 'XAAutomatorWorkflow':
+    def save(self) -> "XAAutomatorWorkflow":
         """Saves the workflow to the disk at the location specified by :attr:`XAAutomatorWorkflow.path`, or in the downloads folder if no path has been specified.
 
         :return: The workflow object.

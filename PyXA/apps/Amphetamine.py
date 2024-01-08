@@ -7,81 +7,77 @@ from typing import Literal, Union
 
 from PyXA import XABaseScriptable
 
+
 class XAAmphetamineApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Amphetamine.app.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Amphetamine is the active application.
-        """
+        """Whether Amphetamine is the active application."""
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
-        """The version number of Amphetamine.app.
-        """
+        """The version number of Amphetamine.app."""
         return self.xa_scel.version()
 
     @property
     def session_is_active(self) -> bool:
-        """Whether there is an active session.
-        """
+        """Whether there is an active session."""
         return self.xa_scel.sessionIsActive()
 
     @property
     def session_time_remaining(self) -> int:
-        """The total seconds remaining in a session. 0 if session is of infinite duration. -1 is session is trigger-based. -2 is session is app-based or date-based. -3 if there is no active session.
-        """
+        """The total seconds remaining in a session. 0 if session is of infinite duration. -1 is session is trigger-based. -2 is session is app-based or date-based. -3 if there is no active session."""
         return self.xa_scel.sessionTimeRemaining()
 
     @property
     def display_sleep_allowed(self) -> bool:
-        """Whether display sleep is permitted.  If there is no active session, the state of the Preferences → Sessions → Allow Display Sleep checkbox is returned.
-        """
+        """Whether display sleep is permitted.  If there is no active session, the state of the Preferences → Sessions → Allow Display Sleep checkbox is returned."""
         return self.xa_scel.displaySleepAllowed()
 
     @property
     def screen_saver_allowed(self) -> bool:
-        """Whether screen saver activation is permitted. If there is no active session, the state of the Preferences → Sessions → Allow Screen Saver After checkbox is returned.
-        """
+        """Whether screen saver activation is permitted. If there is no active session, the state of the Preferences → Sessions → Allow Screen Saver After checkbox is returned."""
         return self.xa_scel.screenSaverAllowed()
 
     @property
     def closed_display_mode_enabled(self) -> bool:
-        """Whether closed-display mode is enabled. If there is no active session, the state of the Preferences → Sessions → Allow System to Sleep When Display is Closed checkbox is returned. Note: If this Mac does not support closed-display mode, false is always returned. Note: The UI button state for this feature will be the opposite of the return value for this call. For example, if the UI button's state is on/true, the return value for this call will be false.
-        """
+        """Whether closed-display mode is enabled. If there is no active session, the state of the Preferences → Sessions → Allow System to Sleep When Display is Closed checkbox is returned. Note: If this Mac does not support closed-display mode, false is always returned. Note: The UI button state for this feature will be the opposite of the return value for this call. For example, if the UI button's state is on/true, the return value for this call will be false."""
         return self.xa_scel.closedDisplayModeEnabled()
 
     @property
     def session_is_trigger(self) -> bool:
-        """Whether the current session was started by a trigger. False boolean is always returned if there is no active session.
-        """
+        """Whether the current session was started by a trigger. False boolean is always returned if there is no active session."""
         return self.xa_scel.sessionIsTrigger()
 
     @property
     def triggers_are_enabled(self) -> bool:
-        """Whether trigger session activation is enabled.
-        """
+        """Whether trigger session activation is enabled."""
         return self.xa_scel.triggersAreEnabled()
 
     @property
     def drive_alive_is_enabled(self) -> bool:
-        """Whether Drive Alive is enabled.
-        """
+        """Whether Drive Alive is enabled."""
         return self.xa_scel.driveAliveIsEnabled()
 
-    def start_new_session(self, duration: Union[int, None] = None, interval: Union[Literal["hours", "minutes"], None] = None, display_sleep_allowed: Union[bool, None] = None):
+    def start_new_session(
+        self,
+        duration: Union[int, None] = None,
+        interval: Union[Literal["hours", "minutes"], None] = None,
+        display_sleep_allowed: Union[bool, None] = None,
+    ):
         """Starts a new session. Options from Amphetamine's Preferences (default duration/display sleep allowed) are used if options are not explicitly supplied in command. Ends any existing sessions, including Trigger-based sessions before starting a new session.
 
         :param duration: The duration of the session
@@ -94,14 +90,17 @@ class XAAmphetamineApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.1.0
         """
         options = {}
-        if duration != None: options["duration"] = duration
-        if interval != None: options["interval"] = interval
-        if display_sleep_allowed != None: options["displaySleepAllowed"] = display_sleep_allowed
+        if duration != None:
+            options["duration"] = duration
+        if interval != None:
+            options["interval"] = interval
+        if display_sleep_allowed != None:
+            options["displaySleepAllowed"] = display_sleep_allowed
 
         self.xa_scel.startNewSessionWithOptions_(options if options != {} else None)
 
     def end_session(self):
-        """Ends the current session. Trigger sessions will also end with this command, but may immediately restart (this command does not disable Triggers). 
+        """Ends the current session. Trigger sessions will also end with this command, but may immediately restart (this command does not disable Triggers).
 
         .. versionadded:: 0.1.0
         """

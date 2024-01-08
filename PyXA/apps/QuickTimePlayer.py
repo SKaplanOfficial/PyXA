@@ -10,6 +10,7 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath
 
+
 class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with QuickTime.app.
 
@@ -17,26 +18,24 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAQuickTimeWindow
 
     @property
     def properties(self) -> dict:
-        """Every property of the QuickTime application.
-        """
+        """Every property of the QuickTime application."""
         return self.xa_scel.properties()
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether QuickTime is the frontmost application.
-        """
+        """Whether QuickTime is the frontmost application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -45,17 +44,15 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
-        """The version of QuickTime.app.
-        """
+        """The version of QuickTime.app."""
         return self.xa_scel.version()
 
     @property
-    def current_document(self) -> 'XAQuickTimeDocument':
-        """The document currently open in the front window of QuickTime.
-        """
+    def current_document(self) -> "XAQuickTimeDocument":
+        """The document currently open in the front window of QuickTime."""
         return self.front_window.document
 
-    def open(self, path: Union[str, AppKit.NSURL]) -> 'XAQuickTimeDocument':
+    def open(self, path: Union[str, AppKit.NSURL]) -> "XAQuickTimeDocument":
         """Opens the file at the given filepath.
 
         :param target: The path of a file to open.
@@ -68,10 +65,12 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         if not isinstance(path, AppKit.NSURL):
             if "://" not in path:
                 path = XABase.XAPath(path)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_(
+            [path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None
+        )
         return self._new_element(self.front_window.document, XAQuickTimeDocument)
 
-    def open_url(self, url: Union[str, AppKit.NSURL]) -> 'XAQuickTimeDocument':
+    def open_url(self, url: Union[str, AppKit.NSURL]) -> "XAQuickTimeDocument":
         """Opens the file at the given (remote) URL.
 
         :param target: The path of a file to stream.
@@ -86,7 +85,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
                 url = XABase.XAURL(url)
         self.xa_scel.openURL_(url)
 
-    def new_audio_recording(self) -> 'XAQuickTimeDocument':
+    def new_audio_recording(self) -> "XAQuickTimeDocument":
         """Starts a new audio recording.
 
         :return: The newly created audio recording document.
@@ -96,7 +95,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self.xa_scel.newAudioRecording()
 
-    def new_movie_recording(self) -> 'XAQuickTimeDocument':
+    def new_movie_recording(self) -> "XAQuickTimeDocument":
         """Starts a new movie recording.
 
         :return: The newly created movie recording document.
@@ -106,7 +105,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self.xa_scel.newMovieRecording()
 
-    def new_screen_recording(self) -> 'XAQuickTimeApplication':
+    def new_screen_recording(self) -> "XAQuickTimeApplication":
         """Starts a new screen recording.
 
         :return: A reference to the application object.
@@ -117,7 +116,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.newScreenRecording()
         return self
 
-    def documents(self, filter: Union[dict, None] = None) -> 'XAQuickTimeDocumentList':
+    def documents(self, filter: Union[dict, None] = None) -> "XAQuickTimeDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None
@@ -127,9 +126,13 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.documents(), XAQuickTimeDocumentList, filter)
+        return self._new_element(
+            self.xa_elem.documents(), XAQuickTimeDocumentList, filter
+        )
 
-    def audio_recording_devices(self, filter: Union[dict, None] = None) -> 'XAQuickTimeAudioRecordingDeviceList':
+    def audio_recording_devices(
+        self, filter: Union[dict, None] = None
+    ) -> "XAQuickTimeAudioRecordingDeviceList":
         """Returns a list of audio recording devices, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned audio recording devices will have, or None
@@ -139,9 +142,15 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.audioRecordingDevices(), XAQuickTimeAudioRecordingDeviceList, filter)
+        return self._new_element(
+            self.xa_elem.audioRecordingDevices(),
+            XAQuickTimeAudioRecordingDeviceList,
+            filter,
+        )
 
-    def video_recording_devices(self, filter: Union[dict, None] = None) -> 'XAQuickTimeVideoRecordingDeviceList':
+    def video_recording_devices(
+        self, filter: Union[dict, None] = None
+    ) -> "XAQuickTimeVideoRecordingDeviceList":
         """Returns a list of video recording devices, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned video recording devices will have, or None
@@ -151,9 +160,15 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.videoRecordingDevices(), XAQuickTimeVideoRecordingDeviceList, filter)
+        return self._new_element(
+            self.xa_elem.videoRecordingDevices(),
+            XAQuickTimeVideoRecordingDeviceList,
+            filter,
+        )
 
-    def audio_compression_presets(self, filter: Union[dict, None] = None) -> 'XAQuickTimeAudioCompressionPresetList':
+    def audio_compression_presets(
+        self, filter: Union[dict, None] = None
+    ) -> "XAQuickTimeAudioCompressionPresetList":
         """Returns a list of audio compression presets, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned p[resets] will have, or None
@@ -163,9 +178,15 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.audioCompressionPresets(), XAQuickTimeAudioCompressionPresetList, filter)
+        return self._new_element(
+            self.xa_elem.audioCompressionPresets(),
+            XAQuickTimeAudioCompressionPresetList,
+            filter,
+        )
 
-    def movie_compression_presets(self, filter: Union[dict, None] = None) -> 'XAQuickTimeMovieCompressionPresetList':
+    def movie_compression_presets(
+        self, filter: Union[dict, None] = None
+    ) -> "XAQuickTimeMovieCompressionPresetList":
         """Returns a list of movie compression presets, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned presets will have, or None
@@ -175,9 +196,15 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.movieCompressionPresets(), XAQuickTimeMovieCompressionPresetList, filter)
+        return self._new_element(
+            self.xa_elem.movieCompressionPresets(),
+            XAQuickTimeMovieCompressionPresetList,
+            filter,
+        )
 
-    def screen_compression_presets(self, filter: Union[dict, None] = None) -> 'XAQuickTimeScreenCompressionPresetList':
+    def screen_compression_presets(
+        self, filter: Union[dict, None] = None
+    ) -> "XAQuickTimeScreenCompressionPresetList":
         """Returns a list of screen compression presets, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned presets will have, or None
@@ -187,8 +214,11 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_elem.screenCompressionPresets(), XAQuickTimeScreenCompressionPresetList, filter)
-
+        return self._new_element(
+            self.xa_elem.screenCompressionPresets(),
+            XAQuickTimeScreenCompressionPresetList,
+            filter,
+        )
 
 
 class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
@@ -198,22 +228,19 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """Every property of a QuickTime window.
-        """
+        """Every property of a QuickTime window."""
         return self.xa_elem.properties()
 
     @property
-    def document(self) -> 'XAQuickTimeDocument':
-        """The document currently displayed in the front window of QuickTime.
-        """
+    def document(self) -> "XAQuickTimeDocument":
+        """The document currently displayed in the front window of QuickTime."""
         return self._new_element(self.xa_elem.document(), XAQuickTimeDocument)
-
-
 
 
 class XAQuickTimeDocumentList(XABase.XAList):
@@ -223,6 +250,7 @@ class XAQuickTimeDocumentList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeDocument, filter)
 
@@ -262,76 +290,91 @@ class XAQuickTimeDocumentList(XABase.XAList):
     def presenting(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("presenting") or [])
 
-    def current_microphone(self) -> 'XAQuickTimeAudioRecordingDeviceList':
+    def current_microphone(self) -> "XAQuickTimeAudioRecordingDeviceList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentMicrophone") or []
         return self._new_element(ls, XAQuickTimeAudioRecordingDeviceList)
 
-    def current_camera(self) -> 'XAQuickTimeVideoRecordingDeviceList':
+    def current_camera(self) -> "XAQuickTimeVideoRecordingDeviceList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentCamera") or []
         return self._new_element(ls, XAQuickTimeVideoRecordingDeviceList)
 
-    def current_audio_compression(self) -> 'XAQuickTimeAudioCompressionPresetList':
+    def current_audio_compression(self) -> "XAQuickTimeAudioCompressionPresetList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentAudioCompression") or []
         return self._new_element(ls, XAQuickTimeAudioCompressionPresetList)
 
-    def current_movie_compression(self) -> 'XAQuickTimeMovieCompressionPresetList':
+    def current_movie_compression(self) -> "XAQuickTimeMovieCompressionPresetList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentMovieCompression") or []
         return self._new_element(ls, XAQuickTimeMovieCompressionPresetList)
 
-    def current_screen_compression(self) -> 'XAQuickTimeScreenCompressionPresetList':
+    def current_screen_compression(self) -> "XAQuickTimeScreenCompressionPresetList":
         ls = self.xa_elem.arrayByApplyingSelector_("currentScreenCompression") or []
         return self._new_element(ls, XAQuickTimeScreenCompressionPresetList)
 
-    def by_properties(self, properties: dict) -> 'XAQuickTimeDocument':
+    def by_properties(self, properties: dict) -> "XAQuickTimeDocument":
         return self.by_property("properties", properties)
 
-    def by_audio_volume(self, audio_volume: float) -> 'XAQuickTimeDocument':
+    def by_audio_volume(self, audio_volume: float) -> "XAQuickTimeDocument":
         return self.by_property("audioVolume", audio_volume)
 
-    def by_current_time(self, current_time: float) -> 'XAQuickTimeDocument':
+    def by_current_time(self, current_time: float) -> "XAQuickTimeDocument":
         return self.by_property("currentTime", current_time)
 
-    def by_data_rate(self, data_rate: int) -> 'XAQuickTimeDocument':
+    def by_data_rate(self, data_rate: int) -> "XAQuickTimeDocument":
         return self.by_property("dataRate", data_rate)
 
-    def by_data_size(self, data_size: int) -> 'XAQuickTimeDocument':
+    def by_data_size(self, data_size: int) -> "XAQuickTimeDocument":
         return self.by_property("dataSize", data_size)
 
-    def by_duration(self, duration: float) -> 'XAQuickTimeDocument':
+    def by_duration(self, duration: float) -> "XAQuickTimeDocument":
         return self.by_property("duration", duration)
 
-    def by_looping(self, looping: bool) -> 'XAQuickTimeDocument':
+    def by_looping(self, looping: bool) -> "XAQuickTimeDocument":
         return self.by_property("looping", looping)
 
-    def by_muted(self, muted: bool) -> 'XAQuickTimeDocument':
+    def by_muted(self, muted: bool) -> "XAQuickTimeDocument":
         return self.by_property("muted", muted)
 
-    def by_natural_dimensions(self, natural_dimensions: tuple[int, int]) -> 'XAQuickTimeDocument':
+    def by_natural_dimensions(
+        self, natural_dimensions: tuple[int, int]
+    ) -> "XAQuickTimeDocument":
         return self.by_property("naturalDimensions", natural_dimensions)
 
-    def by_playing(self, playing: bool) -> 'XAQuickTimeDocument':
+    def by_playing(self, playing: bool) -> "XAQuickTimeDocument":
         return self.by_property("playing", playing)
 
-    def by_rate(self, rate: float) -> 'XAQuickTimeDocument':
+    def by_rate(self, rate: float) -> "XAQuickTimeDocument":
         return self.by_property("rate", rate)
 
-    def by_presenting(self, presenting: bool) -> 'XAQuickTimeDocument':
+    def by_presenting(self, presenting: bool) -> "XAQuickTimeDocument":
         return self.by_property("presenting", presenting)
 
-    def by_current_microphone(self, current_microphone: float) -> 'XAQuickTimeDocument':
+    def by_current_microphone(self, current_microphone: float) -> "XAQuickTimeDocument":
         return self.by_property("currentMicrophone", current_microphone.xa_elem)
 
-    def by_current_camera(self, current_camera: float) -> 'XAQuickTimeDocument':
+    def by_current_camera(self, current_camera: float) -> "XAQuickTimeDocument":
         return self.by_property("currentCamera", current_camera.xa_elem)
 
-    def by_current_audio_compression(self, current_audio_compression: float) -> 'XAQuickTimeDocument':
-        return self.by_property("currentAudioCompression", current_audio_compression.xa_elem)
+    def by_current_audio_compression(
+        self, current_audio_compression: float
+    ) -> "XAQuickTimeDocument":
+        return self.by_property(
+            "currentAudioCompression", current_audio_compression.xa_elem
+        )
 
-    def by_current_movie_compression(self, current_movie_compression: float) -> 'XAQuickTimeDocument':
-        return self.by_property("currentMovieCompression", current_movie_compression.xa_elem)
+    def by_current_movie_compression(
+        self, current_movie_compression: float
+    ) -> "XAQuickTimeDocument":
+        return self.by_property(
+            "currentMovieCompression", current_movie_compression.xa_elem
+        )
 
-    def by_current_screen_compression(self, current_screen_compression: float) -> 'XAQuickTimeDocument':
-        return self.by_property("currentScreenCompression", current_screen_compression.xa_elem)
+    def by_current_screen_compression(
+        self, current_screen_compression: float
+    ) -> "XAQuickTimeDocument":
+        return self.by_property(
+            "currentScreenCompression", current_screen_compression.xa_elem
+        )
+
 
 class XAQuickTimeDocument(XABase.XAObject):
     """A class for managing and interacting with documents in QuickTime.app.
@@ -340,19 +383,18 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the document.
-        """
+        """All properties of the document."""
         return self.xa_elem.properties()
 
     @property
     def audio_volume(self) -> float:
-        """The volume of the movie from 0 to 1 (0 to 100%).
-        """
+        """The volume of the movie from 0 to 1 (0 to 100%)."""
         return self.xa_elem.audioVolume()
 
     @audio_volume.setter
@@ -361,8 +403,7 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_time(self) -> float:
-        """The current time of the movie in seconds.
-        """
+        """The current time of the movie in seconds."""
         return self.xa_elem.currentTime()
 
     @current_time.setter
@@ -371,26 +412,22 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def data_rate(self) -> int:
-        """The data rate of the movie in bytes per second.
-        """
+        """The data rate of the movie in bytes per second."""
         return self.xa_elem.dataRate()
 
     @property
     def data_size(self) -> int:
-        """The data size of the movie in bytes.
-        """
+        """The data size of the movie in bytes."""
         return self.xa_elem.dataSize()
 
     @property
     def duration(self) -> float:
-        """The duration of the movie in seconds.
-        """
+        """The duration of the movie in seconds."""
         return self.xa_elem.duration()
 
     @property
     def looping(self) -> bool:
-        """Whether the movie plays in a loop.
-        """
+        """Whether the movie plays in a loop."""
         return self.xa_elem.looping()
 
     @looping.setter
@@ -399,8 +436,7 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def muted(self) -> bool:
-        """Whether the movie is muted.
-        """
+        """Whether the movie is muted."""
         return self.xa_elem.muted()
 
     @muted.setter
@@ -409,20 +445,17 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def natural_dimensions(self) -> tuple[int, int]:
-        """The national dimensions of the movie.
-        """
+        """The national dimensions of the movie."""
         return self.xa_elem.naturalDimensions()
 
     @property
     def playing(self) -> bool:
-        """Whether the movie is currently playing.
-        """
+        """Whether the movie is currently playing."""
         return self.xa_elem.playing()
 
     @property
     def rate(self) -> float:
-        """The current rate of the movie.
-        """
+        """The current rate of the movie."""
         return self.xa_elem.rate()
 
     @rate.setter
@@ -431,8 +464,7 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def presenting(self) -> bool:
-        """Whether the movie is presented in full screen.
-        """
+        """Whether the movie is presented in full screen."""
         return self.xa_elem.presenting()
 
     @presenting.setter
@@ -440,92 +472,103 @@ class XAQuickTimeDocument(XABase.XAObject):
         self.set_property("presenting", presenting)
 
     @property
-    def current_microphone(self) -> 'XAQuickTimeAudioRecordingDevice':
-        """The currently previewing audio device.
-        """
-        return self._new_element(self.xa_elem.currentMicrophone(), XAQuickTimeAudioRecordingDevice)
+    def current_microphone(self) -> "XAQuickTimeAudioRecordingDevice":
+        """The currently previewing audio device."""
+        return self._new_element(
+            self.xa_elem.currentMicrophone(), XAQuickTimeAudioRecordingDevice
+        )
 
     @current_microphone.setter
-    def current_microphone(self, current_microphone: 'XAQuickTimeAudioRecordingDevice'):
+    def current_microphone(self, current_microphone: "XAQuickTimeAudioRecordingDevice"):
         self.set_property("currentMicrophone", current_microphone.xa_elem)
 
     @property
-    def current_camera(self) -> 'XAQuickTimeVideoRecordingDevice':
-        """The currently previewing video device.
-        """
-        return self._new_element(self.xa_elem.currentCamera(), XAQuickTimeVideoRecordingDevice)
+    def current_camera(self) -> "XAQuickTimeVideoRecordingDevice":
+        """The currently previewing video device."""
+        return self._new_element(
+            self.xa_elem.currentCamera(), XAQuickTimeVideoRecordingDevice
+        )
 
     @current_camera.setter
-    def current_camera(self, current_camera: 'XAQuickTimeVideoRecordingDevice'):
+    def current_camera(self, current_camera: "XAQuickTimeVideoRecordingDevice"):
         self.set_property("currentCamera", current_camera.xa_elem)
 
     @property
-    def current_audio_compression(self) -> 'XAQuickTimeAudioCompressionPreset':
-        """The current audio compression preset.
-        """
-        return self._new_element(self.xa_elem.currentAudioCompression(), XAQuickTimeAudioCompressionPreset)
+    def current_audio_compression(self) -> "XAQuickTimeAudioCompressionPreset":
+        """The current audio compression preset."""
+        return self._new_element(
+            self.xa_elem.currentAudioCompression(), XAQuickTimeAudioCompressionPreset
+        )
 
     @current_audio_compression.setter
-    def current_audio_compression(self, current_audio_compression: 'XAQuickTimeAudioCompressionPreset'):
+    def current_audio_compression(
+        self, current_audio_compression: "XAQuickTimeAudioCompressionPreset"
+    ):
         self.set_property("currentAudioCompression", current_audio_compression.xa_elem)
 
     @property
-    def current_movie_compression(self) -> 'XAQuickTimeMovieCompressionPreset':
-        """The current movie compression preset.
-        """
-        return self._new_element(self.xa_elem.currentMovieCompression(), XAQuickTimeMovieCompressionPreset)
+    def current_movie_compression(self) -> "XAQuickTimeMovieCompressionPreset":
+        """The current movie compression preset."""
+        return self._new_element(
+            self.xa_elem.currentMovieCompression(), XAQuickTimeMovieCompressionPreset
+        )
 
     @current_movie_compression.setter
-    def current_movie_compression(self, current_movie_compression: 'XAQuickTimeMovieCompressionPreset'):
+    def current_movie_compression(
+        self, current_movie_compression: "XAQuickTimeMovieCompressionPreset"
+    ):
         self.set_property("currentMovieCompression", current_movie_compression.xa_elem)
 
     @property
-    def current_screen_compression(self) -> 'XAQuickTimeScreenCompressionPreset':
-        """The current screen compression preset.
-        """
-        return self._new_element(self.xa_elem.currentScreenCompression(), XAQuickTimeScreenCompressionPreset)
+    def current_screen_compression(self) -> "XAQuickTimeScreenCompressionPreset":
+        """The current screen compression preset."""
+        return self._new_element(
+            self.xa_elem.currentScreenCompression(), XAQuickTimeScreenCompressionPreset
+        )
 
     @current_screen_compression.setter
-    def current_screen_compression(self, current_screen_compression: 'XAQuickTimeScreenCompressionPreset'):
-        self.set_property("currentScreenCompression", current_screen_compression.xa_elem)
+    def current_screen_compression(
+        self, current_screen_compression: "XAQuickTimeScreenCompressionPreset"
+    ):
+        self.set_property(
+            "currentScreenCompression", current_screen_compression.xa_elem
+        )
 
-    def play(self) -> 'XAQuickTimeDocument':
+    def play(self) -> "XAQuickTimeDocument":
         self.xa_elem.play()
         return self
 
-    def start(self) -> 'XAQuickTimeDocument':
+    def start(self) -> "XAQuickTimeDocument":
         self.xa_elem.start()
         return self
 
-    def pause(self) -> 'XAQuickTimeDocument':
+    def pause(self) -> "XAQuickTimeDocument":
         self.xa_elem.pause()
         return self
 
-    def resume(self) -> 'XAQuickTimeDocument':
+    def resume(self) -> "XAQuickTimeDocument":
         self.xa_elem.resume()
         return self
 
-    def stop(self) -> 'XAQuickTimeDocument':
+    def stop(self) -> "XAQuickTimeDocument":
         self.xa_elem.stop()
         return self
 
-    def step_backward(self, num_steps: int) -> 'XAQuickTimeDocument':
+    def step_backward(self, num_steps: int) -> "XAQuickTimeDocument":
         self.xa_elem.stepBackwardBy_(num_steps)
         return self
 
-    def step_forward(self, num_steps: int) -> 'XAQuickTimeDocument':
+    def step_forward(self, num_steps: int) -> "XAQuickTimeDocument":
         self.xa_elem.stepForwardBy_(num_steps)
         return self
 
-    def trim(self, start_time: float, end_time: float) -> 'XAQuickTimeDocument':
+    def trim(self, start_time: float, end_time: float) -> "XAQuickTimeDocument":
         self.xa_elem.trimFrom_to_(start_time, end_time)
         return self
 
-    def present(self) -> 'XAQuickTimeDocument':
+    def present(self) -> "XAQuickTimeDocument":
         self.xa_elem.present()
         return self
-
-
 
 
 class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
@@ -535,6 +578,7 @@ class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeAudioRecordingDevice, filter)
 
@@ -547,6 +591,7 @@ class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
+
 class XAQuickTimeAudioRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with microphones in QuickTime.app.
 
@@ -554,28 +599,24 @@ class XAQuickTimeAudioRecordingDevice(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the device.
-        """
+        """All properties of the device."""
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
-        """The name of the device.
-        """
+        """The name of the device."""
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the device.
-        """
+        """The unique identifier for the device."""
         return self.xa_elem.ID()
-
-
 
 
 class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
@@ -585,6 +626,7 @@ class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeVideoRecordingDevice, filter)
 
@@ -597,6 +639,7 @@ class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
+
 class XAQuickTimeVideoRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with cameras in QuickTime.app.
 
@@ -604,28 +647,24 @@ class XAQuickTimeVideoRecordingDevice(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the device.
-        """
+        """All properties of the device."""
         return self.xa_elem.properties()
-    
+
     @property
     def name(self) -> str:
-        """The name of the device.
-        """
+        """The name of the device."""
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the device.
-        """
+        """The unique identifier for the device."""
         return self.xa_elem.ID()
-
-
 
 
 class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
@@ -635,6 +674,7 @@ class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeAudioCompressionPreset, filter)
 
@@ -647,6 +687,7 @@ class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
+
 class XAQuickTimeAudioCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with audio compression presets in QuickTime.app.
 
@@ -654,28 +695,24 @@ class XAQuickTimeAudioCompressionPreset(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the preset.
-        """
+        """All properties of the preset."""
         return self.xa_elem.properties()
-    
+
     @property
     def name(self) -> str:
-        """The name of the preset.
-        """
+        """The name of the preset."""
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the preset.
-        """
+        """The unique identifier for the preset."""
         return self.xa_elem.ID()
-
-
 
 
 class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
@@ -685,6 +722,7 @@ class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeMovieCompressionPreset, filter)
 
@@ -697,6 +735,7 @@ class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
+
 class XAQuickTimeMovieCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with movie compression presets in QuickTime.app.
 
@@ -704,28 +743,24 @@ class XAQuickTimeMovieCompressionPreset(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the preset.
-        """
+        """All properties of the preset."""
         return self.xa_elem.properties()
-    
+
     @property
     def name(self) -> str:
-        """The name of the preset.
-        """
+        """The name of the preset."""
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the preset.
-        """
+        """The unique identifier for the preset."""
         return self.xa_elem.ID()
-
-
 
 
 class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
@@ -735,6 +770,7 @@ class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeScreenCompressionPreset, filter)
 
@@ -747,6 +783,7 @@ class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("ID") or [])
 
+
 class XAQuickTimeScreenCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with screen compression presets in QuickTime.app.
 
@@ -754,23 +791,21 @@ class XAQuickTimeScreenCompressionPreset(XABase.XAObject):
 
     .. versionadded:: 0.0.6
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the preset.
-        """
+        """All properties of the preset."""
         return self.xa_elem.properties()
-    
+
     @property
     def name(self) -> str:
-        """The name of the preset.
-        """
+        """The name of the preset."""
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        """The unique identifier for the preset.
-        """
+        """The unique identifier for the preset."""
         return self.xa_elem.ID()

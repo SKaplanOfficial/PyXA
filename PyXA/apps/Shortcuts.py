@@ -2,7 +2,8 @@
 
 Control the macOS Shortcuts application using JXA-like syntax.
 """
-from typing import Any, Union
+from typing import Any, Union, Any
+from enum import Enum
 
 import AppKit
 
@@ -10,24 +11,30 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
+
 class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Shortcuts.app.
 
     .. versionadded:: 0.0.2
     """
+
+    class ObjectType(Enum):
+        """Types of objects that can be created using :func:`make`."""
+
+        SHORTCUT = "shortcut"
+        FOLDER = "folder"
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether Shortcuts is the active application.
-        """
+        """Whether Shortcuts is the active application."""
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -36,11 +43,10 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
-        """The version number of Shortcuts.app.
-        """
+        """The version number of Shortcuts.app."""
         return self.xa_scel.version()
 
-    def run(self, shortcut: 'XAShortcut', input: Any = None) -> Any:
+    def run(self, shortcut: "XAShortcut", input: Any = None) -> Any:
         """Runs the shortcut with the provided input.
 
         :param shortcut: The shortcut to run
@@ -54,7 +60,7 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return shortcut.run(input)
 
-    def folders(self, filter: dict = None) -> 'XAShortcutFolderList':
+    def folders(self, filter: dict = None) -> "XAShortcutFolderList":
         """Returns a list of folders matching the given filter.
 
         :Example 1: Get all folders
@@ -81,7 +87,7 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.folders(), XAShortcutFolderList, filter)
 
-    def shortcuts(self, filter: dict = None) -> 'XAShortcutList':
+    def shortcuts(self, filter: dict = None) -> "XAShortcutList":
         """Returns a list of shortcuts matching the given filter.
 
         :Example 1: Get all shortcuts
@@ -99,7 +105,58 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         return self._new_element(self.xa_scel.shortcuts(), XAShortcutList, filter)
 
+    def make(
+        self,
+        specifier: Union[str, "XAShortcutsApplication.ObjectType"],
+        properties: Union[dict, None] = None,
+        data: Any = None,
+    ) -> XABase.XAObject:
+        """Creates a new element of the given specifier class without adding it to any list.
 
+        Use :func:`XABase.XAList.push` to push the element onto a list.
+
+        :param specifier: The classname of the object to create
+        :type specifier: Union[str, XAShortcutsApplication.ObjectType]
+        :param properties: The properties to give the object
+        :type properties: dict
+        :param data: The data to give the object
+        :type data: Any
+        :return: A PyXA wrapped form of the object
+        :rtype: XABase.XAObject
+
+        .. versionadded:: 0.3.0
+        """
+        if isinstance(specifier, XAShortcutsApplication.ObjectType):
+            specifier = specifier.value
+
+        if data is None:
+            camelized_properties = {}
+
+            if properties is None:
+                properties = {}
+
+            for key, value in properties.items():
+                if key == "url":
+                    key = "URL"
+
+                camelized_properties[XABase.camelize(key)] = value
+
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithProperties_(camelized_properties)
+            )
+        else:
+            obj = (
+                self.xa_scel.classForScriptingClass_(specifier)
+                .alloc()
+                .initWithData_(data)
+            )
+
+        if specifier == "shortcut":
+            return self._new_element(obj, XAShortcut)
+        elif specifier == "folder":
+            return self._new_element(obj, XAShortcutFolder)
 
 
 class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
@@ -109,6 +166,7 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAShortcutFolder, filter)
 
@@ -118,13 +176,13 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def by_id(self, id: str) -> Union['XAShortcutFolder', None]:
+    def by_id(self, id: str) -> Union["XAShortcutFolder", None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> Union['XAShortcutFolder', None]:
+    def by_name(self, name: str) -> Union["XAShortcutFolder", None]:
         return self.by_property("name", name)
 
-    def shortcuts(self, filter: dict = None) -> list['XAShortcutList']:
+    def shortcuts(self, filter: dict = None) -> list["XAShortcutList"]:
         ls = self.xa_elem.arrayByApplyingSelector_("shortcuts") or []
         return [self._new_element(x, XAShortcutList, filter) for x in ls.get()]
 
@@ -143,6 +201,7 @@ class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with folders of shortcuts.
 
@@ -150,22 +209,21 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """A unique identifier for the folder.
-        """
+        """A unique identifier for the folder."""
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The name string for the folder.
-        """
+        """The name string for the folder."""
         return self.xa_elem.name()
 
-    def shortcuts(self, filter: dict = None) -> 'XAShortcutList':
+    def shortcuts(self, filter: dict = None) -> "XAShortcutList":
         """Returns a list of shortcuts matching the given filter.
 
         :Example 1: Get all shortcuts in a folder
@@ -207,13 +265,11 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + str(self.id) + ">"
 
-    def __eq__(self, other: 'XAShortcutFolder'):
+    def __eq__(self, other: "XAShortcutFolder"):
         if super().__eq__(other):
             return True
 
         return self.id == other.id
-
-
 
 
 class XAShortcutList(XABase.XAList, XAClipboardCodable):
@@ -223,6 +279,7 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAShortcut, filter)
 
@@ -253,31 +310,33 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
     def action_count(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("actionCount") or [])
 
-    def by_id(self, id: str) -> Union['XAShortcut', None]:
+    def by_id(self, id: str) -> Union["XAShortcut", None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> Union['XAShortcut', None]:
+    def by_name(self, name: str) -> Union["XAShortcut", None]:
         return self.by_property("name", name)
 
-    def by_subtitle(self, subtitle: str) -> Union['XAShortcut', None]:
+    def by_subtitle(self, subtitle: str) -> Union["XAShortcut", None]:
         return self.by_property("subtitle", subtitle)
 
-    def by_folder(self, folder: XAShortcutFolder) -> Union['XAShortcut', None]:
+    def by_folder(self, folder: XAShortcutFolder) -> Union["XAShortcut", None]:
         return self.by_property("folder", folder.xa_elem)
 
-    def by_color(self, color: XABase.XAColor) -> Union['XAShortcut', None]:
+    def by_color(self, color: XABase.XAColor) -> Union["XAShortcut", None]:
         return self.by_property("color", color.xa_elem)
 
-    def by_icon(self, icon: XABase.XAImage) -> Union['XAShortcut', None]:
+    def by_icon(self, icon: XABase.XAImage) -> Union["XAShortcut", None]:
         return self.by_property("icon", icon.xa_elem)
 
-    def by_accepts_input(self, accepts_input: bool) -> Union['XAShortcut', None]:
+    def by_accepts_input(self, accepts_input: bool) -> Union["XAShortcut", None]:
         return self.by_property("acceptsInput", accepts_input)
 
-    def by_action_count(self, action_count: int) -> Union['XAShortcut', None]:
+    def by_action_count(self, action_count: int) -> Union["XAShortcut", None]:
         return self.by_property("actionCount", action_count)
 
-    def get_clipboard_representation(self) -> list[Union[list[str], list[str], list[AppKit.NSImage]]]:
+    def get_clipboard_representation(
+        self,
+    ) -> list[Union[list[str], list[str], list[AppKit.NSImage]]]:
         """Gets a clipboard-codable representation of each shortcut in the list.
 
         When the clipboard content is set to a list of shortcuts, each shortcut's name, subtitle, and icon are added to the clipboard.
@@ -300,6 +359,7 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
     """A class for managing and interacting with shortcuts.
 
@@ -307,55 +367,48 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
 
     .. versionadded:: 0.0.2
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the shortcut.
-        """
+        """The unique identifier for the shortcut."""
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The name of the shortcut.
-        """
+        """The name of the shortcut."""
         return self.xa_elem.name()
 
     @property
     def subtitle(self) -> str:
-        """The shortcut's subtitle.
-        """
+        """The shortcut's subtitle."""
         return self.xa_elem.subtitle()
 
     @property
     def folder(self) -> XAShortcutFolder:
-        """The folder that contains the shortcut.
-        """
+        """The folder that contains the shortcut."""
         return self._new_element(self.xa_elem.folder(), XAShortcutFolder)
 
     @property
     def color(self) -> XABase.XAColor:
-        """The color of the short.
-        """
+        """The color of the short."""
         return XABase.XAColor(self.xa_elem.color())
 
     @property
     def icon(self) -> XABase.XAImage:
-        """The shortcut's icon.
-        """
+        """The shortcut's icon."""
         return XABase.XAImage(self.xa_elem.icon())
 
     @property
     def accepts_input(self) -> bool:
-        """Whether the shortcut accepts input data.
-        """
+        """Whether the shortcut accepts input data."""
         return self.xa_elem.acceptsInput()
 
     @property
     def action_count(self) -> int:
-        """The number of actions in the shortcut.
-        """
+        """The number of actions in the shortcut."""
         return self.xa_elem.actionCount()
 
     def run(self, input: Any = None) -> Any:
@@ -411,7 +464,7 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + str(self.id) + ">"
 
-    def __eq__(self, other: 'XAShortcut'):
+    def __eq__(self, other: "XAShortcut"):
         if super().__eq__(other):
             return True
         return self.id == other.id

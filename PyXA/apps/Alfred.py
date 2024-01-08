@@ -5,11 +5,13 @@ Control Alfred using JXA-like syntax.
 
 from PyXA import XABaseScriptable
 
+
 class XAAlfredApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Alfred.app.
 
     .. versionadded:: 0.0.8
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -57,7 +59,9 @@ class XAAlfredApplication(XABaseScriptable.XASBApplication):
         """
         self.xa_scel.reloadWorkflow_(workflow_uid)
 
-    def set_configuration(self, variable_name: str, value: str, workflow: str, exportable: bool = False):
+    def set_configuration(
+        self, variable_name: str, value: str, workflow: str, exportable: bool = False
+    ):
         """Sets the workflow configuration variable with the given name.
 
         :param variable_name: The configuration variable to set
@@ -71,7 +75,9 @@ class XAAlfredApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.8
         """
-        self.xa_scel.setConfiguration_toValue_inWorkflow_exportable_(variable_name, value, workflow, exportable)
+        self.xa_scel.setConfiguration_toValue_inWorkflow_exportable_(
+            variable_name, value, workflow, exportable
+        )
 
     def remove_configuration(self, variable_name: str, workflow: str):
         """Removes the workflow configuration variable with the given name.

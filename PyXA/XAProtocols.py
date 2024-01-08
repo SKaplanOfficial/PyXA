@@ -3,9 +3,8 @@ from typing import Any, Union
 import AppKit
 
 
-class XAProtocol():
-    """A meta-class for protocols that other classes can adhere to.
-    """
+class XAProtocol:
+    """A meta-class for protocols that other classes can adhere to."""
 
 
 class XAShowable(XAProtocol):
@@ -17,7 +16,7 @@ class XAShowable(XAProtocol):
     .. versionadded:: 0.0.1
     """
 
-    def show(self) -> 'XAShowable':
+    def show(self) -> "XAShowable":
         """Shows the object.
 
         Child classes of XAShowable should redefine this method as necessary.
@@ -33,13 +32,14 @@ class XAShowable(XAProtocol):
 
 class XASelectable(XAProtocol):
     """A protocol for classes that can be selected via a :func:`select` method.
-    
+
     .. versionchanged:: 0.0.8
        Moved from XABase into XAProtocols
 
     .. versionadded:: 0.0.1
     """
-    def select(self) -> 'XASelectable':
+
+    def select(self) -> "XASelectable":
         """Selects the object This may open a new window, depending on which kind of object and application it acts on.
 
         Child classes of XASelectable should redefine this method as necessary.
@@ -55,12 +55,13 @@ class XASelectable(XAProtocol):
 
 class XADeletable(XAProtocol):
     """A protocol for classes that can be deleted via a :func:`delete` method.
-    
+
     .. versionchanged:: 0.0.8
        Moved from XABase into XAProtocols
 
     .. versionadded:: 0.0.1
     """
+
     def delete(self):
         """Deletes the object.
 
@@ -82,7 +83,13 @@ class XAPrintable(XAProtocol):
 
     .. versionadded:: 0.0.8
     """
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
+
+    def print(
+        self,
+        print_properties: Union[dict, None] = None,
+        show_dialog: bool = True,
+        new_thread=True,
+    ) -> "XAPrintable":
         """Prints the object.
 
         Child classes of XAPrintable should override this method as necessary.
@@ -102,12 +109,17 @@ class XAPrintable(XAProtocol):
         def do_print():
             self.xa_elem.printWithProperties_printDialog_(print_properties, show_dialog)
 
-        self._spawn_thread(do_print)
+        if new_thread:
+            self._spawn_thread(do_print)
+        else:
+            do_print()
         return self
 
 
 class XACloseable(XAProtocol):
-    def close(self, save: 'XACloseable.SaveOption' = None, location: Union[str, None] = None):
+    def close(
+        self, save: "XACloseable.SaveOption" = None, location: Union[str, None] = None
+    ):
         """Closes the object.
 
         Child classes of XACloseable should override this method as necessary.
@@ -120,7 +132,9 @@ class XACloseable(XAProtocol):
             save = save.value
 
         if location is not None:
-            self.xa_elem.closeSaving_savingIn_(save, AppKit.NSURL.alloc().initFileURLWithPath_(location))
+            self.xa_elem.closeSaving_savingIn_(
+                save, AppKit.NSURL.alloc().initFileURLWithPath_(location)
+            )
         else:
             self.xa_elem.closeSaving_savingIn_(save, None)
 
@@ -130,6 +144,7 @@ class XAClipboardCodable(XAProtocol):
 
     .. versionadded:: 0.0.8
     """
+
     def get_clipboard_representation(self) -> Any:
         """Gets a clipboard-codable representation of the object.
 
@@ -140,11 +155,13 @@ class XAClipboardCodable(XAProtocol):
         """
         return str(self)
 
+
 class XAImageLike(XAProtocol):
     """A protocol for classes that can be treated the same as :class:`~PyXA.XABase.XAImage`.
 
     .. versionadded:: 0.1.0
     """
+
     def get_image_representation(self) -> Any:
         """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
 
@@ -155,11 +172,13 @@ class XAImageLike(XAProtocol):
         """
         return None
 
+
 class XAPathLike(XAProtocol):
     """A protocol for classes that can be treated the same as :class:`~PyXA.XABase.XAPath`.
 
     .. versionadded:: 0.1.0
     """
+
     def get_path_representation(self) -> Any:
         """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAPath` object.
 
@@ -179,6 +198,7 @@ class XACanOpenPath(XAProtocol):
 
     .. versionadded:: 0.0.1
     """
+
     def open(self, target: str) -> Any:
         """Opens the file/website at the given filepath/URL.
 
@@ -192,7 +212,9 @@ class XACanOpenPath(XAProtocol):
         .. versionadded:: 0.0.1
         """
         target = AppKit.NSURL.alloc().initFileURLWithPath_(target)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([target], self.xa_elem.bundleIdentifier(), 0, None, None)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_(
+            [target], self.xa_elem.bundleIdentifier(), 0, None, None
+        )
 
 
 class XACanPrintPath(XAProtocol):
@@ -203,7 +225,8 @@ class XACanPrintPath(XAProtocol):
 
     .. versionadded:: 0.0.1
     """
-    def print(self, target: str) -> 'XACanPrintPath':
+
+    def print(self, target: str) -> "XACanPrintPath":
         """Prints the file/website at the given filepath/URL.
 
         Child classes of XACanPrintPath should redefine this method as necessary.

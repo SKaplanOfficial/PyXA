@@ -16,106 +16,116 @@ from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACloseable
 
+
 class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with iWork applications.
 
     .. versionadded:: 0.1.1
     """
+
     class ImageQuality(Enum):
-        """Options for the quality of exported images.
-        """
-        GOOD      = OSType('KnP0') #: Good quality 
-        BETTER    = OSType('KnP1') #: Better quality 
-        BEST      = OSType('KnP2') #: Best quality 
+        """Options for the quality of exported images."""
+
+        GOOD = OSType("KnP0")  #: Good quality
+        BETTER = OSType("KnP1")  #: Better quality
+        BEST = OSType("KnP2")  #: Best quality
 
     class Alignment(Enum):
-        """Options for the horizontal and vertical alignment of content within table containers.
-        """
-        BOTTOM                  = OSType('avbt') #: Bottom-align content. 
-        CENTER_VERTICAL         = OSType('actr') #: Center-align content. 
-        TOP                     = OSType('avtp') #: Top-align content. 
-        AUTO                    = OSType('aaut') #: Auto-align based on content type. 
-        CENTER_HORIZONTAL       = OSType('actr') #: Center-align content. 
-        JUSTIFY                 = OSType('ajst') #: Fully justify (left and right) content. 
-        LEFT                    = OSType('alft') #: Left-align content. 
-        RIGHT                   = OSType('arit') #: Right-align content. 
+        """Options for the horizontal and vertical alignment of content within table containers."""
+
+        BOTTOM = OSType("avbt")  #: Bottom-align content.
+        CENTER_VERTICAL = OSType("actr")  #: Center-align content.
+        TOP = OSType("avtp")  #: Top-align content.
+        AUTO = OSType("aaut")  #: Auto-align based on content type.
+        CENTER_HORIZONTAL = OSType("actr")  #: Center-align content.
+        JUSTIFY = OSType("ajst")  #: Fully justify (left and right) content.
+        LEFT = OSType("alft")  #: Left-align content.
+        RIGHT = OSType("arit")  #: Right-align content.
 
     class SortDirection(Enum):
-        """Options for the direction of sorting when sorting table cells.
-        """
-        ASCENDING               = OSType('ascn') #: Sort in increasing value order 
-        DESCENDING              = OSType('dscn') #: Sort in decreasing value order 
+        """Options for the direction of sorting when sorting table cells."""
+
+        ASCENDING = OSType("ascn")  #: Sort in increasing value order
+        DESCENDING = OSType("dscn")  #: Sort in decreasing value order
 
     class CellFormat(Enum):
-        """Options for the format to use when formatting table cells.
-        """
-        AUTO                    = OSType('faut') #: Automatic format 
-        CHECKBOX                = OSType('fcch') #: Checkbox control format (Numbers only) 
-        CURRENCY                = OSType('fcur') #: Currency number format 
-        DATE_AND_TIME           = OSType('fdtm') #: Date and time format 
-        FRACTION                = OSType('ffra') #: Fraction number format 
-        DECIMAL_NUMBER          = OSType('nmbr') #: Decimal number format 
-        PERCENT                 = OSType('fper') #: Percentage number format 
-        POPUP_MENU              = OSType('fcpp') #: Pop-up menu control format (Numbers only) 
-        SCIENTIFIC              = OSType('fsci') #: Scientific notation format 
-        SLIDER                  = OSType('fcsl') #: Slider control format (Numbers only) 
-        STEPPER                 = OSType('fcst') #: Stepper control format (Numbers only) 
-        TEXT                    = OSType('ctxt') #: Text format 
-        DURATION                = OSType('fdur') #: Duration format 
-        RATING                  = OSType('frat') #: Rating format. (Numbers only) 
-        NUMERAL_SYSTEM          = OSType('fcns') #: Numeral System 
+        """Options for the format to use when formatting table cells."""
+
+        AUTO = OSType("faut")  #: Automatic format
+        CHECKBOX = OSType("fcch")  #: Checkbox control format (Numbers only)
+        CURRENCY = OSType("fcur")  #: Currency number format
+        DATE_AND_TIME = OSType("fdtm")  #: Date and time format
+        FRACTION = OSType("ffra")  #: Fraction number format
+        DECIMAL_NUMBER = OSType("nmbr")  #: Decimal number format
+        PERCENT = OSType("fper")  #: Percentage number format
+        POPUP_MENU = OSType("fcpp")  #: Pop-up menu control format (Numbers only)
+        SCIENTIFIC = OSType("fsci")  #: Scientific notation format
+        SLIDER = OSType("fcsl")  #: Slider control format (Numbers only)
+        STEPPER = OSType("fcst")  #: Stepper control format (Numbers only)
+        TEXT = OSType("ctxt")  #: Text format
+        DURATION = OSType("fdur")  #: Duration format
+        RATING = OSType("frat")  #: Rating format. (Numbers only)
+        NUMERAL_SYSTEM = OSType("fcns")  #: Numeral System
 
     class ChartType(Enum):
-        """Options for available chart types.
-        """
-        PIE_2D                      = OSType('pie2') #: Two-dimensional pie chart 
-        VERTICAL_BAR_2D             = OSType('vbr2') #: Two-dimensional vertical bar chart 
-        STACKED_VERTICAL_BAR_2D     = OSType('svb2') #: Two-dimensional stacked vertical bar chart 
-        HORIZONTAL_BAR_2D           = OSType('hbr2') #: Two-dimensional horizontal bar chart 
-        STACKED_HORIZONTAL_BAR_2D   = OSType('shb2') #: Two-dimensional stacked horizontal bar chart 
-        PIE_3D                      = OSType('pie3') #: Three-dimensional pie chart. 
-        VERTICAL_BAR_3D             = OSType('vbr3') #: Three-dimensional vertical bar chart 
-        STACKED_VERTICAL_BAR_3D     = OSType('svb3') #: Three-dimensional stacked bar chart 
-        HORIZONTAL_BAR_3D           = OSType('hbr3') #: Three-dimensional horizontal bar chart 
-        STACKED_HORIZONTAL_BAR_3D   = OSType('shb3') #: Three-dimensional stacked horizontal bar chart 
-        AREA_2D                     = OSType('are2') #: Two-dimensional area chart. 
-        STACKED_AREA_2D             = OSType('sar2') #: Two-dimensional stacked area chart 
-        LINE_2D                     = OSType('lin2') #: Two-dimensional line chart. 
-        LINE_3D                     = OSType('lin3') #: Three-dimensional line chart 
-        AREA_3D                     = OSType('are3') #: Three-dimensional area chart 
-        STACKED_AREA_3D             = OSType('sar3') #: Three-dimensional stacked area chart 
-        SCATTERPLOT_2D              = OSType('scp2') #: Two-dimensional scatterplot chart 
+        """Options for available chart types."""
+
+        PIE_2D = OSType("pie2")  #: Two-dimensional pie chart
+        VERTICAL_BAR_2D = OSType("vbr2")  #: Two-dimensional vertical bar chart
+        STACKED_VERTICAL_BAR_2D = OSType(
+            "svb2"
+        )  #: Two-dimensional stacked vertical bar chart
+        HORIZONTAL_BAR_2D = OSType("hbr2")  #: Two-dimensional horizontal bar chart
+        STACKED_HORIZONTAL_BAR_2D = OSType(
+            "shb2"
+        )  #: Two-dimensional stacked horizontal bar chart
+        PIE_3D = OSType("pie3")  #: Three-dimensional pie chart.
+        VERTICAL_BAR_3D = OSType("vbr3")  #: Three-dimensional vertical bar chart
+        STACKED_VERTICAL_BAR_3D = OSType("svb3")  #: Three-dimensional stacked bar chart
+        HORIZONTAL_BAR_3D = OSType("hbr3")  #: Three-dimensional horizontal bar chart
+        STACKED_HORIZONTAL_BAR_3D = OSType(
+            "shb3"
+        )  #: Three-dimensional stacked horizontal bar chart
+        AREA_2D = OSType("are2")  #: Two-dimensional area chart.
+        STACKED_AREA_2D = OSType("sar2")  #: Two-dimensional stacked area chart
+        LINE_2D = OSType("lin2")  #: Two-dimensional line chart.
+        LINE_3D = OSType("lin3")  #: Three-dimensional line chart
+        AREA_3D = OSType("are3")  #: Three-dimensional area chart
+        STACKED_AREA_3D = OSType("sar3")  #: Three-dimensional stacked area chart
+        SCATTERPLOT_2D = OSType("scp2")  #: Two-dimensional scatterplot chart
 
     class ChartGrouping(Enum):
-        """Options for how data is grouped within a chart.
-        """
-        ROW      = OSType('KCgr') #: Group by row
-        COLUMN   = OSType('KCgc') #: Group by column
+        """Options for how data is grouped within a chart."""
+
+        ROW = OSType("KCgr")  #: Group by row
+        COLUMN = OSType("KCgc")  #: Group by column
 
     class FillOption(Enum):
-        """Options for the type of fill to use.
-        """
-        NO_FILL                 = OSType('fino')
-        COLOR_FILL              = OSType('fico')   
-        GRADIENT_FILL           = OSType('figr')   
-        ADVANCED_GRADIENT_FILL  = OSType('fiag')   
-        IMAGE_FILL              = OSType('fiim')   
-        ADVANCED_IMAGE_FILL     = OSType('fiai')   
+        """Options for the type of fill to use."""
+
+        NO_FILL = OSType("fino")
+        COLOR_FILL = OSType("fico")
+        GRADIENT_FILL = OSType("figr")
+        ADVANCED_GRADIENT_FILL = OSType("fiag")
+        IMAGE_FILL = OSType("fiim")
+        ADVANCED_IMAGE_FILL = OSType("fiai")
 
     class RepetitionMethod(Enum):
-        """Options for whether and how a clip will repeat.
-        """
-        NONE                    = OSType('mvrn') #: Clip does not repeat
-        LOOP                    = OSType('mvlp') #: Clip repeats sequentially
-        LOOP_BACK_AND_FORTH     = OSType('mvbf') #: Clip boomerangs back and forth repeatedly
+        """Options for whether and how a clip will repeat."""
+
+        NONE = OSType("mvrn")  #: Clip does not repeat
+        LOOP = OSType("mvlp")  #: Clip repeats sequentially
+        LOOP_BACK_AND_FORTH = OSType(
+            "mvbf"
+        )  #: Clip boomerangs back and forth repeatedly
 
     class KeyAction(Enum):
-        """Options for key states and interactions.
-        """
-        COMMAND_DOWN = OSType('Kcmd')
-        CONTROL_DOWN = OSType('Kctl')
-        OPTION_DOWN  = OSType('Kopt')
-        SHIFT_DOWN   = OSType('Ksft')
+        """Options for key states and interactions."""
+
+        COMMAND_DOWN = OSType("Kcmd")
+        CONTROL_DOWN = OSType("Kctl")
+        OPTION_DOWN = OSType("Kopt")
+        SHIFT_DOWN = OSType("Ksft")
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -123,8 +133,7 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def properties(self) -> dict:
-        """All properties of the Keynote application.
-        """
+        """All properties of the Keynote application."""
         raw_dict = self.xa_scel.properties()
         return {
             "frontmost": self.frontmost,
@@ -134,29 +143,30 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def name(self) -> str:
-        """The name of the application.
-        """
+        """The name of the application."""
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        """Whether this application is the active application.
-        """
+        """Whether this application is the active application."""
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
-        """The application version number.
-        """
+        """The application version number."""
         return self.xa_scel.version()
 
     @property
-    def current_document(self) -> 'XAiWorkDocument':
-        """The current document of the front window.
-        """
+    def current_document(self) -> "XAiWorkDocument":
+        """The current document of the front window."""
         return self.front_window.document
 
-    def print(self, item: Union['XAiWorkDocument', XABaseScriptable.XASBWindow], print_properties: dict = None, show_dialog: bool = True) -> 'XAiWorkApplication':
+    def print(
+        self,
+        item: Union["XAiWorkDocument", XABaseScriptable.XASBWindow],
+        print_properties: dict = None,
+        show_dialog: bool = True,
+    ) -> "XAiWorkApplication":
         """Prints a document or window.
 
         :param item: The document or window to print
@@ -172,10 +182,12 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if print_properties is None:
             print_properties = {}
-        self.xa_scel.print_withProperties_printDialog_(item.xa_elem, print_properties, show_dialog)
+        self.xa_scel.print_withProperties_printDialog_(
+            item.xa_elem, print_properties, show_dialog
+        )
         return self
 
-    def open(self, path: Union[str, XABase.XAPath]) -> 'XAiWorkDocument':
+    def open(self, path: Union[str, XABase.XAPath]) -> "XAiWorkDocument":
         """Opens the file at the given filepath.
 
         :param target: The path of the file to open.
@@ -187,10 +199,18 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if isinstance(path, str):
             path = XABase.XAPath(path)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_(
+            [path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None
+        )
         return self.documents()[0]
 
-    def set_password(self, document: 'XAiWorkDocument', password: str, hint: str, save_in_keychain: bool = True) -> 'XAiWorkApplication':
+    def set_password(
+        self,
+        document: "XAiWorkDocument",
+        password: str,
+        hint: str,
+        save_in_keychain: bool = True,
+    ) -> "XAiWorkApplication":
         """Sets the password of an unencrypted document, optionally storing the password in the user's keychain.
 
         :param document: The document to set the password for
@@ -206,10 +226,14 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.1.1
         """
-        self.xa_scel.setPassword_to_hint_savingInKeychain_(password, document.xa_elem, hint, save_in_keychain)
+        self.xa_scel.setPassword_to_hint_savingInKeychain_(
+            password, document.xa_elem, hint, save_in_keychain
+        )
         return self
 
-    def remove_password(self, document: 'XAiWorkDocument', password: str) -> 'XAiWorkApplication':
+    def remove_password(
+        self, document: "XAiWorkDocument", password: str
+    ) -> "XAiWorkApplication":
         """Removes the password from a document.
 
         :param document: The document to remove the password to
@@ -225,17 +249,16 @@ class XAiWorkApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self
 
 
-
-
-class XAiWorkWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
+class XAiWorkWindow(
+    XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject
+):
     """A window of an iWork application.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAiWorkDocumentList(XABase.XAList):
@@ -245,9 +268,12 @@ class XAiWorkDocumentList(XABase.XAList):
 
     .. versionadded:: 0.1.1
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
-            obj_class = XAiWorkDocumentList
+            obj_class = XAiWorkDocument
         super().__init__(properties, obj_class, filter)
 
     def properties(self) -> list[dict]:
@@ -274,7 +300,7 @@ class XAiWorkDocumentList(XABase.XAList):
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def selection(self) -> 'XAiWorkiWorkItemList':
+    def selection(self) -> "XAiWorkiWorkItemList":
         ls = self.xa_elem.arrayByApplyingSelector_("selection") or []
         ls = [x for t in ls for x in t]
         return self._new_element(ls, XAiWorkiWorkItemList)
@@ -282,7 +308,7 @@ class XAiWorkDocumentList(XABase.XAList):
     def password_protected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected") or [])
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkDocument', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkDocument", None]:
         raw_dict = {}
 
         if "name" in properties:
@@ -322,32 +348,39 @@ class XAiWorkDocumentList(XABase.XAList):
             if all(raw_dict[x] == document.properties()[x] for x in raw_dict):
                 return self._new_element(document, XAiWorkDocument)
 
-    def by_name(self, name: str) -> Union['XAiWorkDocument', None]:
+    def by_name(self, name: str) -> Union["XAiWorkDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XAiWorkDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XAiWorkDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: Union[str, XABase.XAPath]) -> Union['XAiWorkDocument', None]:
+    def by_file(
+        self, file: Union[str, XABase.XAPath]
+    ) -> Union["XAiWorkDocument", None]:
         if isinstance(file, XABase.XAPath):
             file = file.url
         return self.by_property("file", file)
 
-    def by_id(self, id: str) -> Union['XAiWorkDocument', None]:
+    def by_id(self, id: str) -> Union["XAiWorkDocument", None]:
         return self.by_property("id", id)
 
-    def by_selection(self, selection: Union['XAiWorkiWorkItemList', list['XAiWorkiWorkItem']]) -> Union['XAiWorkDocument', None]:
+    def by_selection(
+        self, selection: Union["XAiWorkiWorkItemList", list["XAiWorkiWorkItem"]]
+    ) -> Union["XAiWorkDocument", None]:
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
         elif isinstance(selection, XAiWorkiWorkItemList):
             selection = selection.xa_elem
         return self.by_property("selection", selection)
 
-    def by_password_protected(self, password_protected: bool) -> Union['XAiWorkDocument', None]:
+    def by_password_protected(
+        self, password_protected: bool
+    ) -> Union["XAiWorkDocument", None]:
         return self.by_property("passwordProtected", password_protected)
 
     def __repr__(self):
         return f"<{str(type(self))}{self.name()}>"
+
 
 class XAiWorkDocument(XABaseScriptable.XASBPrintable, XACloseable):
     """A class for managing and interacting with TextEdit documents.
@@ -356,13 +389,13 @@ class XAiWorkDocument(XABaseScriptable.XASBPrintable, XACloseable):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the document.
-        """
+        """All properties of the document."""
         pyxa_dict = {
             "name": self.xa_elem.name(),
             "modified": self.xa_elem.modified(),
@@ -373,54 +406,46 @@ class XAiWorkDocument(XABaseScriptable.XASBPrintable, XACloseable):
 
     @property
     def name(self) -> str:
-        """The name of the document.
-        """
+        """The name of the document."""
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
-        """Whether the document has been modified since its last save.
-        """
+        """Whether the document has been modified since its last save."""
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
-        """The location of the document on the disk, if one exists.
-        """
+        """The location of the document on the disk, if one exists."""
         file = self.xa_elem.file()
         if file is not None:
             return XABase.XAPath(file)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the document.
-        """
+        """The unique identifier for the document."""
         return self.xa_elem.id()
 
     @property
-    def selection(self) -> 'XAiWorkiWorkItemList':
-        """A list of the currently selected items.
-        """
+    def selection(self) -> "XAiWorkiWorkItemList":
+        """A list of the currently selected items."""
         return self._new_element(self.xa_elem.selection(), XAiWorkiWorkItemList)
 
     @selection.setter
-    def selection(self, selection: Union['XAiWorkiWorkItemList', 'XAiWorkiWorkItem']):
+    def selection(self, selection: Union["XAiWorkiWorkItemList", "XAiWorkiWorkItem"]):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
-            self.set_property('selection', selection)
+            self.set_property("selection", selection)
         else:
-            self.set_property('selection', selection.xa_elem)
+            self.set_property("selection", selection.xa_elem)
 
     @property
     def password_protected(self) -> bool:
-        """Whether the document is password protected.
-        """
+        """Whether the document is password protected."""
         return self.xa_elem.passwordProtected()
 
     def __repr__(self):
         return f"<{str(type(self))}{self.name}>"
-
-
 
 
 class XAiWorkContainerList(XABase.XAList):
@@ -428,7 +453,10 @@ class XAiWorkContainerList(XABase.XAList):
 
     .. versionadded:: 0.1.1
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAiWorkContainer
         super().__init__(properties, obj_class, filter)
@@ -446,7 +474,7 @@ class XAiWorkContainerList(XABase.XAList):
                 self.__class__ = new_self.__class__
                 self.__dict__.update(new_self.__dict__)
 
-    def charts(self, filter: Union[dict, None] = None) -> 'XAiWorkChartList':
+    def charts(self, filter: Union[dict, None] = None) -> "XAiWorkChartList":
         ls = self.xa_elem.arrayByApplyingSelector_("charts") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -454,7 +482,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkChartList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'XAiWorkGroupList':
+    def groups(self, filter: Union[dict, None] = None) -> "XAiWorkGroupList":
         ls = self.xa_elem.arrayByApplyingSelector_("groups") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -462,7 +490,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkGroupList, filter)
 
-    def images(self, filter: Union[dict, None] = None) -> 'XAiWorkImageList':
+    def images(self, filter: Union[dict, None] = None) -> "XAiWorkImageList":
         ls = self.xa_elem.arrayByApplyingSelector_("images") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -470,7 +498,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkImageList, filter)
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'XAiWorkiWorkItemList':
+    def iwork_items(self, filter: Union[dict, None] = None) -> "XAiWorkiWorkItemList":
         ls = self.xa_elem.arrayByApplyingSelector_("iWorkItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -478,15 +506,15 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkiWorkItemList, filter)
 
-    def lines(self, filter: Union[dict, None] = None) -> 'XAiWorkLineList':
+    def lines(self, filter: Union[dict, None] = None) -> "XAiWorkLineList":
         ls = self.xa_elem.arrayByApplyingSelector_("lines") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
         else:
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkLineList, filter)
-    
-    def movies(self, filter: Union[dict, None] = None) -> 'XAiWorkMovieList':
+
+    def movies(self, filter: Union[dict, None] = None) -> "XAiWorkMovieList":
         ls = self.xa_elem.arrayByApplyingSelector_("movies") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -494,7 +522,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkMovieList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'XAiWorkShapeList':
+    def shapes(self, filter: Union[dict, None] = None) -> "XAiWorkShapeList":
         ls = self.xa_elem.arrayByApplyingSelector_("shapes") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -502,7 +530,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkShapeList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> 'XAiWorkTableList':
+    def tables(self, filter: Union[dict, None] = None) -> "XAiWorkTableList":
         ls = self.xa_elem.arrayByApplyingSelector_("tables") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -510,7 +538,7 @@ class XAiWorkContainerList(XABase.XAList):
             ls = [x for x in ls]
         return self._new_element(ls, XAiWorkTableList, filter)
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'XAiWorkTextItemList':
+    def text_items(self, filter: Union[dict, None] = None) -> "XAiWorkTextItemList":
         ls = self.xa_elem.arrayByApplyingSelector_("textItems") or []
         if isinstance(ls[0], ScriptingBridge.SBElementArray):
             ls = [x for sublist in ls for x in sublist]
@@ -521,6 +549,7 @@ class XAiWorkContainerList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + "length: " + str(len(self.xa_elem)) + ">"
 
+
 class XAiWorkContainer(XABase.XAObject):
     """A class for managing and interacting with containers in Keynote.
 
@@ -528,6 +557,7 @@ class XAiWorkContainer(XABase.XAObject):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -544,7 +574,7 @@ class XAiWorkContainer(XABase.XAObject):
                 self.__class__ = new_self.__class__
                 self.__dict__.update(new_self.__dict__)
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> 'XAiWorkiWorkItemList':
+    def iwork_items(self, filter: Union[dict, None] = None) -> "XAiWorkiWorkItemList":
         """Returns a list of iWork items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
@@ -554,9 +584,11 @@ class XAiWorkContainer(XABase.XAObject):
 
         .. versionadded:: 0.1.1
         """
-        return self._new_element(self.xa_elem.iWorkItems(), XAiWorkiWorkItemList, filter)
+        return self._new_element(
+            self.xa_elem.iWorkItems(), XAiWorkiWorkItemList, filter
+        )
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> 'XAiWorkAudioClipList':
+    def audio_clips(self, filter: Union[dict, None] = None) -> "XAiWorkAudioClipList":
         """Returns a list of audio clips, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
@@ -566,9 +598,11 @@ class XAiWorkContainer(XABase.XAObject):
 
         .. versionadded:: 0.1.1
         """
-        return self._new_element(self.xa_elem.audioClips(), XAiWorkAudioClipList, filter)
+        return self._new_element(
+            self.xa_elem.audioClips(), XAiWorkAudioClipList, filter
+        )
 
-    def charts(self, filter: Union[dict, None] = None) -> 'XAiWorkChartList':
+    def charts(self, filter: Union[dict, None] = None) -> "XAiWorkChartList":
         """Returns a list of charts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
@@ -580,7 +614,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.charts(), XAiWorkChartList, filter)
 
-    def images(self, filter: Union[dict, None] = None) -> 'XAiWorkImageList':
+    def images(self, filter: Union[dict, None] = None) -> "XAiWorkImageList":
         """Returns a list of images, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
@@ -592,7 +626,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.images(), XAiWorkImageList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> 'XAiWorkGroupList':
+    def groups(self, filter: Union[dict, None] = None) -> "XAiWorkGroupList":
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
@@ -604,7 +638,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.groups(), XAiWorkGroupList, filter)
 
-    def lines(self, filter: Union[dict, None] = None) -> 'XAiWorkLineList':
+    def lines(self, filter: Union[dict, None] = None) -> "XAiWorkLineList":
         """Returns a list of lines, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
@@ -616,7 +650,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.lines(), XAiWorkLineList, filter)
 
-    def movies(self, filter: Union[dict, None] = None) -> 'XAiWorkMovieList':
+    def movies(self, filter: Union[dict, None] = None) -> "XAiWorkMovieList":
         """Returns a list of movies, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
@@ -628,7 +662,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.movies(), XAiWorkMovieList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> 'XAiWorkShapeList':
+    def shapes(self, filter: Union[dict, None] = None) -> "XAiWorkShapeList":
         """Returns a list of shapes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
@@ -640,7 +674,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.shapes(), XAiWorkShapeList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> 'XAiWorkTableList':
+    def tables(self, filter: Union[dict, None] = None) -> "XAiWorkTableList":
         """Returns a list of tables, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
@@ -652,7 +686,7 @@ class XAiWorkContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.tables(), XAiWorkTableList, filter)
 
-    def text_items(self, filter: Union[dict, None] = None) -> 'XAiWorkTextItemList':
+    def text_items(self, filter: Union[dict, None] = None) -> "XAiWorkTextItemList":
         """Returns a list of text_items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned text_items will have, or None
@@ -665,14 +699,15 @@ class XAiWorkContainer(XABase.XAObject):
         return self._new_element(self.xa_elem.textItems(), XAiWorkTextItemList, filter)
 
 
-
-
 class XAiWorkiWorkItemList(XABase.XAList):
     """A wrapper around a list of documents.
 
     .. versionadded:: 0.1.1
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAiWorkiWorkItem
         super().__init__(properties, obj_class, filter)
@@ -706,7 +741,7 @@ class XAiWorkiWorkItemList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("position") or []
         return [tuple(x.pointValue()) for x in ls]
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkiWorkItem', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkiWorkItem", None]:
         raw_dict = {}
 
         if "parent" in properties:
@@ -729,23 +764,24 @@ class XAiWorkiWorkItemList(XABase.XAList):
             if all(item_properties[x] == raw_dict[x] for x in raw_dict):
                 return self._new_element(item, XAiWorkiWorkItem)
 
-    def by_height(self, height: int) -> Union['XAiWorkiWorkItem', None]:
+    def by_height(self, height: int) -> Union["XAiWorkiWorkItem", None]:
         return self.by_property("height", height)
 
-    def by_locked(self, locked: bool) -> Union['XAiWorkiWorkItem', None]:
+    def by_locked(self, locked: bool) -> Union["XAiWorkiWorkItem", None]:
         return self.by_property("locked", locked)
 
-    def by_width(self, width: int) -> Union['XAiWorkiWorkItem', None]:
+    def by_width(self, width: int) -> Union["XAiWorkiWorkItem", None]:
         return self.by_property("width", width)
 
-    def by_parent(self, parent: XAiWorkContainer) -> Union['XAiWorkiWorkItem', None]:
+    def by_parent(self, parent: XAiWorkContainer) -> Union["XAiWorkiWorkItem", None]:
         return self.by_property("parent", parent.xa_elem)
 
-    def by_position(self, position: tuple[int, int]) -> Union['XAiWorkiWorkItem', None]:
+    def by_position(self, position: tuple[int, int]) -> Union["XAiWorkiWorkItem", None]:
         return self.by_property("position", position)
 
     def __repr__(self):
         return "<" + str(type(self)) + "length:" + str(len(self.xa_elem)) + ">"
+
 
 class XAiWorkiWorkItem(XABase.XAObject):
     """A class for managing and interacting with text, shapes, images, and other elements in Keynote.
@@ -754,6 +790,7 @@ class XAiWorkiWorkItem(XABase.XAObject):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -762,7 +799,11 @@ class XAiWorkiWorkItem(XABase.XAObject):
 
             # Specialize to some iWork Item type
             new_self = None
-            if ": defaultTitleItem" in description or ": defaultBodyItem" in description or ": <class 'sshp'>" in description:
+            if (
+                ": defaultTitleItem" in description
+                or ": defaultBodyItem" in description
+                or ": <class 'sshp'>" in description
+            ):
                 new_self = self._new_element(self.xa_elem, XAiWorkShape)
             elif ": <class 'imag'>" in description:
                 new_self = self._new_element(self.xa_elem, XAiWorkImage)
@@ -790,49 +831,44 @@ class XAiWorkiWorkItem(XABase.XAObject):
 
     @property
     def height(self) -> int:
-        """The height of the iWork item.
-        """
+        """The height of the iWork item."""
         return self.xa_elem.height()
 
     @height.setter
     def height(self, height: int):
-        self.set_property('height', height)
+        self.set_property("height", height)
 
     @property
     def locked(self) -> bool:
-        """Whether the object is locked.
-        """
+        """Whether the object is locked."""
         return self.xa_elem.locked()
 
     @locked.setter
     def locked(self, locked: bool):
-        self.set_property('locked', locked)
+        self.set_property("locked", locked)
 
     @property
     def width(self) -> int:
-        """The width of the iWork item.
-        """
+        """The width of the iWork item."""
         return self.xa_elem.width()
 
     @width.setter
     def width(self, width: int):
-        self.set_property('width', width)
+        self.set_property("width", width)
 
     @property
     def parent(self) -> XAiWorkContainer:
-        """The iWork container that contains the iWork item.
-        """
+        """The iWork container that contains the iWork item."""
         return self._new_element(self.xa_elem.parent(), XAiWorkContainer)
 
     @property
     def position(self) -> tuple[int, int]:
-        """The horizontal and vertical coordinates of the top left point of the iWork item.
-        """
+        """The horizontal and vertical coordinates of the top left point of the iWork item."""
         return tuple(self.xa_elem.position())
 
     @position.setter
     def position(self, position: tuple[int, int]):
-        self.set_property('position', position)
+        self.set_property("position", position)
 
     def delete(self):
         """Deletes the item.
@@ -841,7 +877,7 @@ class XAiWorkiWorkItem(XABase.XAObject):
         """
         self.xa_elem.delete()
 
-    def duplicate(self) -> 'XAiWorkiWorkItem':
+    def duplicate(self) -> "XAiWorkiWorkItem":
         """Duplicates the item.
 
         :return: A reference to the PyXA object that called this method.
@@ -852,10 +888,12 @@ class XAiWorkiWorkItem(XABase.XAObject):
         if isinstance(self.xa_prnt, XAiWorkiWorkItemList):
             self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), {})
         else:
-            self.xa_elem.duplicateTo_withProperties_(self.xa_prnt.xa_elem.iWorkItems(), {})
+            self.xa_elem.duplicateTo_withProperties_(
+                self.xa_prnt.xa_elem.iWorkItems(), {}
+            )
         return self
 
-    def resize(self, width: int, height: int) -> 'XAiWorkiWorkItem':
+    def resize(self, width: int, height: int) -> "XAiWorkiWorkItem":
         """Sets the width and height of the item.
 
         :param width: The desired width, in pixels
@@ -867,13 +905,15 @@ class XAiWorkiWorkItem(XABase.XAObject):
 
         .. versionadded:: 0.1.1
         """
-        self.set_properties({
-            "width": width,
-            "height": height,
-        })
+        self.set_properties(
+            {
+                "width": width,
+                "height": height,
+            }
+        )
         return self
 
-    def lock(self) -> 'XAiWorkiWorkItem':
+    def lock(self) -> "XAiWorkiWorkItem":
         """Locks the properties of the item, preventing changes.
 
         :return: The iWork item
@@ -884,7 +924,7 @@ class XAiWorkiWorkItem(XABase.XAObject):
         self.set_property("locked", True)
         return self
 
-    def unlock(self) -> 'XAiWorkiWorkItem':
+    def unlock(self) -> "XAiWorkiWorkItem":
         """Unlocks the properties of the item, allowing changes.
 
         :return: The iWork item
@@ -895,15 +935,12 @@ class XAiWorkiWorkItem(XABase.XAObject):
         self.set_property("locked", False)
         return self
 
-    def set_position(self, x: int, y: int) -> 'XAiWorkiWorkItem':
+    def set_position(self, x: int, y: int) -> "XAiWorkiWorkItem":
         position = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(x, y))
         self.xa_elem.setValue_forKey_(position, "position")
 
     def __repr__(self):
         return "<" + str(type(self)) + "position: " + str(self.position) + ">"
-
-
-
 
 
 class XAiWorkGroupList(XAiWorkContainerList):
@@ -913,6 +950,7 @@ class XAiWorkGroupList(XAiWorkContainerList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkGroup)
 
@@ -933,76 +971,71 @@ class XAiWorkGroupList(XAiWorkContainerList):
         ls = self.xa_elem.arrayByApplyingSelector_("parent") or []
         return self._new_element(ls, XAiWorkContainerList)
 
-    def by_height(self, height: int) -> 'XAiWorkGroup':
+    def by_height(self, height: int) -> "XAiWorkGroup":
         return self.by_property("height", height)
 
-    def by_position(self, position: tuple[int, int]) -> 'XAiWorkGroup':
+    def by_position(self, position: tuple[int, int]) -> "XAiWorkGroup":
         return self.by_property("position", position)
 
-    def by_width(self, width: int) -> 'XAiWorkGroup':
+    def by_width(self, width: int) -> "XAiWorkGroup":
         return self.by_property("width", width)
 
-    def by_rotation(self, rotation: int) -> 'XAiWorkGroup':
+    def by_rotation(self, rotation: int) -> "XAiWorkGroup":
         return self.by_property("rotation", rotation)
 
-    def by_parent(self, parent: XAiWorkContainer) -> 'XAiWorkGroup':
+    def by_parent(self, parent: XAiWorkContainer) -> "XAiWorkGroup":
         return self.by_property("parent", parent.xa_elem)
+
 
 class XAiWorkGroup(XAiWorkContainer):
     """A class for managing and interacting with iWork item groups in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def height(self) -> int:
-        """The height of the group.
-        """
+        """The height of the group."""
         return self.xa_elem.height()
 
     @height.setter
     def height(self, height: int):
-        self.set_property('height', height)
+        self.set_property("height", height)
 
     @property
     def position(self) -> tuple[int, int]:
-        """The horizontal and vertical coordinates of the top left point of the group.
-        """
+        """The horizontal and vertical coordinates of the top left point of the group."""
         return self.xa_elem.position()
 
     @position.setter
     def position(self, position: tuple[int, int]):
-        self.set_property('position', position)
+        self.set_property("position", position)
 
     @property
     def width(self) -> int:
-        """The width of the group.
-        """
+        """The width of the group."""
         return self.xa_elem.width()
 
     @width.setter
     def width(self, width: int):
-        self.set_property('width', width)
+        self.set_property("width", width)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the group, in degrees from 0 to 359.
-        """
+        """The rotation of the group, in degrees from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
+        self.set_property("rotation", rotation)
 
     @property
     def parent(self) -> XAiWorkContainer:
-        """The container which contains the group.
-        """
+        """The container which contains the group."""
         return self._new_element(self.xa_elem.parent(), XAiWorkContainer)
-
-
 
 
 class XAiWorkImageList(XAiWorkiWorkItemList):
@@ -1012,6 +1045,7 @@ class XAiWorkImageList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkImage)
 
@@ -1036,105 +1070,102 @@ class XAiWorkImageList(XAiWorkiWorkItemList):
     def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
-    def by_description(self, description: str) -> 'XAiWorkImage':
+    def by_description(self, description: str) -> "XAiWorkImage":
         return self.by_property("objectDescription", description)
 
-    def by_file(self, file: str) -> 'XAiWorkImage':
+    def by_file(self, file: str) -> "XAiWorkImage":
         return self.by_property("file", file)
 
-    def by_file_name(self, file_name: str) -> 'XAiWorkImage':
+    def by_file_name(self, file_name: str) -> "XAiWorkImage":
         return self.by_property("fileName", file_name)
 
-    def by_opacity(self, opacity: int) -> 'XAiWorkImage':
+    def by_opacity(self, opacity: int) -> "XAiWorkImage":
         return self.by_property("opacity", opacity)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> 'XAiWorkImage':
+    def by_reflection_showing(self, reflection_showing: bool) -> "XAiWorkImage":
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> 'XAiWorkImage':
+    def by_reflection_value(self, reflection_value: int) -> "XAiWorkImage":
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_rotation(self, rotation: int) -> 'XAiWorkImage':
+    def by_rotation(self, rotation: int) -> "XAiWorkImage":
         return self.by_property("rotation", rotation)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.file_name()) + ">"
+
 
 class XAiWorkImage(XAiWorkiWorkItem):
     """A class for managing and interacting with images in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def description(self) -> str:
-        """Text associated with the image, read aloud by VoiceOVer.
-        """
+        """Text associated with the image, read aloud by VoiceOVer."""
         return self.xa_elem.object_description()
 
     @description.setter
     def description(self, description: str):
-        self.set_property('description', description)
+        self.set_property("description", description)
 
     @property
     def file(self) -> str:
-        """The image file.
-        """
+        """The image file."""
         return self.xa_elem.file()
 
     @property
     def file_name(self) -> str:
-        """The name of the image file.
-        """
+        """The name of the image file."""
         return self.xa_elem.fileName().get()
 
     @file_name.setter
     def file_name(self, file_name: str):
-        self.set_property('fileName', file_name)
+        self.set_property("fileName", file_name)
 
     @property
     def opacity(self) -> int:
-        """The opacity of the image, in percent from 0 to 100.
-        """
+        """The opacity of the image, in percent from 0 to 100."""
         return self.xa_elem.opacity()
 
     @opacity.setter
     def opacity(self, opacity: int):
-        self.set_property('opacity', opacity)
+        self.set_property("opacity", opacity)
 
     @property
     def reflection_showing(self) -> bool:
-        """Whether the image displays a reflection.
-        """
+        """Whether the image displays a reflection."""
         return self.xa_elem.reflectionShowing()
 
     @reflection_showing.setter
     def reflection_showing(self, reflection_showing: bool):
-        self.set_property('reflectionShowing', reflection_showing)
+        self.set_property("reflectionShowing", reflection_showing)
 
     @property
     def reflection_value(self) -> int:
-        """The percentage of reflection of the image, from 0 to 100.
-        """
+        """The percentage of reflection of the image, from 0 to 100."""
         return self.xa_elem.reflectionValue()
 
     @reflection_value.setter
     def reflection_value(self, reflection_value: int):
-        self.set_property('reflectionValue', reflection_value)
+        self.set_property("reflectionValue", reflection_value)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the image, in degrees from 0 to 359.
-        """
+        """The rotation of the image, in degrees from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
+        self.set_property("rotation", rotation)
 
-    def replace_with(self, img_path: Union[str, XABase.XAPath, XABase.XAURL]) -> 'XAiWorkImage':
+    def replace_with(
+        self, img_path: Union[str, XABase.XAPath, XABase.XAURL]
+    ) -> "XAiWorkImage":
         """Removes the image and inserts another in its place with the same width and height.
 
         :param img_path: The path to the new image file.
@@ -1161,8 +1192,6 @@ class XAiWorkImage(XAiWorkiWorkItem):
         return "<" + str(type(self)) + str(self.file_name) + ">"
 
 
-
-
 class XAiWorkAudioClipList(XAiWorkiWorkItemList):
     """A wrapper around lists of audio clips that employs fast enumeration techniques.
 
@@ -1170,6 +1199,7 @@ class XAiWorkAudioClipList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkAudioClip)
 
@@ -1181,15 +1211,20 @@ class XAiWorkAudioClipList(XAiWorkiWorkItemList):
 
     def repetition_method(self) -> list[XAiWorkApplication.RepetitionMethod]:
         ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod") or []
-        return [XAiWorkApplication.RepetitionMethod(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAiWorkApplication.RepetitionMethod(XABase.OSType(x.stringValue()))
+            for x in ls
+        ]
 
-    def by_file_name(self, file_name: str) -> 'XAiWorkAudioClip':
+    def by_file_name(self, file_name: str) -> "XAiWorkAudioClip":
         return self.by_property("fileName", file_name)
 
-    def by_clip_volume(self, clip_volume: int) -> 'XAiWorkAudioClip':
+    def by_clip_volume(self, clip_volume: int) -> "XAiWorkAudioClip":
         return self.by_property("clipVolume", clip_volume)
 
-    def by_repetition_method(self, repetition_method: XAiWorkApplication.RepetitionMethod) -> 'XAiWorkAudioClip':
+    def by_repetition_method(
+        self, repetition_method: XAiWorkApplication.RepetitionMethod
+    ) -> "XAiWorkAudioClip":
         for audio_clip in self.xa_elem:
             if audio_clip.repetitionMethod() == repetition_method.value:
                 return self._new_element(audio_clip, XAiWorkAudioClip)
@@ -1197,48 +1232,45 @@ class XAiWorkAudioClipList(XAiWorkiWorkItemList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.file_name()) + ">"
 
+
 class XAiWorkAudioClip(XAiWorkiWorkItem):
     """A class for managing and interacting with audio clips in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def file_name(self) -> str:
-        """The name of the audio file.
-        """
+        """The name of the audio file."""
         return self.xa_elem.fileName().get()
 
     @file_name.setter
     def file_name(self, file_name: str):
-        self.set_property('fileName', file_name)
+        self.set_property("fileName", file_name)
 
     @property
     def clip_volume(self) -> int:
-        """The volume setting for the audio clip, from 0 to 100.
-        """
+        """The volume setting for the audio clip, from 0 to 100."""
         return self.xa_elem.clipVolume()
 
     @clip_volume.setter
     def clip_volume(self, clip_volume: int):
-        self.set_property('clipVolume', clip_volume)
+        self.set_property("clipVolume", clip_volume)
 
     @property
     def repetition_method(self) -> XAiWorkApplication.RepetitionMethod:
-        """Whether or how the audio clip  repeats.
-        """
+        """Whether or how the audio clip  repeats."""
         return XAiWorkApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
 
     @repetition_method.setter
     def repetition_method(self, repetition_method: XAiWorkApplication.RepetitionMethod):
-        self.set_property('repetitionMethod', repetition_method.value)
+        self.set_property("repetitionMethod", repetition_method.value)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.file_name) + ">"
-
-
 
 
 class XAiWorkShapeList(XAiWorkiWorkItemList):
@@ -1248,27 +1280,35 @@ class XAiWorkShapeList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkShape)
 
     def properties(self) -> list[dict]:
-        return [{
-            "reflection_showing": shape.reflectionShowing(),
-            "rotation": shape.rotation(),
-            "position": tuple(shape.position()),
-            "parent": self._new_element(shape.parent(), XAiWorkContainer),
-            "width": shape.width(),
-            "opacity": shape.opacity(),
-            "locked": shape.locked(),
-            "height": shape.height(),
-            "background_fill_type": XAiWorkApplication.FillOption(shape.backgroundFillType()),
-            "reflection_value": shape.reflectionValue(),
-            "object_text": shape.objectText().get()
-        } for shape in self.xa_elem]
+        return [
+            {
+                "reflection_showing": shape.reflectionShowing(),
+                "rotation": shape.rotation(),
+                "position": tuple(shape.position()),
+                "parent": self._new_element(shape.parent(), XAiWorkContainer),
+                "width": shape.width(),
+                "opacity": shape.opacity(),
+                "locked": shape.locked(),
+                "height": shape.height(),
+                "background_fill_type": XAiWorkApplication.FillOption(
+                    shape.backgroundFillType()
+                ),
+                "reflection_value": shape.reflectionValue(),
+                "object_text": shape.objectText().get(),
+            }
+            for shape in self.xa_elem
+        ]
 
     def background_fill_type(self) -> list[XAiWorkApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundFillType") or []
-        return [XAiWorkApplication.FillOption(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAiWorkApplication.FillOption(XABase.OSType(x.stringValue())) for x in ls
+        ]
 
     def object_text(self) -> XABase.XATextList:
         ls = self.xa_elem.arrayByApplyingSelector_("objectText") or []
@@ -1286,7 +1326,7 @@ class XAiWorkShapeList(XAiWorkiWorkItemList):
     def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkShape', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkShape", None]:
         raw_dict = {}
 
         if "reflection_show" in properties:
@@ -1326,110 +1366,111 @@ class XAiWorkShapeList(XAiWorkiWorkItemList):
             if all([raw_dict[x] == shape.properties()[x] for x in raw_dict]):
                 return self._new_element(shape, XAiWorkShape)
 
-    def by_background_fill_type(self, background_fill_type: XAiWorkApplication.FillOption) -> Union['XAiWorkShape', None]:
+    def by_background_fill_type(
+        self, background_fill_type: XAiWorkApplication.FillOption
+    ) -> Union["XAiWorkShape", None]:
         for shape in self.xa_elem:
             if shape.backgroundFillType() == background_fill_type.value:
                 return self._new_element(shape, XAiWorkShape)
 
-    def by_object_text(self, object_text: Union[str, XABase.XAText]) -> Union['XAiWorkShape', None]:
+    def by_object_text(
+        self, object_text: Union[str, XABase.XAText]
+    ) -> Union["XAiWorkShape", None]:
         if isinstance(object_text, str):
-            return self.by_property('objectText', object_text)
+            return self.by_property("objectText", object_text)
         else:
-            return self.by_property('objectText', object_text.xa_elem)
+            return self.by_property("objectText", object_text.xa_elem)
 
-    def by_opacity(self, opacity: int) -> Union['XAiWorkShape', None]:
+    def by_opacity(self, opacity: int) -> Union["XAiWorkShape", None]:
         return self.by_property("opacity", opacity)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> Union['XAiWorkShape', None]:
+    def by_reflection_showing(
+        self, reflection_showing: bool
+    ) -> Union["XAiWorkShape", None]:
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> Union['XAiWorkShape', None]:
+    def by_reflection_value(self, reflection_value: int) -> Union["XAiWorkShape", None]:
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_rotation(self, rotation: int) -> Union['XAiWorkShape', None]:
+    def by_rotation(self, rotation: int) -> Union["XAiWorkShape", None]:
         return self.by_property("rotation", rotation)
+
 
 class XAiWorkShape(XAiWorkiWorkItem):
     """A class for managing and interacting with shapes in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the shape.
-        """
+        """All properties of the shape."""
         return self.xa_elem.properties()
 
     @property
     def background_fill_type(self) -> XAiWorkApplication.FillOption:
-        """The background, if any, for the shape.
-        """
+        """The background, if any, for the shape."""
         return XAiWorkApplication.FillOption(self.xa_elem.backgroundFillType())
 
     @property
     def object_text(self) -> XABase.XAText:
-        """The text contained within the shape.
-        """
+        """The text contained within the shape."""
         return self._new_element(self.xa_elem.objectText(), XABase.XAText)
 
     @object_text.setter
     def object_text(self, object_text: Union[str, XABase.XAText]):
         if isinstance(object_text, str):
-            self.set_property('objectText', object_text)
+            self.set_property("objectText", object_text)
         else:
-            self.set_property('objectText', object_text.xa_elem)
+            self.set_property("objectText", object_text.xa_elem)
 
     @property
     def opacity(self) -> int:
-        """The percent opacity of the object.
-        """
+        """The percent opacity of the object."""
         return self.xa_elem.opacity()
 
     @opacity.setter
     def opacity(self, opacity: int):
-        self.set_property('opacity', opacity)
+        self.set_property("opacity", opacity)
 
     @property
     def reflection_showing(self) -> bool:
-        """Whether the iWork item displays a reflection.
-        """
+        """Whether the iWork item displays a reflection."""
         return self.xa_elem.reflectionShowing()
 
     @reflection_showing.setter
     def reflection_showing(self, reflection_showing: bool):
-        self.set_property('reflectionShowing', reflection_showing)
+        self.set_property("reflectionShowing", reflection_showing)
 
     @property
     def reflection_value(self) -> int:
-        """The percentage of relfection that the iWork item displays, from 0 to 100.
-        """
+        """The percentage of relfection that the iWork item displays, from 0 to 100."""
         return self.xa_elem.reflectionValue()
 
     @reflection_value.setter
     def reflection_value(self, reflection_value: int):
-        self.set_property('reflectionValue', reflection_value)
+        self.set_property("reflectionValue", reflection_value)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the iWork item, in degrees, from 0 to 359.
-        """
+        """The rotation of the iWork item, in degrees, from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
+        self.set_property("rotation", rotation)
 
     def set_property(self, property_name: str, value: Any):
         if isinstance(value, tuple):
             if isinstance(value[0], int):
                 # Value is a position
-                value = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(value[0], value[1]))
+                value = AppKit.NSValue.valueWithPoint_(
+                    AppKit.NSPoint(value[0], value[1])
+                )
         super().set_property(property_name, value)
-
-
 
 
 class XAiWorkChartList(XAiWorkiWorkItemList):
@@ -1439,18 +1480,19 @@ class XAiWorkChartList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkChart)
+
 
 class XAiWorkChart(XAiWorkiWorkItem):
     """A class for managing and interacting with charts in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-
-
 
 
 class XAiWorkLineList(XAiWorkiWorkItemList):
@@ -1460,6 +1502,7 @@ class XAiWorkLineList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkLine)
 
@@ -1478,80 +1521,75 @@ class XAiWorkLineList(XAiWorkiWorkItemList):
     def start_point(self) -> list[tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("start_point") or [])
 
-    def by_end_point(self, end_point: tuple[int, int]) -> 'XAiWorkLine':
+    def by_end_point(self, end_point: tuple[int, int]) -> "XAiWorkLine":
         return self.by_property("endPoint", end_point)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> 'XAiWorkLine':
+    def by_reflection_showing(self, reflection_showing: bool) -> "XAiWorkLine":
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> 'XAiWorkLine':
+    def by_reflection_value(self, reflection_value: int) -> "XAiWorkLine":
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_rotation(self, rotation: int) -> 'XAiWorkLine':
+    def by_rotation(self, rotation: int) -> "XAiWorkLine":
         return self.by_property("rotation", rotation)
 
-    def by_start_point(self, start_point: tuple[int, int]) -> 'XAiWorkLine':
+    def by_start_point(self, start_point: tuple[int, int]) -> "XAiWorkLine":
         return self.by_property("startPoint", start_point)
+
 
 class XAiWorkLine(XAiWorkiWorkItem):
     """A class for managing and interacting with lines in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def end_point(self) -> tuple[int, int]:
-        """A list of two numbers indicating the horizontal and vertical position of the line ending point.
-        """
+        """A list of two numbers indicating the horizontal and vertical position of the line ending point."""
         return self.xa_elem.endPoint()
 
     @end_point.setter
     def end_point(self, end_point: tuple[int, int]):
-        self.set_property('endPoint', end_point)
+        self.set_property("endPoint", end_point)
 
     @property
     def reflection_showing(self) -> bool:
-        """Whether the line displays a reflection.
-        """
+        """Whether the line displays a reflection."""
         return self.xa_elem.reflectionShowing()
 
     @reflection_showing.setter
     def reflection_showing(self, reflection_showing: bool):
-        self.set_property('reflectionShowing', reflection_showing)
+        self.set_property("reflectionShowing", reflection_showing)
 
     @property
     def reflection_value(self) -> int:
-        """The percent of reflection of the line, from 0 to 100.
-        """
+        """The percent of reflection of the line, from 0 to 100."""
         return self.xa_elem.reflectionValue()
 
     @reflection_value.setter
     def reflection_value(self, reflection_value: int):
-        self.set_property('reflectionValue', reflection_value)
+        self.set_property("reflectionValue", reflection_value)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the line, in degrees from 0 to 359.
-        """
+        """The rotation of the line, in degrees from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
+        self.set_property("rotation", rotation)
 
     @property
     def start_point(self) -> tuple[int, int]:
-        """A list of two numbers indicating the horizontal and vertical position of the line starting point.
-        """
+        """A list of two numbers indicating the horizontal and vertical position of the line starting point."""
         return self.xa_elem.startPoint()
 
     @start_point.setter
     def start_point(self, start_point: tuple[int, int]):
-        self.set_property('startPoint', start_point)
-
-
+        self.set_property("startPoint", start_point)
 
 
 class XAiWorkMovieList(XAiWorkiWorkItemList):
@@ -1561,6 +1599,7 @@ class XAiWorkMovieList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkMovie)
 
@@ -1586,106 +1625,101 @@ class XAiWorkMovieList(XAiWorkiWorkItemList):
     def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
-    def by_file_name(self, file_name: str) -> 'XAiWorkMovie':
+    def by_file_name(self, file_name: str) -> "XAiWorkMovie":
         return self.by_property("fileName", file_name)
 
-    def by_movie_volume(self, movie_volume: int) -> 'XAiWorkMovie':
+    def by_movie_volume(self, movie_volume: int) -> "XAiWorkMovie":
         return self.by_property("movieVolume", movie_volume)
 
-    def by_opacity(self, opacity: int) -> 'XAiWorkMovie':
+    def by_opacity(self, opacity: int) -> "XAiWorkMovie":
         return self.by_property("opacity", opacity)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> 'XAiWorkMovie':
+    def by_reflection_showing(self, reflection_showing: bool) -> "XAiWorkMovie":
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> 'XAiWorkMovie':
+    def by_reflection_value(self, reflection_value: int) -> "XAiWorkMovie":
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_repetition_method(self, repetition_method: XAiWorkApplication.RepetitionMethod) -> 'XAiWorkMovie':
+    def by_repetition_method(
+        self, repetition_method: XAiWorkApplication.RepetitionMethod
+    ) -> "XAiWorkMovie":
         return self.by_property("repetitionMethod", repetition_method.value)
 
-    def by_rotation(self, rotation: int) -> 'XAiWorkMovie':
+    def by_rotation(self, rotation: int) -> "XAiWorkMovie":
         return self.by_property("rotation", rotation)
+
 
 class XAiWorkMovie(XAiWorkiWorkItem):
     """A class for managing and interacting with movie containers in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def file_name(self) -> str:
-        """The name of the movie file.
-        """
+        """The name of the movie file."""
         return self.xa_elem.fileName()
 
     @file_name.setter
     def file_name(self, file_name: str):
-        self.set_property('fileName', file_name)
+        self.set_property("fileName", file_name)
 
     @property
     def movie_volume(self) -> int:
-        """The volume setting for the movie, from 0 to 100.
-        """
+        """The volume setting for the movie, from 0 to 100."""
         return self.xa_elem.movieVolume()
 
     @movie_volume.setter
     def movie_volume(self, movie_volume: int):
-        self.set_property('movieVolume', movie_volume)
+        self.set_property("movieVolume", movie_volume)
 
     @property
     def opacity(self) -> int:
-        """The percent opacity of the object.
-        """
+        """The percent opacity of the object."""
         return self.xa_elem.opacity()
 
     @opacity.setter
     def opacity(self, opacity: int):
-        self.set_property('opacity', opacity)
+        self.set_property("opacity", opacity)
 
     @property
     def reflection_showing(self) -> bool:
-        """Whether the movie displays a reflection.
-        """
+        """Whether the movie displays a reflection."""
         return self.xa_elem.reflectionShowing()
 
     @reflection_showing.setter
     def reflection_showing(self, reflection_showing: bool):
-        self.set_property('reflectionShowing', reflection_showing)
+        self.set_property("reflectionShowing", reflection_showing)
 
     @property
     def reflection_value(self) -> int:
-        """The percentage of reflection of the movie, from 0 to 100.
-        """
+        """The percentage of reflection of the movie, from 0 to 100."""
         return self.xa_elem.reflectionValue()
 
     @reflection_value.setter
     def reflection_value(self, reflection_value: int):
-        self.set_property('reflection_value', reflection_value)
+        self.set_property("reflection_value", reflection_value)
 
     @property
     def repetition_method(self) -> XAiWorkApplication.RepetitionMethod:
-        """Whether or how the movie repeats.
-        """
+        """Whether or how the movie repeats."""
         return XAiWorkApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
 
     @repetition_method.setter
     def repetition_method(self, repetition_method: XAiWorkApplication.RepetitionMethod):
-        self.set_property('repetitionMethod', repetition_method.value)
+        self.set_property("repetitionMethod", repetition_method.value)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the movie, in degrees from 0 to 359.
-        """
+        """The rotation of the movie, in degrees from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
-
-
+        self.set_property("rotation", rotation)
 
 
 class XAiWorkTextItemList(XAiWorkiWorkItemList):
@@ -1695,6 +1729,7 @@ class XAiWorkTextItemList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkTextItem)
 
@@ -1718,95 +1753,91 @@ class XAiWorkTextItemList(XAiWorkiWorkItemList):
     def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation") or [])
 
-    def by_background_fill_type(self, background_fill_type: XAiWorkApplication.FillOption) -> 'XAiWorkTextItem':
+    def by_background_fill_type(
+        self, background_fill_type: XAiWorkApplication.FillOption
+    ) -> "XAiWorkTextItem":
         return self.by_property("backgroundFillType", background_fill_type.value)
 
-    def by_text(self, text: Union[str, XABase.XAText]) -> 'XAiWorkTextItem':
+    def by_text(self, text: Union[str, XABase.XAText]) -> "XAiWorkTextItem":
         if isinstance(text, str):
-            self.by_property('text', text)
+            self.by_property("text", text)
         else:
-            self.by_property('text', text.xa_elem)
+            self.by_property("text", text.xa_elem)
 
-    def by_opacity(self, opacity: int) -> 'XAiWorkTextItem':
+    def by_opacity(self, opacity: int) -> "XAiWorkTextItem":
         return self.by_property("opacity", opacity)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> 'XAiWorkTextItem':
+    def by_reflection_showing(self, reflection_showing: bool) -> "XAiWorkTextItem":
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> 'XAiWorkTextItem':
+    def by_reflection_value(self, reflection_value: int) -> "XAiWorkTextItem":
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_rotation(self, rotation: int) -> 'XAiWorkTextItem':
+    def by_rotation(self, rotation: int) -> "XAiWorkTextItem":
         return self.by_property("rotation", rotation)
+
 
 class XAiWorkTextItem(XAiWorkiWorkItem):
     """A class for managing and interacting with text items in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def background_fill_type(self) -> XAiWorkApplication.FillOption:
-        """The background of the text item.
-        """
+        """The background of the text item."""
         return XAiWorkApplication.FillOption(self.xa_elem.backgroundFillType())
 
     @property
     def text(self) -> XABase.XAText:
-        """The text contained within the text item.
-        """
+        """The text contained within the text item."""
         return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @text.setter
     def text(self, text: Union[str, XABase.XAText]):
         if isinstance(text, str):
-            self.set_property('text', text)
+            self.set_property("text", text)
         else:
-            self.set_property('text', text.xa_elem)
+            self.set_property("text", text.xa_elem)
 
     @property
     def opacity(self) -> int:
-        """The opacity of the text item.
-        """
+        """The opacity of the text item."""
         return self.xa_elem.opacity()
 
     @opacity.setter
     def opacity(self, opacity: int):
-        self.set_property('opacity', opacity)
+        self.set_property("opacity", opacity)
 
     @property
     def reflection_showing(self) -> bool:
-        """Whether the text item displays a reflection.
-        """
+        """Whether the text item displays a reflection."""
         return self.xa_elem.reflectionShowing()
 
     @reflection_showing.setter
     def reflection_showing(self, reflection_showing: bool):
-        self.set_property('reflectionShowing', reflection_showing)
+        self.set_property("reflectionShowing", reflection_showing)
 
     @property
     def reflection_value(self) -> int:
-        """The percentage of reflection of the text item, from 0 to 100.
-        """
+        """The percentage of reflection of the text item, from 0 to 100."""
         return self.xa_elem.reflectionValue()
 
     @reflection_value.setter
     def reflection_value(self, reflection_value: int):
-        self.set_property('reflectionValue', reflection_value)
+        self.set_property("reflectionValue", reflection_value)
 
     @property
     def rotation(self) -> int:
-        """The rotation of the text item, in degrees from 0 to 359.
-        """
+        """The rotation of the text item, in degrees from 0 to 359."""
         return self.xa_elem.rotation()
 
     @rotation.setter
     def rotation(self, rotation: int):
-        self.set_property('rotation', rotation)
-
-
+        self.set_property("rotation", rotation)
 
 
 class XAiWorkTableList(XAiWorkiWorkItemList):
@@ -1816,6 +1847,7 @@ class XAiWorkTableList(XAiWorkiWorkItemList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkTable)
 
@@ -1837,126 +1869,129 @@ class XAiWorkTableList(XAiWorkiWorkItemList):
     def footer_row_count(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("footerRowCount") or [])
 
-    def cell_range(self) -> 'XAiWorkRangeList':
+    def cell_range(self) -> "XAiWorkRangeList":
         ls = self.xa_elem.arrayByApplyingSelector_("cellRange") or []
         return self._new_element(ls, XAiWorkRangeList)
 
-    def selection_range(self) -> 'XAiWorkRangeList':
+    def selection_range(self) -> "XAiWorkRangeList":
         ls = self.xa_elem.arrayByApplyingSelector_("selectionRange") or []
         return self._new_element(ls, XAiWorkRangeList)
 
-    def by_name(self, name: str) -> Union['XAiWorkTable', None]:
+    def by_name(self, name: str) -> Union["XAiWorkTable", None]:
         return self.by_property("name", name)
 
-    def by_row_count(self, row_count: int) -> Union['XAiWorkTable', None]:
+    def by_row_count(self, row_count: int) -> Union["XAiWorkTable", None]:
         return self.by_property("rowCount", row_count)
 
-    def by_column_count(self, column_count: int) -> Union['XAiWorkTable', None]:
+    def by_column_count(self, column_count: int) -> Union["XAiWorkTable", None]:
         return self.by_property("columnCount", column_count)
 
-    def by_header_row_count(self, header_row_count: int) -> Union['XAiWorkTable', None]:
+    def by_header_row_count(self, header_row_count: int) -> Union["XAiWorkTable", None]:
         return self.by_property("headerRowCount", header_row_count)
 
-    def by_header_column_count(self, header_column_count: int) -> Union['XAiWorkTable', None]:
+    def by_header_column_count(
+        self, header_column_count: int
+    ) -> Union["XAiWorkTable", None]:
         return self.by_property("headerColumnCount", header_column_count)
 
-    def by_footer_row_count(self, footer_row_count: int) -> Union['XAiWorkTable', None]:
+    def by_footer_row_count(self, footer_row_count: int) -> Union["XAiWorkTable", None]:
         return self.by_property("footerRowCount", footer_row_count)
 
-    def by_cell_range(self, cell_range: 'XAiWorkRange') -> Union['XAiWorkTable', None]:
+    def by_cell_range(self, cell_range: "XAiWorkRange") -> Union["XAiWorkTable", None]:
         return self.by_property("cellRange", cell_range.xa_elem)
 
-    def by_selection_range(self, selection_range: 'XAiWorkRange') -> Union['XAiWorkTable', None]:
+    def by_selection_range(
+        self, selection_range: "XAiWorkRange"
+    ) -> Union["XAiWorkTable", None]:
         return self.by_property("selectionRange", selection_range.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XAiWorkTable(XAiWorkiWorkItem):
     """A class for managing and interacting with tables in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
-    
+
     @property
     def name(self) -> str:
-        """The name of the table.
-        """
+        """The name of the table."""
         return self.xa_elem.name()
 
     @name.setter
     def name(self, name: str):
-        self.set_property('name', name)
+        self.set_property("name", name)
 
     @property
     def row_count(self) -> int:
-        """The number of rows in the table.
-        """
+        """The number of rows in the table."""
         return self.xa_elem.rowCount()
 
     @row_count.setter
     def row_count(self, row_count: int):
-        self.set_property('rowCount', row_count)
+        self.set_property("rowCount", row_count)
 
     @property
     def column_count(self) -> int:
-        """The number of columns in the table.
-        """
+        """The number of columns in the table."""
         return self.xa_elem.columnCount()
 
     @column_count.setter
     def column_count(self, column_count: int):
-        self.set_property('columnCount', column_count)
+        self.set_property("columnCount", column_count)
 
     @property
     def header_row_count(self) -> int:
-        """The number of header rows in the table.
-        """
+        """The number of header rows in the table."""
         return self.xa_elem.headerRowCount()
 
     @header_row_count.setter
     def header_row_count(self, header_row_count: int):
-        self.set_property('headerRowCount', header_row_count)
+        self.set_property("headerRowCount", header_row_count)
 
     @property
     def header_column_count(self) -> int:
-        """The number of header columns in the table.
-        """
+        """The number of header columns in the table."""
         return self.xa_elem.headerColumnCount()
 
     @header_column_count.setter
     def header_column_count(self, header_column_count: int):
-        self.set_property('headerColumnCount', header_column_count)
+        self.set_property("headerColumnCount", header_column_count)
 
     @property
     def footer_row_count(self) -> int:
-        """The number of footer rows in the table.
-        """
+        """The number of footer rows in the table."""
         return self.xa_elem.footerRowCount()
 
     @footer_row_count.setter
     def footer_row_count(self, footer_row_count: int):
-        self.set_property('footerRowCount', footer_row_count)
+        self.set_property("footerRowCount", footer_row_count)
 
     @property
-    def cell_range(self) -> 'XAiWorkRange':
-        """The range of all cells in the table.
-        """
+    def cell_range(self) -> "XAiWorkRange":
+        """The range of all cells in the table."""
         return self._new_element(self.xa_elem.cellRange(), XAiWorkRange)
 
     @property
-    def selection_range(self) -> 'XAiWorkRange':
-        """The currently selected cells.
-        """
+    def selection_range(self) -> "XAiWorkRange":
+        """The currently selected cells."""
         return self._new_element(self.xa_elem.selectionRange(), XAiWorkRange)
 
     @selection_range.setter
-    def selection_range(self, selection_range: 'XAiWorkRange'):
-        self.set_property('selectionRange', selection_range.xa_elem)
+    def selection_range(self, selection_range: "XAiWorkRange"):
+        self.set_property("selectionRange", selection_range.xa_elem)
 
-    def sort(self, by_column: 'XAiWorkColumn', in_rows: Union[list['XAiWorkRow'], 'XAiWorkRowList', None] = None, direction: XAiWorkApplication.SortDirection = XAiWorkApplication.SortDirection.ASCENDING) -> 'XAiWorkTable':
+    def sort(
+        self,
+        by_column: "XAiWorkColumn",
+        in_rows: Union[list["XAiWorkRow"], "XAiWorkRowList", None] = None,
+        direction: XAiWorkApplication.SortDirection = XAiWorkApplication.SortDirection.ASCENDING,
+    ) -> "XAiWorkTable":
         """Sorts the table according to the specified column, in the specified sorting direction.
 
         :param by_column: The column to sort by
@@ -1975,10 +2010,12 @@ class XAiWorkTable(XAiWorkiWorkItem):
         elif isinstance(in_rows, XABase.XAList):
             in_rows = in_rows.xa_elem
 
-        self.xa_elem.sortBy_direction_inRows_(by_column.xa_elem, direction.value, in_rows)
+        self.xa_elem.sortBy_direction_inRows_(
+            by_column.xa_elem, direction.value, in_rows
+        )
         return self
 
-    def cells(self, filter: Union[dict, None] = None) -> 'XAiWorkCellList':
+    def cells(self, filter: Union[dict, None] = None) -> "XAiWorkCellList":
         """Returns a list of cells, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
@@ -1990,7 +2027,7 @@ class XAiWorkTable(XAiWorkiWorkItem):
         """
         return self._new_element(self.xa_elem.cells(), XAiWorkCellList, filter)
 
-    def columns(self, filter: Union[dict, None] = None) -> 'XAiWorkColumnList':
+    def columns(self, filter: Union[dict, None] = None) -> "XAiWorkColumnList":
         """Returns a list of columns, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
@@ -2002,7 +2039,7 @@ class XAiWorkTable(XAiWorkiWorkItem):
         """
         return self._new_element(self.xa_elem.columns(), XAiWorkColumnList, filter)
 
-    def rows(self, filter: Union[dict, None] = None) -> 'XAiWorkRowList':
+    def rows(self, filter: Union[dict, None] = None) -> "XAiWorkRowList":
         """Returns a list of rows, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
@@ -2014,7 +2051,7 @@ class XAiWorkTable(XAiWorkiWorkItem):
         """
         return self._new_element(self.xa_elem.rows(), XAiWorkRowList, filter)
 
-    def ranges(self, filter: Union[dict, None] = None) -> 'XAiWorkRangeList':
+    def ranges(self, filter: Union[dict, None] = None) -> "XAiWorkRangeList":
         """Returns a list of ranges, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned ranges will have, or None
@@ -2034,8 +2071,6 @@ class XAiWorkTable(XAiWorkiWorkItem):
             return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
-
-
 class XAiWorkRangeList(XABase.XAList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
@@ -2043,7 +2078,10 @@ class XAiWorkRangeList(XABase.XAList):
 
     .. versionadded:: 0.1.1
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+
+    def __init__(
+        self, properties: dict, filter: Union[dict, None] = None, obj_class=None
+    ):
         if obj_class is None:
             obj_class = XAiWorkRange
         super().__init__(properties, obj_class, filter)
@@ -2053,13 +2091,21 @@ class XAiWorkRangeList(XABase.XAList):
         pyxa_dicts = [None] * len(self.xa_elem)
         for index, raw_dict in enumerate(raw_dicts):
             pyxa_dicts[index] = {
-                "background_color": XABase.XAColor(raw_dict["backgroundColor"]) if raw_dict["backgroundColor"] is not None else None,
+                "background_color": XABase.XAColor(raw_dict["backgroundColor"])
+                if raw_dict["backgroundColor"] is not None
+                else None,
                 "font_size": raw_dict["fontSize"],
                 "name": raw_dict["name"],
-                "format": XAiWorkApplication.CellFormat(XABase.OSType(raw_dict["format"].stringValue())),
-                "vertical_alignment": XAiWorkApplication.Alignment(XABase.OSType(raw_dict["verticalAlignment"].stringValue())),
+                "format": XAiWorkApplication.CellFormat(
+                    XABase.OSType(raw_dict["format"].stringValue())
+                ),
+                "vertical_alignment": XAiWorkApplication.Alignment(
+                    XABase.OSType(raw_dict["verticalAlignment"].stringValue())
+                ),
                 "font_name": raw_dict["fontName"],
-                "alignment": XAiWorkApplication.Alignment(XABase.OSType(raw_dict["alignment"].stringValue())),
+                "alignment": XAiWorkApplication.Alignment(
+                    XABase.OSType(raw_dict["alignment"].stringValue())
+                ),
                 "text_wrap": raw_dict["textWrap"],
                 "text_color": XABase.XAColor(raw_dict["textColor"]),
             }
@@ -2077,7 +2123,9 @@ class XAiWorkRangeList(XABase.XAList):
 
     def alignment(self) -> list[XAiWorkApplication.Alignment]:
         ls = self.xa_elem.arrayByApplyingSelector_("alignment") or []
-        return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls
+        ]
 
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
@@ -2095,9 +2143,11 @@ class XAiWorkRangeList(XABase.XAList):
 
     def vertical_alignment(self) -> list[XAiWorkApplication.Alignment]:
         ls = self.xa_elem.arrayByApplyingSelector_("verticalAlignment") or []
-        return [XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAiWorkApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls
+        ]
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkRange', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkRange", None]:
         raw_dict = {}
 
         if "background_color" in properties:
@@ -2113,13 +2163,17 @@ class XAiWorkRangeList(XABase.XAList):
             raw_dict["format"] = properties["format"].value
 
         if "vertical_alignment" in properties:
-            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(
+                properties["vertical_alignment"].value
+            )
 
         if "font_name" in properties:
             raw_dict["fontName"] = properties["font_name"]
 
         if "alignment" in properties:
-            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+            raw_dict["alignment"] = XAEvents.event_from_type_code(
+                properties["alignment"].value
+            )
 
         if "text_wrap" in properties:
             raw_dict["textWrap"] = properties["text_wrap"]
@@ -2131,33 +2185,41 @@ class XAiWorkRangeList(XABase.XAList):
             if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
                 return self._new_element(page_range, XAiWorkRange)
 
-    def by_font_name(self, font_name: str) -> Union['XAiWorkRange', None]:
+    def by_font_name(self, font_name: str) -> Union["XAiWorkRange", None]:
         return self.by_property("fontName", font_name)
 
-    def by_font_size(self, font_size: float) -> Union['XAiWorkRange', None]:
+    def by_font_size(self, font_size: float) -> Union["XAiWorkRange", None]:
         return self.by_property("fontSize", font_size)
 
-    def by_format(self, format: XAiWorkApplication.CellFormat) -> Union['XAiWorkRange', None]:
+    def by_format(
+        self, format: XAiWorkApplication.CellFormat
+    ) -> Union["XAiWorkRange", None]:
         return self.by_property("format", format.value)
 
-    def by_alignment(self, alignment: XAiWorkApplication.Alignment) -> Union['XAiWorkRange', None]:
+    def by_alignment(
+        self, alignment: XAiWorkApplication.Alignment
+    ) -> Union["XAiWorkRange", None]:
         for page_range in self.xa_elem:
             if page_range.alignment() == alignment.value:
                 return self._new_element(page_range, XAiWorkRange)
 
-    def by_name(self, name: str) -> Union['XAiWorkRange', None]:
+    def by_name(self, name: str) -> Union["XAiWorkRange", None]:
         return self.by_property("name", name)
 
-    def by_text_color(self, text_color: XABase.XAColor) -> Union['XAiWorkRange', None]:
+    def by_text_color(self, text_color: XABase.XAColor) -> Union["XAiWorkRange", None]:
         return self.by_property("textColor", text_color.xa_elem)
 
-    def by_text_wrap(self, text_wrap: bool) -> Union['XAiWorkRange', None]:
+    def by_text_wrap(self, text_wrap: bool) -> Union["XAiWorkRange", None]:
         return self.by_property("textWrap", text_wrap)
 
-    def by_background_color(self, background_color: XABase.XAColor) -> Union['XAiWorkRange', None]:
+    def by_background_color(
+        self, background_color: XABase.XAColor
+    ) -> Union["XAiWorkRange", None]:
         return self.by_property("backgroundColor", background_color.xa_elem)
 
-    def by_vertical_alignment(self, vertical_alignment: XAiWorkApplication.Alignment) -> Union['XAiWorkRange', None]:
+    def by_vertical_alignment(
+        self, vertical_alignment: XAiWorkApplication.Alignment
+    ) -> Union["XAiWorkRange", None]:
         for page_range in self.xa_elem:
             if page_range.verticalAlignment() == vertical_alignment.value:
                 return self._new_element(page_range, XAiWorkRange)
@@ -2165,75 +2227,77 @@ class XAiWorkRangeList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAiWorkRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the range.
-        """
+        """All properties of the range."""
         raw_dict = self.xa_elem.properties()
         return {
             "background_color": XABase.XAColor(raw_dict["backgroundColor"]),
             "font_size": raw_dict["fontSize"],
             "name": raw_dict["name"],
-            "format": XAiWorkApplication.CellFormat(XABase.OSType(raw_dict["format"].stringValue())),
-            "vertical_alignment": XAiWorkApplication.Alignment(XABase.OSType(raw_dict["verticalAlignment"].stringValue())),
+            "format": XAiWorkApplication.CellFormat(
+                XABase.OSType(raw_dict["format"].stringValue())
+            ),
+            "vertical_alignment": XAiWorkApplication.Alignment(
+                XABase.OSType(raw_dict["verticalAlignment"].stringValue())
+            ),
             "font_name": raw_dict["fontName"],
-            "alignment": XAiWorkApplication.Alignment(XABase.OSType(raw_dict["alignment"].stringValue())),
+            "alignment": XAiWorkApplication.Alignment(
+                XABase.OSType(raw_dict["alignment"].stringValue())
+            ),
             "text_wrap": raw_dict["textWrap"],
-            "text_color": XABase.XAColor(raw_dict["textColor"])
+            "text_color": XABase.XAColor(raw_dict["textColor"]),
         }
 
     @property
     def font_name(self) -> str:
-        """The font of the range's cells.
-        """
+        """The font of the range's cells."""
         return self.xa_elem.fontName()
 
     @font_name.setter
     def font_name(self, font_name: str):
-        self.set_property('fontName', font_name)
+        self.set_property("fontName", font_name)
 
     @property
     def font_size(self) -> float:
-        """The font size of the range's cells.
-        """
+        """The font size of the range's cells."""
         return self.xa_elem.fontSize()
 
     @font_size.setter
     def font_size(self, font_size: float):
-        self.set_property('fontSize', font_size)
+        self.set_property("fontSize", font_size)
 
     @property
     def format(self) -> XAiWorkApplication.CellFormat:
-        """The format of the range's cells.
-        """
+        """The format of the range's cells."""
         return XAiWorkApplication.CellFormat(self.xa_elem.format())
 
     @format.setter
     def format(self, format: XAiWorkApplication.CellFormat):
-        self.set_property('format', format.value)
+        self.set_property("format", format.value)
 
     @property
     def alignment(self) -> XAiWorkApplication.Alignment:
-        """The horizontal alignment of content within the range's cells.
-        """
+        """The horizontal alignment of content within the range's cells."""
         return XAiWorkApplication.Alignment(self.xa_elem.alignment())
 
     @alignment.setter
     def alignment(self, alignment: XAiWorkApplication.Alignment):
-        self.set_property('alignment', alignment.value)
+        self.set_property("alignment", alignment.value)
 
     @property
     def name(self) -> str:
-        """The range's coordinates.
-        """
+        """The range's coordinates."""
         return self.xa_elem.name()
 
     @name.setter
@@ -2242,45 +2306,41 @@ class XAiWorkRange(XABase.XAObject):
 
     @property
     def text_color(self) -> XABase.XAColor:
-        """The text color of the range's cells.
-        """
+        """The text color of the range's cells."""
         return XABase.XAColor(self.xa_elem.textColor())
 
     @text_color.setter
     def text_color(self, text_color: XABase.XAColor):
-        self.set_property('textColor', text_color.xa_elem)
+        self.set_property("textColor", text_color.xa_elem)
 
     @property
     def text_wrap(self) -> bool:
-        """Whether text within the range's cell should wrap.
-        """
+        """Whether text within the range's cell should wrap."""
         return self.xa_elem.textWrap()
 
     @text_wrap.setter
     def text_wrap(self, text_wrap: bool):
-        self.set_property('textWrap', text_wrap)
+        self.set_property("textWrap", text_wrap)
 
     @property
     def background_color(self) -> XABase.XAColor:
-        """The background color of the range's cells.
-        """
+        """The background color of the range's cells."""
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
     @background_color.setter
     def background_color(self, background_color: XABase.XAColor):
-        self.set_property('backgroundColor', background_color.xa_elem)
+        self.set_property("backgroundColor", background_color.xa_elem)
 
     @property
     def vertical_alignment(self) -> XAiWorkApplication.Alignment:
-        """The vertical alignment of content in the range's cells.
-        """
+        """The vertical alignment of content in the range's cells."""
         return XAiWorkApplication.Alignment(self.xa_elem.verticalAlignment())
 
     @vertical_alignment.setter
     def vertical_alignment(self, vertical_alignment: XAiWorkApplication.Alignment):
-        self.set_property('verticalAlignment', vertical_alignment.value)
+        self.set_property("verticalAlignment", vertical_alignment.value)
 
-    def clear(self) -> 'XAiWorkRange':
+    def clear(self) -> "XAiWorkRange":
         """Clears the content of every cell in the range.
 
         :return: The range object
@@ -2307,7 +2367,7 @@ class XAiWorkRange(XABase.XAObject):
         self.xa_elem.clear()
         return self
 
-    def merge(self) -> 'XAiWorkRange':
+    def merge(self) -> "XAiWorkRange":
         """Merges all cells in the range.
 
         :return: The range object
@@ -2338,7 +2398,7 @@ class XAiWorkRange(XABase.XAObject):
         self.xa_elem.merge()
         return self
 
-    def unmerge(self) -> 'XAiWorkRange':
+    def unmerge(self) -> "XAiWorkRange":
         """Unmerges all cells in the range.
 
         :return: The range object
@@ -2356,7 +2416,7 @@ class XAiWorkRange(XABase.XAObject):
         self.xa_elem.unmerge()
         return self
 
-    def cells(self, filter: Union[dict, None] = None) -> 'XAiWorkCellList':
+    def cells(self, filter: Union[dict, None] = None) -> "XAiWorkCellList":
         """Returns a list of cells, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
@@ -2368,7 +2428,7 @@ class XAiWorkRange(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.cells(), XAiWorkCellList, filter)
 
-    def columns(self, filter: Union[dict, None] = None) -> 'XAiWorkColumnList':
+    def columns(self, filter: Union[dict, None] = None) -> "XAiWorkColumnList":
         """Returns a list of columns, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
@@ -2380,7 +2440,7 @@ class XAiWorkRange(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.columns(), XAiWorkColumnList, filter)
 
-    def rows(self, filter: Union[dict, None] = None) -> 'XAiWorkRowList':
+    def rows(self, filter: Union[dict, None] = None) -> "XAiWorkRowList":
         """Returns a list of rows, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
@@ -2396,8 +2456,6 @@ class XAiWorkRange(XABase.XAObject):
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
-
 class XAiWorkRowList(XAiWorkRangeList):
     """A wrapper around lists of rows that employs fast enumeration techniques.
 
@@ -2405,6 +2463,7 @@ class XAiWorkRowList(XAiWorkRangeList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkRow)
 
@@ -2423,7 +2482,7 @@ class XAiWorkRowList(XAiWorkRangeList):
     def height(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height") or [])
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkRow', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkRow", None]:
         raw_dict = {}
 
         if "background_color" in properties:
@@ -2439,13 +2498,17 @@ class XAiWorkRowList(XAiWorkRangeList):
             raw_dict["format"] = properties["format"].value
 
         if "vertical_alignment" in properties:
-            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(
+                properties["vertical_alignment"].value
+            )
 
         if "font_name" in properties:
             raw_dict["fontName"] = properties["font_name"]
 
         if "alignment" in properties:
-            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+            raw_dict["alignment"] = XAEvents.event_from_type_code(
+                properties["alignment"].value
+            )
 
         if "text_wrap" in properties:
             raw_dict["textWrap"] = properties["text_wrap"]
@@ -2463,24 +2526,25 @@ class XAiWorkRowList(XAiWorkRangeList):
             if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
                 return self._new_element(page_range, XAiWorkRow)
 
-    def by_address(self, address: float) -> Union['XAiWorkRow', None]:
+    def by_address(self, address: float) -> Union["XAiWorkRow", None]:
         return self.by_property("address", address)
 
-    def by_height(self, height: int) -> Union['XAiWorkRow', None]:
+    def by_height(self, height: int) -> Union["XAiWorkRow", None]:
         return self.by_property("height", height)
+
 
 class XAiWorkRow(XAiWorkRange):
     """A class for managing and interacting with table rows in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the row.
-        """
+        """All properties of the row."""
         raw_dict = self.xa_elem.properties()
         properties = super().properties
         properties["address"] = raw_dict["address"]
@@ -2489,21 +2553,17 @@ class XAiWorkRow(XAiWorkRange):
 
     @property
     def address(self) -> int:
-        """The index of the row in the table.
-        """
+        """The index of the row in the table."""
         return self.xa_elem.address()
 
     @property
     def height(self) -> float:
-        """The height of the row in pixels.
-        """
+        """The height of the row in pixels."""
         return self.xa_elem.height()
 
     @height.setter
     def height(self, height: float):
-        self.set_property('height', height)
-
-
+        self.set_property("height", height)
 
 
 class XAiWorkColumnList(XAiWorkRangeList):
@@ -2513,6 +2573,7 @@ class XAiWorkColumnList(XAiWorkRangeList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkColumn)
 
@@ -2531,7 +2592,7 @@ class XAiWorkColumnList(XAiWorkRangeList):
     def width(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("width") or [])
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkColumn', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkColumn", None]:
         raw_dict = {}
 
         if "background_color" in properties:
@@ -2547,13 +2608,17 @@ class XAiWorkColumnList(XAiWorkRangeList):
             raw_dict["format"] = properties["format"].value
 
         if "vertical_alignment" in properties:
-            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(
+                properties["vertical_alignment"].value
+            )
 
         if "font_name" in properties:
             raw_dict["fontName"] = properties["font_name"]
 
         if "alignment" in properties:
-            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+            raw_dict["alignment"] = XAEvents.event_from_type_code(
+                properties["alignment"].value
+            )
 
         if "text_wrap" in properties:
             raw_dict["textWrap"] = properties["text_wrap"]
@@ -2571,24 +2636,25 @@ class XAiWorkColumnList(XAiWorkRangeList):
             if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
                 return self._new_element(page_range, XAiWorkColumn)
 
-    def by_address(self, address: float) -> Union['XAiWorkColumn', None]:
+    def by_address(self, address: float) -> Union["XAiWorkColumn", None]:
         return self.by_property("address", address)
 
-    def by_width(self, width: int) -> Union['XAiWorkColumn', None]:
+    def by_width(self, width: int) -> Union["XAiWorkColumn", None]:
         return self.by_property("width", width)
+
 
 class XAiWorkColumn(XAiWorkRange):
     """A class for managing and interacting with table columns in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the column.
-        """
+        """All properties of the column."""
         raw_dict = self.xa_elem.properties()
         properties = super().properties
         properties["address"] = raw_dict["address"]
@@ -2597,21 +2663,17 @@ class XAiWorkColumn(XAiWorkRange):
 
     @property
     def address(self) -> int:
-        """The index of the column in the table.
-        """
+        """The index of the column in the table."""
         return self.xa_elem.address()
 
     @property
     def width(self) -> float:
-        """The width of the column in pixels.
-        """
+        """The width of the column in pixels."""
         return self.xa_elem.width()
 
     @width.setter
     def width(self, width: float):
-        self.set_property('width', width)
-
-
+        self.set_property("width", width)
 
 
 class XAiWorkCellList(XAiWorkRangeList):
@@ -2621,6 +2683,7 @@ class XAiWorkCellList(XAiWorkRangeList):
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAiWorkCell)
 
@@ -2653,7 +2716,7 @@ class XAiWorkCellList(XAiWorkRangeList):
         ls = self.xa_elem.arrayByApplyingSelector_("row") or []
         return self._new_element(ls, XAiWorkRowList)
 
-    def by_properties(self, properties: dict) -> Union['XAiWorkCell', None]:
+    def by_properties(self, properties: dict) -> Union["XAiWorkCell", None]:
         raw_dict = {}
 
         if "background_color" in properties:
@@ -2669,13 +2732,17 @@ class XAiWorkCellList(XAiWorkRangeList):
             raw_dict["format"] = properties["format"].value
 
         if "vertical_alignment" in properties:
-            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(
+                properties["vertical_alignment"].value
+            )
 
         if "font_name" in properties:
             raw_dict["fontName"] = properties["font_name"]
 
         if "alignment" in properties:
-            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+            raw_dict["alignment"] = XAEvents.event_from_type_code(
+                properties["alignment"].value
+            )
 
         if "text_wrap" in properties:
             raw_dict["textWrap"] = properties["text_wrap"]
@@ -2702,33 +2769,34 @@ class XAiWorkCellList(XAiWorkRangeList):
             if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
                 return self._new_element(page_range, XAiWorkCell)
 
-    def by_formatted_value(self, formatted_value: str) -> Union['XAiWorkCell', None]:
+    def by_formatted_value(self, formatted_value: str) -> Union["XAiWorkCell", None]:
         return self.by_property("formattedValue", formatted_value)
 
-    def by_formula(self, formula: str) -> Union['XAiWorkCell', None]:
+    def by_formula(self, formula: str) -> Union["XAiWorkCell", None]:
         return self.by_property("formula", formula)
 
-    def by_value(self, value: Any) -> Union['XAiWorkCell', None]:
+    def by_value(self, value: Any) -> Union["XAiWorkCell", None]:
         return self.by_property("value", value)
 
-    def by_column(self, column: XAiWorkColumn) -> Union['XAiWorkCell', None]:
+    def by_column(self, column: XAiWorkColumn) -> Union["XAiWorkCell", None]:
         return self.by_property("column", column.xa_elem)
 
-    def by_row(self, row: XAiWorkRow) -> Union['XAiWorkCell', None]:
+    def by_row(self, row: XAiWorkRow) -> Union["XAiWorkCell", None]:
         return self.by_property("row", row.xa_elem)
+
 
 class XAiWorkCell(XAiWorkRange):
     """A class for managing and interacting with table cells in Keynote.
 
     .. versionadded:: 0.1.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def properties(self) -> dict:
-        """All properties of the cell.
-        """
+        """All properties of the cell."""
         raw_dict = self.xa_elem.properties()
         properties = super().properties
         properties["formatted_value"] = raw_dict["formattedValue"]
@@ -2740,34 +2808,29 @@ class XAiWorkCell(XAiWorkRange):
 
     @property
     def formatted_value(self) -> str:
-        """The formatted form of the value stored in the cell.
-        """
+        """The formatted form of the value stored in the cell."""
         return self.xa_elem.formattedValue()
 
     @property
     def formula(self) -> str:
-        """The formula in the cell as text.
-        """
+        """The formula in the cell as text."""
         return self.xa_elem.formula()
 
     @property
     def value(self) -> Union[int, float, datetime, str, bool, None]:
-        """The value stored in the cell.
-        """
+        """The value stored in the cell."""
         return self.xa_elem.value().get()
 
     @value.setter
     def value(self, value: Union[int, float, datetime, str, bool, None]):
-        self.set_property('value', value)
+        self.set_property("value", value)
 
     @property
     def column(self) -> XAiWorkColumn:
-        """The cell's column.
-        """
+        """The cell's column."""
         return self._new_element(self.xa_elem.column(), XAiWorkColumn)
 
     @property
     def row(self) -> XAiWorkRow:
-        """The cell's row.
-        """
+        """The cell's row."""
         return self._new_element(self.xa_elem.row(), XAiWorkRow)

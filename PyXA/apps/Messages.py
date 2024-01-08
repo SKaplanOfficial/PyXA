@@ -22,34 +22,36 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
     .. versionadded:: 0.0.1
     """
+
     class ServiceType(Enum):
-        """Options for services types supported by Messages.app.
-        """
-        SMS         = XABase.OSType('ssms')
-        IMESSAGE    = XABase.OSType('sims')
+        """Options for services types supported by Messages.app."""
+
+        SMS = XABase.OSType("ssms")
+        IMESSAGE = XABase.OSType("sims")
 
     class MessageDirection(Enum):
-        """Options for the direction of a message.
-        """
-        INCOMING = XABase.OSType('FTic')
-        OUTGOING = XABase.OSType('FTog')
+        """Options for the direction of a message."""
+
+        INCOMING = XABase.OSType("FTic")
+        OUTGOING = XABase.OSType("FTog")
 
     class TransferStatus(Enum):
         """Options for the transfer stage/status of a message."""
-        PREPARING       = XABase.OSType('FTsp')
-        WAITING         = XABase.OSType('FTsw')
-        TRANSFERRING    = XABase.OSType('FTsg')
-        FINALIZING      = XABase.OSType('FTsz')
-        FINISHED        = XABase.OSType('FTsf')
-        FAILED          = XABase.OSType('FTse')
+
+        PREPARING = XABase.OSType("FTsp")
+        WAITING = XABase.OSType("FTsw")
+        TRANSFERRING = XABase.OSType("FTsg")
+        FINALIZING = XABase.OSType("FTsz")
+        FINISHED = XABase.OSType("FTsf")
+        FAILED = XABase.OSType("FTse")
 
     class ConnectionStatus(Enum):
-        """Options for the connection status of Messages.app to message transfer servers.
-        """
-        DISCONNECTING   = XABase.OSType('dcng')
-        CONNECTED       = XABase.OSType('conn')
-        CONNECTING      = XABase.OSType('cong')
-        DISCONNECTED    = XABase.OSType('dcon')
+        """Options for the connection status of Messages.app to message transfer servers."""
+
+        DISCONNECTING = XABase.OSType("dcng")
+        CONNECTED = XABase.OSType("conn")
+        CONNECTING = XABase.OSType("cong")
+        DISCONNECTED = XABase.OSType("dcon")
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -79,7 +81,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         """
         return self.xa_scel.version()
 
-    def send(self, message: str, chat: 'XAMessagesChat'):
+    def send(self, message: str, chat: "XAMessagesChat"):
         """Sends a message to the specified chat.
 
         :param message: The message to send
@@ -100,16 +102,20 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         self.xa_scel.send_to_(message, chat)
 
     def print(self, object: XABase.XAObject, show_dialog: bool = True):
-        self.xa_scel.print_withProperties_printDialog_(object.xa_elem, None, show_dialog)
+        self.xa_scel.print_withProperties_printDialog_(
+            object.xa_elem, None, show_dialog
+        )
 
-    def documents(self, filter: Union[dict, None] = None) -> 'XAMessagesDocumentList':
+    def documents(self, filter: Union[dict, None] = None) -> "XAMessagesDocumentList":
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.documents(), XAMessagesDocumentList, filter)
+        return self._new_element(
+            self.xa_scel.documents(), XAMessagesDocumentList, filter
+        )
 
-    def chats(self, filter: Union[dict, None] = None) -> 'XAMessagesChatList':
+    def chats(self, filter: Union[dict, None] = None) -> "XAMessagesChatList":
         """Returns a list of chats, as PyXA objects, matching the given filter.
 
         :Example 1: List all chats
@@ -147,7 +153,9 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         """
         return self._new_element(self.xa_scel.chats(), XAMessagesChatList, filter)
 
-    def participants(self, filter: Union[dict, None] = None) -> 'XAMessagesParticipantList':
+    def participants(
+        self, filter: Union[dict, None] = None
+    ) -> "XAMessagesParticipantList":
         """Returns a list of participants, as PyXA objects, matching the given filter.
 
         :Example 1: List all participants
@@ -166,9 +174,11 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_scel.participants(), XAMessagesParticipantList, filter)
+        return self._new_element(
+            self.xa_scel.participants(), XAMessagesParticipantList, filter
+        )
 
-    def accounts(self, filter: Union[dict, None] = None) -> 'XAMessagesAccountList':
+    def accounts(self, filter: Union[dict, None] = None) -> "XAMessagesAccountList":
         """Returns a list of accounts, as PyXA objects, matching the given filter.
 
         :Example 1: Print a list of all accounts
@@ -189,7 +199,9 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         """
         return self._new_element(self.xa_scel.accounts(), XAMessagesAccountList, filter)
 
-    def file_transfers(self, filter: Union[dict, None] = None) -> 'XAMessagesFileTransferList':
+    def file_transfers(
+        self, filter: Union[dict, None] = None
+    ) -> "XAMessagesFileTransferList":
         """Returns a list of file transfers, as PyXA objects, matching the given filter.
 
         :Example 1: List all file transfers
@@ -222,16 +234,19 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element([x for x in self.xa_scel.fileTransfers()], XAMessagesFileTransferList, filter)
-
-
+        return self._new_element(
+            [x for x in self.xa_scel.fileTransfers()],
+            XAMessagesFileTransferList,
+            filter,
+        )
 
 
 class XAMessagesWindow(XABaseScriptable.XASBWindow):
     """A class for managing and interacting with Messages windows.
-    
+
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -261,7 +276,7 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @index.setter
     def index(self, index: int):
-        self.set_property('index', index)
+        self.set_property("index", index)
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
@@ -309,7 +324,7 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @miniaturized.setter
     def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
+        self.set_property("miniaturized", miniaturized)
 
     @property
     def resizable(self) -> bool:
@@ -329,7 +344,7 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @visible.setter
     def visible(self, visible: bool):
-        self.set_property('visible', visible)
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
@@ -349,13 +364,11 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @zoomed.setter
     def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
+        self.set_property("zoomed", zoomed)
 
     @property
-    def document(self) -> 'XAMessagesDocument':
+    def document(self) -> "XAMessagesDocument":
         return self._new_element(self.xa_elem.document(), XAMessagesDocument)
-
-
 
 
 class XAMessagesDocumentList(XABase.XAList):
@@ -365,6 +378,7 @@ class XAMessagesDocumentList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesDocument, filter)
 
@@ -377,20 +391,22 @@ class XAMessagesDocumentList(XABase.XAList):
     def file(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("file") or [])
 
-    def by_name(self, name: str) -> Union['XAMessagesDocument', None]:
+    def by_name(self, name: str) -> Union["XAMessagesDocument", None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> Union['XAMessagesDocument', None]:
+    def by_modified(self, modified: bool) -> Union["XAMessagesDocument", None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: str) -> Union['XAMessagesDocument', None]:
+    def by_file(self, file: str) -> Union["XAMessagesDocument", None]:
         return self.by_property("file", file)
+
 
 class XAMessagesDocument(XABase.XAObject):
     """A class for managing and interacting with documents in Messages.app.
-    
+
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -419,8 +435,6 @@ class XAMessagesDocument(XABase.XAObject):
         return self.xa_elem.file()
 
 
-
-
 class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of chats that employs fast enumeration techniques.
 
@@ -428,6 +442,7 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesChat, filter)
 
@@ -437,37 +452,39 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
     def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def account(self) -> 'XAMessagesAccountList':
+    def account(self) -> "XAMessagesAccountList":
         ls = self.xa_elem.arrayByApplyingSelector_("account") or []
         return self._new_element(ls, XAMessagesAccountList)
 
-    def participants(self) -> list['XAMessagesParticipantList']:
+    def participants(self) -> list["XAMessagesParticipantList"]:
         ls = []
         for chat in self.xa_elem:
             ls.append(self._new_element(chat.participants(), XAMessagesParticipantList))
         return ls
 
-    def by_id(self, id: str) -> 'XAMessagesChat':
+    def by_id(self, id: str) -> "XAMessagesChat":
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> 'XAMessagesChat':
+    def by_name(self, name: str) -> "XAMessagesChat":
         return self.by_property("name", name)
 
-    def by_account(self, account: 'XAMessagesAccount') -> 'XAMessagesChat':
+    def by_account(self, account: "XAMessagesAccount") -> "XAMessagesChat":
         return self.by_property("account", account.xa_elem)
 
-    def by_participants(self, participants: list['XAMessagesParticipant']) -> 'XAMessagesChat':
+    def by_participants(
+        self, participants: list["XAMessagesParticipant"]
+    ) -> "XAMessagesChat":
         target_handles = [x.handle for x in participants]
         for chat in self.xa_elem:
             chat_participants = chat.participants()
-            
+
             match = []
             for participant in chat_participants:
                 if participant.handle() in target_handles:
                     match.append(participant)
                 else:
                     match = []
-            
+
             if len(match) == len(participants):
                 return self._new_element(chat, XAMessagesChat)
 
@@ -486,11 +503,13 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
+
 class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with chats in Messages.app
-    
+
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -511,7 +530,7 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.name() or ""
 
     @property
-    def account(self) -> 'XAMessagesAccount':
+    def account(self) -> "XAMessagesAccount":
         """The account that is participating in the chat.
 
         .. versionadded:: 0.0.1
@@ -537,12 +556,16 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         """
         self.xa_prnt.xa_prnt.send(message, self.xa_elem)
 
-    def participants(self, filter: Union[dict, None] = None) -> 'XAMessagesParticipantList':
+    def participants(
+        self, filter: Union[dict, None] = None
+    ) -> "XAMessagesParticipantList":
         """Returns a list of participants, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.participants(), XAMessagesParticipantList, filter)
+        return self._new_element(
+            self.xa_elem.participants(), XAMessagesParticipantList, filter
+        )
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the chat.
@@ -560,8 +583,6 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         return "<" + str(type(self)) + str(self.participants()) + ">"
 
 
-
-
 class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of file transfers that employs fast enumeration techniques.
 
@@ -569,6 +590,7 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesFileTransfer, filter)
 
@@ -586,11 +608,11 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         ls = [x.direction() for x in self.xa_elem]
         return [XAMessagesApplication.MessageDirection(x) for x in ls]
 
-    def account(self) -> 'XAMessagesAccountList':
+    def account(self) -> "XAMessagesAccountList":
         ls = [x.account() for x in self.xa_elem]
         return self._new_element(ls, XAMessagesAccountList)
 
-    def participant(self) -> 'XAMessagesParticipantList':
+    def participant(self) -> "XAMessagesParticipantList":
         ls = [x.participant() for x in self.xa_elem]
         return self._new_element(ls, XAMessagesParticipantList)
 
@@ -605,55 +627,72 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         try:
             return [XAMessagesApplication.TransferStatus(x) for x in ls]
         except ValueError:
-            return [XAMessagesApplication.TransferStatus(XABase.OSType(x.stringValue())) for x in ls]
+            return [
+                XAMessagesApplication.TransferStatus(XABase.OSType(x.stringValue()))
+                for x in ls
+            ]
 
     def started(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("started") or [])
 
-    def by_id(self, id: str) -> 'XAMessagesFileTransfer':
+    def by_id(self, id: str) -> "XAMessagesFileTransfer":
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> 'XAMessagesFileTransfer':
+    def by_name(self, name: str) -> "XAMessagesFileTransfer":
         return self.by_property("name", name)
 
-    def by_file_path(self, file_path: XABase.XAPath) -> 'XAMessagesFileTransfer':
+    def by_file_path(self, file_path: XABase.XAPath) -> "XAMessagesFileTransfer":
         return self.by_property("filePath", file_path.xa_elem)
 
-    def by_direction(self, direction: XAMessagesApplication.MessageDirection) -> 'XAMessagesFileTransfer':
+    def by_direction(
+        self, direction: XAMessagesApplication.MessageDirection
+    ) -> "XAMessagesFileTransfer":
         for x in self.xa_elem:
             if x.direction() == direction.value:
                 return self._new_element(x, XAMessagesFileTransfer)
 
-    def by_account(self, account: 'XAMessagesAccount') -> 'XAMessagesFileTransfer':
+    def by_account(self, account: "XAMessagesAccount") -> "XAMessagesFileTransfer":
         return self.by_property("account", account.xa_elem)
 
-    def by_participant(self, participant: 'XAMessagesParticipant') -> 'XAMessagesFileTransfer':
+    def by_participant(
+        self, participant: "XAMessagesParticipant"
+    ) -> "XAMessagesFileTransfer":
         return self.by_property("participant", participant.xa_elem)
 
-    def by_file_size(self, file_size: int) -> 'XAMessagesFileTransfer':
+    def by_file_size(self, file_size: int) -> "XAMessagesFileTransfer":
         return self.by_property("fileSize", file_size)
 
-    def by_file_progress(self, file_progress: int) -> 'XAMessagesFileTransfer':
+    def by_file_progress(self, file_progress: int) -> "XAMessagesFileTransfer":
         return self.by_property("fileProgress", file_progress)
 
-    def by_transfer_status(self, transfer_status: XAMessagesApplication.TransferStatus) -> 'XAMessagesFileTransfer':
+    def by_transfer_status(
+        self, transfer_status: XAMessagesApplication.TransferStatus
+    ) -> "XAMessagesFileTransfer":
         for x in self.xa_elem:
             if x.transferStatus() == transfer_status.value:
                 return self._new_element(x, XAMessagesFileTransfer)
 
-    def by_started(self, started: bool) -> 'XAMessagesFileTransfer':
+    def by_started(self, started: bool) -> "XAMessagesFileTransfer":
         return self.by_property("started", started)
 
-    def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> XABase.XAList:
+    def filter(
+        self,
+        filter: str,
+        comparison_operation: Union[str, None] = None,
+        value1: Union[Any, None] = None,
+        value2: Union[Any, None] = None,
+    ) -> XABase.XAList:
         substitutions = {
             "transfer status": "transferStatus",
             "file size": "fileSize",
             "file path": "filePath",
-            "file progress": "fileProgress"
+            "file progress": "fileProgress",
         }
         filter = substitutions.get(filter, filter)
 
-        if isinstance(value1, XAMessagesApplication.MessageDirection) or isinstance(value1, XAMessagesApplication.TransferStatus):
+        if isinstance(value1, XAMessagesApplication.MessageDirection) or isinstance(
+            value1, XAMessagesApplication.TransferStatus
+        ):
             value1 = XAEvents.event_from_str(XABase.unOSType(value1.value))
         return super().filter(filter, comparison_operation, value1, value2)
 
@@ -676,72 +715,64 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with file transfers in Messages.app
-    
+
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the file transfer.
-        """
+        """The unique identifier for the file transfer."""
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The name of the file.
-        """
+        """The name of the file."""
         return self.xa_elem.name()
 
     @property
     def file_path(self) -> XABase.XAPath:
-        """The local page to the file being transferred.
-        """
+        """The local page to the file being transferred."""
         return XABase.XAPath(self.xa_elem.filePath())
 
     @property
     def direction(self) -> XAMessagesApplication.MessageDirection:
-        """The direction that the file is being sent.
-        """
+        """The direction that the file is being sent."""
         return XAMessagesApplication.MessageDirection(self.xa_elem.direction())
 
     @property
-    def account(self) -> 'XAMessagesAccount':
-        """The account on which the file transfer is taking place.
-        """
+    def account(self) -> "XAMessagesAccount":
+        """The account on which the file transfer is taking place."""
         return self._new_element(self.xa_elem.account(), XAMessagesAccount)
 
     @property
-    def participant(self) -> 'XAMessagesParticipant':
-        """The other participant in the file transfer.
-        """
+    def participant(self) -> "XAMessagesParticipant":
+        """The other participant in the file transfer."""
         return self._new_element(self.xa_elem.participant(), XAMessagesParticipant)
 
     @property
     def file_size(self) -> int:
-        """The total size of the file transfer in bytes.
-        """
+        """The total size of the file transfer in bytes."""
         return self.xa_elem.fileSize()
 
     @property
     def file_progress(self) -> int:
-        """The number of bytes that have been transferred.
-        """
+        """The number of bytes that have been transferred."""
         return self.xa_elem.fileProgress()
 
     @property
     def transfer_status(self) -> XAMessagesApplication.TransferStatus:
-        """The current status of the file transfer.
-        """
+        """The current status of the file transfer."""
         return XAMessagesApplication.TransferStatus(self.xa_elem.transferStatus())
 
     @property
     def started(self) -> datetime:
-        """The date and time that the file transfer started.
-        """
+        """The date and time that the file transfer started."""
         return self.xa_elem.started()
 
     def get_clipboard_representation(self) -> list[AppKit.NSURL]:
@@ -760,8 +791,6 @@ class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
-
-
 class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of participants that employs fast enumeration techniques.
 
@@ -769,13 +798,14 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesParticipant, filter)
 
     def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def account(self) -> 'XAMessagesAccountList':
+    def account(self) -> "XAMessagesAccountList":
         ls = self.xa_elem.arrayByApplyingSelector_("account") or []
         return self._new_element(ls, XAMessagesAccountList)
 
@@ -794,28 +824,30 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
     def full_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fullName") or [])
 
-    def by_id(self, id: str) -> Union['XAMessagesParticipant', None]:
+    def by_id(self, id: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("id", id)
 
-    def by_account(self, account: 'XAMessagesAccount') -> Union['XAMessagesParticipant', None]:
+    def by_account(
+        self, account: "XAMessagesAccount"
+    ) -> Union["XAMessagesParticipant", None]:
         for x in self:
             if x.account.xa_elem == account.xa_elem:
                 return x
         return self.by_property("account", account.xa_elem)
 
-    def by_name(self, name: str) -> Union['XAMessagesParticipant', None]:
+    def by_name(self, name: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("name", name)
 
-    def by_handle(self, handle: str) -> Union['XAMessagesParticipant', None]:
+    def by_handle(self, handle: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("handle", handle)
 
-    def by_first_name(self, first_name: str) -> Union['XAMessagesParticipant', None]:
+    def by_first_name(self, first_name: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("firstName", first_name)
 
-    def by_last_name(self, last_name: str) -> Union['XAMessagesParticipant', None]:
+    def by_last_name(self, last_name: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("lastName", last_name)
 
-    def by_full_name(self, full_name: str) -> Union['XAMessagesParticipant', None]:
+    def by_full_name(self, full_name: str) -> Union["XAMessagesParticipant", None]:
         return self.by_property("fullName", full_name)
 
     def get_clipboard_representation(self) -> list[str]:
@@ -833,11 +865,13 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
+
 class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with chat participants in Messages.app
-    
+
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -850,9 +884,9 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.id()
 
     @property
-    def account(self) -> 'XAMessagesAccount':
+    def account(self) -> "XAMessagesAccount":
         """The account for the participant.
-        
+
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_elem.account(), XAMessagesAccount)
@@ -913,8 +947,6 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
         return "<" + str(type(self)) + self.full_name + ">"
 
 
-
-
 class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of accounts that employs fast enumeration techniques.
 
@@ -922,6 +954,7 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.4
     """
+
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesAccount, filter)
 
@@ -929,34 +962,45 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
     def object_description(self) -> list[str]:
-        return list(self.xa_elem.get().arrayByApplyingSelector_("objectDescription") or [])
+        return list(
+            self.xa_elem.get().arrayByApplyingSelector_("objectDescription") or []
+        )
 
     def enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
     def connection_status(self) -> list[XAMessagesApplication.ConnectionStatus]:
         ls = self.xa_elem.arrayByApplyingSelector_("connectionStatus") or []
-        return [XAMessagesApplication.ConnectionStatus(XABase.OSType(x.stringValue())) for x in ls]
+        return [
+            XAMessagesApplication.ConnectionStatus(XABase.OSType(x.stringValue()))
+            for x in ls
+        ]
 
     def service_type(self) -> list[XAMessagesApplication.ServiceType]:
         ls = [x.serviceType() for x in self.xa_elem]
         return [XAMessagesApplication.ServiceType(x) for x in ls]
 
-    def by_id(self, id: str) -> Union['XAMessagesAccount', None]:
+    def by_id(self, id: str) -> Union["XAMessagesAccount", None]:
         return self.by_property("id", id)
 
-    def by_object_description(self, object_description: str) -> Union['XAMessagesAccount', None]:
+    def by_object_description(
+        self, object_description: str
+    ) -> Union["XAMessagesAccount", None]:
         return self.by_property("objectDescription", object_description)
 
-    def by_enabled(self, enabled: bool) -> Union['XAMessagesAccount', None]:
+    def by_enabled(self, enabled: bool) -> Union["XAMessagesAccount", None]:
         return self.by_property("enabled", enabled)
 
-    def by_connection_status(self, connection_status: XAMessagesApplication.ConnectionStatus) -> Union['XAMessagesAccount', None]:
+    def by_connection_status(
+        self, connection_status: XAMessagesApplication.ConnectionStatus
+    ) -> Union["XAMessagesAccount", None]:
         for account in self.xa_elem:
             if account.connectionStatus() == connection_status.value:
                 return self._new_element(account, XAMessagesAccount)
 
-    def by_service_type(self, service_type: XAMessagesApplication.ServiceType) -> Union['XAMessagesAccount', None]:
+    def by_service_type(
+        self, service_type: XAMessagesApplication.ServiceType
+    ) -> Union["XAMessagesAccount", None]:
         for account in self.xa_elem:
             if account.serviceType() == service_type.value:
                 return self._new_element(account, XAMessagesAccount)
@@ -976,46 +1020,43 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_type()) + ">"
 
+
 class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with accounts in Messages.app
-    
+
     .. versionadded:: 0.0.1
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the account.
-        """
+        """The unique identifier for the account."""
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
-        """The name of the account as defined in the Account Preferences description field.
-        """
+        """The name of the account as defined in the Account Preferences description field."""
         return self.xa_elem.objectDescription()
 
     @property
     def enabled(self) -> bool:
-        """Whether the account is currently enabled.
-        """
+        """Whether the account is currently enabled."""
         return self.xa_elem.enabled()
 
     @enabled.setter
     def enabled(self, enabled: bool):
-        self.set_property('enabled', enabled)
+        self.set_property("enabled", enabled)
 
     @property
     def connection_status(self) -> XAMessagesApplication.ConnectionStatus:
-        """The connection status for the account.
-        """
+        """The connection status for the account."""
         return XAMessagesApplication.ConnectionStatus(self.xa_elem.connectionStatus())
 
     @property
     def service_type(self) -> XAMessagesApplication.ServiceType:
-        """The type of service for the account.
-        """
+        """The type of service for the account."""
         return XAMessagesApplication.ServiceType(self.xa_elem.serviceType())
 
     def chats(self, filter: Union[dict, None] = None) -> XAMessagesChatList:
@@ -1025,12 +1066,16 @@ class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
         """
         return self._new_element(self.xa_elem.chats(), XAMessagesChatList, filter)
 
-    def participants(self, filter: Union[dict, None] = None) -> XAMessagesParticipantList:
+    def participants(
+        self, filter: Union[dict, None] = None
+    ) -> XAMessagesParticipantList:
         """Returns a list of participants, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.0.4
         """
-        return self._new_element(self.xa_elem.participants(), XAMessagesParticipantList, filter)
+        return self._new_element(
+            self.xa_elem.participants(), XAMessagesParticipantList, filter
+        )
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the account.

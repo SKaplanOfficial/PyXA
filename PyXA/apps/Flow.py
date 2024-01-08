@@ -7,11 +7,13 @@ from datetime import timedelta
 
 from PyXA import XABaseScriptable
 
+
 class XAFlowApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Flow.app.
 
     .. versionadded:: 0.1.0
     """
+
     def __init__(self, properties):
         super().__init__(properties)
 

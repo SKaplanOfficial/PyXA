@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Making a Combined Workflow for Creating Image Mosaic &mdash; PyXA 0.2.2 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <title>Making a Combined Workflow for Creating Image Mosaic &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -30,11 +31,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> PyXA
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PyXA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -42,7 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Package Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../index.html#basic-usage">Basic Usage</a></li>
@@ -84,7 +89,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
           <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
           <li class="breadcrumb-item"><a href="index.html">Automator Module</a></li>
@@ -99,13 +104,13 @@
            <div itemprop="articleBody">
              
   <section id="making-a-combined-workflow-for-creating-image-mosaic">
-<h1>Making a Combined Workflow for Creating Image Mosaic<a class="headerlink" href="#making-a-combined-workflow-for-creating-image-mosaic" title="Permalink to this heading"></a></h1>
+<h1>Making a Combined Workflow for Creating Image Mosaic<a class="headerlink" href="#making-a-combined-workflow-for-creating-image-mosaic" title="Link to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>Automation scripts can ask users for many different kinds of input, and different automation technologies are particularly suited to handling some types of inputs over others. Moreover, prompting users for different kinds of input may be easier using one automation technology over another. For example, Python has specialized tools for working with command-line arguments, so you might use PyXA over other automation technologies when looking to create a command-line automation script. Comparatively, Shortcuts and Automator provide highly intuitive ways to get non-text input from users, so you might opt to use one of them instead when looking to handle image, video, and other media data. When working on automation scripts, you can combine all of these technologies and use them in tandem, enabling you to always utilize the best tool for the task. In this tutorial, we combine the abilities of PyXA and Automator, producing a combined workflow to create a mosaic of selected images using the <a class="reference external" href="https://pypi.org/project/Pillow/">Pillow</a> library for Python.</p>
 </section>
 <section id="part-1-getting-user-input">
-<h2>Part 1 - Getting User Input<a class="headerlink" href="#part-1-getting-user-input" title="Permalink to this heading"></a></h2>
+<h2>Part 1 - Getting User Input<a class="headerlink" href="#part-1-getting-user-input" title="Link to this heading"></a></h2>
 <p>To create our combined automation workflow, let’s first think about its component parts. We know that Automator has actions for user input, so you might be able to guess that there is a dedicated “Ask For Photos” action. It’s unlikely that Apple would expose the direct NSImage objects via that action, so we can assume that the action outputs either image file paths or image IDs. This is something that we’ll need to check in a moment. The Python Image Library (Pillow) primarily operates on images loaded from files, and Python is slower than Automator at retrieving UI element property values, so ideally we’ll have the PyXA side of the automation script working with file paths. Let’s create a workflow in Automator that prompts the user to select photos as input and outputs image file paths.</p>
 <p>This can be accomplished with a single action: “Ask For Photos”. This action already outputs file paths, so there is no need for an additional action to extract that data. You can confirm this by adding the action (dragging it from the left-side sidebar into the main work area, then dropping it), then pressing the “run” button in the top right corner. The workflow will prompt you to select images. After clicking “Choose”, click the “Results” button on the action and open the tab labelled “{}” for “Raw Data”. You should see an image file path – hooray! When this workflow is run from PyXA, the execution return value will be in the same format as the raw data displayed.</p>
 <p>Save the workflow as “Ask For Photos.workflow” in a location of your choosing. This tutorial assumes that the workflow was saved in the Automator folder of iCloud, but this does not need to be the case – just make sure to change the path in the PyXA code.</p>
@@ -119,7 +124,7 @@
 <p>If you run the PyXA script now, you should again be prompted to select photos, and you should see that the paths to each image you selected, if any, were printed by the PyXA script.</p>
 </section>
 <section id="part-2-creating-a-mosaic">
-<h2>Part 2 - Creating A Mosaic<a class="headerlink" href="#part-2-creating-a-mosaic" title="Permalink to this heading"></a></h2>
+<h2>Part 2 - Creating A Mosaic<a class="headerlink" href="#part-2-creating-a-mosaic" title="Link to this heading"></a></h2>
 <p>The goal of this tutorial is to highlight the ability to intertwine PyXA and Automator – believe it or not, we’re done with that! The rest of this part looks at how to using the Pillow library to create a mosaic of images; it has nothing to do with PyXA, apart from that we used PyXA to execute an Automator workflow. To run the rest of this tutorial, you’ll need to adjust your imports to the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span><span class="o">,</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -156,7 +161,7 @@
 </div>
 </section>
 <section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
 <p>The full code for this tutorial:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span><span class="o">,</span> <span class="nn">math</span>
 <span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -194,7 +199,7 @@
 </div>
 </section>
 <section id="see-also">
-<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
 </section>
 </section>
 

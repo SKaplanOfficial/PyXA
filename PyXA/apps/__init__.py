@@ -1,7 +1,7 @@
 application_classes = {
     # "invocation": ("module_name", "application_object_name")
     ### First Party Scriptable Apps
-    'database events': ("DatabaseEvents", "XADatabaseEventsApplication"),
+    "database events": ("DatabaseEvents", "XADatabaseEventsApplication"),
     "finder": ("Finder", "XAFinderApplication"),
     "safari": ("Safari", "XASafariApplication"),
     "music": ("Music", "XAMusicApplication"),
@@ -30,30 +30,43 @@ application_classes = {
     "script editor": ("ScriptEditor", "XAScriptEditorApplication"),
     "system events": ("SystemEvents", "XASystemEventsApplication"),
     "image events": ("ImageEvents", "XAImageEventsApplication"),
-
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
     "dictionary": ("Dictionary", "XADictionaryApplication"),
     "maps": ("Maps", "XAMapsApplication"),
     "stocks": ("Stocks", "XAStocksApplication"),
-
     ### Third Party Scriptable Apps
     # Chromium
     "chromium": ("Chromium", "XAChromiumApplication"),
     "brave browser": ("Chromium", "XAChromiumApplication"),
+    "brave browser dev": ("Chromium", "XAChromiumApplication"),
+    "brave browser beta": ("Chromium", "XAChromiumApplication"),
+    "brave browser nightly": ("Chromium", "XAChromiumApplication"),
     "microsoft edge": ("Chromium", "XAChromiumApplication"),
+    "microsoft edge dev": ("Chromium", "XAChromiumApplication"),
+    "microsoft edge beta": ("Chromium", "XAChromiumApplication"),
+    "microsoft edge canary": ("Chromium", "XAChromiumApplication"),
     "google chrome": ("Chromium", "XAChromiumApplication"),
+    "google chrome canary": ("Chromium", "XAChromiumApplication"),
+    "google chrome dev": ("Chromium", "XAChromiumApplication"),
+    "google chrome beta": ("Chromium", "XAChromiumApplication"),
     "opera": ("Chromium", "XAChromiumApplication"),
+    "opera developer": ("Chromium", "XAChromiumApplication"),
+    "opera beta": ("Chromium", "XAChromiumApplication"),
+    "opera gx": ("Chromium", "XAChromiumApplication"),
+    "opera neon": ("Chromium", "XAChromiumApplication"),
     "vivaldi": ("Chromium", "XAChromiumApplication"),
     "blisk": ("Chromium", "XAChromiumApplication"),
     "iridium": ("Chromium", "XAChromiumApplication"),
-
+    "yandex": ("Chromium", "XAChromiumApplication"),
+    "maxthon": ("Chromium", "XAChromiumApplication"),
+    "maxthon beta": ("Chromium", "XAChromiumApplication"),
+    # Other
     "alfred": ("Alfred", "XAAlfredApplication"),
     "drafts": ("Drafts", "XADraftsApplication"),
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
     "rstudio": ("RStudio", "XARStudioApplication"),
     "iterm": ("iTerm", "XAiTermApplication"),
-
     "vlc": ("VLC", "XAVLCApplication"),
     "fantastical": ("Fantastical", "XAFantasticalApplication"),
     "omnioutliner": ("OmniOutliner", "XAOmniOutlinerApplication"),
@@ -61,7 +74,10 @@ application_classes = {
     "flow": ("Flow", "XAFlowApplication"),
     "bike": ("Bike", "XABikeApplication"),
     "adobe acrobat reader": ("AcrobatReader", "XAAcrobatReaderApplication"),
-    "cardhop": ("Cardhop", "XACardhopAppplication"),
+    "cardhop": ("Cardhop", "XACardhopApplication"),
     "amphetamine": ("Amphetamine", "XAAmphetamineApplication"),
-    "iina": ("IINA", "XAIINAApplication")
+    "iina": ("IINA", "XAIINAApplication"),
+    "omniweb": ("OmniWeb", "XAOmniWebApplication"),
+    "path finder": ("PathFinder", "XAPathFinderApplication"),
+    "arc": ("Arc", "XAArcApplication"),
 }

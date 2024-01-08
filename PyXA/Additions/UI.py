@@ -14,12 +14,17 @@ from PyObjCTools import AppHelper
 from PyXA import XABase
 
 
-class XASwitch():
+class XASwitch:
     """A switch UI element. Wrapper around AppKit.NSSwitch functionality.
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, action: Union[Callable[['XASwitch', int, Any], None], None] = None, args: Union[list[Any], None] = None):
+
+    def __init__(
+        self,
+        action: Union[Callable[["XASwitch", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+    ):
         """Initializes a switch object.
 
         :param action: The method to run when the switch's state changes, defaults to None
@@ -29,8 +34,10 @@ class XASwitch():
 
         .. versionadded:: 0.1.2
         """
-        self.action = action #: The method to run when the switch's state changes
-        self.args = args or [] #: The arguments to pass to the action method upon execution
+        self.action = action  #: The method to run when the switch's state changes
+        self.args = (
+            args or []
+        )  #: The arguments to pass to the action method upon execution
         switch = AppKit.NSSwitch.alloc().init()
         switch.setFrame_(AppKit.NSMakeRect(0, 0, 100, 32))
         switch.setAction_("run:action:")
@@ -39,8 +46,7 @@ class XASwitch():
 
     @property
     def state(self) -> bool:
-        """The current state of the switch.
-        """
+        """The current state of the switch."""
         return self.xa_elem.state() == AppKit.NSControlStateValueOn
 
     @state.setter
@@ -61,7 +67,7 @@ class XASwitch():
         button = AppKit.NSApplication.sharedApplication().currentEvent().buttonNumber()
         if callable(self.action):
             self.action(self, button, *self.args)
-    
+
     def toggle(self):
         """Toggles the switch on or off.
 
@@ -73,14 +79,20 @@ class XASwitch():
             self.xa_elem.setState_(AppKit.NSControlStateValueOn)
 
 
-
-
-class XASlider():
+class XASlider:
     """A slider UI element. Wrapper around AppKit.NSSlider functionality.
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, action: Union[Callable[['XASlider', int, Any], None], None] = None, args: Union[list[Any], None] = None, value: float = 50.0, min_value: float = 0, max_value: float = 100):
+
+    def __init__(
+        self,
+        action: Union[Callable[["XASlider", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+        value: float = 50.0,
+        min_value: float = 0,
+        max_value: float = 100,
+    ):
         """Initializes a new slider object.
 
         :param action: The method to call when the value of the slider changes, defaults to None
@@ -96,9 +108,11 @@ class XASlider():
 
         .. versionadded:: 0.1.2
         """
-        self.action = action #: The method to run when the value of the slider changes
-        self.args = args or [] #: The arguments to pass to the action method upon execution
-        slider = AppKit.NSSlider.sliderWithTarget_action_(None, 'action:')
+        self.action = action  #: The method to run when the value of the slider changes
+        self.args = (
+            args or []
+        )  #: The arguments to pass to the action method upon execution
+        slider = AppKit.NSSlider.sliderWithTarget_action_(None, "action:")
         slider.setMinValue_(min_value)
         slider.setMaxValue_(max_value)
         slider.setDoubleValue_(value)
@@ -109,8 +123,7 @@ class XASlider():
 
     @property
     def value(self) -> float:
-        """The current value of the slider.
-        """
+        """The current value of the slider."""
         return self.xa_elem.doubleValue()
 
     @value.setter
@@ -119,8 +132,7 @@ class XASlider():
 
     @property
     def min_value(self) -> float:
-        """The minimum value that the slider can be set to.
-        """
+        """The minimum value that the slider can be set to."""
         return self.xa_elem.minValue()
 
     @min_value.setter
@@ -129,8 +141,7 @@ class XASlider():
 
     @property
     def max_value(self) -> float:
-        """The maximum value that the slider can be set to.
-        """
+        """The maximum value that the slider can be set to."""
         return self.xa_elem.maxValue()
 
     @max_value.setter
@@ -147,14 +158,19 @@ class XASlider():
             self.action(self, button, *self.args)
 
 
-
-
-class XASegmentedControl():
+class XASegmentedControl:
     """A segmented control UI element. Wrapper around AppKit.NSSegmentedControl functionality.
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, segments: Union[list[str], list[XABase.XAImage]], action: Union[Callable[['XASlider', int, Any], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False):
+
+    def __init__(
+        self,
+        segments: Union[list[str], list[XABase.XAImage]],
+        action: Union[Callable[["XASlider", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+        multiselect: bool = False,
+    ):
         """Initializes a new slider object.
 
         :param segments: The labels or images to display as available options
@@ -169,7 +185,9 @@ class XASegmentedControl():
         .. versionadded:: 0.1.2
         """
         if not isinstance(segments, list):
-            raise TypeError("Must provided a list of segment names (strings) or images (of the XABase.XAImage class).")
+            raise TypeError(
+                "Must provided a list of segment names (strings) or images (of the XABase.XAImage class)."
+            )
 
         all_strings = all([isinstance(segment, str) for segment in segments])
         all_images = all(isinstance(segment, XABase.XAImage) for segment in segments)
@@ -185,14 +203,20 @@ class XASegmentedControl():
             multiselect = AppKit.NSSegmentSwitchTrackingSelectOne
 
         if all_strings:
-            control = AppKit.NSSegmentedControl.segmentedControlWithLabels_trackingMode_target_action_(segments, multiselect, self, 'run:action:')
+            control = AppKit.NSSegmentedControl.segmentedControlWithLabels_trackingMode_target_action_(
+                segments, multiselect, self, "run:action:"
+            )
         else:
             images = [image.xa_elem for image in segments]
-            control = AppKit.NSSegmentedControl.segmentedControlWithImages_trackingMode_target_action_(images, multiselect, self, 'run:action:')
+            control = AppKit.NSSegmentedControl.segmentedControlWithImages_trackingMode_target_action_(
+                images, multiselect, self, "run:action:"
+            )
 
         self.__multiselect = multiselect
-        self.action = action #: The method to run when the value of the slider changes
-        self.args = args or [] #: The arguments to pass to the action method upon execution
+        self.action = action  #: The method to run when the value of the slider changes
+        self.args = (
+            args or []
+        )  #: The arguments to pass to the action method upon execution
         self.xa_elem = control
 
     @property
@@ -231,20 +255,31 @@ class XASegmentedControl():
             self.action(self, button, *self.args)
 
 
-
-
-class XAHUD():
+class XAHUD:
     """A momentary HUD window that displays a message to the user.
 
     .. versionadded:: 0.1.1
     """
 
-    def __init__(self, message: str, font_size: int = 20, duration: float = 3.0, background_color: Union['XABase.XAColor', None] = None, text_color: Union['XABase.XAColor', None] = None):
-        self.message = message #: The HUD's message text
-        self.font_size = font_size #: The font size of the HUD's message text
-        self.duration: float = duration #: The amount of time to display the HUD for, in seconds
-        self.background_color: XABase.XAColor = background_color or XABase.XAColor(0, 0, 0, 0.3) #: The background color of the HUD window
-        self.text_color: XABase.XAColor = text_color or XABase.XAColor(1, 1, 1, 1) #: The text color of the HUD's message text
+    def __init__(
+        self,
+        message: str,
+        font_size: int = 20,
+        duration: float = 3.0,
+        background_color: Union["XABase.XAColor", None] = None,
+        text_color: Union["XABase.XAColor", None] = None,
+    ):
+        self.message = message  #: The HUD's message text
+        self.font_size = font_size  #: The font size of the HUD's message text
+        self.duration: float = (
+            duration  #: The amount of time to display the HUD for, in seconds
+        )
+        self.background_color: XABase.XAColor = background_color or XABase.XAColor(
+            0, 0, 0, 0.3
+        )  #: The background color of the HUD window
+        self.text_color: XABase.XAColor = text_color or XABase.XAColor(
+            1, 1, 1, 1
+        )  #: The text color of the HUD's message text
 
     def display(self):
         """Displays the HUD in the center of the screen.
@@ -263,7 +298,15 @@ class XAHUD():
         text.sizeToFit()
 
         # Create a HUD panel, add the text as a subview
-        panel = AppKit.NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(text.frame(), AppKit.NSWindowStyleMaskFullSizeContentView | AppKit.NSWindowStyleMaskUtilityWindow | AppKit.NSTitledWindowMask | AppKit.NSWindowStyleMaskHUDWindow, AppKit.NSBackingStoreBuffered, False)
+        panel = AppKit.NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(
+            text.frame(),
+            AppKit.NSWindowStyleMaskFullSizeContentView
+            | AppKit.NSWindowStyleMaskUtilityWindow
+            | AppKit.NSTitledWindowMask
+            | AppKit.NSWindowStyleMaskHUDWindow,
+            AppKit.NSBackingStoreBuffered,
+            False,
+        )
         panel.setTitlebarAppearsTransparent_(True)
         panel.contentView().addSubview_(text)
         panel.contentView().setBackgroundColor_(self.background_color.xa_elem)
@@ -282,17 +325,24 @@ class XAHUD():
         app = AppKit.NSApplication.sharedApplication()
         app.setActivationPolicy_(AppKit.NSApplicationActivationPolicyAccessory)
         app.activateIgnoringOtherApps_(True)
-        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = self.duration))
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(
+            datetime.now() + timedelta(seconds=self.duration)
+        )
 
 
-
-
-class XAAlert():
+class XAAlert:
     """A class for creating and interacting with an alert dialog window.
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, title: str = "Alert!", message: str = "", buttons = ["Ok", "Cancel"], icon: Union['XABase.XAImage', None] = None):
+
+    def __init__(
+        self,
+        title: str = "Alert!",
+        message: str = "",
+        buttons=["Ok", "Cancel"],
+        icon: Union["XABase.XAImage", None] = None,
+    ):
         """Initializes an alert object.
 
         :param title: The title text of the alert
@@ -304,10 +354,12 @@ class XAAlert():
         :param icon: The icon displayed in the alert window
         :type icon: XABase.XAImage
         """
-        self.title: str = title #: The title text of the alert
-        self.message: str = message #: The detail message text of the alert
-        self.buttons: list[str] = buttons #: A list specifying the buttons available for the user to click
-        self.icon = icon #: The icon displayed in the alert window
+        self.title: str = title  #: The title text of the alert
+        self.message: str = message  #: The detail message text of the alert
+        self.buttons: list[
+            str
+        ] = buttons  #: A list specifying the buttons available for the user to click
+        self.icon = icon  #: The icon displayed in the alert window
         self.__return_value = None
 
     def __display(self):
@@ -345,14 +397,26 @@ class XAAlert():
         return self.__return_value
 
 
-
-
-class XANotification():
+class XANotification:
     """A class for managing and interacting with notifications.
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, image: Union['XABase.XAImage', None] = None, sound_name: Union[str, None] = None, primary_button_title: Union[str, None] = None, show_reply_button: bool = False, click_action: Union[Callable[[], None], None] = None, primary_action: Union[Callable[[], None], None] = None, reply_action: Union[Callable[[], None], None] = None, timeout: float = -1):
+
+    def __init__(
+        self,
+        text: str,
+        title: Union[str, None] = None,
+        subtitle: Union[str, None] = None,
+        image: Union["XABase.XAImage", None] = None,
+        sound_name: Union[str, None] = None,
+        primary_button_title: Union[str, None] = None,
+        show_reply_button: bool = False,
+        click_action: Union[Callable[[], None], None] = None,
+        primary_action: Union[Callable[[], None], None] = None,
+        reply_action: Union[Callable[[], None], None] = None,
+        timeout: float = -1,
+    ):
         """Initializes a notification object.
 
         :param text: The main text of the notification
@@ -378,16 +442,30 @@ class XANotification():
 
         .. versionadded:: 0.0.9
         """
-        self.text: str = text #: The main text of the notification
-        self.title: str = title #: The title of the notification
-        self.subtitle: str = subtitle #: The subtitle of the notification
-        self.image: XABase.XAImage = image #: The content image of the notification
-        self.sound_name = sound_name #: The sound to play when the notification is displayed
-        self.primary_button_title: str = primary_button_title #: The name of the primary action button
-        self.click_action: Union[Callable[[XANotification], None], None] = click_action or (lambda x: None) #: The method to run when the user clicks the notification
-        self.primary_action: Union[Callable[[XANotification], None], None] = primary_action or (lambda x: None) #: The method to run when the user clicks the primary action button
-        self.reply_action: Union[Callable[[XANotification, str], None], None] = reply_action #: The method to run when the user replies to the notification. Overrides the primary action and replaces the primary action button with a "Reply" button.
-        self.timeout: float = timeout #: The number of seconds to wait for the user to act on the notification, or -1 to wait infinitely
+        self.text: str = text  #: The main text of the notification
+        self.title: str = title  #: The title of the notification
+        self.subtitle: str = subtitle  #: The subtitle of the notification
+        self.image: XABase.XAImage = image  #: The content image of the notification
+        self.sound_name = (
+            sound_name  #: The sound to play when the notification is displayed
+        )
+        self.primary_button_title: str = (
+            primary_button_title  #: The name of the primary action button
+        )
+        self.click_action: Union[
+            Callable[[XANotification], None], None
+        ] = click_action or (
+            lambda x: None
+        )  #: The method to run when the user clicks the notification
+        self.primary_action: Union[
+            Callable[[XANotification], None], None
+        ] = primary_action or (
+            lambda x: None
+        )  #: The method to run when the user clicks the primary action button
+        self.reply_action: Union[
+            Callable[[XANotification, str], None], None
+        ] = reply_action  #: The method to run when the user replies to the notification. Overrides the primary action and replaces the primary action button with a "Reply" button.
+        self.timeout: float = timeout  #: The number of seconds to wait for the user to act on the notification, or -1 to wait infinitely
 
     def display(self):
         """Displays the notification.
@@ -422,7 +500,7 @@ class XANotification():
 
         if isinstance(self.image, XABase.XAImage):
             notification.setContentImage_(self.image.xa_elem)
-        
+
         if isinstance(self.sound_name, str):
             notification.setSoundName_(self.sound_name)
 
@@ -445,12 +523,12 @@ class XANotification():
 
         # Wait for user to do some action on the notification
         while notification in nc.deliveredNotifications():
-            AppKit.NSRunLoop.mainRunLoop().runUntilDate_(datetime.now() + timedelta(seconds=0.01))
+            AppKit.NSRunLoop.mainRunLoop().runUntilDate_(
+                datetime.now() + timedelta(seconds=0.01)
+            )
 
 
-
-
-class XAMenuBar():
+class XAMenuBar:
     def __init__(self):
         """Creates a new menu bar object for interacting with the system menu bar.
 
@@ -460,7 +538,7 @@ class XAMenuBar():
         >>> menubar = PyXA.XAMenuBar()
         >>> menu_icon = PyXA.XAImage.symbol("sparkles")
         >>> menu = menubar.new_menu(icon=menu_icon)
-        >>> 
+        >>>
         >>> button_item = menu.new_item("Click me", action=lambda item, button: print(item.text))
         >>> url_item = menu.new_url_item("www.github.com")
         >>> image_item = menu.new_image_item("/Users/steven/Desktop/Screenshot 2022-12-06 at 21.40.37.png", tooltip="An image")
@@ -469,12 +547,12 @@ class XAMenuBar():
         >>> segmented_control_item = menu.new_segmented_control_item(["1", "2", "3"], action=lambda control, button: print(control.selection))
         >>> slider_item = menu.new_slider_item(action=lambda slider, button: print(slider.value))
         >>> menu.new_separator()
-        >>> 
+        >>>
         >>> menubar.display()
 
         .. versionadded:: 0.0.9
         """
-        self.menus = {} #: The menus to be displayed in the status bar, keyed by ID
+        self.menus = {}  #: The menus to be displayed in the status bar, keyed by ID
 
         app = AppKit.NSApplication.sharedApplication()
         detector = self
@@ -521,7 +599,18 @@ class XAMenuBar():
         app.setDelegate_(self.__delegate)
         app.setActivationPolicy_(AppKit.NSApplicationActivationPolicyAccessory)
 
-    def new_menu(self, content: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath, None] = None, icon: Union[XABase.XAImage, None] = None, tooltip: Union[str, None] = None, icon_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenu':
+    def new_menu(
+        self,
+        content: Union[
+            str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath, None
+        ] = None,
+        icon: Union[XABase.XAImage, None] = None,
+        tooltip: Union[str, None] = None,
+        icon_dimensions: tuple[int, int] = (30, 30),
+        action: Callable[["XAMenuBarMenu", None], None] = None,
+        id: Union[str, None] = None,
+        index: int = -1,
+    ) -> "XAMenuBarMenu":
         """Adds a new menu to be displayed in the system menu bar.
 
         :param content: The content of the menu (the string or icon shown in the menubar), defaults to None
@@ -546,18 +635,18 @@ class XAMenuBar():
         >>> import random
         >>> import threading
         >>> import time
-        >>> 
+        >>>
         >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
-        >>> 
+        >>>
         >>> menu_bar = PyXA.XAMenuBar()
         >>> emoji_bar = menu_bar.new_menu()
-        >>> 
+        >>>
         >>> def update_display():
         >>>     while True:
         >>>         new_emoji = random.choice(emojis)
         >>>         emoji_bar.title = new_emoji
         >>>         time.sleep(0.25)
-        >>> 
+        >>>
         >>> threading.Thread(target=update_display).start()
         >>> menu_bar.display()
 
@@ -568,7 +657,9 @@ class XAMenuBar():
         while id in self.menus:
             id += "_"
 
-        self.menus[id] = XAMenuBarMenu(content, icon, tooltip, icon_dimensions, action, id, index)
+        self.menus[id] = XAMenuBarMenu(
+            content, icon, tooltip, icon_dimensions, action, id, index
+        )
         return self.menus[id]
 
     def remove_menu(self, id):
@@ -599,7 +690,9 @@ class XAMenuBar():
         for menu in self.menus:
             # Add a 'Quit' item to the bottom of each menu
             menu = self.menus[menu]
-            item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
+            item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+                "Quit", "terminate:", ""
+            )
             menu.xa_elem.addItem_(item)
             menu.xa_elem.setDelegate_(self.__delegate)
 
@@ -613,18 +706,34 @@ class XAMenuBar():
                 view.setFrameSize_((menu_width, view_height))
 
                 if isinstance(view, AppKit.NSImageView):
-                    view.image().setSize_(AppKit.NSMakeSize(menu_width * 0.9, view_height * 0.95))
+                    view.image().setSize_(
+                        AppKit.NSMakeSize(menu_width * 0.9, view_height * 0.95)
+                    )
 
                 for subview in view.subviews():
                     if isinstance(subview, AppKit.NSSwitch):
                         subview_height = subview.frame().size.height
                         subview.sizeToFit()
-                        subview.setFrame_(AppKit.NSMakeRect(menu_width * 0.95 - subview.frame().size.width, 0, subview.frame().size.width, subview_height))
+                        subview.setFrame_(
+                            AppKit.NSMakeRect(
+                                menu_width * 0.95 - subview.frame().size.width,
+                                0,
+                                subview.frame().size.width,
+                                subview_height,
+                            )
+                        )
 
                     elif not isinstance(subview, AppKit.NSText):
                         subview_y = subview.frame().origin.y
                         subview_height = subview.frame().size.height
-                        subview.setFrame_(AppKit.NSMakeRect((menu_width - menu_width * 0.9) / 2, subview_y, menu_width * 0.9, subview_height))
+                        subview.setFrame_(
+                            AppKit.NSMakeRect(
+                                (menu_width - menu_width * 0.9) / 2,
+                                subview_y,
+                                menu_width * 0.9,
+                                subview_height,
+                            )
+                        )
 
         try:
             if len(self.menus) > 0:
@@ -634,10 +743,17 @@ class XAMenuBar():
             print(e)
 
 
-
-
-class XAMenuBarMenu():
-    def __init__(self, content: Union[str, int, float, XABase.XAObject], icon: Union[XABase.XAImage, None] = None, tooltip: Union[str, None] = None, icon_dimensions: tuple[int, int] = (30, 30), action: Callable[['XAMenuBarMenu', None], None] = None, id: Union[str, None] = None, index: int = -1):
+class XAMenuBarMenu:
+    def __init__(
+        self,
+        content: Union[str, int, float, XABase.XAObject],
+        icon: Union[XABase.XAImage, None] = None,
+        tooltip: Union[str, None] = None,
+        icon_dimensions: tuple[int, int] = (30, 30),
+        action: Callable[["XAMenuBarMenu", None], None] = None,
+        id: Union[str, None] = None,
+        index: int = -1,
+    ):
         """Initializes a new menu to be displayed in the system menu bar.
 
         :param content: The content of the menu (the string or icon shown in the menubar)
@@ -661,15 +777,17 @@ class XAMenuBarMenu():
         self.__icon = icon
         self.__icon_dimensions = icon_dimensions
         self.__tooltip = tooltip
-        self.action = action #: The method to call when the menu is opened
-        self.id = id or str(content) #: The unique identifier for the menu
-        self.items = {} #: The menu items, keyed by their IDs
+        self.action = action  #: The method to call when the menu is opened
+        self.id = id or str(content)  #: The unique identifier for the menu
+        self.items = {}  #: The menu items, keyed by their IDs
         self.index = index
-    
+
         # Create a new status bar item
         self.__status_bar = AppKit.NSStatusBar.systemStatusBar()
-        self._status_item = self.__status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
-       
+        self._status_item = self.__status_bar.statusItemWithLength_(
+            AppKit.NSVariableStatusItemLength
+        ).retain()
+
         # Add an image to the status bar item, if necessary
         if icon is not None:
             self.icon = icon
@@ -688,8 +806,7 @@ class XAMenuBarMenu():
 
     @property
     def content(self) -> str:
-        """The content of the menu.
-        """
+        """The content of the menu."""
         return self.__content
 
     @content.setter
@@ -705,13 +822,12 @@ class XAMenuBarMenu():
             self._status_item.button().setImage_(img)
 
     @property
-    def icon(self) -> 'XABase.XAImage':
-        """The image associated with the menu.
-        """
+    def icon(self) -> "XABase.XAImage":
+        """The image associated with the menu."""
         return self.__icon
 
     @icon.setter
-    def icon(self, icon: 'XABase.XAImage'):
+    def icon(self, icon: "XABase.XAImage"):
         self.__icon = icon
         img = icon.xa_elem.copy()
         img.setScalesWhenResized_(True)
@@ -720,8 +836,7 @@ class XAMenuBarMenu():
 
     @property
     def icon_dimensions(self) -> tuple[int, int]:
-        """The width and height of the menu's image, in pixels.
-        """
+        """The width and height of the menu's image, in pixels."""
         return self.__icon_dimensions
 
     @icon_dimensions.setter
@@ -732,8 +847,7 @@ class XAMenuBarMenu():
 
     @property
     def tooltip(self) -> str:
-        """The tooltip that appears when hovering over the menu.
-        """
+        """The tooltip that appears when hovering over the menu."""
         return self.__tooltip
 
     @tooltip.setter
@@ -741,7 +855,19 @@ class XAMenuBarMenu():
         self.__tooltip = tooltip
         self._status_item.setToolTip_(tooltip)
 
-    def new_item(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
+    def new_item(
+        self,
+        content: Union[str, None] = None,
+        icon: Union["XABase.XAImage", None] = None,
+        action: Union[Callable[[], None], None] = None,
+        args: Union[list[Any], None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        id: Union[str, None] = None,
+        index: int = -1,
+        label: Union[str, None] = None,
+        tooltip: Union[str, None] = None,
+        multiselect: bool = False,
+    ) -> "XAMenuBarMenuItem":
         """Creates a new menu item and adds it to this menu at the current insertion point.
 
         :param content: The title text of the item, defaults to None
@@ -771,18 +897,18 @@ class XAMenuBarMenu():
 
         >>> import PyXA
         >>> menu_bar = PyXA.XAMenuBar()
-        >>> 
+        >>>
         >>> img1 = PyXA.XAColor.red().make_swatch(10, 10)
         >>> img2 = PyXA.XAImage("https://avatars.githubusercontent.com/u/7865925?v=4")
         >>> img3 = PyXA.XAImage.symbol("flame.circle")
-        >>> 
+        >>>
         >>> m1 = menu_bar.new_menu("Menu 1")
         >>> m1.new_item("Item 1", lambda _: print("Action 1"), [], img1, (100, 100))
         >>> m1.new_item("Item 2", lambda _: print("Action 2"), [], img2, (100, 100))
-        >>> 
+        >>>
         >>> m2 = menu_bar.new_menu("Menu 2")
         >>> m2.new_item("Item 1", lambda _: print("Action 3"), image=img3, icon_dimensions=(50, 50))
-        >>> 
+        >>>
         >>> menu_bar.display()
 
         .. versionadded:: 0.1.1
@@ -798,28 +924,60 @@ class XAMenuBarMenu():
             index = self.xa_elem.numberOfItems()
 
         if content == "separator":
-            self.items[id] =  XASeparatorMenuItem(self)
+            self.items[id] = XASeparatorMenuItem(self)
         elif content == "slider":
-            self.items[id] =  XASliderMenuItem(self, tooltip, action, args)
+            self.items[id] = XASliderMenuItem(self, tooltip, action, args)
         elif content == "switch":
-            self.items[id] =  XASwitchMenuItem(self, label, tooltip, action, args)
+            self.items[id] = XASwitchMenuItem(self, label, tooltip, action, args)
         elif content == "header":
-            self.items[id] =  XAHeaderMenuItem(self, label)
+            self.items[id] = XAHeaderMenuItem(self, label)
         elif isinstance(content, list):
-            self.items[id] =  XASegmentedControlMenuItem(self, content, tooltip, action, args, multiselect)
+            self.items[id] = XASegmentedControlMenuItem(
+                self, content, tooltip, action, args, multiselect
+            )
         elif isinstance(content, XABase.XAImage):
             self.items[id] = XAImageMenuItem(self, content, tooltip)
         elif isinstance(content, XABase.XAURL) or isinstance(content, XABase.XAPath):
-            self.items[id] = XAURLMenuItem(self, content, label, icon, icon_dimensions, tooltip, action, args)
-        elif isinstance(content, str) or isinstance(content, int) or isinstance(content, float) or isinstance(content, bool):
-            self.items[id] = XATextMenuItem(self, str(content), icon, icon_dimensions, tooltip, action, args)
+            self.items[id] = XAURLMenuItem(
+                self, content, label, icon, icon_dimensions, tooltip, action, args
+            )
+        elif (
+            isinstance(content, str)
+            or isinstance(content, int)
+            or isinstance(content, float)
+            or isinstance(content, bool)
+        ):
+            self.items[id] = XATextMenuItem(
+                self, str(content), icon, icon_dimensions, tooltip, action, args
+            )
         else:
-            self.items[id] = XAMenuBarMenuItem(self, content, icon, action, args, icon_dimensions, id, index, label, tooltip)
+            self.items[id] = XAMenuBarMenuItem(
+                self,
+                content,
+                icon,
+                action,
+                args,
+                icon_dimensions,
+                id,
+                index,
+                label,
+                tooltip,
+            )
 
         self.xa_elem.insertItem_atIndex_(self.items[id].xa_elem, index)
         return self.items[id]
 
-    def new_url_item(self, url: Union[str, XABase.XAURL, XABase.XAPath], label: Union[str, None] = None, icon: Union[XABase.XAImage, None] = None, icon_dimensions: tuple[int, int] = (20, 20), tooltip: Union[str, None] = None, action: Union[Callable[['XAURLMenuItem'], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XAURLMenuItem':
+    def new_url_item(
+        self,
+        url: Union[str, XABase.XAURL, XABase.XAPath],
+        label: Union[str, None] = None,
+        icon: Union[XABase.XAImage, None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XAURLMenuItem"], None], None] = None,
+        args: Union[list[Any], None] = None,
+        index: int = -1,
+    ) -> "XAURLMenuItem":
         """Creates a new URL menu item at the specified index or the current insertion point.
 
         :param url: The URL or file path that the item will link to
@@ -846,9 +1004,16 @@ class XAMenuBarMenu():
         # Convert string URL to XAURL
         if isinstance(url, str):
             url = XABase.XAURL(url)
-        return self.new_item(url, icon, action, args, icon_dimensions, None, index, label, tooltip)
+        return self.new_item(
+            url, icon, action, args, icon_dimensions, None, index, label, tooltip
+        )
 
-    def new_image_item(self, image: Union[str, XABase.XAImage], tooltip: Union[str, None] = None, index: int = -1) -> 'XAImageMenuItem':
+    def new_image_item(
+        self,
+        image: Union[str, XABase.XAImage],
+        tooltip: Union[str, None] = None,
+        index: int = -1,
+    ) -> "XAImageMenuItem":
         """Creates a new image menu item at the specified index or the current insertion point.
 
         :param image: An image object or the path to an image file to display in the menu
@@ -867,7 +1032,15 @@ class XAMenuBarMenu():
             image = XABase.XAImage(image)
         return self.new_item(image, tooltip=tooltip, index=index)
 
-    def new_segmented_control_item(self, segments: Union[list[str], list[XABase.XAImage]], tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False, index: int = -1) -> 'XASegmentedControlMenuItem':
+    def new_segmented_control_item(
+        self,
+        segments: Union[list[str], list[XABase.XAImage]],
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[[XASlider], None], None] = None,
+        args: Union[list[Any], None] = None,
+        multiselect: bool = False,
+        index: int = -1,
+    ) -> "XASegmentedControlMenuItem":
         """Creates a new segmented control menu item at the specified index or the current insertion point.
 
         :param segments: The strings or images to display as button options
@@ -887,9 +1060,23 @@ class XAMenuBarMenu():
 
         .. versionadded:: 0.1.2
         """
-        return self.new_item(segments, tooltip=tooltip, action=action, args=args, multiselect=multiselect, index=index)
+        return self.new_item(
+            segments,
+            tooltip=tooltip,
+            action=action,
+            args=args,
+            multiselect=multiselect,
+            index=index,
+        )
 
-    def new_switch_item(self, label: Union[str, None] = None, tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XASwitchMenuItem':
+    def new_switch_item(
+        self,
+        label: Union[str, None] = None,
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[[XASlider], None], None] = None,
+        args: Union[list[Any], None] = None,
+        index: int = -1,
+    ) -> "XASwitchMenuItem":
         """Creates a new switch menu item at the specified index or the current insertion point.
 
         :param label: The label text to display left of the switch, defaults to None
@@ -907,9 +1094,22 @@ class XAMenuBarMenu():
 
         .. versionadded:: 0.1.2
         """
-        return self.new_item("switch", label=label, tooltip=tooltip, action=action, args=args, index=index)
+        return self.new_item(
+            "switch",
+            label=label,
+            tooltip=tooltip,
+            action=action,
+            args=args,
+            index=index,
+        )
 
-    def new_slider_item(self, tooltip: Union[str, None] = None, action: Union[Callable[[XASlider], None], None] = None, args: Union[list[Any], None] = None, index: int = -1) -> 'XASliderMenuItem':
+    def new_slider_item(
+        self,
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[[XASlider], None], None] = None,
+        args: Union[list[Any], None] = None,
+        index: int = -1,
+    ) -> "XASliderMenuItem":
         """Creates a new slider menu item at the specified index or the current insertion point.
 
         :param tooltip: The tooltip text to display when the cursor hovers over the item, defaults to None
@@ -925,12 +1125,16 @@ class XAMenuBarMenu():
 
         .. versionadded:: 0.1.2
         """
-        return self.new_item("slider", tooltip=tooltip, action=action, args=args, index=index)
+        return self.new_item(
+            "slider", tooltip=tooltip, action=action, args=args, index=index
+        )
 
     def new_header(self, text: str, index: int = -1):
         return self.new_item("header", label=text, index=index)
 
-    def new_separator(self, id: Union[str, None] = None, index: int = -1) -> 'XAMenuBarMenuItem':
+    def new_separator(
+        self, id: Union[str, None] = None, index: int = -1
+    ) -> "XAMenuBarMenuItem":
         """Adds a separator to the menu at the current insertion point.
 
         :param id: A unique identifier for the separator, defaults to None
@@ -971,10 +1175,16 @@ class XAMenuBarMenu():
         self.__status_bar.removeStatusItem_(self._status_item)
 
 
-
-
 class XAMenuBarMenuItem(XAMenuBarMenu):
-    def __init__(self, parent: XAMenuBarMenu, content: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath], icon: Union['XABase.XAImage', None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, tooltip: Union[str, None] = None):
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        content: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath],
+        icon: Union["XABase.XAImage", None] = None,
+        action: Union[Callable[["XAMenuBarMenuItem", Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+        tooltip: Union[str, None] = None,
+    ):
         """Initializes an item of a menu.
 
         :param parent: The menu which owns this menu item
@@ -992,9 +1202,11 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
 
         .. versionadded:: 0.1.1
         """
-        self.parent = parent #: The parent menu or menu item of this item
-        self.args = args or [] #: The arguments to pass to the action method upon execution
-        self.action = None #: The method to call when this menu item is clicked
+        self.parent = parent  #: The parent menu or menu item of this item
+        self.args = (
+            args or []
+        )  #: The arguments to pass to the action method upon execution
+        self.action = None  #: The method to call when this menu item is clicked
 
         self.items = {}
 
@@ -1012,8 +1224,7 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
 
     @property
     def tooltip(self) -> str:
-        """The tooltip text displayed when the cursor hovers over the menu item.
-        """
+        """The tooltip text displayed when the cursor hovers over the menu item."""
         return self.xa_elem.toolTip()
 
     @tooltip.setter
@@ -1028,7 +1239,19 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
         if callable(self.action):
             self.action(self, button, *self.args)
 
-    def new_item(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None, multiselect: bool = False) -> 'XAMenuBarMenuItem':
+    def new_item(
+        self,
+        content: Union[str, None] = None,
+        icon: Union["XABase.XAImage", None] = None,
+        action: Union[Callable[[], None], None] = None,
+        args: Union[list[Any], None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        id: Union[str, None] = None,
+        index: int = -1,
+        label: Union[str, None] = None,
+        tooltip: Union[str, None] = None,
+        multiselect: bool = False,
+    ) -> "XAMenuBarMenuItem":
         """Creates a new menu item and places it in a submenu of this item.
 
         This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
@@ -1085,21 +1308,43 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
 
         subitem = None
         if content == "separator":
-            subitem =  XASeparatorMenuItem(self)
+            subitem = XASeparatorMenuItem(self)
         elif content == "slider":
-            subitem =  XASliderMenuItem(self, tooltip, action, args)
+            subitem = XASliderMenuItem(self, tooltip, action, args)
         elif content == "switch":
-            subitem =  XASwitchMenuItem(self, label, tooltip, action, args)
+            subitem = XASwitchMenuItem(self, label, tooltip, action, args)
         elif isinstance(content, list):
-            subitem =  XASegmentedControlMenuItem(self, content, tooltip, action, args, multiselect)
+            subitem = XASegmentedControlMenuItem(
+                self, content, tooltip, action, args, multiselect
+            )
         elif isinstance(content, XABase.XAImage):
             subitem = XAImageMenuItem(self, content, tooltip)
         elif isinstance(content, XABase.XAURL) or isinstance(content, XABase.XAPath):
-            subitem = XAURLMenuItem(self, content, label, icon, icon_dimensions, tooltip, action, args)
-        elif isinstance(content, str) or isinstance(content, int) or isinstance(content, float) or isinstance(content, bool):
-            subitem = XATextMenuItem(self, str(content), icon, icon_dimensions, tooltip, action, args)
+            subitem = XAURLMenuItem(
+                self, content, label, icon, icon_dimensions, tooltip, action, args
+            )
+        elif (
+            isinstance(content, str)
+            or isinstance(content, int)
+            or isinstance(content, float)
+            or isinstance(content, bool)
+        ):
+            subitem = XATextMenuItem(
+                self, str(content), icon, icon_dimensions, tooltip, action, args
+            )
         else:
-            subitem = XAMenuBarMenuItem(self, content, icon, action, args, icon_dimensions, id, index, label, tooltip)
+            subitem = XAMenuBarMenuItem(
+                self,
+                content,
+                icon,
+                action,
+                args,
+                icon_dimensions,
+                id,
+                index,
+                label,
+                tooltip,
+            )
 
         submenu.insertItem_atIndex_(subitem.xa_elem, index)
         self.xa_elem.menu().setSubmenu_forItem_(submenu, self.xa_elem)
@@ -1128,14 +1373,22 @@ class XAMenuBarMenuItem(XAMenuBarMenu):
             self.parent.xa_elem.submenu().removeItem_(self.xa_elem)
 
 
-
-
 class XASliderMenuItem(XAMenuBarMenuItem):
     """A menu item containing a slider.
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, tooltip: Union[str, None] = None, action: Union[Callable[['XASlider', Any], None], None] = None, args: Union[list[Any], None] = None, value: float = 50, min_value: float = 0, max_value: float = 100):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XASlider", Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+        value: float = 50,
+        min_value: float = 0,
+        max_value: float = 100,
+    ):
         """Initializes a new slider menu item.
 
         :param parent: The menu containing this item
@@ -1155,7 +1408,9 @@ class XASliderMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        slider_view = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 30))
+        slider_view = AppKit.NSView.alloc().initWithFrame_(
+            AppKit.NSMakeRect(0, 0, 100, 30)
+        )
         self.slider = XASlider(action, args, value, min_value, max_value)
         slider_view.addSubview_(self.slider.xa_elem)
         self.xa_elem = slider_view
@@ -1170,13 +1425,21 @@ class XASliderMenuItem(XAMenuBarMenuItem):
         self.slider.value = value
 
 
-
 class XASegmentedControlMenuItem(XAMenuBarMenuItem):
     """A menu item containing a segmented control.
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, segments: Union[list[str], list[XABase.XAImage]], tooltip: Union[str, None] = None, action: Union[Callable[['XASlider', Any], None], None] = None, args: Union[list[Any], None] = None, multiselect: bool = False):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        segments: Union[list[str], list[XABase.XAImage]],
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XASlider", Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+        multiselect: bool = False,
+    ):
         """Initializes a new segmented control menu item.
 
         :param parent: The menu containing this item
@@ -1194,20 +1457,26 @@ class XASegmentedControlMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 25))
+        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(
+            AppKit.NSMakeRect(0, 0, 100, 25)
+        )
         self.segmented_control = XASegmentedControl(segments, action, args, multiselect)
         self.xa_elem.addSubview_(self.segmented_control.xa_elem)
         super().__init__(parent, None)
 
 
-
-
 class XAImageMenuItem(XAMenuBarMenuItem):
     """A menu item containing an image.
-    
+
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, image: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath], tooltip: Union[str, None] = None):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        image: Union[str, int, float, XABase.XAImage, XABase.XAURL, XABase.XAPath],
+        tooltip: Union[str, None] = None,
+    ):
         """Initializes an image menu item.
 
         :param parent: The menu containing this item
@@ -1217,7 +1486,9 @@ class XAImageMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        self.xa_elem = AppKit.NSImageView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 200, image.size[1] * 200/image.size[0]))
+        self.xa_elem = AppKit.NSImageView.alloc().initWithFrame_(
+            AppKit.NSMakeRect(0, 0, 200, image.size[1] * 200 / image.size[0])
+        )
         rounded_img = AppKit.NSImage.alloc().initWithSize_(image.xa_elem.size())
         rounded_img.setScalesWhenResized_(True)
         rounded_img.lockFocus()
@@ -1226,17 +1497,19 @@ class XAImageMenuItem(XAMenuBarMenuItem):
         ctx.setImageInterpolation_(AppKit.NSImageInterpolationHigh)
 
         image_frame = AppKit.NSMakeRect(0, 0, *image.xa_elem.size())
-        clip_path = AppKit.NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius_(image_frame, 50, 50)
+        clip_path = AppKit.NSBezierPath.bezierPathWithRoundedRect_xRadius_yRadius_(
+            image_frame, 50, 50
+        )
         clip_path.setWindingRule_(AppKit.NSWindingRuleEvenOdd)
         clip_path.addClip()
 
-        image.xa_elem.drawAtPoint_fromRect_operation_fraction_(AppKit.NSZeroPoint, image_frame, AppKit.NSCompositingOperationSourceOver, 1)
+        image.xa_elem.drawAtPoint_fromRect_operation_fraction_(
+            AppKit.NSZeroPoint, image_frame, AppKit.NSCompositingOperationSourceOver, 1
+        )
         rounded_img.unlockFocus()
 
         self.xa_elem.setImage_(rounded_img)
         super().__init__(parent, image)
-
-
 
 
 class XASwitchMenuItem(XAMenuBarMenuItem):
@@ -1244,7 +1517,15 @@ class XASwitchMenuItem(XAMenuBarMenuItem):
 
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, label: Union[str, None] = None, tooltip: Union[str, None] = None, action: Union[Callable[['XASwitch', int, Any], None], None] = None, args: Union[list[Any], None] = None):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        label: Union[str, None] = None,
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XASwitch", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+    ):
         """Initializes a new switch menu item.
 
         :param parent: The menu containing this item
@@ -1258,9 +1539,13 @@ class XASwitchMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.1.2
         """
-        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(AppKit.NSMakeRect(0, 0, 100, 30))
+        self.xa_elem = AppKit.NSView.alloc().initWithFrame_(
+            AppKit.NSMakeRect(0, 0, 100, 30)
+        )
         if label is not None:
-            self.__text = AppKit.NSText.alloc().initWithFrame_(AppKit.NSMakeRect(9, -7, 151, 32))
+            self.__text = AppKit.NSText.alloc().initWithFrame_(
+                AppKit.NSMakeRect(9, -7, 151, 32)
+            )
             self.__text.setString_(label)
             self.__text.setDrawsBackground_(False)
 
@@ -1278,8 +1563,7 @@ class XASwitchMenuItem(XAMenuBarMenuItem):
 
     @property
     def label(self) -> str:
-        """The label for this switch menu item.
-        """
+        """The label for this switch menu item."""
         return self.__text.string()
 
     @label.setter
@@ -1287,13 +1571,12 @@ class XASwitchMenuItem(XAMenuBarMenuItem):
         self.__text.setString_(label)
 
 
-
-
 class XASeparatorMenuItem(XAMenuBarMenuItem):
     """A menu item containing a separator.
-    
+
     .. versionadded:: 0.1.2
     """
+
     def __init__(self, parent: XAMenuBarMenu):
         """Initializes a separator menu item.
 
@@ -1306,14 +1589,22 @@ class XASeparatorMenuItem(XAMenuBarMenuItem):
         super().__init__(parent, None)
 
 
-
-
 class XATextMenuItem(XAMenuBarMenuItem):
     """A menu item containing text.
-    
+
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, text: str, icon: Union['XABase.XAImage', None] = None, icon_dimensions: tuple[int, int] = (20, 20), tooltip: Union[str, None] = None, action: Union[Callable[['XAURLMenuItem', int, Any], None], None] = None, args: Union[list[Any], None] = None):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        text: str,
+        icon: Union["XABase.XAImage", None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XAURLMenuItem", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+    ):
         """Initializes a text menu item.
 
         :param parent: The menu containing this item
@@ -1332,7 +1623,9 @@ class XATextMenuItem(XAMenuBarMenuItem):
         .. versionadded:: 0.1.2
         """
         self.__text = text
-        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(text, 'action:', '')
+        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            text, "action:", ""
+        )
 
         if isinstance(icon, XABase.XAImage):
             img = icon.xa_elem.copy()
@@ -1352,16 +1645,15 @@ class XATextMenuItem(XAMenuBarMenuItem):
         self.xa_elem.setTitle_(text)
 
     @property
-    def icon(self) -> 'XABase.XAImage':
-        """The image associated with the menu item.
-        """
+    def icon(self) -> "XABase.XAImage":
+        """The image associated with the menu item."""
         img_obj = self.xa_elem.image()
         if img_obj is None:
             return None
         return self.__icon
 
     @icon.setter
-    def icon(self, icon: 'XABase.XAImage'):
+    def icon(self, icon: "XABase.XAImage"):
         self.__icon = icon
         img = icon.xa_elem.copy()
         img.setScalesWhenResized_(True)
@@ -1370,8 +1662,7 @@ class XATextMenuItem(XAMenuBarMenuItem):
 
     @property
     def icon_dimensions(self) -> tuple[int, int]:
-        """The width and height of the menu item's image, in pixels.
-        """
+        """The width and height of the menu item's image, in pixels."""
         return self.__icon_dimensions
 
     @icon_dimensions.setter
@@ -1382,8 +1673,7 @@ class XATextMenuItem(XAMenuBarMenuItem):
 
     @property
     def indent(self) -> int:
-        """The level of indentation of the menu item, from 0 to 15.
-        """
+        """The level of indentation of the menu item, from 0 to 15."""
         return self.__indent
 
     @indent.setter
@@ -1393,15 +1683,14 @@ class XATextMenuItem(XAMenuBarMenuItem):
 
     @property
     def enabled(self) -> int:
-        """Whether the menu item is enabled (vs. appearing grayed out).
-        """
+        """Whether the menu item is enabled (vs. appearing grayed out)."""
         return self.__enabled
 
     @enabled.setter
     def enabled(self, enabled: bool):
         self.__enabled = enabled
         self.xa_elem.setEnabled_(enabled)
-        
+
     def _run_action(self, button: int):
         """Runs the action associated with this menu item.
 
@@ -1410,7 +1699,18 @@ class XATextMenuItem(XAMenuBarMenuItem):
         if callable(self.action):
             self.action(self, button, *self.args)
 
-    def new_subitem(self, content: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, icon_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None, index: int = -1, label: Union[str, None] = None, tooltip: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+    def new_subitem(
+        self,
+        content: Union[str, None] = None,
+        icon: Union["XABase.XAImage", None] = None,
+        action: Union[Callable[[], None], None] = None,
+        args: Union[list[Any], None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        id: Union[str, None] = None,
+        index: int = -1,
+        label: Union[str, None] = None,
+        tooltip: Union[str, None] = None,
+    ) -> "XAMenuBarMenuItem":
         """Creates a new menu item and places it in a submenu of this item.
 
         This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
@@ -1465,19 +1765,39 @@ class XATextMenuItem(XAMenuBarMenuItem):
 
         subitem = None
         if content == "separator":
-            subitem =  XASeparatorMenuItem(self)
+            subitem = XASeparatorMenuItem(self)
         elif content == "slider":
-            subitem =  XASliderMenuItem(self, action, tooltip, args)
+            subitem = XASliderMenuItem(self, action, tooltip, args)
         elif content == "switch":
-            subitem =  XASwitchMenuItem(self, label, tooltip, action, args)
+            subitem = XASwitchMenuItem(self, label, tooltip, action, args)
         elif isinstance(content, XABase.XAImage):
             subitem = XAImageMenuItem(self, content, tooltip)
         elif isinstance(content, XABase.XAURL) or isinstance(content, XABase.XAPath):
-            subitem = XAURLMenuItem(self, content, label, icon, icon_dimensions, tooltip, action, args)
-        elif isinstance(content, str) or isinstance(content, int) or isinstance(content, float) or isinstance(content, bool):
-            subitem = XATextMenuItem(self, str(content), icon, icon_dimensions, tooltip, action, args)
+            subitem = XAURLMenuItem(
+                self, content, label, icon, icon_dimensions, tooltip, action, args
+            )
+        elif (
+            isinstance(content, str)
+            or isinstance(content, int)
+            or isinstance(content, float)
+            or isinstance(content, bool)
+        ):
+            subitem = XATextMenuItem(
+                self, str(content), icon, icon_dimensions, tooltip, action, args
+            )
         else:
-            subitem = XAMenuBarMenuItem(self, content, icon, action, args, icon_dimensions, id, index, label, tooltip)
+            subitem = XAMenuBarMenuItem(
+                self,
+                content,
+                icon,
+                action,
+                args,
+                icon_dimensions,
+                id,
+                index,
+                label,
+                tooltip,
+            )
 
         submenu.insertItem_atIndex_(subitem.xa_elem, index)
         self.xa_elem.menu().setSubmenu_forItem_(submenu, self.xa_elem)
@@ -1496,13 +1816,23 @@ class XATextMenuItem(XAMenuBarMenuItem):
         self.xa_elem.submenu().removeItem_(item.xa_elem)
 
 
-
 class XAURLMenuItem(XATextMenuItem):
     """A menu item containing a URL or path.
-    
+
     .. versionadded:: 0.1.2
     """
-    def __init__(self, parent: XAMenuBarMenu, url: Union[XABase.XAURL, XABase.XAPath], label: Union[str, None] = None, icon: Union['XABase.XAImage', None] = None, icon_dimensions: tuple[int, int] = (20, 20), tooltip: Union[str, None] = None, action: Union[Callable[['XAURLMenuItem', int, Any], None], None] = None, args: Union[list[Any], None] = None):
+
+    def __init__(
+        self,
+        parent: XAMenuBarMenu,
+        url: Union[XABase.XAURL, XABase.XAPath],
+        label: Union[str, None] = None,
+        icon: Union["XABase.XAImage", None] = None,
+        icon_dimensions: tuple[int, int] = (20, 20),
+        tooltip: Union[str, None] = None,
+        action: Union[Callable[["XAURLMenuItem", int, Any], None], None] = None,
+        args: Union[list[Any], None] = None,
+    ):
         """Initializes a URL menu item.
 
         :param parent: The menu containing this item
@@ -1523,10 +1853,20 @@ class XAURLMenuItem(XATextMenuItem):
         .. versionadded:: 0.1.2
         """
         self.__location = url
-        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(label or str(url.xa_elem), 'action:', '')
+        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            label or str(url.xa_elem), "action:", ""
+        )
         if action is None:
             action = lambda item, button, *args: url.open() if button != -1 else None
-        super().__init__(parent, label or str(url.xa_elem), icon=icon, icon_dimensions=icon_dimensions, tooltip=tooltip, action=action, args=args)
+        super().__init__(
+            parent,
+            label or str(url.xa_elem),
+            icon=icon,
+            icon_dimensions=icon_dimensions,
+            tooltip=tooltip,
+            action=action,
+            args=args,
+        )
 
     @property
     def location(self) -> Union[XABase.XAURL, XABase.XAPath]:
@@ -1547,13 +1887,12 @@ class XAURLMenuItem(XATextMenuItem):
         self.xa_elem.setTitle_(label or str(self.content.xa_elem))
 
 
-
-
 class XAHeaderMenuItem(XAMenuBarMenuItem):
     """A section header within a menu.
-    
+
     .. versionadded:: 0.2.0
     """
+
     def __init__(self, parent: XAMenuBarMenu, label: str):
         """Initializes a URL menu item.
 
@@ -1565,7 +1904,9 @@ class XAHeaderMenuItem(XAMenuBarMenuItem):
 
         .. versionadded:: 0.2.0
         """
-        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(label, None, '')
+        self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+            label, None, ""
+        )
         font = AppKit.NSFont.systemFontOfSize_weight_(10, AppKit.NSFontWeightSemibold)
         self.xa_elem.setFont_(font)
         self.xa_elem.setEnabled_(False)

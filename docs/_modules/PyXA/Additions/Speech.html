@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.Additions.Speech &mdash; PyXA 0.2.2 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <title>PyXA.Additions.Speech &mdash; PyXA 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=a47416a6"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -27,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> PyXA
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PyXA
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -39,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Package Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
@@ -58,7 +63,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">PyXA.Additions.Speech</li>
       <li class="wy-breadcrumbs-aside">
@@ -87,23 +92,32 @@
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 
 
-<div class="viewcode-block" id="XACommandDetector"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector">[docs]</a><span class="k">class</span> <span class="nc">XACommandDetector</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A command-based query detector.</span>
+<div class="viewcode-block" id="XACommandDetector">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector">[docs]</a>
+<span class="k">class</span> <span class="nc">XACommandDetector</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A command-based query detector.</span>
 
 <span class="sd">    .. versionadded:: 0.0.9</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command_function_map</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a command detector object.</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">command_function_map</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a command detector object.</span>
 
 <span class="sd">        :param command_function_map: A dictionary mapping command strings to function objects</span>
 <span class="sd">        :type command_function_map: dict[str, Callable[[], Any]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">command_function_map</span> <span class="o">=</span> <span class="n">command_function_map</span> <span class="ow">or</span> <span class="p">{}</span> <span class="c1">#: The dictionary of commands and corresponding functions to run upon detection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">command_function_map</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">command_function_map</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="p">)</span>  <span class="c1">#: The dictionary of commands and corresponding functions to run upon detection</span>
 
-<div class="viewcode-block" id="XACommandDetector.on_detect"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector.on_detect">[docs]</a>    <span class="k">def</span> <span class="nf">on_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.</span>
+<div class="viewcode-block" id="XACommandDetector.on_detect">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector.on_detect">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.</span>
 
 <span class="sd">        :param command: The command to listen for</span>
 <span class="sd">        :type command: str</span>
@@ -120,8 +134,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">command_function_map</span><span class="p">[</span><span class="n">command</span><span class="p">]</span> <span class="o">=</span> <span class="n">function</span></div>
 
-<div class="viewcode-block" id="XACommandDetector.listen"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Begins listening for the specified commands.</span>
+
+<div class="viewcode-block" id="XACommandDetector.listen">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XACommandDetector.listen">[docs]</a>
+    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begins listening for the specified commands.</span>
 
 <span class="sd">        :return: The execution return value of the corresponding command function</span>
 <span class="sd">        :rtype: Any</span>
@@ -148,6 +165,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">command_function_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_function_map</span>
         <span class="n">return_value</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="k">class</span> <span class="nc">NSSpeechRecognizerDelegate</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSObject</span><span class="p">):</span>
             <span class="k">def</span> <span class="nf">speechRecognizer_didRecognizeCommand_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recognizer</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
                 <span class="n">return_value</span> <span class="o">=</span> <span class="n">command_function_map</span><span class="p">[</span><span class="n">cmd</span><span class="p">]()</span>
@@ -160,18 +178,26 @@
         <span class="n">recognizer</span><span class="o">.</span><span class="n">startListening</span><span class="p">()</span>
         <span class="n">AppHelper</span><span class="o">.</span><span class="n">runConsoleEventLoop</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">return_value</span></div></div>
+        <span class="k">return</span> <span class="n">return_value</span></div>
+</div>
 
 
 
-
-<div class="viewcode-block" id="XASpeechRecognizer"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer">[docs]</a><span class="k">class</span> <span class="nc">XASpeechRecognizer</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A rule-based query detector.</span>
+<div class="viewcode-block" id="XASpeechRecognizer">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer">[docs]</a>
+<span class="k">class</span> <span class="nc">XASpeechRecognizer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A rule-based query detector.</span>
 
 <span class="sd">    .. versionadded:: 0.0.9</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">finish_conditions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a speech recognizer object.</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">finish_conditions</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="kc">None</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a speech recognizer object.</span>
 
 <span class="sd">        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.</span>
 
@@ -181,12 +207,15 @@
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">default_conditions</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span> <span class="o">&gt;</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span>
+            <span class="o">&gt;</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">finish_conditions</span> <span class="ow">or</span> <span class="n">default_conditions</span> <span class="c1">#: A dictionary of rules and associated methods to call when a rule evaluates to true</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1">#: The recognized spoken input</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The time that the Speech Recognizer begins listening</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span><span class="p">:</span> <span class="n">timedelta</span> <span class="c1">#: The amount of time passed since the start time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">finish_conditions</span> <span class="ow">or</span> <span class="n">default_conditions</span>
+        <span class="p">)</span>  <span class="c1">#: A dictionary of rules and associated methods to call when a rule evaluates to true</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1">#: The recognized spoken input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">:</span> <span class="n">datetime</span>  <span class="c1">#: The time that the Speech Recognizer begins listening</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span><span class="p">:</span> <span class="n">timedelta</span>  <span class="c1">#: The amount of time passed since the start time</span>
 
     <span class="k">def</span> <span class="nf">__prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Request microphone access if we don&#39;t already have it</span>
@@ -194,25 +223,44 @@
 
         <span class="c1"># Set up audio session</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio_session</span> <span class="o">=</span> <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSession</span><span class="o">.</span><span class="n">sharedInstance</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">audio_session</span><span class="o">.</span><span class="n">setCategory_mode_options_error_</span><span class="p">(</span><span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionCategoryRecord</span><span class="p">,</span> <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionModeMeasurement</span><span class="p">,</span> <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionCategoryOptionDuckOthers</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">audio_session</span><span class="o">.</span><span class="n">setActive_withOptions_error_</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">audio_session</span><span class="o">.</span><span class="n">setCategory_mode_options_error_</span><span class="p">(</span>
+            <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionCategoryRecord</span><span class="p">,</span>
+            <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionModeMeasurement</span><span class="p">,</span>
+            <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionCategoryOptionDuckOthers</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">audio_session</span><span class="o">.</span><span class="n">setActive_withOptions_error_</span><span class="p">(</span>
+            <span class="kc">True</span><span class="p">,</span>
+            <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Set up recognition request</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">recognizer</span> <span class="o">=</span> <span class="n">Speech</span><span class="o">.</span><span class="n">SFSpeechRecognizer</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span> <span class="o">=</span> <span class="n">Speech</span><span class="o">.</span><span class="n">SFSpeechAudioBufferRecognitionRequest</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Speech</span><span class="o">.</span><span class="n">SFSpeechAudioBufferRecognitionRequest</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span><span class="o">.</span><span class="n">setShouldReportPartialResults_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Set up audio engine</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio_engine</span> <span class="o">=</span> <span class="n">AVFoundation</span><span class="o">.</span><span class="n">AVAudioEngine</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_engine</span><span class="o">.</span><span class="n">inputNode</span><span class="p">()</span>
         <span class="n">recording_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_node</span><span class="o">.</span><span class="n">outputFormatForBus_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_node</span><span class="o">.</span><span class="n">installTapOnBus_bufferSize_format_block_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">recording_format</span><span class="p">,</span>
-            <span class="k">lambda</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">_when</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span><span class="o">.</span><span class="n">appendAudioPCMBuffer_</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_node</span><span class="o">.</span><span class="n">installTapOnBus_bufferSize_format_block_</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="mi">1024</span><span class="p">,</span>
+            <span class="n">recording_format</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">_when</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span><span class="o">.</span><span class="n">appendAudioPCMBuffer_</span><span class="p">(</span>
+                <span class="n">buffer</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio_engine</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio_engine</span><span class="o">.</span><span class="n">startAndReturnError_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASpeechRecognizer.on_detect"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer.on_detect">[docs]</a>    <span class="k">def</span> <span class="nf">on_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">method</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the given rule to call the specified method if a spoken query passes the rule.</span>
+<div class="viewcode-block" id="XASpeechRecognizer.on_detect">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer.on_detect">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">method</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the given rule to call the specified method if a spoken query passes the rule.</span>
 
 <span class="sd">        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule</span>
 <span class="sd">        :type rule: Callable[[str], bool]</span>
@@ -223,8 +271,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span></div>
 
-<div class="viewcode-block" id="XASpeechRecognizer.listen"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Begins listening for a query until a rule returns True.</span>
+
+<div class="viewcode-block" id="XASpeechRecognizer.listen">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeechRecognizer.listen">[docs]</a>
+    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Begins listening for a query until a rule returns True.</span>
 
 <span class="sd">        :return: The value returned by the method invoked upon matching some rule</span>
 <span class="sd">        :rtype: Any</span>
@@ -236,35 +287,54 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__prepare</span><span class="p">()</span>
 
         <span class="n">old_self</span> <span class="o">=</span> <span class="bp">self</span>
+
         <span class="k">def</span> <span class="nf">detect_speech</span><span class="p">(</span><span class="n">transcription</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to detect speech. Error: &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">old_self</span><span class="o">.</span><span class="n">spoken_query</span> <span class="o">=</span> <span class="n">transcription</span><span class="o">.</span><span class="n">bestTranscription</span><span class="p">()</span><span class="o">.</span><span class="n">formattedString</span><span class="p">()</span>
+                <span class="n">old_self</span><span class="o">.</span><span class="n">spoken_query</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">transcription</span><span class="o">.</span><span class="n">bestTranscription</span><span class="p">()</span><span class="o">.</span><span class="n">formattedString</span><span class="p">()</span>
+                <span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">old_self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">)</span>
 
-        <span class="n">recognition_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recognizer</span><span class="o">.</span><span class="n">recognitionTaskWithRequest_resultHandler_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span><span class="p">,</span> <span class="n">detect_speech</span><span class="p">)</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span><span class="p">):</span>
+        <span class="n">recognition_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recognizer</span><span class="o">.</span><span class="n">recognitionTaskWithRequest_resultHandler_</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recognition_request</span><span class="p">,</span> <span class="n">detect_speech</span>
+        <span class="p">)</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">time_elapsed</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
-            <span class="n">AppKit</span><span class="o">.</span><span class="n">NSRunLoop</span><span class="o">.</span><span class="n">currentRunLoop</span><span class="p">()</span><span class="o">.</span><span class="n">runUntilDate_</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">))</span>
+            <span class="n">AppKit</span><span class="o">.</span><span class="n">NSRunLoop</span><span class="o">.</span><span class="n">currentRunLoop</span><span class="p">()</span><span class="o">.</span><span class="n">runUntilDate_</span><span class="p">(</span>
+                <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">audio_engine</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">finish_conditions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">)</span></div></div>
+                <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spoken_query</span><span class="p">)</span></div>
+</div>
 
 
 
+<div class="viewcode-block" id="XASpeech">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech">[docs]</a>
+<span class="k">class</span> <span class="nc">XASpeech</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">message</span>  <span class="c1">#: The message to speak</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">voice</span>  <span class="c1">#: The voice that the message is spoken in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">volume</span>  <span class="c1">#: The speaking volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">rate</span>  <span class="c1">#: The speaking rate</span>
 
-<div class="viewcode-block" id="XASpeech"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech">[docs]</a><span class="k">class</span> <span class="nc">XASpeech</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">message</span> <span class="c1">#: The message to speak</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">voice</span> <span class="c1">#: The voice that the message is spoken in</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">volume</span> <span class="c1">#: The speaking volume</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">rate</span> <span class="c1">#: The speaking rate</span>
-
-<div class="viewcode-block" id="XASpeech.voices"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech.voices">[docs]</a>    <span class="k">def</span> <span class="nf">voices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the list of voice names available on the system.</span>
+<div class="viewcode-block" id="XASpeech.voices">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech.voices">[docs]</a>
+    <span class="k">def</span> <span class="nf">voices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the list of voice names available on the system.</span>
 
 <span class="sd">        :return: The list of voice names</span>
 <span class="sd">        :rtype: list[str]</span>
@@ -279,10 +349,18 @@
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSSpeechSynthesizer</span><span class="o">.</span><span class="n">availableVoices</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;com.apple.speech.synthesis.voice.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.premium&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
-    
-<div class="viewcode-block" id="XASpeech.speak"><a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech.speak">[docs]</a>    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Speaks the provided message using the desired voice, volume, and speaking rate. </span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;com.apple.speech.synthesis.voice.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.premium&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">title</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="XASpeech.speak">
+<a class="viewcode-back" href="../../../reference/additions/speech.html#PyXA.Additions.Speech.XASpeech.speak">[docs]</a>
+    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Speaks the provided message using the desired voice, volume, and speaking rate.</span>
 
 <span class="sd">        :param path: The path to a .AIFF file to output sound to, defaults to None</span>
 <span class="sd">        :type path: Union[str, XAPath, None], optional</span>
@@ -311,10 +389,16 @@
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">return</span>
+        
         <span class="c1"># Get the selected voice by name</span>
         <span class="n">voice</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSSpeechSynthesizer</span><span class="o">.</span><span class="n">availableVoices</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">voice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">voice</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">voice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
                 <span class="n">voice</span> <span class="o">=</span> <span class="n">v</span>
 
         <span class="c1"># Set up speech synthesis object</span>
@@ -332,7 +416,9 @@
 
         <span class="c1"># Wait for speech to complete</span>
         <span class="k">while</span> <span class="n">synthesizer</span><span class="o">.</span><span class="n">isSpeaking</span><span class="p">():</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span></div></div>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

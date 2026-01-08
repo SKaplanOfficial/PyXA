@@ -133,6 +133,7 @@ To install the latest version of PyXA on macOS, use the following pip command:
 ```
 python -m pip install mac-pyxa
 ```
+> **Note:** PyXA now targets Python 3.11 or later so that it can use the most recent releases of PyObjC that support modern versions of macOS. Be sure that the `python` executable you invoke is at least version 3.11 and has the latest `pip`, `setuptools`, and `wheel` packages installed.
 
 # Documentation
 The best way to learn about PyXA is to read the [documentation](http://skaplanofficial.github.io/PyXA/). From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.

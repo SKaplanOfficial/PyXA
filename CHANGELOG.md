@@ -1,5 +1,15 @@
 # PyXA Changelog
 
+## [Unreleased]
+
+**Changes**
+
+- Updated all PyObjC dependencies to 12.x and require Python 3.11+ to support the latest macOS versions.
+- Vendored the `macimg` image helper library directly into the project so that PyXA no longer depends on an external package pinned to PyObjC 9.x.
+- Relaxed the `requests` and `beautifulsoup4` pins so that modern versions can be installed.
+
+---
+
 ## [PyXA 0.3.0] - 2023-04-13
 
 **Additions**
